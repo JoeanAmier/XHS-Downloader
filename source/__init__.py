@@ -3,9 +3,16 @@ from .Image import generate_url
 from .Image import get_id
 
 
-def get_image_link(url: str, params=None, proxies=None, timeout=10, **kwargs):
+def get_image_link(
+        url: str,
+        cookie=None,
+        params=None,
+        proxies=None,
+        timeout=10,
+        **kwargs):
     html = get_html(
         url,
+        cookie=cookie,
         params=params,
         proxies=proxies,
         timeout=timeout,

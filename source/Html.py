@@ -10,7 +10,15 @@ HEADERS = {
 }
 
 
-def get_html(url, params=None, proxies=None, timeout=10, **kwargs):
+def get_html(
+        url,
+        cookie=None,
+        params=None,
+        proxies=None,
+        timeout=10,
+        **kwargs):
+    if cookie:
+        update_cookie(cookie)
     response = requests.get(
         url,
         params=params,
@@ -19,3 +27,8 @@ def get_html(url, params=None, proxies=None, timeout=10, **kwargs):
         headers=HEADERS,
         **kwargs)
     return response.text
+
+
+def update_cookie(cookie: str):
+    global HEADERS
+    HEADERS["Cookie"] = cookie
