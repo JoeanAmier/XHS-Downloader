@@ -10,3 +10,7 @@ def get_id(html: str):
 
 def generate_url(ids: list):
     return [API + i for i in ids]
+
+
+def download(url):
+    pass
