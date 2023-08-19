@@ -1,6 +1,6 @@
 # from .Params import HEADERS
-from .Params import API
 from .Params import ID
+from .Params import IMAGE_API
 
 
 def get_id(html: str):
@@ -8,7 +8,7 @@ def get_id(html: str):
 
 
 def generate_url(ids: list):
-    return [API + i for i in ids]
+    return [IMAGE_API + i for i in ids]
 
 
 def download(url, path):

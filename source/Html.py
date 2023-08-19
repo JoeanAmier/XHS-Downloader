@@ -4,7 +4,7 @@ from .Params import HEADERS
 
 
 def get_html(
-        url,
+        url: str,
         cookie=None,
         params=None,
         proxies=None,
