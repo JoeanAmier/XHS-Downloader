@@ -1,3 +1,4 @@
+from pathlib import Path
 from re import compile
 
 HEADERS = {
@@ -10,3 +11,8 @@ HEADERS = {
 }
 IMAGE_API = "https://sns-img-qc.xhscdn.com/"
 ID = compile(r'"traceId":"(.*?)"')
+
+
+class Params:
+    def __init__(self, path: str):
+        self.path = Path(path)

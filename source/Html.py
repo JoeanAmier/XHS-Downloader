@@ -10,8 +10,7 @@ def get_html(
         proxies=None,
         timeout=10,
         **kwargs):
-    if cookie:
-        update_cookie(cookie)
+    update_cookie(cookie)
     response = requests.get(
         url,
         params=params,
@@ -23,4 +22,6 @@ def get_html(
 
 
 def update_cookie(cookie: str):
+    if not cookie:
+        return
     HEADERS["Cookie"] = cookie
