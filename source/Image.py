@@ -1,14 +1,23 @@
-from .Params import ID
-from .Params import IMAGE_API
+from re import compile
 
 
-def get_id(html: str) -> list:
-    return ID.findall(html)
+class Image:
+    IMAGE_API = "https://sns-img-qc.xhscdn.com/"
+    IMAGE_ID = compile(r'"traceId":"(.*?)"')
 
+    def __init__(self, html, params):
+        self.html = html
+        self.params = params
 
-def generate_url(ids: list) -> list:
-    return [IMAGE_API + i for i in ids]
+    def get_image_link(self, url: str, download: bool):
+        html = self.html.get_html(url)
+        return self.__get_image_links(html)
 
+    def __get_id(self, html: str) -> list:
+        return self.IMAGE_ID.findall(html)
 
-def get_url(html: str) -> list:
-    return generate_url(get_id(html))
+    def __generate_url(self, ids: list) -> list:
+        return [self.IMAGE_API + i for i in ids]
+
+    def __get_image_links(self, html: str) -> list:
+        return self.__generate_url(self.__get_id(html))
