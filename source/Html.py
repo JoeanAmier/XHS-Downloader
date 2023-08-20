@@ -1,27 +1,23 @@
 import requests
 
-from .Params import HEADERS
 
+class Html:
 
-def get_html(
-        url: str,
-        cookie=None,
-        params=None,
-        proxies=None,
-        timeout=10,
-        **kwargs):
-    update_cookie(cookie)
-    response = requests.get(
-        url,
-        params=params,
-        proxies=proxies,
-        timeout=timeout,
-        headers=HEADERS,
-        **kwargs)
-    return response.text
+    def __init__(self, headers: dict):
+        self.headers = headers
 
-
-def update_cookie(cookie: str):
-    if not cookie:
-        return
-    HEADERS["Cookie"] = cookie
+    def get_html(
+            self,
+            url: str,
+            params=None,
+            proxies=None,
+            timeout=10,
+            **kwargs):
+        response = requests.get(
+            url,
+            params=params,
+            proxies=proxies,
+            timeout=timeout,
+            headers=self.headers,
+            **kwargs)
+        return response.text
