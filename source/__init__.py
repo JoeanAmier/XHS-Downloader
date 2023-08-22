@@ -10,9 +10,9 @@ HEADERS = {
 
 
 class XHS:
-    def __init__(self, path="./", headers=None):
+    def __init__(self, path="./", headers=None, proxies=None, timeout=10):
         self.params = Params(path)
-        self.html = Html(headers or HEADERS)
+        self.html = Html(headers or HEADERS, proxies, timeout)
         self.image = Image(self.html, self.params)
         self.video = Video(self.html, self.params)
         self._cookie = ""
