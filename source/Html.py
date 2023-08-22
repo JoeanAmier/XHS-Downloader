@@ -1,4 +1,5 @@
 import requests
+from requests import get
 
 
 class Html:
@@ -12,12 +13,21 @@ class Html:
             params=None,
             proxies=None,
             timeout=10,
-            **kwargs):
-        response = requests.get(
-            url,
-            params=params,
-            proxies=proxies,
-            timeout=timeout,
-            headers=self.headers,
-            **kwargs)
+            **kwargs) -> str:
+        try:
+            response = get(
+                url,
+                params=params,
+                proxies=proxies,
+                timeout=timeout,
+                headers=self.headers,
+                **kwargs)
+        except (
+                requests.exceptions.ProxyError,
+                requests.exceptions.SSLError,
+                requests.exceptions.ChunkedEncodingError,
+                requests.exceptions.ConnectionError,
+                requests.ReadTimeout,
+        ):
+            return ""
         return response.text
