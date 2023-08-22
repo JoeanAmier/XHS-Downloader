@@ -4,24 +4,33 @@ from requests import get
 
 class Html:
 
-    def __init__(self, headers: dict):
+    def __init__(
+            self,
+            headers: dict,
+            proxies=None,
+            timeout=10, ):
         self.headers = headers
+        self.proxies = {
+            "http": proxies,
+            "https": proxies,
+            "ftp": proxies,
+        }
+        self.timeout = timeout
 
     def get_html(
             self,
             url: str,
             params=None,
-            proxies=None,
-            timeout=10,
-            **kwargs) -> str:
+            headers=None,
+            allow_redirects=True) -> str:
         try:
             response = get(
                 url,
                 params=params,
-                proxies=proxies,
-                timeout=timeout,
-                headers=self.headers,
-                **kwargs)
+                proxies=self.proxies,
+                timeout=self.timeout,
+                headers=headers or self.headers,
+                allow_redirects=allow_redirects, )
         except (
                 requests.exceptions.ProxyError,
                 requests.exceptions.SSLError,
