@@ -1,6 +1,6 @@
 <div align="center">
 <img src="static/XHS_Downloader.png" alt="TikTokDownloader" height="256" width="256"><br>
-<h1>小红书采集工具</h1>
+<h1>小红书作品下载工具</h1>
 </div>
 <p>目前已支持图文 / 视频下载地址提取；更多功能敬请期待！</p>
 <h1>功能清单</h1>
@@ -15,6 +15,14 @@
 <li>图文 / 视频文案采集</li>
 <li>图文 / 视频评论采集</li>
 </ul>
+<h1>使用示例</h1>
+<pre>
+xhs = XHS()
+# 获取图文无水印下载链接
+urls = xhs.get_image("图文作品链接")
+# 获取视频下载链接
+url = xhs.get_video("视频作品链接")
+</pre>
 <h1>免责声明</h1>
 <ul>
     <li>
