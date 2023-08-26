@@ -1,4 +1,3 @@
-import requests
 from requests import get
 
 
@@ -21,16 +20,14 @@ class Html:
             self,
             url: str,
             params=None,
-            headers=None,
-            allow_redirects=True) -> str:
+            headers=None, ) -> str:
         try:
             response = get(
                 url,
                 params=params,
                 proxies=self.proxies,
                 timeout=self.timeout,
-                headers=headers or self.headers,
-                allow_redirects=allow_redirects, )
+                headers=headers or self.headers, )
         except (
                 requests.exceptions.ProxyError,
                 requests.exceptions.SSLError,
@@ -38,5 +35,6 @@ class Html:
                 requests.exceptions.ConnectionError,
                 requests.ReadTimeout,
         ):
+            print("获取网页源码失败！")
             return ""
         return response.text
