@@ -5,11 +5,7 @@ class Image:
     IMAGE_API = "https://sns-img-qc.xhscdn.com/"
     IMAGE_ID = compile(r'"traceId":"(.*?)"')
 
-    def __init__(self, html):
-        self.html = html
-
-    def get_image_link(self, url: str):
-        html = self.html.get_html(url)
+    def get_image_link(self, html: str):
         return self.__get_image_links(html)
 
     def __get_id(self, html: str) -> list:
