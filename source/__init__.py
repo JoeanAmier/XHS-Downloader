@@ -1,6 +1,6 @@
+from .Download import Download
 from .Html import Html
 from .Image import Image
-from .Params import Params
 from .Video import Video
 
 HEADERS = {
@@ -11,10 +11,10 @@ HEADERS = {
 
 class XHS:
     def __init__(self, path="./", headers=None, proxies=None, timeout=10):
-        self.params = Params(path)
         self.html = Html(headers or HEADERS, proxies, timeout)
-        self.image = Image(self.html, self.params)
-        self.video = Video(self.html, self.params)
+        self.image = Image(self.html)
+        self.video = Video(self.html)
+        self.download = Download(path, self.html.headers, proxies)
         self._cookie = ""
 
     def get_image(self, url: str, download=False):

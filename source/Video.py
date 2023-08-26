@@ -4,7 +4,7 @@ from re import compile
 class Video:
     VIDEO_ID = compile(r'"masterUrl":"(.*?)"')
 
-    def __init__(self, html: str):
+    def __init__(self, html):
         self.html = html
 
     def get_video_link(self, url: str, download: bool):
