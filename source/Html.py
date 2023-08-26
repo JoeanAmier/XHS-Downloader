@@ -1,3 +1,5 @@
+from requests import ReadTimeout
+from requests import exceptions
 from requests import get
 
 
@@ -29,11 +31,11 @@ class Html:
                 timeout=self.timeout,
                 headers=headers or self.headers, )
         except (
-                requests.exceptions.ProxyError,
-                requests.exceptions.SSLError,
-                requests.exceptions.ChunkedEncodingError,
-                requests.exceptions.ConnectionError,
-                requests.ReadTimeout,
+                exceptions.ProxyError,
+                exceptions.SSLError,
+                exceptions.ChunkedEncodingError,
+                exceptions.ConnectionError,
+                ReadTimeout,
         ):
             print("获取网页源码失败！")
             return ""
