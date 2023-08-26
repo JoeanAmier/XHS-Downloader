@@ -8,7 +8,7 @@ class Image:
     def __init__(self, html):
         self.html = html
 
-    def get_image_link(self, url: str, download: bool):
+    def get_image_link(self, url: str):
         html = self.html.get_html(url)
         return self.__get_image_links(html)
 

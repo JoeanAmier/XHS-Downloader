@@ -7,7 +7,7 @@ class Video:
     def __init__(self, html):
         self.html = html
 
-    def get_video_link(self, url: str, download: bool):
+    def get_video_link(self, url: str):
         html = self.html.get_html(url)
         return self.__get_video_link(html)
 

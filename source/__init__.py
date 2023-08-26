@@ -18,7 +18,13 @@ class XHS:
         self._cookie = ""
 
     def get_image(self, url: str, download=False):
-        return self.image.get_image_link(url, download)
+        urls = self.image.get_image_link(url)
+        if download:
+            pass
+        return urls
 
     def get_video(self, url: str, download=False):
-        return self.video.get_video_link(url, download)
+        url = self.video.get_video_link(url)
+        if download:
+            pass
+        return url
