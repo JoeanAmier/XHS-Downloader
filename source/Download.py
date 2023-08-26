@@ -14,3 +14,9 @@ class Download:
             "https": proxies,
             "ftp": proxies,
         }
+
+    def run(self, urls: list):
+        pass
+
+    def download(self, url: str):
+        pass
