@@ -5,9 +5,10 @@ class Download:
     def __init__(
             self,
             path,
+            folder,
             headers: dict,
             proxies=None, ):
-        self.root = Path(path)
+        self.root = Path(path).joinpath(folder)
         self.headers = headers
         self.proxies = {
             "http": proxies,

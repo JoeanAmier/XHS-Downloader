@@ -1,4 +1,5 @@
 from .Download import Download
+from .Explore import Explore
 from .Html import Html
 from .Image import Image
 from .Video import Video
@@ -13,15 +14,17 @@ class XHS:
     def __init__(
             self,
             path="./",
+            folder="Download",
             headers=None,
             proxies=None,
             timeout=10,
             cookie=None):
         self.set_cookie(cookie)
         self.html = Html(headers or self.headers, proxies, timeout)
-        self.image = Image(self.html)
-        self.video = Video(self.html)
-        self.download = Download(path, self.html.headers, proxies)
+        self.image = Image()
+        self.video = Video()
+        self.explore = Explore()
+        self.download = Download(path, folder, self.html.headers, proxies)
 
     def set_cookie(self, cookie: str):
         if cookie:
@@ -38,3 +41,9 @@ class XHS:
         if download:
             self.download.run([url])
         return url
+
+    def extract(self, url: str):
+        html = self.html.get_html(url)
+        if not html:
+            return None
+        self.explore.run(html)
