@@ -1,26 +1,35 @@
 <div align="center">
 <img src="static/XHS_Downloader.png" alt="TikTokDownloader" height="256" width="256"><br>
-<h1>小红书作品下载工具</h1>
+<h1>小红书作品采集工具</h1>
 </div>
-<p>目前已支持图文 / 视频下载地址提取；更多功能敬请期待！</p>
-<h1>功能清单</h1>
-<ul>
-<li>获取小红书图文下载地址</li>
-<li>获取小红书视频下载地址</li>
-</ul>
-<h1>即将支持</h1>
-<ul>
-<li>下载小红书图文下载地址</li>
-<li>下载小红书视频下载地址</li>
-<li>图文 / 视频文案采集</li>
-<li>图文 / 视频评论采集</li>
-</ul>
+<p>采集小红书图文/视频作品信息，提取图片/视频下载地址，下载图片/视频。</p>
 <h1>使用示例</h1>
 <pre>
+# 测试链接
+image_demo = "https://www.xiaohongshu.com/explore/64d1b406000000000103ee8d"
+video_demo = "https://www.xiaohongshu.com/explore/64c05652000000000c0378e7"
 # 实例对象
-xhs = XHS()
-# 获取作品详细数据
-data = xhs.extract("小红书作品链接")
+path = "./"  # 作品下载储存根路径，默认值：当前路径
+folder = "Download"  # 作品下载文件夹名称（自动创建），默认值：Download
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.203",
+}  # 请求头
+proxies = None  # 代理
+timeout = 10  # 网络请求超时限制，默认值：10
+cookie = ""  # 小红书网页 cookie，获取数据失败时可以尝试手动设置
+xhs = XHS(
+    path=path,
+    folder=folder,
+    headers=headers,
+    proxies=proxies,
+    timeout=timeout,
+    cookie=cookie)  # 使用自定义参数
+# xhs = XHS()  # 使用默认参数
+# 无需区分图文和视频作品
+# 返回作品详细数据，包括下载地址
+download = True  # 启用自动下载作品文件
+print(xhs.extract(image_demo, download=download))
+print(xhs.extract(video_demo, download=download))
 </pre>
 <h1>免责声明</h1>
 <ul>
