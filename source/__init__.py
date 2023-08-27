@@ -7,8 +7,9 @@ from .Video import Video
 
 class XHS:
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.203",
-        "Cookie": "abRequestId=fd245483-beed-57b0-abfc-440b6a6be2aa; webBuild=3.4.1; xsecappid=xhs-pc-web; a1=189fe37918ezx1jqcbe9fin95cnxqj2ewcbc250yp50000234538; webId=9fff21309cfd3e4f380a6c75ed463803; websectiga=f47eda31ec99545da40c2f731f0630efd2b0959e1dd10d5fedac3dce0bd1e04d; sec_poison_id=003395d3-6520-4a02-851a-17d093203251; web_session=030037a3efee2e602d5d16fca4234a8a44466c; gid=yYjidqWi2KE4yYjidqWjyS28YduCyVASDdjiDvU3Ij2SIS28CAVJdJ888Jq42qY88J44DyjS",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
+        "Referer": "https://www.xiaohongshu.com/",
+        "Cookie": "abRequestId=27dafe41-28af-5b33-9f22-fe05d8c4ac2f; xsecappid=xhs-pc-web; a1=18a363d90c9gw7eaz2krqhj4cx2gtwgotul1wur8950000289463; webId=27fb29ed7ff41eadd4bc58197a465b63; websectiga=cffd9dcea65962b05ab048ac76962acee933d26157113bb213105a116241fa6c; sec_poison_id=3a1e34ee-3535-4ee9-8186-4d574da5291e; web_session=030037a3d84590608f6da85793234a9a6588ed; gid=yY0qKqfd2Y9qyY0qKqfj877FSjkEWd0uJTFA1YjxV4SCJy28k9EklE888JYj4Kq82242dKiY; webBuild=3.6.0; cache_feeds=[]",
     }
 
     def __init__(
@@ -33,13 +34,13 @@ class XHS:
     def get_image(self, container: dict, html: str, download):
         urls = self.image.get_image_link(html)
         if download:
-            self.download.run(urls)
+            self.download.run(urls, container["作品ID"])
         container["下载地址"] = urls
 
     def get_video(self, container: dict, html: str, download):
         url = self.video.get_video_link(html)
         if download:
-            self.download.run([url])
+            self.download.run(url, container["作品ID"])
         container["下载地址"] = url
 
     def extract(self, url: str, download=False) -> dict:
