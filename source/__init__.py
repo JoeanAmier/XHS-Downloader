@@ -30,20 +30,25 @@ class XHS:
         if cookie:
             self.headers["Cookie"] = cookie
 
-    def get_image(self, url: str, download=False):
-        urls = self.image.get_image_link(url)
+    def get_image(self, container: dict, html: str, download):
+        urls = self.image.get_image_link(html)
         if download:
             self.download.run(urls)
-        return urls
+        container["下载地址"] = urls
 
-    def get_video(self, url: str, download=False):
-        url = self.video.get_video_link(url)
+    def get_video(self, container: dict, html: str, download):
+        url = self.video.get_video_link(html)
         if download:
             self.download.run([url])
-        return url
+        container["下载地址"] = url
 
-    def extract(self, url: str):
+    def extract(self, url: str, download=False) -> dict:
         html = self.html.get_html(url)
         if not html:
-            return None
-        self.explore.run(html)
+            return {}
+        data = self.explore.run(html)
+        if data["作品类型"] == "视频":
+            self.get_video(data, html, download)
+        else:
+            self.get_image(data, html, download)
+        return data
