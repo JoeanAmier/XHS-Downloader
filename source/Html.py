@@ -37,6 +37,6 @@ class Html:
                 exceptions.ConnectionError,
                 ReadTimeout,
         ):
-            print("获取网页源码失败！")
+            print("获取网页源码失败，请尝试设置 Cookie 后重试！")
             return ""
         return response.text
