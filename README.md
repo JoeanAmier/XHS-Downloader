@@ -2,7 +2,7 @@
 <img src="static/XHS_Downloader.png" alt="TikTokDownloader" height="256" width="256"><br>
 <h1>小红书作品采集工具</h1>
 </div>
-<p>采集小红书图文/视频作品信息，提取图片/视频下载地址，下载图片/视频。</p>
+<p>采集小红书图文/视频作品信息，提取图片/视频下载地址，自动下载图片/视频。</p>
 <h1>使用示例</h1>
 <pre>
 # 测试链接
@@ -16,7 +16,7 @@ headers = {
 }  # 请求头
 proxies = None  # 代理
 timeout = 10  # 网络请求超时限制，默认值：10
-cookie = ""  # 小红书网页 cookie，获取数据失败时可以尝试手动设置
+cookie = ""  # 小红书网页 cookie，无需登录，获取数据失败时可以尝试手动设置
 xhs = XHS(
     path=path,
     folder=folder,

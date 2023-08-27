@@ -14,7 +14,7 @@ def example():
     }  # 请求头
     proxies = None  # 代理
     timeout = 10  # 网络请求超时限制，默认值：10
-    cookie = ""  # 小红书网页 cookie，获取数据失败时可以尝试手动设置
+    cookie = ""  # 小红书网页 cookie，无需登录，获取数据失败时可以尝试手动设置
     xhs = XHS(
         path=path,
         folder=folder,
