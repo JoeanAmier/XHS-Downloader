@@ -1,6 +1,6 @@
+from datetime import datetime
 from json import loads
 from re import compile
-from time import strftime
 
 
 class Explore:
@@ -46,9 +46,12 @@ class Explore:
         container["作品类型"] = {"video": "视频", "normal": "图文"}[data["type"]]
 
     def __extract_time(self, container: dict, data: dict):
-        container["发布时间"] = strftime(self.time_format, data["time"])
-        container["最后更新时间"] = strftime(
-            self.time_format, data["lastUpdateTime"])
+        container["发布时间"] = datetime.fromtimestamp(
+            data["time"] / 1000).strftime(self.time_format)
+        container["最后更新时间"] = datetime.fromtimestamp(
+            data["lastUpdateTime"] /
+            1000).strftime(
+            self.time_format)
 
     @staticmethod
     def __extract_user(container: dict, data: dict):
