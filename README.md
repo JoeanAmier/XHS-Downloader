@@ -17,11 +17,10 @@
 </ul>
 <h1>使用示例</h1>
 <pre>
+# 实例对象
 xhs = XHS()
-# 获取图文无水印下载链接
-urls = xhs.get_image("图文作品链接")
-# 获取视频下载链接
-url = xhs.get_video("视频作品链接")
+# 获取作品详细数据
+data = xhs.extract("小红书作品链接")
 </pre>
 <h1>免责声明</h1>
 <ul>
