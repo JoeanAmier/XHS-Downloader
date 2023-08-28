@@ -4,6 +4,7 @@ from source import XHS
 def example():
     """使用示例"""
     # 测试链接
+    error_demo = "https://www.xiaohongshu.com/explore/"
     image_demo = "https://www.xiaohongshu.com/explore/64d1b406000000000103ee8d"
     video_demo = "https://www.xiaohongshu.com/explore/64c05652000000000c0378e7"
     # 实例对象
@@ -26,6 +27,7 @@ def example():
     # 无需区分图文和视频作品
     # 返回作品详细数据，包括下载地址
     download = True  # 启用自动下载作品文件
+    print(xhs.extract(error_demo))  # 获取数据失败时返回空字典
     print(xhs.extract(image_demo, download=download))
     print(xhs.extract(video_demo, download=download))
 
