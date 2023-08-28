@@ -32,5 +32,15 @@ def example():
     print(xhs.extract(video_demo, download=download))
 
 
+def main():
+    xhs = XHS()
+    while True:
+        if url := input("请输入小红书作品链接："):
+            xhs.extract(url, download=True)
+        else:
+            break
+
+
 if __name__ == '__main__':
-    example()
+    # example()
+    main()
