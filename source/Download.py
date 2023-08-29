@@ -5,14 +5,14 @@ from requests import get
 
 
 class Download:
-    chunk = 262144
 
     def __init__(
             self,
             path,
             folder,
             headers: dict,
-            proxies=None, ):
+            proxies=None,
+            chunk=256 * 1024, ):
         self.root = self.init_root(path, folder)
         self.headers = self.init_headers(headers)
         self.proxies = {
@@ -20,6 +20,7 @@ class Download:
             "https": proxies,
             "ftp": proxies,
         }
+        self.chunk = chunk
 
     @staticmethod
     def init_headers(headers: dict) -> dict:
@@ -47,4 +48,4 @@ class Download:
                         f.write(chunk)
             print(f"{name} 下载成功！")
         except exceptions.ChunkedEncodingError:
-            print("网络异常，下载文件失败！")
+            print(f"网络异常，{name} 下载失败！")

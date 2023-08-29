@@ -15,14 +15,12 @@ def example():
     }  # 请求头
     proxies = None  # 代理
     timeout = 10  # 网络请求超时限制，默认值：10
-    cookie = ""  # 小红书网页 cookie，无需登录，获取数据失败时可以尝试手动设置
     xhs = XHS(
         path=path,
         folder=folder,
         headers=headers,
         proxies=proxies,
-        timeout=timeout,
-        cookie=cookie)  # 使用自定义参数
+        timeout=timeout, )  # 使用自定义参数
     # xhs = XHS()  # 使用默认参数
     # 无需区分图文和视频作品
     # 返回作品详细数据，包括下载地址
