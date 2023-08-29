@@ -4,6 +4,8 @@ from .Download import Download
 from .Explore import Explore
 from .Html import Html
 from .Image import Image
+from .Manage import Manager
+from .Settings import Settings
 from .Video import Video
 
 

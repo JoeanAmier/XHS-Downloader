@@ -1,0 +1,2 @@
+class Manager:
+    pass
