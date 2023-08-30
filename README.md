@@ -13,9 +13,8 @@
 <li>发布 EXE 可执行文件，开箱即用</li>
 <li>增加配置文件，编辑文件设置参数</li>
 </ul>
-<h1>⌨️ 使用示例</h1>
+<h1>⌨️ 代码示例</h1>
 <pre>
-"""使用示例"""
 # 测试链接
 error_demo = "https://www.xiaohongshu.com/explore/"
 image_demo = "https://www.xiaohongshu.com/explore/64d1b406000000000103ee8d"
