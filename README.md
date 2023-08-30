@@ -13,7 +13,10 @@
 <li>发布 EXE 可执行文件，开箱即用</li>
 <li>增加配置文件，编辑文件设置参数</li>
 </ul>
-<h1>⌨️ 代码示例</h1>
+<h1>📖 使用方法</h1>
+<h2>💻 作品下载</h2>
+<p>配置 Python 环境，运行 <code>main.py</code>；运行参数可通过编辑 <code>settings.json</code> 文件进行修改。</p>
+<h2>⌨️ 二次开发</h2>
 <pre>
 # 测试链接
 error_demo = "https://www.xiaohongshu.com/explore/"
@@ -22,7 +25,7 @@ video_demo = "https://www.xiaohongshu.com/explore/64c05652000000000c0378e7"
 # 实例对象
 path = "./"  # 作品下载储存根路径，默认值：当前路径
 folder = "Download"  # 作品下载文件夹名称（自动创建），默认值：Download
-proxies = None  # 代理
+proxies = None  # 网络代理
 timeout = 5  # 网络请求超时限制，默认值：10
 chunk = 1024 * 1024  # 下载文件时，每次从服务器获取的数据块大小，单位字节
 xhs = XHS(
@@ -32,9 +35,8 @@ xhs = XHS(
     timeout=timeout,
     chunk=chunk, )  # 使用自定义参数
 # xhs = XHS()  # 使用默认参数
-# 无需区分图文和视频作品
-# 返回作品详细数据，包括下载地址
-download = True  # 启用自动下载作品文件
+download = True  # 是否下载作品文件
+# 返回作品详细信息，包括下载地址
 print(xhs.extract(error_demo))  # 获取数据失败时返回空字典
 print(xhs.extract(image_demo, download=download))
 print(xhs.extract(video_demo, download=download))
