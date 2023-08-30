@@ -10,7 +10,7 @@ class Html:
             headers: dict,
             proxies=None,
             timeout=10, ):
-        self.headers = headers
+        self.headers = headers | {"Referer": "https://www.xiaohongshu.com/", }
         self.proxies = {
             "http": proxies,
             "https": proxies,

@@ -14,17 +14,13 @@ class Download:
             proxies=None,
             chunk=256 * 1024, ):
         self.root = self.init_root(path, folder)
-        self.headers = self.init_headers(headers)
+        self.headers = headers
         self.proxies = {
             "http": proxies,
             "https": proxies,
             "ftp": proxies,
         }
         self.chunk = chunk
-
-    @staticmethod
-    def init_headers(headers: dict) -> dict:
-        return {"User-Agent": headers["User-Agent"]}
 
     @staticmethod
     def init_root(path: str, folder: str) -> Path:

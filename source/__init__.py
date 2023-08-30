@@ -12,7 +12,6 @@ from .Video import Video
 class XHS:
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
-        "Referer": "https://www.xiaohongshu.com/",
     }
     links = compile(r"https://www.xiaohongshu.com/explore/[0-9a-z]+")
 
@@ -20,14 +19,15 @@ class XHS:
             self,
             path="./",
             folder="Download",
-            headers=None,
             proxies=None,
-            timeout=10):
-        self.html = Html(headers or self.headers, proxies, timeout)
+            timeout=10,
+            chunk=256 * 1024,
+    ):
+        self.html = Html(self.headers, proxies, timeout)
         self.image = Image()
         self.video = Video()
         self.explore = Explore()
-        self.download = Download(path, folder, self.html.headers, proxies)
+        self.download = Download(path, folder, self.headers, proxies, chunk)
 
     def get_image(self, container: dict, html: str, download):
         urls = self.image.get_image_link(html)

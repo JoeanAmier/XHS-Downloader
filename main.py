@@ -10,17 +10,15 @@ def example():
     # 实例对象
     path = "./"  # 作品下载储存根路径，默认值：当前路径
     folder = "Download"  # 作品下载文件夹名称（自动创建），默认值：Download
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36 Edg/115.0.1901.203",
-    }  # 请求头
     proxies = None  # 代理
-    timeout = 10  # 网络请求超时限制，默认值：10
+    timeout = 5  # 网络请求超时限制，默认值：10
+    chunk = 1024 * 1024  # 下载文件时，每次从服务器获取的数据块大小，单位字节
     xhs = XHS(
         path=path,
         folder=folder,
-        headers=headers,
         proxies=proxies,
-        timeout=timeout, )  # 使用自定义参数
+        timeout=timeout,
+        chunk=chunk, )  # 使用自定义参数
     # xhs = XHS()  # 使用默认参数
     # 无需区分图文和视频作品
     # 返回作品详细数据，包括下载地址
