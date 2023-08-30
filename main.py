@@ -1,8 +1,9 @@
+from source import Settings
 from source import XHS
 
 
 def example():
-    """使用示例"""
+    """代码示例"""
     # 测试链接
     error_demo = "https://www.xiaohongshu.com/explore/"
     image_demo = "https://www.xiaohongshu.com/explore/64d1b406000000000103ee8d"
@@ -29,7 +30,7 @@ def example():
 
 
 def main():
-    xhs = XHS()
+    xhs = XHS(**Settings().run())  # 配置文件生效
     while True:
         if url := input("请输入小红书作品链接："):
             xhs.extract(url, download=True)
