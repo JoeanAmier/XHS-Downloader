@@ -30,32 +30,43 @@ class XHS:
         self.image = Image()
         self.video = Video()
         self.explore = Explore()
-        self.download = Download(self.manager, path, folder, self.headers, proxies, chunk)
+        self.download = Download(
+            self.manager,
+            path,
+            folder,
+            self.headers,
+            proxies,
+            chunk)
 
-    def get_image(self, container: dict, html: str, download):
+    def __get_image(self, container: dict, html: str, download):
         urls = self.image.get_image_link(html)
         if download:
-            self.download.run(urls, container["作品ID"])
+            self.download.run(urls, self.__naming_rules(container))
         container["下载地址"] = urls
 
-    def get_video(self, container: dict, html: str, download):
+    def __get_video(self, container: dict, html: str, download):
         url = self.video.get_video_link(html)
         if download:
-            self.download.run(url, container["作品ID"])
+            self.download.run(url, self.__naming_rules(container))
         container["下载地址"] = url
 
     def extract(self, url: str, download=False) -> dict:
-        if not self.check(url):
+        if not self.__check(url):
             return {}
         html = self.html.get_html(url)
         if not html:
             return {}
         data = self.explore.run(html)
         if data["作品类型"] == "视频":
-            self.get_video(data, html, download)
+            self.__get_video(data, html, download)
         else:
-            self.get_image(data, html, download)
+            self.__get_image(data, html, download)
         return data
 
-    def check(self, url: str):
+    def __check(self, url: str):
         return self.links.match(url)
+
+    @staticmethod
+    def __naming_rules(data: dict) -> str:
+        """下载文件默认使用作品 ID 作为文件名，可修改此方法自定义文件名格式"""
+        return data["作品ID"]
