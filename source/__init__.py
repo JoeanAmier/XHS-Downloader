@@ -4,7 +4,6 @@ from .Download import Download
 from .Explore import Explore
 from .Html import Html
 from .Image import Image
-from .Manage import Manager
 from .Settings import Settings
 from .Video import Video
 
@@ -26,12 +25,10 @@ class XHS:
             chunk=256 * 1024,
     ):
         self.html = Html(self.headers, proxies, timeout)
-        self.manager = Manager()
         self.image = Image()
         self.video = Video()
         self.explore = Explore()
         self.download = Download(
-            self.manager,
             path,
             folder,
             self.headers,
