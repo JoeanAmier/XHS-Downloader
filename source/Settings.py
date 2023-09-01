@@ -2,6 +2,8 @@ from json import dump
 from json import load
 from pathlib import Path
 
+__all__ = ['Settings']
+
 
 class Settings:
     path = Path("./settings.json")

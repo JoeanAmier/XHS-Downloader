@@ -1,5 +1,7 @@
 from re import compile
 
+__all__ = ['Video']
+
 
 class Video:
     VIDEO_ID = compile(r'"masterUrl":"(.*?)"')

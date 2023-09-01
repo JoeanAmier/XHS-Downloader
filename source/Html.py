@@ -2,6 +2,8 @@ from requests import ReadTimeout
 from requests import exceptions
 from requests import get
 
+__all__ = ['Html']
+
 
 class Html:
 

@@ -3,6 +3,8 @@ from pathlib import Path
 from requests import exceptions
 from requests import get
 
+__all__ = ['Download']
+
 
 class Download:
 

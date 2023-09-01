@@ -1,5 +1,7 @@
 from re import compile
 
+__all__ = ['Image']
+
 
 class Image:
     IMAGE_API = "https://sns-img-qc.xhscdn.com/"
