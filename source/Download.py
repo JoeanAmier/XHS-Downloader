@@ -10,11 +10,13 @@ class Download:
 
     def __init__(
             self,
+            manager,
             path,
             folder,
             headers: dict,
             proxies=None,
             chunk=256 * 1024, ):
+        self.manager = manager
         self.root = self.init_root(path, folder)
         self.headers = headers
         self.proxies = {

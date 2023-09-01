@@ -26,11 +26,11 @@ class XHS:
             chunk=256 * 1024,
     ):
         self.html = Html(self.headers, proxies, timeout)
+        self.manager = Manager()
         self.image = Image()
         self.video = Video()
         self.explore = Explore()
-        self.download = Download(path, folder, self.headers, proxies, chunk)
-        self.manager = Manager()
+        self.download = Download(self.manager, path, folder, self.headers, proxies, chunk)
 
     def get_image(self, container: dict, html: str, download):
         urls = self.image.get_image_link(html)
