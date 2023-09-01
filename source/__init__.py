@@ -5,7 +5,6 @@ from .Explore import Explore
 from .Html import Html
 from .Image import Image
 from .Manage import Manager
-from .Settings import Settings
 from .Video import Video
 
 
@@ -28,6 +27,7 @@ class XHS:
         self.video = Video()
         self.explore = Explore()
         self.download = Download(path, folder, self.headers, proxies, chunk)
+        self.manager = Manager()
 
     def get_image(self, container: dict, html: str, download):
         urls = self.image.get_image_link(html)
