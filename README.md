@@ -7,16 +7,24 @@
 <li>采集小红书图文/视频作品信息</li>
 <li>获取小红书图文/视频作品下载地址</li>
 <li>下载小红书图文/视频作品文件</li>
+<li>自动跳过已存在的作品文件</li>
 </ul>
-<h1>📋 开发计划</h1>
-<ul>
-<li>发布 EXE 可执行文件，开箱即用</li>
-<li>增加配置文件，编辑文件设置参数</li>
-</ul>
-<h1>📖 使用方法</h1>
-<h2>💻 作品下载</h2>
-<p>配置 Python 环境，运行 <code>main.py</code>；运行参数可通过编辑 <code>settings.json</code> 文件进行修改。</p>
-<h2>⌨️ 二次开发</h2>
+<h1>📸 程序截图</h1>
+<br>
+<img src="static/程序截图.png" alt="">
+<h1>🥣 使用方法</h1>
+<p>如果仅需下载作品文件，选择 <b>直接运行</b> 或者 <b>源码运行</b> 均可，如果需要获取作品信息，则需要进行二次开发进行调用。</p>
+<h2>🖱 直接运行</h2>
+<p>前往 Releases 下载 XHS_Downloader_EXE.zip，解压后双击运行 <code>XHS_Downloader_EXE\main.exe</code> 即可使用。</p>
+<h2>⌨️ 源码运行</h2>
+<ol>
+<li>安装版本号不低于 <code>3.10</code> 的 Python 解释器</li>
+<li>安装 <code>requirements.txt</code> 包含的第三方模块</li>
+<li>下载本项目最新的源码或 <code>Releases</code> 发布的源码至本地</li>
+<li>运行 <code>main.py</code> 即可使用</li>
+</ol>
+<h2>💻 二次开发</h2>
+<p>如果想要获取小红书图文/视频作品信息，可以根据 <code>main.py</code> 的注释提示进行代码调用。</p>
 <pre>
 # 测试链接
 error_demo = "https://www.xiaohongshu.com/explore/"
@@ -41,6 +49,50 @@ print(xhs.extract(error_demo))  # 获取数据失败时返回空字典
 print(xhs.extract(image_demo, download=download))
 print(xhs.extract(video_demo, download=download))
 </pre>
+<h1>⚙️ 配置文件</h1>
+<p>根目录下的 <code>settings.json</code> 文件，可以自定义部分运行参数。</p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">类型</th>
+<th align="center">含义</th>
+<th align="center">默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">path</td>
+<td align="center">str</td>
+<td align="center">文件储存根路径</td>
+<td align="center">当前路径</td>
+</tr>
+<tr>
+<td align="center">folder</td>
+<td align="center">str</td>
+<td align="center">文件储存文件夹</td>
+<td align="center">Download</td>
+</tr>
+<tr>
+<td align="center">proxies</td>
+<td align="center">str</td>
+<td align="center">设置代理</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">timeout</td>
+<td align="center">int</td>
+<td align="center">请求数据超时限制，单位：秒</td>
+<td align="center">10</td>
+</tr>
+<tr>
+<td align="center">chunk</td>
+<td align="center">int</td>
+<td align="center">下载文件时，每次从服务器获取的数据块大小，单位：字节</td>
+<td align="center">262144(256KB)</td>
+</tr>
+</tbody>
+</table>
 <h1>⚠️ 免责声明</h1>
 <ul>
 <li>
@@ -60,5 +112,6 @@ print(xhs.extract(video_demo, download=download))
 <li>
     使用者在使用本项目的代码和功能时，必须自行研究相关法律法规，并确保其使用行为合法合规。任何因违反法律法规而导致的法律责任和风险，均由使用者自行承担。
 </li>
+<li>基于本项目进行的任何二次开发、修改或编译的程序与原创作者无关，原创作者不承担与二次开发行为或其结果相关的任何责任，使用者应自行对因二次开发可能带来的各种情况负全部责任。</li>
 </ul>
 <b>在使用本项目的代码和功能之前，请您认真考虑并接受以上免责声明。如果您对上述声明有任何疑问或不同意，请不要使用本项目的代码和功能。如果您使用了本项目的代码和功能，则视为您已完全理解并接受上述免责声明，并自愿承担使用本项目的一切风险和后果。</b>
