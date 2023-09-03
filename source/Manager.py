@@ -14,5 +14,5 @@ class Manager:
         path.unlink()
 
     @staticmethod
-    def remove(temp: Path, path: Path):
+    def move(temp: Path, path: Path):
         move(temp.resolve(), path.resolve())

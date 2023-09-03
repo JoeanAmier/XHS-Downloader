@@ -10,7 +10,7 @@ __all__ = ['Download']
 
 class Download:
     manager = Manager()
-    temp = Path("./temp")
+    temp = Path("./Temp")
 
     def __init__(
             self,
@@ -44,16 +44,18 @@ class Download:
             self.download(urls[0], f"{name}.mp4")
 
     def download(self, url: str, name: str):
+        temp = self.temp.joinpath(name)
         file = self.root.joinpath(name)
         if self.manager.is_exists(file):
-            print(f"{file} 已存在，跳过下载！")
+            print(f"{name} 已存在，跳过下载！")
             return
         try:
             with get(url, headers=self.headers, proxies=self.proxies, stream=True) as response:
-                with file.open("wb") as f:
+                with temp.open("wb") as f:
                     for chunk in response.iter_content(chunk_size=self.chunk):
                         f.write(chunk)
+            self.manager.move(temp, file)
             print(f"{name} 下载成功！")
         except exceptions.ChunkedEncodingError:
-            self.manager.delete(file)
+            self.manager.delete(temp)
             print(f"网络异常，{name} 下载失败！")
