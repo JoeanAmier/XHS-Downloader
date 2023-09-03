@@ -15,7 +15,7 @@
 <h1>🥣 使用方法</h1>
 <p>如果仅需下载作品文件，选择 <b>直接运行</b> 或者 <b>源码运行</b> 均可，如果需要获取作品信息，则需要进行二次开发进行调用。</p>
 <h2>🖱 直接运行</h2>
-<p>前往 Releases 下载 XHS_Downloader_EXE.zip，解压后双击运行 <code>XHS_Downloader_EXE\main.exe</code> 即可使用。</p>
+<p>前往 Releases 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
 <h2>⌨️ 源码运行</h2>
 <ol>
 <li>安装版本号不低于 <code>3.10</code> 的 Python 解释器</li>
