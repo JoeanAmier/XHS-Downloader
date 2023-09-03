@@ -10,6 +10,7 @@ __all__ = ['Download']
 
 class Download:
     manager = Manager()
+    temp = Path("./temp")
 
     def __init__(
             self,
@@ -27,11 +28,12 @@ class Download:
         }
         self.chunk = chunk
 
-    @staticmethod
-    def init_root(path: str, folder: str) -> Path:
+    def init_root(self, path: str, folder: str) -> Path:
         root = Path(path).joinpath(folder)
         if not root.is_dir():
             root.mkdir()
+        if not self.temp.is_dir():
+            self.temp.mkdir()
         return root
 
     def run(self, urls: list, name: str):
