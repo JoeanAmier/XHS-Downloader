@@ -4,10 +4,11 @@ from .Download import Download
 from .Explore import Explore
 from .Html import Html
 from .Image import Image
+from .Settings import Batch
 from .Settings import Settings
 from .Video import Video
 
-__all__ = ['XHS', 'Settings']
+__all__ = ['XHS', 'Settings', 'Batch']
 
 
 class XHS:
@@ -49,6 +50,7 @@ class XHS:
 
     def extract(self, url: str, download=False) -> dict:
         if not self.__check(url):
+            print(f"无效的作品链接: {url}")
             return {}
         html = self.html.get_html(url)
         if not html:

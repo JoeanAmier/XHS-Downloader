@@ -2,7 +2,7 @@ from json import dump
 from json import load
 from pathlib import Path
 
-__all__ = ['Settings']
+__all__ = ['Settings', 'Batch']
 
 
 class Settings:
@@ -26,3 +26,13 @@ class Settings:
         with self.path.open("w", encoding="utf-8") as f:
             dump(self.default, f, indent=2)
             return self.default
+
+
+class Batch:
+    file = Path("./xhs.txt")
+
+    def read_txt(self) -> list:
+        if self.file.is_file():
+            with self.file.open("r") as f:
+                return f.readlines()
+        return []

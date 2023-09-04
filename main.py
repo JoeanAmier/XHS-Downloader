@@ -1,3 +1,14 @@
+from textual.app import App
+from textual.app import ComposeResult
+from textual.binding import Binding
+from textual.widgets import Button
+from textual.widgets import Footer
+from textual.widgets import Header
+from textual.widgets import Input
+from textual.widgets import Label
+from textual.widgets import Static
+
+from source import Batch
 from source import Settings
 from source import XHS
 
@@ -31,13 +42,52 @@ def example():
 def main():
     """读取并应用配置文件设置的参数，适合一般作品文件下载需求"""
     xhs = XHS(**Settings().run())
-    while True:
-        if url := input("请输入小红书作品链接："):
-            xhs.extract(url, download=True)
-        else:
-            break
+    if ids := Batch().read_txt():
+        for i in ids:
+            xhs.extract(i, download=True)
+    else:
+        while True:
+            if url := input("请输入小红书作品链接："):
+                xhs.extract(url, download=True)
+            else:
+                break
+
+
+class RunMenu(Static):
+
+    def compose(self) -> ComposeResult:
+        yield Button("获取数据", id="run", variant="success")
+        yield Button("清空输入", id="reset")
+
+
+class XHSDownloader(App):
+    CSS_PATH = "static/XHS_Downloader.tcss"
+    BINDINGS = [
+        Binding(key="q", action="quit", description="结束运行"),
+        Binding(
+            key="w",
+            action="repository",
+            description="获取源码",
+        ),
+    ]
+
+    def compose(self) -> ComposeResult:
+        yield Label("请输入小红书图文/视频作品链接：")
+        yield Input(placeholder="URL")
+        yield RunMenu()
+        yield Header()
+        yield Footer()
+
+    def on_mount(self) -> None:
+        self.title = "小红书作品采集工具"
+
+    @staticmethod
+    def action_repository():
+        yield Label("Github Repository")
 
 
 if __name__ == '__main__':
     # example()
     main()
+    # app = XHSDownloader()
+    # app.run()
