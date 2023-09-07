@@ -56,8 +56,9 @@ def main():
 class RunMenu(Static):
 
     def compose(self) -> ComposeResult:
-        yield Button("获取数据", id="run", variant="success")
-        yield Button("清空输入", id="reset")
+        yield Button("下载无水印图片/视频", id="run", variant="success")
+        yield Button("读取文件并开始批量下载作品", id="batch", variant="success")
+        yield Button("清空输入", id="reset", variant="error")
 
 
 class XHSDownloader(App):

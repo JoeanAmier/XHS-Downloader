@@ -1,0 +1,6 @@
+Button {
+    width: auto;
+}
+RunMenu {
+    layout: horizontal;
+}
