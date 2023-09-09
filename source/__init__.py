@@ -56,6 +56,9 @@ class XHS:
         if not html:
             return {}
         data = self.explore.run(html)
+        if not data:
+            print(f"获取作品数据失败: {url}")
+            return {}
         if data["作品类型"] == "视频":
             self.__get_video(data, html, download)
         else:

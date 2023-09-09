@@ -20,11 +20,12 @@ class Explore:
 
     def __extract_data(self, data: dict) -> dict:
         result = {}
-        self.__extract_interact_info(result, data)
-        self.__extract_tags(result, data)
-        self.__extract_info(result, data)
-        self.__extract_time(result, data)
-        self.__extract_user(result, data)
+        if data:
+            self.__extract_interact_info(result, data)
+            self.__extract_tags(result, data)
+            self.__extract_info(result, data)
+            self.__extract_time(result, data)
+            self.__extract_user(result, data)
         return result
 
     @staticmethod
