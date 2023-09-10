@@ -1,6 +1,11 @@
 <div align="center">
 <img src="static/XHS_Downloader.png" alt="TikTokDownloader" height="256" width="256"><br>
 <h1>小红书作品采集工具</h1>
+<img alt="GitHub" src="https://img.shields.io/github/license/JoeanAmier/XHS_Downloader?style=for-the-badge">
+<img alt="GitHub forks" src="https://img.shields.io/github/forks/JoeanAmier/XHS_Downloader?style=for-the-badge&color=c56cf0">
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/XHS_Downloader?style=for-the-badge&color=fff200">
+<img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/XHS_Downloader/total?style=for-the-badge&color=1b9cfc">
+<img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/XHS_Downloader?style=for-the-badge&color=44bd32">
 </div>
 <h1>📝 功能清单</h1>
 <ul>
