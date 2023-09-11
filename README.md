@@ -6,7 +6,9 @@
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/XHS_Downloader?style=for-the-badge&color=fff200">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/XHS_Downloader/total?style=for-the-badge&color=1b9cfc">
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/XHS_Downloader?style=for-the-badge&color=44bd32">
+<hr>
 </div>
+<p><b><code>2023/9/11</code>：因小红书更新，无水印图片采集功能失效！</b></p>
 <h1>📝 功能清单</h1>
 <ul>
 <li>采集小红书图文/视频作品信息</li>
