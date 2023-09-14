@@ -16,18 +16,20 @@ from source import XHS
 def example():
     """通过代码设置参数，适合二次开发"""
     # 测试链接
-    error_demo = "https://www.xiaohongshu.com/explore/"
-    image_demo = "https://www.xiaohongshu.com/explore/64d1b406000000000103ee8d"
-    video_demo = "https://www.xiaohongshu.com/explore/64c05652000000000c0378e7"
+    error_demo = "https://github.com/JoeanAmier/XHS_Downloader"
+    image_demo = "https://www.xiaohongshu.com/explore/63b275a30000000019020185"
+    video_demo = "https://www.xiaohongshu.com/explore/64edb460000000001f03cadc"
     # 实例对象
     path = "./"  # 作品下载储存根路径，默认值：当前路径
     folder = "Download"  # 作品下载文件夹名称（自动创建），默认值：Download
+    cookie = ""  # 小红书网页版 Cookie
     proxies = None  # 网络代理
     timeout = 5  # 网络请求超时限制，默认值：10
     chunk = 1024 * 1024  # 下载文件时，每次从服务器获取的数据块大小，单位字节
     xhs = XHS(
         path=path,
         folder=folder,
+        cookie=cookie,
         proxies=proxies,
         timeout=timeout,
         chunk=chunk, )  # 使用自定义参数
@@ -39,7 +41,7 @@ def example():
     print(xhs.extract(video_demo, download=download))
 
 
-def main():
+def program():
     """读取并应用配置文件设置的参数，适合一般作品文件下载需求"""
     xhs = XHS(**Settings().run())
     if ids := Batch().read_txt():
@@ -89,6 +91,6 @@ class XHSDownloader(App):
 
 if __name__ == '__main__':
     # example()
-    main()
+    program()
     # app = XHSDownloader()
     # app.run()

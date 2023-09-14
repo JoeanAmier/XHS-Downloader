@@ -42,3 +42,7 @@ class Html:
             print("获取网页源码失败，请尝试设置 Cookie 后重试！")
             return ""
         return response.text
+
+    @staticmethod
+    def format_url(url: str) -> str:
+        return bytes(url, "utf-8").decode("unicode_escape")

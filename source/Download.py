@@ -10,17 +10,18 @@ __all__ = ['Download']
 
 class Download:
     manager = Manager()
-    temp = Path("./Temp")
 
     def __init__(
             self,
+            root: Path,
             path: str,
             folder: str,
             headers: dict,
             proxies=None,
             chunk=256 * 1024, ):
-        self.root = self.init_root(path, folder)
-        self.headers = headers
+        self.temp = root.joinpath("./Temp")
+        self.root = self.__init_root(root, path, folder)
+        self.headers = self.__delete_cookie(headers)
         self.proxies = {
             "http": proxies,
             "https": proxies,
@@ -28,22 +29,25 @@ class Download:
         }
         self.chunk = chunk
 
-    def init_root(self, path: str, folder: str) -> Path:
-        root = Path(path).joinpath(folder)
+    def __init_root(self, root: Path, path: str, folder: str) -> Path:
+        if path and (r := Path(path)).exists():
+            root = r.joinpath(folder or "Download")
+        else:
+            root = root.joinpath(folder or "Download")
         if not root.is_dir():
             root.mkdir()
         if not self.temp.is_dir():
             self.temp.mkdir()
         return root
 
-    def run(self, urls: list, name: str):
-        if (l := len(urls)) > 1:
+    def run(self, urls: list, name: str, type_: int):
+        if type_ == 0:
+            self.__download(urls[0], f"{name}.mp4")
+        elif type_ == 1:
             for index, url in enumerate(urls):
-                self.download(url, f"{name}_{index + 1}.webp")
-        elif l == 1:
-            self.download(urls[0], f"{name}.mp4")
+                self.__download(url, f"{name}_{index + 1}.jpeg")
 
-    def download(self, url: str, name: str):
+    def __download(self, url: str, name: str):
         temp = self.temp.joinpath(name)
         file = self.root.joinpath(name)
         if self.manager.is_exists(file):
@@ -59,3 +63,9 @@ class Download:
         except exceptions.ChunkedEncodingError:
             self.manager.delete(temp)
             print(f"网络异常，{name} 下载失败！")
+
+    @staticmethod
+    def __delete_cookie(headers: dict) -> dict:
+        download_headers = headers.copy()
+        del download_headers["Cookie"]
+        return download_headers

@@ -1,20 +1,12 @@
 from re import compile
 
+from .Html import Html
+
 __all__ = ['Image']
 
 
 class Image:
-    IMAGE_API = "https://sns-img-qc.xhscdn.com/"
-    IMAGE_ID = compile(r'"traceId":"(.*?)"')
+    IMAGE_URL = compile(r'"CRD_WM_.*?","url":"(.*?)"')
 
-    def get_image_link(self, html: str):
-        return self.__get_image_links(html)
-
-    def __get_id(self, html: str) -> list:
-        return self.IMAGE_ID.findall(html)
-
-    def __generate_url(self, ids: list) -> list:
-        return [self.IMAGE_API + i for i in ids]
-
-    def __get_image_links(self, html: str) -> list:
-        return self.__generate_url(self.__get_id(html))
+    def get_image_link(self, html: str) -> list:
+        return [Html.format_url(i) for i in self.IMAGE_URL.findall(html)]

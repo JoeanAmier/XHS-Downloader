@@ -8,7 +8,8 @@
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/XHS_Downloader?style=for-the-badge&color=44bd32">
 <hr>
 </div>
-<p><b><code>2023/9/11</code>：因小红书更新，无水印图片采集功能失效！</b></p>
+<p><del><b><code>2023/9/11</code>：因小红书更新，无水印图片采集功能失效！</b></del></p>
+<p><b><code>2023/9/14</code>：已修复无水印图片采集功能！</b></p>
 <h1>📝 功能清单</h1>
 <ul>
 <li>采集小红书图文/视频作品信息</li>
@@ -36,18 +37,20 @@
 <p>如果想要获取小红书图文/视频作品信息，可以根据 <code>main.py</code> 的注释提示进行代码调用。</p>
 <pre>
 # 测试链接
-error_demo = "https://www.xiaohongshu.com/explore/"
-image_demo = "https://www.xiaohongshu.com/explore/64d1b406000000000103ee8d"
-video_demo = "https://www.xiaohongshu.com/explore/64c05652000000000c0378e7"
+error_demo = "https://github.com/JoeanAmier/XHS_Downloader"
+image_demo = "https://www.xiaohongshu.com/explore/63b275a30000000019020185"
+video_demo = "https://www.xiaohongshu.com/explore/64edb460000000001f03cadc"
 # 实例对象
 path = "./"  # 作品下载储存根路径，默认值：当前路径
 folder = "Download"  # 作品下载文件夹名称（自动创建），默认值：Download
+cookie = ""  # 小红书网页版 Cookie
 proxies = None  # 网络代理
 timeout = 5  # 网络请求超时限制，默认值：10
 chunk = 1024 * 1024  # 下载文件时，每次从服务器获取的数据块大小，单位字节
 xhs = XHS(
     path=path,
     folder=folder,
+    cookie=cookie,
     proxies=proxies,
     timeout=timeout,
     chunk=chunk, )  # 使用自定义参数
@@ -83,6 +86,12 @@ print(xhs.extract(video_demo, download=download))
 <td align="center">str</td>
 <td align="center">文件储存文件夹</td>
 <td align="center">Download</td>
+</tr>
+<tr>
+<td align="center">cookie</td>
+<td align="center">str</td>
+<td align="center">小红书网页版 Cookie，无需登录</td>
+<td align="center">内置 Cookie</td>
 </tr>
 <tr>
 <td align="center">proxies</td>
