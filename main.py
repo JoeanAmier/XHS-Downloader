@@ -20,7 +20,7 @@ def example():
     image_demo = "https://www.xiaohongshu.com/explore/63b275a30000000019020185"
     video_demo = "https://www.xiaohongshu.com/explore/64edb460000000001f03cadc"
     # 实例对象
-    path = "./"  # 作品下载储存根路径，默认值：当前路径
+    path = ""  # 作品下载储存根路径，默认值：当前路径
     folder = "Download"  # 作品下载文件夹名称（自动创建），默认值：Download
     cookie = ""  # 小红书网页版 Cookie
     proxies = None  # 网络代理

@@ -8,7 +8,7 @@ __all__ = ['Settings', 'Batch']
 class Settings:
     file = Path(__file__).resolve().parent.parent.joinpath("./settings.json")
     default = {
-        "path": "./",
+        "path": "",
         "folder": "Download",
         "cookie": "",
         "proxies": None,

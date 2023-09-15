@@ -26,7 +26,7 @@ class XHS:
 
     def __init__(
             self,
-            path="./",
+            path="",
             folder="Download",
             cookie=None,
             proxies=None,

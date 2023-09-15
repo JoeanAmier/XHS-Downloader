@@ -41,7 +41,7 @@ error_demo = "https://github.com/JoeanAmier/XHS_Downloader"
 image_demo = "https://www.xiaohongshu.com/explore/63b275a30000000019020185"
 video_demo = "https://www.xiaohongshu.com/explore/64edb460000000001f03cadc"
 # 实例对象
-path = "./"  # 作品下载储存根路径，默认值：当前路径
+path = ""  # 作品下载储存根路径，默认值：当前路径
 folder = "Download"  # 作品下载文件夹名称（自动创建），默认值：Download
 cookie = ""  # 小红书网页版 Cookie
 proxies = None  # 网络代理
@@ -84,14 +84,14 @@ print(xhs.extract(video_demo, download=download))
 <tr>
 <td align="center">folder</td>
 <td align="center">str</td>
-<td align="center">文件储存文件夹</td>
+<td align="center">文件储存文件夹名称</td>
 <td align="center">Download</td>
 </tr>
 <tr>
 <td align="center">cookie</td>
 <td align="center">str</td>
 <td align="center">小红书网页版 Cookie，无需登录</td>
-<td align="center">内置 Cookie</td>
+<td align="center">内置 Cookie，可能会失效</td>
 </tr>
 <tr>
 <td align="center">proxies</td>
