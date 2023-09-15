@@ -46,7 +46,7 @@ def program():
     xhs = XHS(**Settings().run())
     if ids := Batch().read_txt():
         for i in ids:
-            xhs.extract(i.rstrip('\n'), download=True)
+            xhs.extract(i, download=True)
     else:
         while True:
             if url := input("请输入小红书作品链接："):

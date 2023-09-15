@@ -35,5 +35,5 @@ class Batch:
     def read_txt(self) -> list:
         if self.file.is_file():
             with self.file.open("r") as f:
-                return f.readlines()
+                return [i.rstrip('\n') for i in f.readlines()]
         return []
