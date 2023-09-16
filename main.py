@@ -43,6 +43,7 @@ def example():
 
 def program():
     """读取并应用配置文件设置的参数，适合一般作品文件下载需求"""
+    print("如果采集数据失败，请尝试使用手动获取的 Cookie 运行程序！")
     xhs = XHS(**Settings().run())
     if ids := Batch().read_txt():
         for i in ids:

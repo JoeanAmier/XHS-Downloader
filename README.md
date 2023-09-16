@@ -91,7 +91,7 @@ print(xhs.extract(video_demo, download=download))
 <td align="center">cookie</td>
 <td align="center">str</td>
 <td align="center">小红书网页版 Cookie，无需登录</td>
-<td align="center">内置 Cookie，可能会失效</td>
+<td align="center">内置 Cookie，可能会失效，建议自行设置</td>
 </tr>
 <tr>
 <td align="center">proxies</td>
