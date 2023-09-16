@@ -78,20 +78,20 @@ print(xhs.extract(video_demo, download=download))
 <tr>
 <td align="center">path</td>
 <td align="center">str</td>
-<td align="center">文件储存根路径</td>
+<td align="center">作品文件储存根路径</td>
 <td align="center">项目根路径</td>
 </tr>
 <tr>
 <td align="center">folder</td>
 <td align="center">str</td>
-<td align="center">文件储存文件夹名称</td>
+<td align="center">作品文件储存文件夹名称</td>
 <td align="center">Download</td>
 </tr>
 <tr>
 <td align="center">cookie</td>
 <td align="center">str</td>
-<td align="center">小红书网页版 Cookie，无需登录</td>
-<td align="center">内置 Cookie，可能会失效，建议自行设置</td>
+<td align="center">小红书网页版 Cookie，无需登录；建议自行设置</td>
+<td align="center">内置 Cookie</td>
 </tr>
 <tr>
 <td align="center">proxies</td>
