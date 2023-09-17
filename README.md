@@ -8,8 +8,6 @@
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/XHS_Downloader?style=for-the-badge&color=44bd32">
 <hr>
 </div>
-<p><b><code>2023/9/11</code>：<del>因小红书更新，无水印图片采集功能失效！</del></b></p>
-<p><b><code>2023/9/14</code>：已修复无水印图片采集功能！</b></p>
 <h1>📝 功能清单</h1>
 <ul>
 <li>采集小红书图文/视频作品信息</li>
