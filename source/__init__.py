@@ -16,11 +16,11 @@ class XHS:
     ROOT = Path(__file__).resolve().parent.parent
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
-        "Cookie": "abRequestId=27dafe41-28af-5b33-9f22-fe05d8c4ac2f; xsecappid=xhs-pc-web; a1=18a363d90c9gw7eaz2krqhj4c"
-                  "x2gtwgotul1wur8950000289463; webId=27fb29ed7ff41eadd4bc58197a465b63; web_session=030037a3d84590608f6"
-                  "da85793234a9a6588ed; gid=yY0qKqfd2Y9qyY0qKqfj877FSjkEWd0uJTFA1YjxV4SCJy28k9EklE888JYj4Kq82242dKiY; w"
-                  "ebBuild=3.8.1; websectiga=3633fe24d49c7dd0eb923edc8205740f10fdb18b25d424d2a2322c6196d2a4ad; sec_pois"
-                  "on_id=179f847f-ba58-4ede-86bf-977d710da3b2; cache_feeds=[]",
+        "Cookie": "abRequestId=0a09e155-fa93-54c9-b164-a1c2d91f0669; webBuild=3.8.2; a1=18aa21f6e2e5dyk1w1r0zbtulnsbc"
+                  "5nlhcqklucqb50000310139; webId=f32bd0ca48726f93238c13047e92d891; websectiga=6169c1e84f393779a5f7de"
+                  "7303038f3b47a78e47be716e7bec57ccce17d45f99; sec_poison_id=b1c18309-a338-4dc4-9fb1-6fe21b15af09; we"
+                  "b_session=030037a235e4642c22125cf67e224a10791e83; gid=yY00JyiSKyxqyY00JyiKdS7SJd2fvTyEyF8uAADD971I"
+                  "MT28DS2I11888qy8yqj8Kf04iydj; cache_feeds=[]; xsecappid=xhs-pc-web",
     }
     links = compile(r"https://www.xiaohongshu.com/explore/[0-9a-z]+")
 
