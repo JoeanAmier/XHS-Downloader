@@ -30,34 +30,40 @@ class Explore:
 
     @staticmethod
     def __extract_interact_info(container: dict, data: dict):
-        interact_info = data["interactInfo"]
-        container["收藏数量"] = interact_info["collectedCount"]
-        container["评论数量"] = interact_info["commentCount"]
-        container["分享数量"] = interact_info["shareCount"]
-        container["点赞数量"] = interact_info["likedCount"]
+        interact_info = data.get("interactInfo", {})
+        container["收藏数量"] = interact_info.get("collectedCount")
+        container["评论数量"] = interact_info.get("commentCount")
+        container["分享数量"] = interact_info.get("shareCount")
+        container["点赞数量"] = interact_info.get("likedCount")
 
     @staticmethod
     def __extract_tags(container: dict, data: dict):
-        tags = data["tagList"]
-        container["作品标签"] = [i["name"] for i in tags]
+        tags = data.get("tagList", [])
+        container["作品标签"] = [i.get("name", "") for i in tags]
 
     @staticmethod
     def __extract_info(container: dict, data: dict):
-        container["作品ID"] = data["noteId"]
-        container["作品标题"] = data["title"]
-        container["作品描述"] = data["desc"]
-        container["作品类型"] = {"video": "视频", "normal": "图文"}[data["type"]]
+        container["作品ID"] = data.get("noteId")
+        container["作品标题"] = data.get("title")
+        container["作品描述"] = data.get("desc")
+        container["作品类型"] = {
+            "video": "视频", "normal": "图文"}.get(
+            data.get("type"), "未知")
+        container["IP归属地"] = data.get("ipLocation")
 
     def __extract_time(self, container: dict, data: dict):
         container["发布时间"] = datetime.fromtimestamp(
-            data["time"] / 1000).strftime(self.time_format)
-        container["最后更新时间"] = datetime.fromtimestamp(
-            data["lastUpdateTime"] /
+            time /
             1000).strftime(
-            self.time_format)
+            self.time_format) if (
+            time := data.get("time")) else "未知"
+        container["最后更新时间"] = datetime.fromtimestamp(
+            last /
+            1000).strftime(
+            self.time_format) if (last := data.get("lastUpdateTime")) else "未知"
 
     @staticmethod
     def __extract_user(container: dict, data: dict):
-        user = data["user"]
-        container["作者昵称"] = user["nickname"]
-        container["作者ID"] = user["userId"]
+        user = data.get("user", {})
+        container["作者昵称"] = user.get("nickname")
+        container["作者ID"] = user.get("userId")
