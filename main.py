@@ -93,6 +93,6 @@ class XHSDownloader(App):
 
 if __name__ == '__main__':
     # example()
-    program()
-    # app = XHSDownloader()
-    # app.run()
+    # program()
+    app = XHSDownloader()
+    app.run()
