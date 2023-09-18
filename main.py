@@ -47,6 +47,7 @@ def program():
     xhs = XHS(**Settings().run())
     if ids := Batch().read_txt():
         for i in ids:
+            print(f"当前作品链接: {i}")
             xhs.extract(i, download=True)
     else:
         while True:
