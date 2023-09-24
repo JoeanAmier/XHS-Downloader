@@ -2,6 +2,3 @@ Button {
     width: auto;
     margin: 1 2;
 }
-RunMenu {
-    layout: horizontal;
-}

@@ -1,16 +1,20 @@
 from textual.app import App
 from textual.app import ComposeResult
 from textual.binding import Binding
+from textual.containers import HorizontalScroll
 from textual.widgets import Button
 from textual.widgets import Footer
 from textual.widgets import Header
 from textual.widgets import Input
 from textual.widgets import Label
-from textual.widgets import Static
+from textual.widgets import Pretty
 
 from source import Batch
 from source import Settings
 from source import XHS
+
+
+# from textual.widgets import Log
 
 
 def example():
@@ -57,52 +61,47 @@ def program():
                 break
 
 
-class RunMenu(Static):
-    def on_button_pressed(self, event: Button.Pressed) -> None:
-        if event.button.id in ("run", "batch"):
-            self.add_class("running")
-        elif event.button.id == "stop":
-            self.remove_class("running")
-
-    def compose(self) -> ComposeResult:
-        yield Button("下载无水印图片/视频", id="run", variant="success")
-        yield Button("读取文件并开始批量下载作品", id="batch", variant="success")
-        yield Button("清空输入", id="reset", variant="error")
-
-    def run(self):
-        pass
-
-    def batch(self):
-        pass
-
-    def reset(self) -> None:
-        pass
-
-
 class XHSDownloader(App):
     CSS_PATH = "static/XHS_Downloader.tcss"
     BINDINGS = [
         Binding(key="q", action="quit", description="退出程序"),
         ("d", "toggle_dark", "切换主题"),
     ]
+    xhs = XHS(**Settings().run())
 
     def compose(self) -> ComposeResult:
-        yield Label("请输入小红书图文/视频作品链接：")
-        yield Input(placeholder="URL")
-        yield RunMenu()
         yield Header()
+        yield Label("请输入小红书图文/视频作品链接：")
+        yield Input(id="url", placeholder="URL")
+        yield HorizontalScroll(Button("下载无水印图片/视频", id="solo", variant="success"),
+                               Button("读取文件并开始批量下载作品", id="batch", variant="success"),
+                               Button("清空输入", id="reset", variant="error"), )
+        # yield Log(auto_scroll=True)
+        yield Pretty({"采集结果": "未采集到任何数据！"})
         yield Footer()
 
     def on_mount(self) -> None:
         self.title = "小红书作品采集工具"
 
-    @staticmethod
-    def action_repository():
-        yield Label("Github Repository")
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        if event.button.id in ("solo", "batch"):
+            self.solo()
+        elif event.button.id == "batch":
+            self.batch()
+        elif event.button.id == "reset":
+            self.query_one("#url").value = ""
+
+    def solo(self):
+        result = self.xhs.extract(self.query_one("#url").value, download=True)
+        # self.query_one(Log).write_line()
+        self.query_one(Pretty).update(result)
+
+    def batch(self):
+        pass
 
 
 if __name__ == '__main__':
     # example()
-    # program()
-    app = XHSDownloader()
-    app.run()
+    program()
+    # app = XHSDownloader()
+    # app.run()
