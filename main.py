@@ -58,22 +58,32 @@ def program():
 
 
 class RunMenu(Static):
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        if event.button.id in ("run", "batch"):
+            self.add_class("running")
+        elif event.button.id == "stop":
+            self.remove_class("running")
 
     def compose(self) -> ComposeResult:
         yield Button("下载无水印图片/视频", id="run", variant="success")
         yield Button("读取文件并开始批量下载作品", id="batch", variant="success")
         yield Button("清空输入", id="reset", variant="error")
 
+    def run(self):
+        pass
+
+    def batch(self):
+        pass
+
+    def reset(self) -> None:
+        pass
+
 
 class XHSDownloader(App):
     CSS_PATH = "static/XHS_Downloader.tcss"
     BINDINGS = [
-        Binding(key="q", action="quit", description="结束运行"),
-        Binding(
-            key="w",
-            action="repository",
-            description="获取源码",
-        ),
+        Binding(key="q", action="quit", description="退出程序"),
+        ("d", "toggle_dark", "切换主题"),
     ]
 
     def compose(self) -> ComposeResult:
