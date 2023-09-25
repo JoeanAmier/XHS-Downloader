@@ -46,19 +46,19 @@ class XHS:
             proxies,
             chunk)
 
-    def __get_image(self, container: dict, html: str, download):
+    def __get_image(self, container: dict, html: str, download, log):
         urls = self.image.get_image_link(html)
         if download:
-            self.download.run(urls, self.__naming_rules(container), 1)
+            self.download.run(urls, self.__naming_rules(container), 1, log)
         container["下载地址"] = urls
 
-    def __get_video(self, container: dict, html: str, download):
+    def __get_video(self, container: dict, html: str, download, log):
         url = self.video.get_video_link(html)
         if download:
-            self.download.run(url, self.__naming_rules(container), 0)
+            self.download.run(url, self.__naming_rules(container), 0, log)
         container["下载地址"] = url
 
-    def extract(self, url: str, download=False) -> dict:
+    def extract(self, url: str, download=False, log=None) -> dict:
         if not self.__check(url):
             print(f"无效的作品链接: {url}")
             return {}
@@ -70,9 +70,9 @@ class XHS:
             print(f"获取作品数据失败: {url}")
             return {}
         if data["作品类型"] == "视频":
-            self.__get_video(data, html, download)
+            self.__get_video(data, html, download, log)
         else:
-            self.__get_image(data, html, download)
+            self.__get_image(data, html, download, log)
         return data
 
     def __check(self, url: str):

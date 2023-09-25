@@ -8,4 +8,5 @@ Label {
     color: white;
     content-align-horizontal: center;
     content-align-vertical: middle;
+    text-style: bold;
 }

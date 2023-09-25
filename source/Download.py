@@ -40,18 +40,18 @@ class Download:
             self.temp.mkdir()
         return root
 
-    def run(self, urls: list, name: str, type_: int):
+    def run(self, urls: list, name: str, type_: int, log):
         if type_ == 0:
-            self.__download(urls[0], f"{name}.mp4")
+            self.__download(urls[0], f"{name}.mp4", log)
         elif type_ == 1:
             for index, url in enumerate(urls):
-                self.__download(url, f"{name}_{index + 1}.jpeg")
+                self.__download(url, f"{name}_{index + 1}.jpeg", log)
 
-    def __download(self, url: str, name: str):
+    def __download(self, url: str, name: str, log):
         temp = self.temp.joinpath(name)
         file = self.root.joinpath(name)
         if self.manager.is_exists(file):
-            print(f"{name} 已存在，跳过下载！")
+            self.output_prompt(f"文件 {name} 已存在，跳过下载！", log)
             return
         try:
             with get(url, headers=self.headers, proxies=self.proxies, stream=True) as response:
@@ -59,13 +59,20 @@ class Download:
                     for chunk in response.iter_content(chunk_size=self.chunk):
                         f.write(chunk)
             self.manager.move(temp, file)
-            print(f"{name} 下载成功！")
+            self.output_prompt(f"文件 {name} 下载成功！", log)
         except exceptions.ChunkedEncodingError:
             self.manager.delete(temp)
-            print(f"网络异常，{name} 下载失败！")
+            self.output_prompt(f"网络异常，文件 {name} 下载失败！", log)
 
     @staticmethod
     def __delete_cookie(headers: dict) -> dict:
         download_headers = headers.copy()
         del download_headers["Cookie"]
         return download_headers
+
+    @staticmethod
+    def output_prompt(tip: str, log):
+        if log:
+            log.write_line(tip)
+        else:
+            print(tip)

@@ -90,20 +90,20 @@ class XHSDownloader(App):
 
     def solo(self):
         url = self.query_one(Input).value
-        self.APP.extract(url, download=True)
-        # self.query_one(Log).write_line()
+        self.APP.extract(url, True, self.query_one(Log))
 
     def batch(self):
         urls = self.Batch.read_txt()
+        log = self.query_one(Log)
         if not urls:
-            self.query_one(Log).write_line("未检测到 xhs.txt 文件 或者 该文件为空！")
+            log.write_line("未检测到 xhs.txt 文件 或者 该文件为空！")
         for url in urls:
-            self.query_one(Log).write_line(f"当前作品链接: {url}")
-            self.APP.extract(url)
+            log.write_line(f"当前作品链接: {url}")
+            self.APP.extract(url, True, log)
 
 
 if __name__ == '__main__':
     # example()
-    program()
-    # app = XHSDownloader()
-    # app.run()
+    # program()
+    app = XHSDownloader()
+    app.run()
