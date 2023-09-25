@@ -8,7 +8,6 @@ from textual.widgets import Header
 from textual.widgets import Input
 from textual.widgets import Label
 from textual.widgets import Log
-from textual.widgets import Pretty
 
 from source import Batch
 from source import Settings
@@ -76,8 +75,6 @@ class XHSDownloader(App):
                                Button("读取文件并开始批量下载作品", id="batch", variant="success"),
                                Button("清空输入框", id="reset", variant="error"), )
         yield Log(auto_scroll=True)
-        yield Pretty(
-            {"运行结果": "输入小红书图文/视频作品链接，点击“下载无水印图片/视频”按钮即可获取作品数据并下载作品文件！"})
         yield Footer()
 
     def on_mount(self) -> None:
@@ -93,9 +90,8 @@ class XHSDownloader(App):
 
     def solo(self):
         url = self.query_one(Input).value
-        result = self.APP.extract(url, download=True)
+        self.APP.extract(url, download=True)
         # self.query_one(Log).write_line()
-        self.query_one(Pretty).update(result)
 
     def batch(self):
         urls = self.Batch.read_txt()

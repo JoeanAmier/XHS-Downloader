@@ -1,4 +1,11 @@
 Button {
-    width: auto;
+    width: 1fr;
     margin: 1 2;
+}
+Label {
+    width: 100%;
+    padding: 1;
+    color: white;
+    content-align-horizontal: center;
+    content-align-vertical: middle;
 }
