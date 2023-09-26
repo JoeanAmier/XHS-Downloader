@@ -2,6 +2,7 @@ from textual.app import App
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import HorizontalScroll
+from textual.containers import ScrollableContainer
 from textual.widgets import Button
 from textual.widgets import Footer
 from textual.widgets import Header
@@ -69,11 +70,11 @@ class XHSDownloader(App):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Label("请输入小红书图文/视频作品链接：")
-        yield Input(placeholder="URL")
-        yield HorizontalScroll(Button("下载无水印图片/视频", id="solo", variant="success"),
-                               Button("读取文件并开始批量下载作品", id="batch", variant="success"),
-                               Button("清空输入框", id="reset", variant="error"), )
+        yield ScrollableContainer(Label("请输入小红书图文/视频作品链接："),
+                                  Input(placeholder="URL"),
+                                  HorizontalScroll(Button("下载无水印图片/视频", id="solo"),
+                                                   Button("读取 xhs.txt 文件并批量下载作品", id="batch"),
+                                                   Button("清空输入框", id="reset"), ))
         yield Log(auto_scroll=True)
         yield Footer()
 
