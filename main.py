@@ -43,22 +43,6 @@ def example():
     print(xhs.extract(video_demo, download=download))
 
 
-def program():
-    """读取并应用配置文件设置的参数，适合一般作品文件下载需求"""
-    print("如果采集数据失败，请尝试使用手动获取的 Cookie 运行程序！")
-    xhs = XHS(**Settings().run())
-    if ids := Batch().read_txt():
-        for i in ids:
-            print(f"当前作品链接: {i}")
-            xhs.extract(i, download=True)
-    else:
-        while True:
-            if url := input("请输入小红书作品链接："):
-                xhs.extract(url, download=True)
-            else:
-                break
-
-
 class XHSDownloader(App):
     CSS_PATH = "static/XHS_Downloader.tcss"
     BINDINGS = [
@@ -91,7 +75,9 @@ class XHSDownloader(App):
 
     def solo(self):
         url = self.query_one(Input).value
-        self.APP.extract(url, True, self.query_one(Log))
+        log = self.query_one(Log)
+        log.write_line(f"当前作品链接: {url}")
+        self.APP.extract(url, True, log)
 
     def batch(self):
         urls = self.Batch.read_txt()
@@ -105,6 +91,5 @@ class XHSDownloader(App):
 
 if __name__ == '__main__':
     # example()
-    # program()
     app = XHSDownloader()
     app.run()
