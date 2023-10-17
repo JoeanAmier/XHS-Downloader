@@ -60,7 +60,7 @@ print(xhs.extract(image_demo, download=download))
 print(xhs.extract(video_demo, download=download))
 </pre>
 <h1>⛓ 批量下载</h1>
-<p>在程序当前文件夹创建一个 <code>xhs.txt</code> 文本文件，然后将待处理的作品链接输入文件，每行输入一个作品链接，编辑完成后保存文件，然后运行程序，程序会自动读取 <code>xhs.txt</code> 文件内容，并批量下载每个作品的文件，下载完成后需要手动删除 <code>xhs.txt</code> 文件。</p>
+<p>在程序所在文件夹创建一个 <code>xhs.txt</code> 文本文件，然后将待处理的作品链接输入文件，每行输入一个作品链接，编辑完成后保存文件，然后运行程序，点击 <code>读取 xhs.txt 文件并批量下载作品</code> 按钮，程序会批量下载每个链接对应的作品文件。</p>
 <h1>⚙️ 配置文件</h1>
 <p>根目录下的 <code>settings.json</code> 文件，可以自定义部分运行参数。</p>
 <table>
