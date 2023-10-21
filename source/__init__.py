@@ -15,12 +15,15 @@ __all__ = ['XHS', 'Settings', 'Batch']
 class XHS:
     ROOT = Path(__file__).resolve().parent.parent
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36",
-        "Cookie": "abRequestId=0a09e155-fa93-54c9-b164-a1c2d91f0669; webBuild=3.8.2; a1=18aa21f6e2e5dyk1w1r0zbtulnsbc"
-                  "5nlhcqklucqb50000310139; webId=f32bd0ca48726f93238c13047e92d891; websectiga=6169c1e84f393779a5f7de"
-                  "7303038f3b47a78e47be716e7bec57ccce17d45f99; sec_poison_id=b1c18309-a338-4dc4-9fb1-6fe21b15af09; we"
-                  "b_session=030037a235e4642c22125cf67e224a10791e83; gid=yY00JyiSKyxqyY00JyiKdS7SJd2fvTyEyF8uAADD971I"
-                  "MT28DS2I11888qy8yqj8Kf04iydj; cache_feeds=[]; xsecappid=xhs-pc-web",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome"
+                      "/116.0.0.0 Safari/537.36",
+        "Cookie": "abRequestId=8bf8c305-4e5b-52dd-a723-e9a5343ab42d; webBuild=3.11.3; xsecappid=xhs-pc-web"
+                  "; a1=18b5003660f88kld0gicpx2on2oksepl5y3r9htmn50000247235; webId=a2b049d2fa82434385976a4"
+                  "9814085b0; websectiga=16f444b9ff5e3d7e258b5f7674489196303a0b160e16647c6c2b4dcb609f4134; s"
+                  "ec_poison_id=3d97668d-1e50-42a7-89c0-7b46aa0183a5; web_session=030037a2006067cf0a2b5f724b"
+                  "224a1819eb36; gid=yYD288qW4824yYD288qKKvx98iYYT1f8k3SUq6ICJlIJlF28TMdU1j888J4WJq28fqDJiqq"
+                  "0; unread={%22ub%22:%22650533d4000000001302862b%22%2C%22ue%22:%2265015857000000001e021a5e"
+                  "%22%2C%22uc%22:42}",
     }
     links = compile(r"https://www.xiaohongshu.com/explore/[0-9a-z]+")
 
