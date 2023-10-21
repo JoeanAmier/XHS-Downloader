@@ -111,6 +111,16 @@ print(xhs.extract(video_demo, download=download))
 </tr>
 </tbody>
 </table>
+<h1>🌐 Cookie</h1>
+<ol>
+<li>打开浏览器（可选无痕模式启动），访问小红书任意网页</li>
+<li>按 <code>F12</code> 打开开发人员工具</li>
+<li>选择 <code>控制台</code> 选项卡</li>
+<li>输入 <code>document.cookie</code> 后回车确认</li>
+<li>输出内容即为所需 Cookie</li>
+</ol>
+<br>
+<img src="static/获取Cookie.png" alt="">
 <h1>⚠️ 免责声明</h1>
 <ul>
 <li>使用者对本项目的使用由使用者自行决定，并自行承担风险。作者对使用者使用本项目所产生的任何损失、责任、或风险概不负责。</li>

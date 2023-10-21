@@ -19,7 +19,7 @@ class Download:
             headers: dict,
             proxies=None,
             chunk=256 * 1024, ):
-        self.temp = root.joinpath("./Temp")
+        self.temp = root.joinpath("./temp")
         self.root = self.__init_root(root, path, folder)
         self.headers = self.__delete_cookie(headers)
         self.proxies = {
