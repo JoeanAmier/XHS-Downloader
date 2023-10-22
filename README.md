@@ -121,6 +121,8 @@ print(xhs.extract(video_demo, download=download))
 </ol>
 <br>
 <img src="static/获取Cookie.png" alt="">
+<h1>♥️ 支持项目</h1>
+<p>如果 <b>XHS_Downloader</b> 对您有帮助，请考虑为它点个 <b>Star</b> ⭐，感谢您的支持！</p>
 <h1>⚠️ 免责声明</h1>
 <ul>
 <li>使用者对本项目的使用由使用者自行决定，并自行承担风险。作者对使用者使用本项目所产生的任何损失、责任、或风险概不负责。</li>
