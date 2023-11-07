@@ -20,6 +20,8 @@
 <h1>📸 程序截图</h1>
 <br>
 <img src="static/程序截图.png" alt="">
+<h1>🪟 关于终端</h1>
+<p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 自带默认终端）运行程序以便获得最佳显示效果！</p>
 <h1>🥣 使用方法</h1>
 <p>如果仅需下载作品文件，选择 <b>直接运行</b> 或者 <b>源码运行</b> 均可，如果需要获取作品信息，则需要进行二次开发进行调用。</p>
 <h2>🖱 直接运行</h2>
