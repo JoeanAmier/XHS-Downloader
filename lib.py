@@ -7,7 +7,7 @@ from json import loads
 import configparser
 
 config = configparser.ConfigParser()
-config.read('Jobs/CV/小红书图片/cfg.ini', encoding='utf8')
+config.read('cfg.ini', encoding='utf8')
 root_path = config['default']['root_path']
 root = os.path.join(root_path, "xiaohongshu")
 if not os.path.exists(root):
