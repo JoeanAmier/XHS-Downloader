@@ -68,5 +68,5 @@ def core():
 
 
 if __name__ == '__main__':
-    main()
-    # core()
+    # main()
+    core()
