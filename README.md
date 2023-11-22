@@ -1,5 +1,5 @@
 <div align="center">
-<img src="static/XHS-Downloader.png" alt="TikTokDownloader" height="256" width="256"><br>
+<img src="static/XHS-Downloader.png" alt="" height="256" width="256"><br>
 <h1>小红书作品采集工具</h1>
 <img alt="GitHub" src="https://img.shields.io/github/license/JoeanAmier/XHS-Downloader?style=for-the-badge">
 <img alt="GitHub forks" src="https://img.shields.io/github/forks/JoeanAmier/XHS-Downloader?style=for-the-badge&color=c56cf0">
@@ -128,7 +128,7 @@ print(xhs.extract(video_demo, download=download))
 <h1>✉️ 联系作者</h1>
 <ul>
 <li>QQ: 2437596031</li>
-<li>QQ Group: <a href="https://github.com/JoeanAmier/TikTokDownloader/blob/master/docs/QQ%E7%BE%A4%E8%81%8A%E4%BA%8C%E7%BB%B4%E7%A0%81.png">点击扫码加入群聊</a></li>
+<li>QQ Group: <a href="https://github.com/JoeanAmier/XHS-Downloader/blob/master/static/QQ%E7%BE%A4%E8%81%8A%E4%BA%8C%E7%BB%B4%E7%A0%81.png">点击扫码加入群聊</a></li>
 <li>Email: yonglelolu@gmail.com</li>
 </ul>
 <p>
