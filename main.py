@@ -45,7 +45,8 @@ def example():
 
 class XHSDownloader(App):
     VERSION = 1.5
-    CSS_PATH = "static/XHS_Downloader.tcss"
+    Beta = True
+    CSS_PATH = "static/XHS-Downloader.tcss"
     BINDINGS = [
         Binding(key="q", action="quit", description="退出程序"),
         ("d", "toggle_dark", "切换主题"),
@@ -64,7 +65,7 @@ class XHSDownloader(App):
         yield Footer()
 
     def on_mount(self) -> None:
-        self.title = f"小红书作品采集工具 V{self.VERSION}"
+        self.title = f"小红书作品采集工具 V{self.VERSION}{" Beta" if self.Beta else ""}"
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "solo":
