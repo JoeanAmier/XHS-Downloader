@@ -1,6 +1,18 @@
 from pathlib import Path
 from re import compile
 
+from textual.app import App
+from textual.app import ComposeResult
+from textual.binding import Binding
+from textual.containers import HorizontalScroll
+from textual.containers import ScrollableContainer
+from textual.widgets import Button
+from textual.widgets import Footer
+from textual.widgets import Header
+from textual.widgets import Input
+from textual.widgets import Label
+from textual.widgets import Log
+
 from .Download import Download
 from .Explore import Explore
 from .Html import Html
@@ -9,7 +21,7 @@ from .Settings import Batch
 from .Settings import Settings
 from .Video import Video
 
-__all__ = ['XHS', 'Settings', 'Batch']
+__all__ = ['XHS', 'XHSDownloader']
 
 
 class XHS:
@@ -87,3 +99,51 @@ class XHS:
     def __update_cookie(self, cookie: str) -> None:
         if cookie and isinstance(cookie, str):
             self.headers["Cookie"] = cookie
+
+
+class XHSDownloader(App):
+    VERSION = 1.5
+    Beta = True
+    CSS_PATH = "static/XHS-Downloader.tcss"
+    BINDINGS = [
+        Binding(key="q", action="quit", description="退出程序"),
+        ("d", "toggle_dark", "切换主题"),
+    ]
+    APP = XHS(**Settings().run())
+    Batch = Batch()
+
+    def compose(self) -> ComposeResult:
+        yield Header()
+        yield ScrollableContainer(Label("请输入小红书图文/视频作品链接："),
+                                  Input(placeholder="URL"),
+                                  HorizontalScroll(Button("下载无水印图片/视频", id="solo"),
+                                                   Button("读取 xhs.txt 文件并批量下载作品", id="batch"),
+                                                   Button("清空输入框", id="reset"), ))
+        yield Log(auto_scroll=True)
+        yield Footer()
+
+    def on_mount(self) -> None:
+        self.title = f"小红书作品采集工具 V{self.VERSION}{" Beta" if self.Beta else ""}"
+
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        if event.button.id == "solo":
+            self.solo()
+        elif event.button.id == "batch":
+            self.batch()
+        elif event.button.id == "reset":
+            self.query_one(Input).value = ""
+
+    def solo(self):
+        url = self.query_one(Input).value
+        log = self.query_one(Log)
+        log.write_line(f"当前作品链接: {url}")
+        self.APP.extract(url, True, log)
+
+    def batch(self):
+        urls = self.Batch.read_txt()
+        log = self.query_one(Log)
+        if not urls:
+            log.write_line("未检测到 xhs.txt 文件 或者 该文件为空！")
+        for url in urls:
+            log.write_line(f"当前作品链接: {url}")
+            self.APP.extract(url, True, log)
