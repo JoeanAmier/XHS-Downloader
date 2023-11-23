@@ -16,6 +16,9 @@ Button#solo {
 Button#batch {
     tint: green 35%;
 }
+Button#paste {
+    tint: green 35%;
+}
 Button#reset {
     tint: red 35%;
 }

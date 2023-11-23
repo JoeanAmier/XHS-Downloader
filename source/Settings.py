@@ -19,18 +19,22 @@ class Settings:
     def run(self):
         return self.read() if self.file.is_file() else self.create()
 
-    def read(self):
+    def read(self) -> dict:
         with self.file.open("r", encoding="utf-8") as f:
             return load(f)
 
-    def create(self):
+    def create(self) -> dict:
         with self.file.open("w", encoding="utf-8") as f:
             dump(self.default, f, indent=2)
             return self.default
 
+    def update(self, data: dict):
+        with self.file.open("w", encoding="utf-8") as f:
+            dump(data, f, indent=2, ensure_ascii=False)
+
 
 class Batch:
-    file = Path("./xhs.txt")
+    file = Path("../xhs.txt")
 
     def read_txt(self) -> list:
         if self.file.is_file():

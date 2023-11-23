@@ -1,6 +1,7 @@
 from pathlib import Path
 from re import compile
 
+from pyperclip import paste
 from textual.app import App
 from textual.app import ComposeResult
 from textual.binding import Binding
@@ -102,9 +103,10 @@ class XHS:
 
 
 class XHSDownloader(App):
-    VERSION = 1.5
+    VERSION = 1.6
     Beta = True
-    CSS_PATH = "static/XHS-Downloader.tcss"
+    CSS_PATH = Path(__file__).resolve().parent.parent.joinpath(
+        "static/XHS-Downloader.tcss")
     BINDINGS = [
         Binding(key="q", action="quit", description="退出程序"),
         ("d", "toggle_dark", "切换主题"),
@@ -118,6 +120,7 @@ class XHSDownloader(App):
                                   Input(placeholder="URL"),
                                   HorizontalScroll(Button("下载无水印图片/视频", id="solo"),
                                                    Button("读取 xhs.txt 文件并批量下载作品", id="batch"),
+                                                   Button("读取剪贴板", id="paste"),
                                                    Button("清空输入框", id="reset"), ))
         yield Log(auto_scroll=True)
         yield Footer()
@@ -132,6 +135,8 @@ class XHSDownloader(App):
             self.batch()
         elif event.button.id == "reset":
             self.query_one(Input).value = ""
+        elif event.button.id == "paste":
+            self.query_one(Input).value = paste()
 
     def solo(self):
         url = self.query_one(Input).value
