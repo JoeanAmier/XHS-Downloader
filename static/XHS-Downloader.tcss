@@ -10,10 +10,7 @@ Button {
     margin: 1 1;
     text-style: bold;
 }
-Button#solo {
-    tint: green 35%;
-}
-Button#batch {
+Button#deal {
     tint: green 35%;
 }
 Button#paste {

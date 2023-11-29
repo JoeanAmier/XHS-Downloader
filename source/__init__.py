@@ -18,7 +18,6 @@ from .Download import Download
 from .Explore import Explore
 from .Html import Html
 from .Image import Image
-from .Settings import Batch
 from .Settings import Settings
 from .Video import Video
 
@@ -45,7 +44,7 @@ class XHS:
             cookie=None,
             proxies=None,
             timeout=10,
-            chunk=256 * 1024,
+            chunk=1024 * 1024,
     ):
         self.__update_cookie(cookie)
         self.html = Html(self.headers, proxies, timeout)
@@ -72,16 +71,14 @@ class XHS:
             self.download.run(url, self.__naming_rules(container), 0, log)
         container["下载地址"] = url
 
-    def extract(self, url: str, download=False, log=None) -> dict:
+    def extract(self, url: str, download=False, log=None) -> dict | list[dict]:
         if not self.__check(url):
-            print(f"无效的作品链接: {url}")
             return {}
         html = self.html.get_html(url)
         if not html:
             return {}
         data = self.explore.run(html)
         if not data:
-            print(f"获取作品数据失败: {url}")
             return {}
         if data["作品类型"] == "视频":
             self.__get_video(data, html, download, log)
@@ -105,21 +102,20 @@ class XHS:
 class XHSDownloader(App):
     VERSION = 1.6
     Beta = True
-    CSS_PATH = Path(__file__).resolve().parent.parent.joinpath(
+    ROOT = Path(__file__).resolve().parent.parent
+    CSS_PATH = ROOT.joinpath(
         "static/XHS-Downloader.tcss")
     BINDINGS = [
         Binding(key="q", action="quit", description="退出程序"),
         ("d", "toggle_dark", "切换主题"),
     ]
     APP = XHS(**Settings().run())
-    Batch = Batch()
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield ScrollableContainer(Label("请输入小红书图文/视频作品链接："),
+        yield ScrollableContainer(Label("请输入小红书图文/视频作品链接（多个链接使用空格分隔）："),
                                   Input(placeholder="URL"),
-                                  HorizontalScroll(Button("下载无水印图片/视频", id="solo"),
-                                                   Button("读取 xhs.txt 文件并批量下载作品", id="batch"),
+                                  HorizontalScroll(Button("下载无水印图片/视频", id="deal"),
                                                    Button("读取剪贴板", id="paste"),
                                                    Button("清空输入框", id="reset"), ))
         yield Log(auto_scroll=True)
@@ -129,26 +125,22 @@ class XHSDownloader(App):
         self.title = f"小红书作品采集工具 V{self.VERSION}{" Beta" if self.Beta else ""}"
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
-        if event.button.id == "solo":
-            self.solo()
-        elif event.button.id == "batch":
-            self.batch()
+        if event.button.id == "deal":
+            self.deal()
         elif event.button.id == "reset":
             self.query_one(Input).value = ""
         elif event.button.id == "paste":
             self.query_one(Input).value = paste()
 
-    def solo(self):
+    def deal(self):
         url = self.query_one(Input).value
         log = self.query_one(Log)
-        log.write_line(f"当前作品链接: {url}")
-        self.APP.extract(url, True, log)
-
-    def batch(self):
-        urls = self.Batch.read_txt()
-        log = self.query_one(Log)
-        if not urls:
-            log.write_line("未检测到 xhs.txt 文件 或者 该文件为空！")
-        for url in urls:
-            log.write_line(f"当前作品链接: {url}")
+        if not url:
+            log.write_line("未输入任何作品链接！")
+        else:
             self.APP.extract(url, True, log)
+            self.query_one(Input).value = ""
+
+
+class FakeGUI:
+    pass

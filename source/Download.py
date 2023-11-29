@@ -18,7 +18,7 @@ class Download:
             folder: str,
             headers: dict,
             proxies=None,
-            chunk=256 * 1024, ):
+            chunk=1024 * 1024, ):
         self.temp = root.joinpath("./temp")
         self.root = self.__init_root(root, path, folder)
         self.headers = self.__delete_cookie(headers)
@@ -30,14 +30,12 @@ class Download:
         self.chunk = chunk
 
     def __init_root(self, root: Path, path: str, folder: str) -> Path:
-        if path and (r := Path(path)).exists():
+        if path and (r := Path(path)).is_dir():
             root = r.joinpath(folder or "Download")
         else:
             root = root.joinpath(folder or "Download")
-        if not root.is_dir():
-            root.mkdir()
-        if not self.temp.is_dir():
-            self.temp.mkdir()
+        root.mkdir(exist_ok=True)
+        self.temp.mkdir(exist_ok=True)
         return root
 
     def run(self, urls: list, name: str, type_: int, log):

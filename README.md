@@ -125,6 +125,20 @@ print(xhs.extract(video_demo, download=download))
 <img src="static/获取Cookie示意图.png" alt="">
 <h1>♥️ 支持项目</h1>
 <p>如果 <b>XHS-Downloader</b> 对您有帮助，请考虑为它点个 <b>Star</b> ⭐，感谢您的支持！</p>
+<table>
+<thead>
+<tr>
+<th align="center">微信(WeChat)</th>
+<th align="center">支付宝(Alipay)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><img src="./static/微信赞助二维码.png" alt="微信赞助二维码" height="200" width="200"></td>
+<td align="center"><img src="./static/支付宝赞助二维码.png" alt="支付宝赞助二维码" height="200" width="200"></td>
+</tr>
+</tbody>
+</table>
+<p>如果您愿意，可以考虑提供资助为 <b>XHS-Downloader</b> 提供额外的支持！</p>
 <h1>✉️ 联系作者</h1>
 <ul>
 <li>QQ: 2437596031</li>

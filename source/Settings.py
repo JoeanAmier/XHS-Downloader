@@ -2,7 +2,7 @@ from json import dump
 from json import load
 from pathlib import Path
 
-__all__ = ['Settings', 'Batch']
+__all__ = ['Settings']
 
 
 class Settings:
@@ -13,7 +13,7 @@ class Settings:
         "cookie": "",
         "proxies": None,
         "timeout": 10,
-        "chunk": 256 * 1024,
+        "chunk": 1024 * 1024,
     }
 
     def run(self):
@@ -25,19 +25,9 @@ class Settings:
 
     def create(self) -> dict:
         with self.file.open("w", encoding="utf-8") as f:
-            dump(self.default, f, indent=2)
+            dump(self.default, f, indent=4)
             return self.default
 
     def update(self, data: dict):
         with self.file.open("w", encoding="utf-8") as f:
-            dump(data, f, indent=2, ensure_ascii=False)
-
-
-class Batch:
-    file = Path("../xhs.txt")
-
-    def read_txt(self) -> list:
-        if self.file.is_file():
-            with self.file.open("r") as f:
-                return [i.rstrip('\n') for i in f.readlines()]
-        return []
+            dump(data, f, indent=4, ensure_ascii=False)

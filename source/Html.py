@@ -1,4 +1,3 @@
-from requests import ReadTimeout
 from requests import exceptions
 from requests import get
 
@@ -37,7 +36,7 @@ class Html:
                 exceptions.SSLError,
                 exceptions.ChunkedEncodingError,
                 exceptions.ConnectionError,
-                ReadTimeout,
+                exceptions.ReadTimeout,
         ):
             print("获取网页源码失败，请尝试设置 Cookie 后重试！")
             return ""
