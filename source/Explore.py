@@ -15,8 +15,8 @@ class Explore:
         return self.__extract_data(data)
 
     def __get_json_data(self, html: str) -> dict:
-        data = self.explore_data.findall(html)
-        return {} if len(data) != 1 else loads(data[0])
+        data = self.explore_data.search(html)
+        return loads(data.group(1)) if data else {}
 
     def __extract_data(self, data: dict) -> dict:
         result = {}

@@ -25,46 +25,44 @@
 <h1>🥣 使用方法</h1>
 <p>如果仅需下载作品文件，选择 <b>直接运行</b> 或者 <b>源码运行</b> 均可，如果需要获取作品信息，则需要进行二次开发进行调用。</p>
 <h2>🖱 直接运行</h2>
-<p>前往 Releases 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
+<p>前往 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
 <h2>⌨️ 源码运行</h2>
 <ol>
 <li>安装版本号不低于 <code>3.12</code> 的 Python 解释器</li>
 <li>运行 <code>pip install -r requirements.txt</code> 命令安装程序所需模块</li>
-<li>下载本项目最新的源码或 <code>Releases</code> 发布的源码至本地</li>
+<li>下载本项目最新的源码或 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
 <li>运行 <code>main.py</code> 即可使用</li>
 </ol>
 <h2>💻 二次开发</h2>
 <p>如果想要获取小红书图文/视频作品信息，可以根据 <code>main.py</code> 的注释提示进行代码调用。</p>
 <pre>
 # 测试链接
-error_demo = "https://github.com/JoeanAmier/XHS-Downloader"
+error_demo = "https://github.com/JoeanAmier/XHS_Downloader"
 image_demo = "https://www.xiaohongshu.com/explore/63b275a30000000019020185"
 video_demo = "https://www.xiaohongshu.com/explore/64edb460000000001f03cadc"
+multiple_demo = f"{image_demo} {video_demo}"
 # 实例对象
-path = ""  # 作品下载储存根路径，默认值：当前路径
+path = "D:\\"  # 作品下载储存根路径，默认值：当前路径
 folder = "Download"  # 作品下载文件夹名称（自动创建），默认值：Download
-cookie = ""  # 小红书网页版 Cookie
 proxies = None  # 网络代理
 timeout = 5  # 网络请求超时限制，默认值：10
 chunk = 1024 * 1024  # 下载文件时，每次从服务器获取的数据块大小，单位字节
 xhs = XHS(
     path=path,
     folder=folder,
-    cookie=cookie,
     proxies=proxies,
     timeout=timeout,
     chunk=chunk, )  # 使用自定义参数
 # xhs = XHS()  # 使用默认参数
-download = True  # 是否下载作品文件
+download = True  # 是否下载作品文件，默认值：False
 # 返回作品详细信息，包括下载地址
 print(xhs.extract(error_demo))  # 获取数据失败时返回空字典
 print(xhs.extract(image_demo, download=download))
 print(xhs.extract(video_demo, download=download))
+print(xhs.extract(multiple_demo, download=download))
 </pre>
-<h1>⛓ 批量下载</h1>
-<p>在程序所在文件夹创建一个 <code>xhs.txt</code> 文本文件，然后将待处理的作品链接输入文件，每行输入一个作品链接，编辑完成后保存文件，然后运行程序，点击 <code>读取 xhs.txt 文件并批量下载作品</code> 按钮，程序会批量下载每个链接对应的作品文件。</p>
 <h1>⚙️ 配置文件</h1>
-<p>根目录下的 <code>settings.json</code> 文件，可以自定义部分运行参数。</p>
+<p>项目根目录下的 <code>settings.json</code> 文件，可以自定义部分运行参数。</p>
 <table>
 <thead>
 <tr>
@@ -88,12 +86,6 @@ print(xhs.extract(video_demo, download=download))
 <td align="center">Download</td>
 </tr>
 <tr>
-<td align="center">cookie</td>
-<td align="center">str</td>
-<td align="center">小红书网页版 Cookie，无需登录；建议自行设置</td>
-<td align="center">内置 Cookie</td>
-</tr>
-<tr>
 <td align="center">proxies</td>
 <td align="center">str</td>
 <td align="center">设置代理</td>
@@ -109,20 +101,10 @@ print(xhs.extract(video_demo, download=download))
 <td align="center">chunk</td>
 <td align="center">int</td>
 <td align="center">下载文件时，每次从服务器获取的数据块大小，单位：字节</td>
-<td align="center">262144(256KB)</td>
+<td align="center">1048576(1 MB)</td>
 </tr>
 </tbody>
 </table>
-<h1>🌐 Cookie</h1>
-<ol>
-<li>打开浏览器（可选无痕模式启动），访问小红书任意网页</li>
-<li>按 <code>F12</code> 打开开发人员工具</li>
-<li>选择 <code>控制台</code> 选项卡</li>
-<li>输入 <code>document.cookie</code> 后回车确认</li>
-<li>输出内容即为所需 Cookie</li>
-</ol>
-<br>
-<img src="static/获取Cookie示意图.png" alt="">
 <h1>♥️ 支持项目</h1>
 <p>如果 <b>XHS-Downloader</b> 对您有帮助，请考虑为它点个 <b>Star</b> ⭐，感谢您的支持！</p>
 <table>
@@ -141,7 +123,7 @@ print(xhs.extract(video_demo, download=download))
 <p>如果您愿意，可以考虑提供资助为 <b>XHS-Downloader</b> 提供额外的支持！</p>
 <h1>✉️ 联系作者</h1>
 <ul>
-<li>QQ: 2437596031</li>
+<li>QQ: 2437596031（联系请说明来意）</li>
 <li>QQ Group: <a href="https://github.com/JoeanAmier/XHS-Downloader/blob/master/static/QQ%E7%BE%A4%E8%81%8A%E4%BA%8C%E7%BB%B4%E7%A0%81.png">点击扫码加入群聊</a></li>
 <li>Email: yonglelolu@gmail.com</li>
 </ul>

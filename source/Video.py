@@ -1,12 +1,11 @@
 from re import compile
 
-from .Html import Html
-
 __all__ = ['Video']
 
 
 class Video:
-    VIDEO_ID = compile(r'"masterUrl":"(.*?)"')
+    VIDEO_TOKEN = compile(r'"originVideoKey":"pre_post\\u002F(\S+?)"')
 
-    def get_video_link(self, html: str):
-        return [Html.format_url(u) for u in self.VIDEO_ID.findall(html)]
+    def get_video_link(self, html: str) -> list:
+        return [f"https://sns-video-hw.xhscdn.com/pre_post/{
+        t.group(1)}"] if (t := self.VIDEO_TOKEN.search(html)) else []

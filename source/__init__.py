@@ -14,10 +14,11 @@ from textual.widgets import Input
 from textual.widgets import Label
 from textual.widgets import Log
 
-from .Download import Download
+from .Downloader import Download
 from .Explore import Explore
 from .Html import Html
 from .Image import Image
+from .Manager import Manager
 from .Settings import Settings
 from .Video import Video
 
@@ -26,77 +27,78 @@ __all__ = ['XHS', 'XHSDownloader']
 
 class XHS:
     ROOT = Path(__file__).resolve().parent.parent
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome"
-                      "/116.0.0.0 Safari/537.36",
-        "Cookie": "abRequestId=c76828f5-4f37-5b3b-8cc3-036eb91b2edb; webBuild=3.14.1; xsecappid=xhs-pc-web; "
-                  "a1=18ba9b2b23co9uwihz4adkebwsw05g8upycgsldyj50000141248; webId=23ee7745020025247828cf8d6d0decff; "
-                  "websectiga=6169c1e84f393779a5f7de7303038f3b47a78e47be716e7bec57ccce17d45f99; "
-                  "sec_poison_id=ae001863-a9db-4463-ad78-ede3aac4e5b1; gid=yYD0jDJDWyU4yYD0jDJDJv1fqSlj7E3xu40fSvVTd"
-                  "DEMEk2882kY7M888y4yJ4Y8D8SK0iiK; web_session=030037a2797dde5008c3e66f32224a8af75429; ",
-    }
-    links = compile(r"https://www.xiaohongshu.com/explore/[0-9a-z]+")
+    link = compile(r"https://www\.xiaohongshu\.com/explore/[a-z0-9]+")
+    share = compile(r"https://www\.xiaohongshu\.com/discovery/item/[a-z0-9]+")
+    short = compile(r"https://xhslink\.com/[A-Za-z0-9]+")
 
     def __init__(
             self,
             path="",
             folder="Download",
-            cookie=None,
             proxies=None,
             timeout=10,
             chunk=1024 * 1024,
+            **kwargs,
     ):
-        self.__update_cookie(cookie)
-        self.html = Html(self.headers, proxies, timeout)
+        self.manager = Manager(self.ROOT)
+        self.html = Html(self.manager.headers, proxies, timeout)
         self.image = Image()
         self.video = Video()
         self.explore = Explore()
         self.download = Download(
+            self.manager,
             self.ROOT,
             path,
             folder,
-            self.headers,
             proxies,
-            chunk)
+            chunk,
+            timeout)
 
-    def __get_image(self, container: dict, html: str, download, log):
+    def __get_image(self, container: dict, html: str, download):
         urls = self.image.get_image_link(html)
         if download:
-            self.download.run(urls, self.__naming_rules(container), 1, log)
+            self.download.run(urls, self.__naming_rules(container), 1)
         container["下载地址"] = urls
 
-    def __get_video(self, container: dict, html: str, download, log):
+    def __get_video(self, container: dict, html: str, download):
         url = self.video.get_video_link(html)
         if download:
-            self.download.run(url, self.__naming_rules(container), 0, log)
+            self.download.run(url, self.__naming_rules(container), 0)
         container["下载地址"] = url
 
-    def extract(self, url: str, download=False, log=None) -> dict | list[dict]:
-        if not self.__check(url):
-            return {}
-        html = self.html.get_html(url)
+    def extract(self, url: str, download=False) -> list[dict]:
+        urls = self.__deal_links(url)
+        # return urls
+        return [self.__deal_extract(i, download) for i in urls]
+
+    def __deal_links(self, url: str) -> list:
+        urls = []
+        for i in url.split():
+            if u := self.short.search(i):
+                i = self.html.request_url(u.group(), headers=self.manager.headers, text=False)
+            if u := self.share.search(i):
+                urls.append(u.group())
+            elif u := self.link.search(i):
+                urls.append(u.group())
+        return urls
+
+    def __deal_extract(self, url: str, download: bool):
+        html = self.html.request_url(url)
         if not html:
             return {}
         data = self.explore.run(html)
         if not data:
             return {}
         if data["作品类型"] == "视频":
-            self.__get_video(data, html, download, log)
+            self.__get_video(data, html, download)
         else:
-            self.__get_image(data, html, download, log)
+            self.__get_image(data, html, download)
         return data
-
-    def __check(self, url: str):
-        return self.links.match(url)
 
     @staticmethod
     def __naming_rules(data: dict) -> str:
         """下载文件默认使用作品 ID 作为文件名，可修改此方法自定义文件名格式"""
         return data["作品ID"]
-
-    def __update_cookie(self, cookie: str) -> None:
-        if cookie and isinstance(cookie, str):
-            self.headers["Cookie"] = cookie
 
 
 class XHSDownloader(App):
@@ -109,7 +111,8 @@ class XHSDownloader(App):
         Binding(key="q", action="quit", description="退出程序"),
         ("d", "toggle_dark", "切换主题"),
     ]
-    APP = XHS(**Settings().run())
+
+    # APP = XHS(**Settings().run())
 
     def compose(self) -> ComposeResult:
         yield Header()

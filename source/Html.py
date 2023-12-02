@@ -19,11 +19,12 @@ class Html:
         }
         self.timeout = timeout
 
-    def get_html(
+    def request_url(
             self,
             url: str,
             params=None,
-            headers=None, ) -> str:
+            headers=None,
+            text=True, ) -> str:
         try:
             response = get(
                 url,
@@ -38,9 +39,9 @@ class Html:
                 exceptions.ConnectionError,
                 exceptions.ReadTimeout,
         ):
-            print("获取网页源码失败，请尝试设置 Cookie 后重试！")
+            print("网络异常，获取网页源码失败！")
             return ""
-        return response.text
+        return response.text if text else response.url
 
     @staticmethod
     def format_url(url: str) -> str:

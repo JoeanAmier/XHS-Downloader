@@ -6,15 +6,16 @@ __all__ = ['Settings']
 
 
 class Settings:
-    file = Path(__file__).resolve().parent.parent.joinpath("./settings.json")
     default = {
         "path": "",
         "folder": "Download",
-        "cookie": "",
         "proxies": None,
         "timeout": 10,
         "chunk": 1024 * 1024,
     }
+
+    def __init__(self, root: Path):
+        self.file = root.joinpath("./settings.json")
 
     def run(self):
         return self.read() if self.file.is_file() else self.create()

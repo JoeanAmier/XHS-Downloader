@@ -1,5 +1,6 @@
 from json import loads
 from re import compile
+
 __all__ = ['Image']
 
 
@@ -25,8 +26,7 @@ class Image:
         return f"https://ci.xiaohongshu.com/{token}?imageView2/2/w/format/png"
 
     def __extract_image_token(self, url: str) -> str:
-        return self.__generate_image_link(token[0]) if len(
-            token := self.IMAGE_TOKEN.findall(url)) == 1 else ""
+        return self.__generate_image_link(token.group(1)) if (token := self.IMAGE_TOKEN.search(url)) else ""
 
     def __extract_image_urls(self, data: list[dict]) -> list[str]:
         urls = []
