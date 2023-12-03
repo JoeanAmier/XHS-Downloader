@@ -12,13 +12,14 @@ from textual.widgets import Footer
 from textual.widgets import Header
 from textual.widgets import Input
 from textual.widgets import Label
-from textual.widgets import Log
+from textual.widgets import RichLog
 
 from .Downloader import Download
 from .Explore import Explore
 from .Html import Html
 from .Image import Image
 from .Manager import Manager
+from .Manager import rich_log
 from .Settings import Settings
 from .Video import Video
 
@@ -54,45 +55,51 @@ class XHS:
             chunk,
             timeout)
 
-    def __get_image(self, container: dict, html: str, download):
+    def __get_image(self, container: dict, html: str, download, log):
         urls = self.image.get_image_link(html)
+        # rich_log(log, urls)  # 调试代码
         if download:
             self.download.run(urls, self.__naming_rules(container), 1)
         container["下载地址"] = urls
 
-    def __get_video(self, container: dict, html: str, download):
+    def __get_video(self, container: dict, html: str, download, log):
         url = self.video.get_video_link(html)
+        # rich_log(log, url)  # 调试代码
         if download:
             self.download.run(url, self.__naming_rules(container), 0)
         container["下载地址"] = url
 
-    def extract(self, url: str, download=False) -> list[dict]:
+    def extract(self, url: str, download=False, log=None) -> list[dict]:
         urls = self.__deal_links(url)
-        # return urls
-        return [self.__deal_extract(i, download) for i in urls]
+        # rich_log(log, urls)  # 调试代码
+        # return urls  # 调试代码
+        return [self.__deal_extract(i, download, log) for i in urls]
 
     def __deal_links(self, url: str) -> list:
         urls = []
         for i in url.split():
             if u := self.short.search(i):
-                i = self.html.request_url(u.group(), headers=self.manager.headers, text=False)
+                i = self.html.request_url(
+                    u.group(), headers=self.manager.headers, text=False)
             if u := self.share.search(i):
                 urls.append(u.group())
             elif u := self.link.search(i):
                 urls.append(u.group())
         return urls
 
-    def __deal_extract(self, url: str, download: bool):
+    def __deal_extract(self, url: str, download: bool, log):
         html = self.html.request_url(url)
+        # rich_log(log, html)  # 调试代码
         if not html:
             return {}
         data = self.explore.run(html)
+        # rich_log(log, data)  # 调试代码
         if not data:
             return {}
         if data["作品类型"] == "视频":
-            self.__get_video(data, html, download)
+            self.__get_video(data, html, download, log)
         else:
-            self.__get_image(data, html, download)
+            self.__get_image(data, html, download, log)
         return data
 
     @staticmethod
@@ -109,35 +116,36 @@ class XHS:
 
 class XHSDownloader(App):
     VERSION = 1.6
-    Beta = True
+    BETA = True
     ROOT = Path(__file__).resolve().parent.parent
+    APP = XHS(**Settings(ROOT).run())
     CSS_PATH = ROOT.joinpath(
         "static/XHS-Downloader.tcss")
     BINDINGS = [
-        Binding(key="q", action="quit", description="退出程序"),
+        Binding(key="q", action="quit", description="结束运行"),
         ("d", "toggle_dark", "切换主题"),
     ]
 
-    # APP = XHS(**Settings().run())
+    def __enter__(self):
+        return self
 
-    # def __enter__(self):
-    #     return self
-
-    # def __exit__(self, exc_type, exc_value, traceback):
-    #     self.manager.clean()
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.APP.manager.clean()
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield ScrollableContainer(Label("请输入小红书图文/视频作品链接（多个链接使用空格分隔）："),
-                                  Input(placeholder="URL"),
+        yield ScrollableContainer(Label("请输入小红书图文/视频作品链接："),
+                                  Input(placeholder="多个链接之间使用空格分隔"),
                                   HorizontalScroll(Button("下载无水印图片/视频", id="deal"),
                                                    Button("读取剪贴板", id="paste"),
                                                    Button("清空输入框", id="reset"), ))
-        yield Log(auto_scroll=True)
+        yield RichLog(markup=True)
         yield Footer()
 
     def on_mount(self) -> None:
-        self.title = f"小红书作品采集工具 V{self.VERSION}{" Beta" if self.Beta else ""}"
+        self.title = f"XHS-Downloader V{
+        self.VERSION}{
+        " Beta" if self.BETA else ""}"
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "deal":
@@ -148,14 +156,8 @@ class XHSDownloader(App):
             self.query_one(Input).value = paste()
 
     def deal(self):
-        url = self.query_one(Input).value
-        log = self.query_one(Log)
-        if not url:
-            log.write_line("未输入任何作品链接！")
-        else:
-            self.APP.extract(url, True, log)
-            self.query_one(Input).value = ""
-
-
-class FakeGUI:
-    pass
+        url = self.query_one(Input)
+        log = self.query_one(RichLog)
+        if self.APP.extract(url.value, True, log=log):
+            pass
+        url.value = ""

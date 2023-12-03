@@ -1,4 +1,5 @@
 from source import XHS
+from source import XHSDownloader
 
 
 def example():
@@ -30,5 +31,6 @@ def example():
 
 
 if __name__ == '__main__':
-    example()
-    # XHSDownloader().run()
+    # example()
+    with XHSDownloader() as xhs:
+        xhs.run()

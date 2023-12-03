@@ -2,14 +2,13 @@ from pathlib import Path
 from shutil import move
 from shutil import rmtree
 
-__all__ = ['Manager']
+__all__ = ['Manager', "rich_log"]
 
 
 class Manager:
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                      "Chrome/119.0.0.0 Safari/537.36",
-    }
+                      "Chrome/119.0.0.0 Safari/537.36", }
 
     def __init__(self, root: Path):
         self.temp = root.joinpath("./temp")
@@ -28,3 +27,8 @@ class Manager:
 
     def clean(self):
         rmtree(self.temp.resolve())
+
+
+def rich_log(log, text):
+    if log:
+        log.write(text)

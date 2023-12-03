@@ -1,23 +1,13 @@
-Screen {
-    layout: grid;
-    grid-size: 1 2;
-    grid-rows: 1fr;
-    grid-columns: 1fr;
-    grid-gutter: 1;
-}
 Button {
     width: 1fr;
     margin: 1 1;
     text-style: bold;
 }
-Button#deal {
-    tint: green 35%;
-}
-Button#paste {
-    tint: green 35%;
+Button#deal, Button#paste {
+    tint: green 40%;
 }
 Button#reset {
-    tint: red 35%;
+    tint: red 40%;
 }
 Label {
     width: 100%;
@@ -25,12 +15,4 @@ Label {
     content-align-horizontal: center;
     content-align-vertical: middle;
     text-style: bold;
-}
-ScrollableContainer {
-    row-span: 1;
-    column-span: 1;
-}
-Log {
-    row-span: 1;
-    column-span: 1;
 }

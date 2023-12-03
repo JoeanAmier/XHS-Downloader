@@ -1,6 +1,6 @@
 <div align="center">
 <img src="static/XHS-Downloader.png" alt="" height="256" width="256"><br>
-<h1>小红书作品采集工具</h1>
+<h1>XHS-Downloader</h1>
 <img alt="GitHub" src="https://img.shields.io/github/license/JoeanAmier/XHS-Downloader?style=for-the-badge">
 <img alt="GitHub forks" src="https://img.shields.io/github/forks/JoeanAmier/XHS-Downloader?style=for-the-badge&color=c56cf0">
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/XHS-Downloader?style=for-the-badge&color=fff200">
@@ -11,21 +11,21 @@
 <h1>📑 功能清单</h1>
 <ul>
 <li>✅ 采集小红书图文/视频作品信息</li>
-<li>✅ 获取小红书图文/视频作品下载地址</li>
-<li>✅ 下载小红书图文/视频作品文件</li>
-<li>✅ 自动跳过已存在的作品文件</li>
+<li>✅ 获取小红书图文/视频作品文件下载地址</li>
+<li>✅ 下载小红书无水印图文/视频作品文件</li>
+<li>✅ 自动跳过已下载的作品文件</li>
 <li>✅ 作品文件完整性处理机制</li>
-<li>✅ 批量下载小红书作品文件</li>
 </ul>
 <h1>📸 程序截图</h1>
 <br>
 <img src="static/程序运行截图.png" alt="">
 <h1>🔗 支持链接</h1>
 <ul>
-<li>https://www.xiaohongshu.com/explore/作品ID</li>
-<li>https://www.xiaohongshu.com/discovery/item/作品ID</li>
-<li>https://xhslink.com/分享码</li>
-<p>可以单次输入多个作品链接，链接之间使用空格分隔。</p>
+<li><code>https://www.xiaohongshu.com/explore/作品ID</code></li>
+<li><code>https://www.xiaohongshu.com/discovery/item/作品ID</code></li>
+<li><code>https://xhslink.com/分享码</code></li>
+<br/>
+<p><b>可以单次输入多个作品链接，链接之间使用空格分隔。</b></p>
 </ul>
 <h1>🪟 关于终端</h1>
 <p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 自带默认终端）运行程序以便获得最佳显示效果！</p>
