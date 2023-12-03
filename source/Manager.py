@@ -1,5 +1,6 @@
 from pathlib import Path
 from shutil import move
+from shutil import rmtree
 
 __all__ = ['Manager']
 
@@ -24,3 +25,6 @@ class Manager:
     @staticmethod
     def move(temp: Path, path: Path):
         move(temp.resolve(), path.resolve())
+
+    def clean(self):
+        rmtree(self.temp.resolve())

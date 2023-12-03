@@ -100,6 +100,12 @@ class XHS:
         """下载文件默认使用作品 ID 作为文件名，可修改此方法自定义文件名格式"""
         return data["作品ID"]
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.manager.clean()
+
 
 class XHSDownloader(App):
     VERSION = 1.6
@@ -113,6 +119,12 @@ class XHSDownloader(App):
     ]
 
     # APP = XHS(**Settings().run())
+
+    # def __enter__(self):
+    #     return self
+
+    # def __exit__(self, exc_type, exc_value, traceback):
+    #     self.manager.clean()
 
     def compose(self) -> ComposeResult:
         yield Header()

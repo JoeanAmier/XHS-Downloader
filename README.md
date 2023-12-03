@@ -8,7 +8,7 @@
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/XHS-Downloader?style=for-the-badge&color=44bd32">
 <hr>
 </div>
-<h1>📝 功能清单</h1>
+<h1>📑 功能清单</h1>
 <ul>
 <li>✅ 采集小红书图文/视频作品信息</li>
 <li>✅ 获取小红书图文/视频作品下载地址</li>
@@ -20,6 +20,13 @@
 <h1>📸 程序截图</h1>
 <br>
 <img src="static/程序运行截图.png" alt="">
+<h1>🔗 支持链接</h1>
+<ul>
+<li>https://www.xiaohongshu.com/explore/作品ID</li>
+<li>https://www.xiaohongshu.com/discovery/item/作品ID</li>
+<li>https://xhslink.com/分享码</li>
+<p>可以单次输入多个作品链接，链接之间使用空格分隔。</p>
+</ul>
 <h1>🪟 关于终端</h1>
 <p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 自带默认终端）运行程序以便获得最佳显示效果！</p>
 <h1>🥣 使用方法</h1>
@@ -47,22 +54,22 @@ folder = "Download"  # 作品下载文件夹名称（自动创建），默认值
 proxies = None  # 网络代理
 timeout = 5  # 网络请求超时限制，默认值：10
 chunk = 1024 * 1024  # 下载文件时，每次从服务器获取的数据块大小，单位字节
-xhs = XHS(
-    path=path,
-    folder=folder,
-    proxies=proxies,
-    timeout=timeout,
-    chunk=chunk, )  # 使用自定义参数
-# xhs = XHS()  # 使用默认参数
-download = True  # 是否下载作品文件，默认值：False
-# 返回作品详细信息，包括下载地址
-print(xhs.extract(error_demo))  # 获取数据失败时返回空字典
-print(xhs.extract(image_demo, download=download))
-print(xhs.extract(video_demo, download=download))
-print(xhs.extract(multiple_demo, download=download))
+# with XHS() as xhs:
+#     pass  # 使用默认参数
+with XHS(path=path,
+         folder=folder,
+         proxies=proxies,
+         timeout=timeout,
+         chunk=chunk) as xhs:  # 使用自定义参数
+    download = True  # 是否下载作品文件，默认值：False
+    # 返回作品详细信息，包括下载地址
+    print(xhs.extract(error_demo))  # 获取数据失败时返回空字典
+    print(xhs.extract(image_demo, download=download))
+    print(xhs.extract(video_demo, download=download))
+    print(xhs.extract(multiple_demo, download=download))
 </pre>
 <h1>⚙️ 配置文件</h1>
-<p>项目根目录下的 <code>settings.json</code> 文件，可以自定义部分运行参数。</p>
+<p>项目根目录下的 <code>settings.json</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
 <table>
 <thead>
 <tr>
@@ -133,6 +140,7 @@ print(xhs.extract(multiple_demo, download=download))
 <p>
 <b>如果您通过 Email 联系我，我可能无法及时查看并回复信息，我会尽力在七天内回复您的邮件；如果有紧急事项或需要更快的回复，请通过其他方式与我联系，谢谢理解！</b>
 </p>
+<p><b>如果您对抖音 / TikTok 感兴趣，可以了解一下我的另一个开源项目 <a href="https://github.com/JoeanAmier/TikTokDownloader">TikTokDownloader</a></b></p>
 <h1>⚠️ 免责声明</h1>
 <ul>
 <li>使用者对本项目的使用由使用者自行决定，并自行承担风险。作者对使用者使用本项目所产生的任何损失、责任、或风险概不负责。</li>
