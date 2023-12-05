@@ -2,9 +2,11 @@ from pathlib import Path
 from re import compile
 
 from pyperclip import paste
+from rich.text import Text
 from textual.app import App
 from textual.app import ComposeResult
 from textual.binding import Binding
+from textual.containers import Center
 from textual.containers import HorizontalScroll
 from textual.containers import ScrollableContainer
 from textual.widgets import Button
@@ -12,6 +14,7 @@ from textual.widgets import Footer
 from textual.widgets import Header
 from textual.widgets import Input
 from textual.widgets import Label
+from textual.widgets import ProgressBar
 from textual.widgets import RichLog
 
 from .Downloader import Download
@@ -19,7 +22,6 @@ from .Explore import Explore
 from .Html import Html
 from .Image import Image
 from .Manager import Manager
-from .Manager import rich_log
 from .Settings import Settings
 from .Video import Video
 
@@ -36,13 +38,13 @@ class XHS:
             self,
             path="",
             folder="Download",
-            proxies=None,
+            proxy=None,
             timeout=10,
             chunk=1024 * 1024,
             **kwargs,
     ):
         self.manager = Manager(self.ROOT)
-        self.html = Html(self.manager.headers, proxies, timeout)
+        self.html = Html(self.manager.headers, proxy, timeout)
         self.image = Image()
         self.video = Video()
         self.explore = Explore()
@@ -51,55 +53,56 @@ class XHS:
             self.ROOT,
             path,
             folder,
-            proxies,
+            proxy,
             chunk,
             timeout)
 
-    def __get_image(self, container: dict, html: str, download, log):
+    async def __get_image(self, container: dict, html: str, download, log, bar):
         urls = self.image.get_image_link(html)
-        # rich_log(log, urls)  # 调试代码
+        # self.rich_log(log, urls)  # 调试代码
         if download:
-            self.download.run(urls, self.__naming_rules(container), 1)
+            await self.download.run(urls, self.__naming_rules(container), 1, log, bar)
         container["下载地址"] = urls
 
-    def __get_video(self, container: dict, html: str, download, log):
+    async def __get_video(self, container: dict, html: str, download, log, bar):
         url = self.video.get_video_link(html)
-        # rich_log(log, url)  # 调试代码
+        # self.rich_log(log, url)  # 调试代码
         if download:
-            self.download.run(url, self.__naming_rules(container), 0)
+            await self.download.run(url, self.__naming_rules(container), 0, log, bar)
         container["下载地址"] = url
 
-    def extract(self, url: str, download=False, log=None) -> list[dict]:
-        urls = self.__deal_links(url)
-        # rich_log(log, urls)  # 调试代码
+    async def extract(self, url: str, download=False, log=None, bar=None) -> list[dict]:
+        # return  # 调试代码
+        urls = await self.__deal_links(url)
+        # self.rich_log(log, urls)  # 调试代码
         # return urls  # 调试代码
-        return [self.__deal_extract(i, download, log) for i in urls]
+        return [await self.__deal_extract(i, download, log, bar) for i in urls]
 
-    def __deal_links(self, url: str) -> list:
+    async def __deal_links(self, url: str) -> list:
         urls = []
         for i in url.split():
             if u := self.short.search(i):
-                i = self.html.request_url(
-                    u.group(), headers=self.manager.headers, text=False)
+                i = await self.html.request_url(
+                    u.group(), False)
             if u := self.share.search(i):
                 urls.append(u.group())
             elif u := self.link.search(i):
                 urls.append(u.group())
         return urls
 
-    def __deal_extract(self, url: str, download: bool, log):
-        html = self.html.request_url(url)
-        # rich_log(log, html)  # 调试代码
+    async def __deal_extract(self, url: str, download: bool, log, bar):
+        html = await self.html.request_url(url)
+        # self.rich_log(log, html)  # 调试代码
         if not html:
             return {}
         data = self.explore.run(html)
-        # rich_log(log, data)  # 调试代码
+        # self.rich_log(log, data)  # 调试代码
         if not data:
             return {}
         if data["作品类型"] == "视频":
-            self.__get_video(data, html, download, log)
+            await self.__get_video(data, html, download, log, bar)
         else:
-            self.__get_image(data, html, download, log)
+            await self.__get_image(data, html, download, log, bar)
         return data
 
     @staticmethod
@@ -107,11 +110,19 @@ class XHS:
         """下载文件默认使用作品 ID 作为文件名，可修改此方法自定义文件名格式"""
         return data["作品ID"]
 
-    def __enter__(self):
+    async def __aenter__(self):
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    async def __aexit__(self, exc_type, exc_value, traceback):
         self.manager.clean()
+        await self.html.session.close()
+        await self.download.session.close()
+
+    def rich_log(self, log, text, style="b bright_green"):
+        if log:
+            log.write(Text(text, style=style))
+        else:
+            self.console.print(text, style=style)
 
 
 class XHSDownloader(App):
@@ -126,6 +137,9 @@ class XHSDownloader(App):
         ("d", "toggle_dark", "切换主题"),
     ]
 
+    def __init__(self):
+        super().__init__()
+
     def __enter__(self):
         return self
 
@@ -138,7 +152,10 @@ class XHSDownloader(App):
                                   Input(placeholder="多个链接之间使用空格分隔"),
                                   HorizontalScroll(Button("下载无水印图片/视频", id="deal"),
                                                    Button("读取剪贴板", id="paste"),
-                                                   Button("清空输入框", id="reset"), ))
+                                                   Button("清空输入框", id="reset"), ),
+                                  )
+        with Center():
+            yield ProgressBar(total=None)
         yield RichLog(markup=True)
         yield Footer()
 
@@ -158,6 +175,11 @@ class XHSDownloader(App):
     def deal(self):
         url = self.query_one(Input)
         log = self.query_one(RichLog)
-        if self.APP.extract(url.value, True, log=log):
-            pass
+        bar = self.query_one(ProgressBar)
+        if not url.value:
+            log.write(Text("未输入任何小红书作品链接！", style="yellow"))
+            return
+        _ = self.APP.extract(url.value, True, log=log, bar=bar)
+        if not _:
+            log.write(Text("获取小红书作品数据失败！", style="red"))
         url.value = ""

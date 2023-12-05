@@ -2,7 +2,7 @@ from pathlib import Path
 from shutil import move
 from shutil import rmtree
 
-__all__ = ['Manager', "rich_log"]
+__all__ = ["Manager"]
 
 
 class Manager:
@@ -27,8 +27,3 @@ class Manager:
 
     def clean(self):
         rmtree(self.temp.resolve())
-
-
-def rich_log(log, text):
-    if log:
-        log.write(text)

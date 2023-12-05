@@ -93,7 +93,7 @@ with XHS(path=path,
 <td align="center">Download</td>
 </tr>
 <tr>
-<td align="center">proxies</td>
+<td align="center">proxy</td>
 <td align="center">str</td>
 <td align="center">设置代理</td>
 <td align="center">无</td>

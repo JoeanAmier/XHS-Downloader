@@ -1,5 +1,9 @@
-from requests import exceptions
-from requests import get
+from aiohttp import ClientConnectionError
+from aiohttp import ClientProxyConnectionError
+from aiohttp import ClientSSLError
+from aiohttp import ClientSession
+
+# from aiohttp import ClientTimeout
 
 __all__ = ['Html']
 
@@ -9,39 +13,29 @@ class Html:
     def __init__(
             self,
             headers: dict,
-            proxies=None,
+            proxy: str = None,
             timeout=10, ):
-        self.headers = headers | {"Referer": "https://www.xiaohongshu.com/", }
-        self.proxies = {
-            "http": proxies,
-            "https": proxies,
-            "ftp": proxies,
-        }
-        self.timeout = timeout
+        self.proxy = proxy
+        self.session = ClientSession(
+            headers=headers | {
+                "Referer": "https://www.xiaohongshu.com/", })
 
-    def request_url(
+    async def request_url(
             self,
             url: str,
-            params=None,
-            headers=None,
             text=True, ) -> str:
         try:
-            response = get(
-                url,
-                params=params,
-                proxies=self.proxies,
-                timeout=self.timeout,
-                headers=headers or self.headers, )
+            async with self.session.get(
+                    url,
+                    proxy=self.proxy,
+            ) as response:
+                return await response.text() if text else response.url
         except (
-                exceptions.ProxyError,
-                exceptions.SSLError,
-                exceptions.ChunkedEncodingError,
-                exceptions.ConnectionError,
-                exceptions.ReadTimeout,
+                ClientProxyConnectionError,
+                ClientSSLError,
+                ClientConnectionError,
         ):
-            print("网络异常，获取网页源码失败！")
             return ""
-        return response.text if text else response.url
 
     @staticmethod
     def format_url(url: str) -> str:

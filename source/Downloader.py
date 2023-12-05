@@ -1,7 +1,11 @@
 from pathlib import Path
 
-from requests import exceptions
-from requests import get
+from aiohttp import ClientConnectionError
+from aiohttp import ClientProxyConnectionError
+from aiohttp import ClientSSLError
+from aiohttp import ClientSession
+
+# from aiohttp import ClientTimeout
 
 __all__ = ['Download']
 
@@ -14,20 +18,16 @@ class Download:
             root: Path,
             path: str,
             folder: str,
-            proxies=None,
+            proxy: str = None,
             chunk=1024 * 1024,
             timeout=10, ):
         self.manager = manager
         self.temp = manager.temp
-        self.headers = manager.headers
         self.root = self.__init_root(root, path, folder)
-        self.proxies = {
-            "http": proxies,
-            "https": proxies,
-            "ftp": proxies,
-        }
+        self.proxy = proxy
         self.chunk = chunk
-        self.timeout = timeout
+        # self.timeout = ClientTimeout(total=timeout)
+        self.session = ClientSession(headers=manager.headers)
 
     def __init_root(self, root: Path, path: str, folder: str) -> Path:
         if path and (r := Path(path)).is_dir():
@@ -38,29 +38,46 @@ class Download:
         self.temp.mkdir(exist_ok=True)
         return root
 
-    def run(self, urls: list, name: str, type_: int):
+    async def run(self, urls: list, name: str, type_: int, log, bar):
         if type_ == 0:
-            self.__download(urls[0], f"{name}.mp4")
+            await self.__download(urls[0], f"{name}.mp4", log, bar)
         elif type_ == 1:
             for index, url in enumerate(urls):
-                self.__download(url, f"{name}_{index + 1}.png")
+                await self.__download(url, f"{name}_{index + 1}.png", log, bar)
 
-    def __download(self, url: str, name: str):
+    async def __download(self, url: str, name: str, log, bar):
         temp = self.temp.joinpath(name)
         file = self.root.joinpath(name)
         if self.manager.is_exists(file):
             return
         try:
-            with get(url, headers=self.headers, proxies=self.proxies, stream=True, timeout=self.timeout) as response:
+            async with self.session.get(url, proxy=self.proxy) as response:
+                # self.__create_progress(bar, int(response.headers.get('content-length', 0)))
                 with temp.open("wb") as f:
-                    for chunk in response.iter_content(chunk_size=self.chunk):
+                    async for chunk in response.content.iter_chunked(self.chunk):
                         f.write(chunk)
+                        # self.__update_progress(bar, len(chunk))
+                # self.__remove_progress(bar)
             self.manager.move(temp, file)
         except (
-                exceptions.ProxyError,
-                exceptions.SSLError,
-                exceptions.ChunkedEncodingError,
-                exceptions.ConnectionError,
-                exceptions.ReadTimeout,
+                ClientProxyConnectionError,
+                ClientSSLError,
+                ClientConnectionError,
+                TimeoutError,
         ):
             self.manager.delete(temp)
+            # self.__remove_progress(bar)
+
+    # @staticmethod
+    # def __create_progress(bar, total: int | None):
+    #     if bar:
+    #         bar.update(total=total)
+    #
+    # @staticmethod
+    # def __update_progress(bar, advance: int):
+    #     if bar:
+    #         bar.advance(advance)
+    #
+    # @staticmethod
+    # def __remove_progress(bar):
+    #     pass

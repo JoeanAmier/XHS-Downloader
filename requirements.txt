@@ -1,2 +1,2 @@
-requests>=2.31.0
+aiohttp>=3.9.0
 textual>=0.40.0
