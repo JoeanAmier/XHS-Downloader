@@ -9,7 +9,8 @@ class Settings:
     default = {
         "path": "",
         "folder": "Download",
-        "proxies": None,
+        "user_agent": "",
+        "proxy": "",
         "timeout": 10,
         "chunk": 1024 * 1024,
     }

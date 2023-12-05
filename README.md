@@ -11,10 +11,11 @@
 <h1>📑 功能清单</h1>
 <ul>
 <li>✅ 采集小红书图文/视频作品信息</li>
-<li>✅ 获取小红书图文/视频作品文件下载地址</li>
+<li>✅ 提取小红书图文/视频作品文件下载地址</li>
 <li>✅ 下载小红书无水印图文/视频作品文件</li>
 <li>✅ 自动跳过已下载的作品文件</li>
 <li>✅ 作品文件完整性处理机制</li>
+<li>☑️ 采集作品信息储存至文件</li>
 </ul>
 <h1>📸 程序截图</h1>
 <br>
@@ -25,7 +26,7 @@
 <li><code>https://www.xiaohongshu.com/discovery/item/作品ID</code></li>
 <li><code>https://xhslink.com/分享码</code></li>
 <br/>
-<p><b>可以单次输入多个作品链接，链接之间使用空格分隔。</b></p>
+<p><b>支持单次输入多个作品链接，链接之间使用空格分隔。</b></p>
 </ul>
 <h1>🪟 关于终端</h1>
 <p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 自带默认终端）运行程序以便获得最佳显示效果！</p>
@@ -41,7 +42,7 @@
 <li>运行 <code>main.py</code> 即可使用</li>
 </ol>
 <h2>💻 二次开发</h2>
-<p>如果想要获取小红书图文/视频作品信息，可以根据 <code>main.py</code> 的注释提示进行代码调用。</p>
+<p>如果需要获取小红书图文/视频作品信息，可以根据 <code>main.py</code> 的注释提示进行代码调用。</p>
 <pre>
 # 测试链接
 error_demo = "https://github.com/JoeanAmier/XHS_Downloader"
@@ -49,24 +50,26 @@ image_demo = "https://www.xiaohongshu.com/explore/63b275a30000000019020185"
 video_demo = "https://www.xiaohongshu.com/explore/64edb460000000001f03cadc"
 multiple_demo = f"{image_demo} {video_demo}"
 # 实例对象
-path = "D:\\"  # 作品下载储存根路径，默认值：当前路径
+path = ""  # 作品下载储存根路径，默认值：当前路径
 folder = "Download"  # 作品下载文件夹名称（自动创建），默认值：Download
-proxies = None  # 网络代理
+user_agent = ""  # 请求头 User-Agent
+proxy = None  # 网络代理
 timeout = 5  # 网络请求超时限制，默认值：10
 chunk = 1024 * 1024  # 下载文件时，每次从服务器获取的数据块大小，单位字节
-# with XHS() as xhs:
+# async with XHS() as xhs:
 #     pass  # 使用默认参数
-with XHS(path=path,
-         folder=folder,
-         proxies=proxies,
-         timeout=timeout,
-         chunk=chunk) as xhs:  # 使用自定义参数
+async with XHS(path=path,
+               folder=folder,
+               user_agent=user_agent,
+               proxy=proxy,
+               timeout=timeout,
+               chunk=chunk) as xhs:  # 使用自定义参数
     download = True  # 是否下载作品文件，默认值：False
     # 返回作品详细信息，包括下载地址
-    print(xhs.extract(error_demo))  # 获取数据失败时返回空字典
-    print(xhs.extract(image_demo, download=download))
-    print(xhs.extract(video_demo, download=download))
-    print(xhs.extract(multiple_demo, download=download))
+    print(await xhs.extract(error_demo, download=download))  # 获取数据失败时返回空字典
+    print(await xhs.extract(image_demo, download=download))
+    print(await xhs.extract(video_demo, download=download))
+    print(await xhs.extract(multiple_demo, download=download))  # 支持传入多个作品链接
 </pre>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>settings.json</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
@@ -83,7 +86,7 @@ with XHS(path=path,
 <tr>
 <td align="center">path</td>
 <td align="center">str</td>
-<td align="center">作品文件储存根路径</td>
+<td align="center">作品数据 / 文件保存根路径</td>
 <td align="center">项目根路径</td>
 </tr>
 <tr>
@@ -91,6 +94,12 @@ with XHS(path=path,
 <td align="center">str</td>
 <td align="center">作品文件储存文件夹名称</td>
 <td align="center">Download</td>
+</tr>
+<tr>
+<td align="center">user_agent</td>
+<td align="center">str</td>
+<td align="center">请求头 User-Agent</td>
+<td align="center">内置 UA</td>
 </tr>
 <tr>
 <td align="center">proxy</td>

@@ -1,9 +1,6 @@
-from aiohttp import ClientConnectionError
-from aiohttp import ClientProxyConnectionError
-from aiohttp import ClientSSLError
 from aiohttp import ClientSession
-
-# from aiohttp import ClientTimeout
+from aiohttp import ClientTimeout
+from aiohttp import ServerTimeoutError
 
 __all__ = ['Html']
 
@@ -18,7 +15,9 @@ class Html:
         self.proxy = proxy
         self.session = ClientSession(
             headers=headers | {
-                "Referer": "https://www.xiaohongshu.com/", })
+                "Referer": "https://www.xiaohongshu.com/", },
+            timeout=ClientTimeout(connect=timeout),
+        )
 
     async def request_url(
             self,
@@ -30,11 +29,7 @@ class Html:
                     proxy=self.proxy,
             ) as response:
                 return await response.text() if text else response.url
-        except (
-                ClientProxyConnectionError,
-                ClientSSLError,
-                ClientConnectionError,
-        ):
+        except ServerTimeoutError:
             return ""
 
     @staticmethod

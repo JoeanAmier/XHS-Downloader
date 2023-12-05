@@ -30,20 +30,27 @@ __all__ = ['XHS', 'XHSDownloader']
 
 class XHS:
     ROOT = Path(__file__).resolve().parent.parent
-    link = compile(r"https://www\.xiaohongshu\.com/explore/[a-z0-9]+")
-    share = compile(r"https://www\.xiaohongshu\.com/discovery/item/[a-z0-9]+")
-    short = compile(r"https://xhslink\.com/[A-Za-z0-9]+")
+    LINK = compile(r"https://www\.xiaohongshu\.com/explore/[a-z0-9]+")
+    SHARE = compile(r"https://www\.xiaohongshu\.com/discovery/item/[a-z0-9]+")
+    SHORT = compile(r"https://xhslink\.com/[A-Za-z0-9]+")
+    __INSTANCE = None
+
+    def __new__(cls, *args, **kwargs):
+        if not cls.__INSTANCE:
+            cls.__INSTANCE = super().__new__(cls)
+        return cls.__INSTANCE
 
     def __init__(
             self,
             path="",
             folder="Download",
-            proxy=None,
+            user_agent: str = None,
+            proxy: str = None,
             timeout=10,
             chunk=1024 * 1024,
             **kwargs,
     ):
-        self.manager = Manager(self.ROOT)
+        self.manager = Manager(self.ROOT, user_agent)
         self.html = Html(self.manager.headers, proxy, timeout)
         self.image = Image()
         self.video = Video()
@@ -81,12 +88,12 @@ class XHS:
     async def __deal_links(self, url: str) -> list:
         urls = []
         for i in url.split():
-            if u := self.short.search(i):
+            if u := self.SHORT.search(i):
                 i = await self.html.request_url(
                     u.group(), False)
-            if u := self.share.search(i):
+            if u := self.SHARE.search(i):
                 urls.append(u.group())
-            elif u := self.link.search(i):
+            elif u := self.LINK.search(i):
                 urls.append(u.group())
         return urls
 
@@ -118,18 +125,19 @@ class XHS:
         await self.html.session.close()
         await self.download.session.close()
 
-    def rich_log(self, log, text, style="b bright_green"):
+    @staticmethod
+    def rich_log(log, text, style="b bright_green"):
         if log:
             log.write(Text(text, style=style))
         else:
-            self.console.print(text, style=style)
+            print(text)
 
 
 class XHSDownloader(App):
     VERSION = 1.6
     BETA = True
     ROOT = Path(__file__).resolve().parent.parent
-    APP = XHS(**Settings(ROOT).run())
+    # APP = XHS(**Settings(ROOT).run())
     CSS_PATH = ROOT.joinpath(
         "static/XHS-Downloader.tcss")
     BINDINGS = [
