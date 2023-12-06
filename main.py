@@ -11,7 +11,7 @@ async def example():
     video_demo = "https://www.xiaohongshu.com/explore/64edb460000000001f03cadc"
     multiple_demo = f"{image_demo} {video_demo}"
     # 实例对象
-    path = "D:\\"  # 作品下载储存根路径，默认值：当前路径
+    path = ""  # 作品下载储存根路径，默认值：当前路径
     folder = "Download"  # 作品下载文件夹名称（自动创建），默认值：Download
     proxies = None  # 网络代理
     timeout = 5  # 网络请求超时限制，默认值：10
