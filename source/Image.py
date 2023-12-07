@@ -26,13 +26,14 @@ class Image:
         return f"https://ci.xiaohongshu.com/{token}?imageView2/2/w/format/png"
 
     def __extract_image_token(self, url: str) -> str:
-        return self.__generate_image_link(token.group(1)) if (token := self.IMAGE_TOKEN.search(url)) else ""
+        return self.__generate_image_link(token.group(1)) if (
+            token := self.IMAGE_TOKEN.search(url)) else ""
 
     def __extract_image_urls(self, data: list[dict]) -> list[str]:
         urls = []
         for i in data:
             for j in i.get("infoList", []):
-                if j.get("imageScene", "").startswith("CRD_WM_"):
+                if j.get("imageScene", "") == "WB_DFT":
                     urls.append(self.__extract_image_token(j.get("url", "")))
                     break
         return [i for i in urls if i]

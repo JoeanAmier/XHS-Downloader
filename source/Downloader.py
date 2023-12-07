@@ -2,7 +2,11 @@ from pathlib import Path
 
 from aiohttp import ClientSession
 from aiohttp import ClientTimeout
+from aiohttp import ServerDisconnectedError
 from aiohttp import ServerTimeoutError
+from rich.text import Text
+
+from .Html import retry
 
 __all__ = ['Download']
 
@@ -15,9 +19,10 @@ class Download:
             root: Path,
             path: str,
             folder: str,
-            proxy: str = None,
+            proxy: str = "",
             chunk=1024 * 1024,
-            timeout=10, ):
+            timeout=10,
+            retry_=5, ):
         self.manager = manager
         self.temp = manager.temp
         self.root = self.__init_root(root, path, folder)
@@ -26,6 +31,7 @@ class Download:
         self.session = ClientSession(
             headers=manager.headers,
             timeout=ClientTimeout(connect=timeout))
+        self.retry = retry_
 
     def __init_root(self, root: Path, path: str, folder: str) -> Path:
         if path and (r := Path(path)).is_dir():
@@ -45,11 +51,13 @@ class Download:
         else:
             raise ValueError
 
+    @retry
     async def __download(self, url: str, name: str, log, bar):
         temp = self.temp.joinpath(name)
         file = self.root.joinpath(name)
         if self.manager.is_exists(file):
-            return
+            self.rich_log(log, f"{name} 已存在，跳过下载")
+            return True
         try:
             async with self.session.get(url, proxy=self.proxy) as response:
                 self.__create_progress(
@@ -62,9 +70,16 @@ class Download:
                         self.__update_progress(bar, len(chunk))
             self.manager.move(temp, file)
             self.__create_progress(bar, None)
-        except ServerTimeoutError:
+            self.rich_log(log, f"{name} 下载成功")
+            return True
+        except (
+                ServerTimeoutError,
+                ServerDisconnectedError,
+        ):
             self.manager.delete(temp)
             self.__create_progress(bar, None)
+            self.rich_log(log, f"{name} 下载失败", "bright_red")
+            return False
 
     @staticmethod
     def __create_progress(bar, total: int | None):
@@ -75,3 +90,10 @@ class Download:
     def __update_progress(bar, advance: int):
         if bar:
             bar.advance(advance)
+
+    @staticmethod
+    def rich_log(log, text, style="bright_green"):
+        if log:
+            log.write(Text(text, style=f"b {style}"))
+        else:
+            print(text)

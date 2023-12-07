@@ -19,7 +19,9 @@
 </ul>
 <h1>📸 程序截图</h1>
 <br>
-<img src="static/程序运行截图.png" alt="">
+<img src="static/程序运行截图1.png" alt="">
+<hr>
+<img src="static/程序运行截图2.png" alt="">
 <h1>🔗 支持链接</h1>
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/作品ID</code></li>
@@ -50,26 +52,28 @@ image_demo = "https://www.xiaohongshu.com/explore/63b275a30000000019020185"
 video_demo = "https://www.xiaohongshu.com/explore/64edb460000000001f03cadc"
 multiple_demo = f"{image_demo} {video_demo}"
 # 实例对象
-path = ""  # 作品下载储存根路径，默认值：当前路径
-folder = "Download"  # 作品下载文件夹名称（自动创建），默认值：Download
+path = ""  # 作品数据/文件保存根路径，默认值：项目根路径
+folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
 user_agent = ""  # 请求头 User-Agent
-proxy = None  # 网络代理
-timeout = 5  # 网络请求超时限制，默认值：10
-chunk = 1024 * 1024  # 下载文件时，每次从服务器获取的数据块大小，单位字节
+proxy = ""  # 网络代理
+timeout = 5  # 网络请求超时限制，单位：秒，默认值：10
+chunk = 1024 * 1024  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
+max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，默认值：5
 # async with XHS() as xhs:
 #     pass  # 使用默认参数
 async with XHS(path=path,
-               folder=folder,
+               folder_name=folder_name,
                user_agent=user_agent,
                proxy=proxy,
                timeout=timeout,
-               chunk=chunk) as xhs:  # 使用自定义参数
+               chunk=chunk,
+               max_retry=max_retry, ) as xhs:  # 使用自定义参数
     download = True  # 是否下载作品文件，默认值：False
     # 返回作品详细信息，包括下载地址
-    print(await xhs.extract(error_demo, download=download))  # 获取数据失败时返回空字典
-    print(await xhs.extract(image_demo, download=download))
-    print(await xhs.extract(video_demo, download=download))
-    print(await xhs.extract(multiple_demo, download=download))  # 支持传入多个作品链接
+    print(await xhs.extract(error_demo, download))  # 获取数据失败时返回空字典
+    print(await xhs.extract(image_demo, download))
+    print(await xhs.extract(video_demo, download))
+    print(await xhs.extract(multiple_demo, download))  # 支持传入多个作品链接
 </pre>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>settings.json</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
@@ -90,7 +94,7 @@ async with XHS(path=path,
 <td align="center">项目根路径</td>
 </tr>
 <tr>
-<td align="center">folder</td>
+<td align="center">folder_name</td>
 <td align="center">str</td>
 <td align="center">作品文件储存文件夹名称</td>
 <td align="center">Download</td>
@@ -99,7 +103,7 @@ async with XHS(path=path,
 <td align="center">user_agent</td>
 <td align="center">str</td>
 <td align="center">请求头 User-Agent</td>
-<td align="center">内置 UA</td>
+<td align="center">默认 UA</td>
 </tr>
 <tr>
 <td align="center">proxy</td>
@@ -118,6 +122,12 @@ async with XHS(path=path,
 <td align="center">int</td>
 <td align="center">下载文件时，每次从服务器获取的数据块大小，单位：字节</td>
 <td align="center">1048576(1 MB)</td>
+</tr>
+<tr>
+<td align="center">max_retry</td>
+<td align="center">int</td>
+<td align="center">请求数据失败时，重试的最大次数，单位：秒</td>
+<td align="center">5</td>
 </tr>
 </tbody>
 </table>

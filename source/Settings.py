@@ -8,11 +8,12 @@ __all__ = ['Settings']
 class Settings:
     default = {
         "path": "",
-        "folder": "Download",
+        "folder_name": "Download",
         "user_agent": "",
         "proxy": "",
         "timeout": 10,
         "chunk": 1024 * 1024,
+        "max_retry": 5,
     }
 
     def __init__(self, root: Path):

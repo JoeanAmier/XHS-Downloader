@@ -4,10 +4,10 @@ Button {
     text-style: bold;
 }
 Button#deal, Button#paste {
-    tint: green 40%;
+    tint: #27ae60 60%;
 }
 Button#reset {
-    tint: red 40%;
+    tint: #c0392b 60%;
 }
 Label {
     width: 100%;
@@ -15,4 +15,7 @@ Label {
     content-align-horizontal: center;
     content-align-vertical: middle;
     text-style: bold;
+}
+Bar > .bar--indeterminate {
+    color: #2ed573;
 }
