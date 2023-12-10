@@ -6,7 +6,7 @@ from rich.text import Text
 from textual.app import App
 from textual.app import ComposeResult
 from textual.binding import Binding
-from textual.containers import Center
+# from textual.containers import Center
 from textual.containers import HorizontalScroll
 from textual.containers import ScrollableContainer
 from textual.widgets import Button
@@ -28,8 +28,8 @@ from .Video import Video
 __all__ = ['XHS', 'XHSDownloader']
 
 RELEASES = "https://github.com/JoeanAmier/XHS-Downloader/releases/latest"
-VERSION = 1.6
-BETA = False
+VERSION = 1.7
+BETA = True
 ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -49,13 +49,14 @@ class XHS:
             path="",
             folder_name="Download",
             user_agent: str = None,
+            cookie: str = None,
             proxy: str = "",
             timeout=10,
             chunk=1024 * 1024,
             max_retry=5,
             **kwargs,
     ):
-        self.manager = Manager(ROOT, user_agent, max_retry)
+        self.manager = Manager(ROOT, user_agent, cookie, max_retry)
         self.html = Html(
             self.manager.headers,
             proxy,
@@ -175,10 +176,10 @@ class XHSDownloader(App):
                                   HorizontalScroll(Button("下载无水印图片/视频", id="deal"),
                                                    Button("读取剪贴板", id="paste"),
                                                    Button("清空输入框", id="reset"), ),
-                                  Label(Text("程序状态", style="b bright_blue")),
+                                  # Label(Text("程序状态", style="b bright_blue")),
                                   )
-        with Center():
-            yield ProgressBar(total=None)
+        # with Center():
+        #     yield ProgressBar(total=None)
         yield RichLog(markup=True)
         yield Footer()
 

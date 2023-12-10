@@ -29,7 +29,7 @@ class Download:
         self.proxy = proxy
         self.chunk = chunk
         self.session = ClientSession(
-            headers=manager.headers,
+            headers={"User-Agent": manager.headers["User-Agent"]},
             timeout=ClientTimeout(connect=timeout))
         self.retry = retry_
 
@@ -60,16 +60,16 @@ class Download:
             return True
         try:
             async with self.session.get(url, proxy=self.proxy) as response:
-                self.__create_progress(
-                    bar, int(
-                        response.headers.get(
-                            'content-length', 0)) or None)
+                # self.__create_progress(
+                #     bar, int(
+                #         response.headers.get(
+                #             'content-length', 0)) or None)
                 with temp.open("wb") as f:
                     async for chunk in response.content.iter_chunked(self.chunk):
                         f.write(chunk)
-                        self.__update_progress(bar, len(chunk))
+                        # self.__update_progress(bar, len(chunk))
             self.manager.move(temp, file)
-            self.__create_progress(bar, None)
+            # self.__create_progress(bar, None)
             self.rich_log(log, f"{name} 下载成功")
             return True
         except (
@@ -77,19 +77,19 @@ class Download:
                 ServerDisconnectedError,
         ):
             self.manager.delete(temp)
-            self.__create_progress(bar, None)
+            # self.__create_progress(bar, None)
             self.rich_log(log, f"{name} 下载失败", "bright_red")
             return False
 
-    @staticmethod
-    def __create_progress(bar, total: int | None):
-        if bar:
-            bar.update(total=total)
+    # @staticmethod
+    # def __create_progress(bar, total: int | None):
+    #     if bar:
+    #         bar.update(total=total)
 
-    @staticmethod
-    def __update_progress(bar, advance: int):
-        if bar:
-            bar.advance(advance)
+    # @staticmethod
+    # def __update_progress(bar, advance: int):
+    #     if bar:
+    #         bar.advance(advance)
 
     @staticmethod
     def rich_log(log, text, style="bright_green"):

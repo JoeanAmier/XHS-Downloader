@@ -55,6 +55,7 @@ multiple_demo = f"{image_demo} {video_demo}"
 path = ""  # 作品数据/文件保存根路径，默认值：项目根路径
 folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
 user_agent = ""  # 请求头 User-Agent
+cookie = ""  # 小红书网页版 Cookie，无需登录
 proxy = ""  # 网络代理
 timeout = 5  # 网络请求超时限制，单位：秒，默认值：10
 chunk = 1024 * 1024  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
@@ -64,6 +65,7 @@ max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，
 async with XHS(path=path,
                folder_name=folder_name,
                user_agent=user_agent,
+               cookie=cookie,
                proxy=proxy,
                timeout=timeout,
                chunk=chunk,
@@ -106,6 +108,12 @@ async with XHS(path=path,
 <td align="center">默认 UA</td>
 </tr>
 <tr>
+<td align="center">cookie</td>
+<td align="center">str</td>
+<td align="center">小红书网页版 Cookie，无需登录</td>
+<td align="center">默认 Cookie</td>
+</tr>
+<tr>
 <td align="center">proxy</td>
 <td align="center">str</td>
 <td align="center">设置代理</td>
@@ -131,6 +139,16 @@ async with XHS(path=path,
 </tr>
 </tbody>
 </table>
+<h1>🌐 Cookie</h1>
+<ol>
+<li>打开浏览器（可选无痕模式启动），访问小红书任意网页</li>
+<li>按 <code>F12</code> 打开开发人员工具</li>
+<li>选择 <code>控制台</code> 选项卡</li>
+<li>输入 <code>document.cookie</code> 后回车确认</li>
+<li>输出内容即为所需 Cookie</li>
+</ol>
+<br>
+<img src="static/获取Cookie示意图.png" alt="">
 <h1>♥️ 支持项目</h1>
 <p>如果 <b>XHS-Downloader</b> 对您有帮助，请考虑为它点个 <b>Star</b> ⭐，感谢您的支持！</p>
 <table>

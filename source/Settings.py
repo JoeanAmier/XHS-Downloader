@@ -10,6 +10,7 @@ class Settings:
         "path": "",
         "folder_name": "Download",
         "user_agent": "",
+        "cookie": "",
         "proxy": "",
         "timeout": 10,
         "chunk": 1024 * 1024,
