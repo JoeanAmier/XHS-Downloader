@@ -14,7 +14,7 @@ from textual.widgets import Footer
 from textual.widgets import Header
 from textual.widgets import Input
 from textual.widgets import Label
-from textual.widgets import ProgressBar
+# from textual.widgets import ProgressBar
 from textual.widgets import RichLog
 
 from .Downloader import Download
@@ -209,7 +209,7 @@ class XHSDownloader(App):
             return
         self.url = self.query_one(Input)
         self.log_ = self.query_one(RichLog)
-        self.bar = self.query_one(ProgressBar)
+        # self.bar = self.query_one(ProgressBar)
 
     async def action_check_update(self):
         self.__init_objects()
