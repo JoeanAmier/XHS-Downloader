@@ -56,7 +56,13 @@ class XHS:
             max_retry=5,
             **kwargs,
     ):
-        self.manager = Manager(ROOT, user_agent, cookie, max_retry)
+        self.manager = Manager(
+            ROOT,
+            path,
+            folder_name,
+            user_agent,
+            cookie,
+            max_retry)
         self.html = Html(
             self.manager.headers,
             proxy,
@@ -67,28 +73,28 @@ class XHS:
         self.explore = Explore()
         self.download = Download(
             self.manager,
-            ROOT,
-            path,
-            folder_name,
             proxy,
             chunk,
-            timeout,
-            self.manager.retry, )
+            timeout, )
         self.rich_log = self.download.rich_log
 
     async def __get_image(self, container: dict, html: str, download, log, bar):
         urls = self.image.get_image_link(html)
         # self.rich_log(log, urls)  # 调试代码
+        name = self.__naming_rules(container)
         if download:
-            await self.download.run(urls, self.__naming_rules(container), 1, log, bar)
+            await self.download.run(urls, name, 1, log, bar)
         container["下载地址"] = urls
+        self.manager.save_data(name, container)
 
     async def __get_video(self, container: dict, html: str, download, log, bar):
         url = self.video.get_video_link(html)
         # self.rich_log(log, url)  # 调试代码
+        name = self.__naming_rules(container)
         if download:
-            await self.download.run(url, self.__naming_rules(container), 0, log, bar)
+            await self.download.run(url, name, 0, log, bar)
         container["下载地址"] = url
+        self.manager.save_data(name, container)
 
     async def extract(self, url: str, download=False, log=None, bar=None) -> list[dict]:
         # return  # 调试代码
@@ -131,10 +137,9 @@ class XHS:
         self.rich_log(log, f"完成处理：{url}")
         return data
 
-    @staticmethod
-    def __naming_rules(data: dict) -> str:
-        """下载文件默认使用作品 ID 作为文件名，可修改此方法自定义文件名格式"""
-        return data["作品ID"]
+    def __naming_rules(self, data: dict) -> str:
+        """下载文件默认使用 作品标题 或 作品 ID 作为文件名称，可修改此方法自定义文件名称格式"""
+        return self.manager.filter_name(data["作品标题"]) or data["作品ID"]
 
     async def __aenter__(self):
         return self

@@ -1,5 +1,3 @@
-from pathlib import Path
-
 from aiohttp import ClientSession
 from aiohttp import ClientTimeout
 from aiohttp import ServerDisconnectedError
@@ -16,31 +14,18 @@ class Download:
     def __init__(
             self,
             manager,
-            root: Path,
-            path: str,
-            folder: str,
             proxy: str = "",
             chunk=1024 * 1024,
-            timeout=10,
-            retry_=5, ):
+            timeout=10):
         self.manager = manager
+        self.folder = manager.folder
         self.temp = manager.temp
-        self.root = self.__init_root(root, path, folder)
         self.proxy = proxy
         self.chunk = chunk
         self.session = ClientSession(
             headers={"User-Agent": manager.headers["User-Agent"]},
             timeout=ClientTimeout(connect=timeout))
-        self.retry = retry_
-
-    def __init_root(self, root: Path, path: str, folder: str) -> Path:
-        if path and (r := Path(path)).is_dir():
-            root = r.joinpath(folder or "Download")
-        else:
-            root = root.joinpath(folder or "Download")
-        root.mkdir(exist_ok=True)
-        self.temp.mkdir(exist_ok=True)
-        return root
+        self.retry = manager.retry
 
     async def run(self, urls: list, name: str, type_: int, log, bar):
         if type_ == 0:
@@ -54,7 +39,7 @@ class Download:
     @retry
     async def __download(self, url: str, name: str, log, bar):
         temp = self.temp.joinpath(name)
-        file = self.root.joinpath(name)
+        file = self.folder.joinpath(name)
         if self.manager.is_exists(file):
             self.rich_log(log, f"{name} 已存在，跳过下载")
             return True
