@@ -23,7 +23,7 @@ class Image:
 
     @staticmethod
     def __generate_image_link(token: str) -> str:
-        return f"https://ci.xiaohongshu.com/{token}?imageView2/2/w/format/png"
+        return f"https://sns-img-bd.xhscdn.com/{token}"
 
     def __extract_image_token(self, url: str) -> str:
         return self.__generate_image_link(token.group(1)) if (

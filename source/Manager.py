@@ -19,7 +19,10 @@ class Manager:
             folder: str,
             user_agent: str,
             cookie: str,
-            retry: int):
+            retry: int,
+            record_data: bool,
+            image_format: str,
+    ):
         self.root = root
         self.temp = root.joinpath("./temp")
         self.folder = self.__init_root(root, path, folder)
@@ -34,6 +37,8 @@ class Manager:
                                 "-bcc2-a859e97518bf; unread={%22ub%22:%22655eb3d60000000032033955%22%2C%22ue%22:%22656"
                                 "e9ef2000000003801ff3d%22%2C%22uc%22:29}; cache_feeds=[]"}
         self.retry = retry
+        self.record_data = record_data
+        self.image_format = image_format
 
     def __init_root(self, root: Path, path: str, folder: str) -> Path:
         if path and (r := Path(path)).is_dir():
@@ -61,9 +66,11 @@ class Manager:
 
     def filter_name(self, name: str) -> str:
         name = self.NAME.sub("_", name)
-        return sub(r"_+", "_", name)
+        return sub(r"_+", "_", name).strip("_")
 
     def save_data(self, name: str, data: dict):
+        if not self.record_data:
+            return
         with self.folder.joinpath(f"{name}.txt").open("a", encoding="utf-8") as f:
             time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             content = f"{

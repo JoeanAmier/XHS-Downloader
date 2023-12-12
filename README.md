@@ -11,11 +11,13 @@
 <h1>📑 功能清单</h1>
 <ul>
 <li>✅ 采集小红书图文/视频作品信息</li>
-<li>✅ 提取小红书图文/视频作品文件下载地址</li>
+<li>✅ 提取小红书图文/视频作品下载地址</li>
 <li>✅ 下载小红书无水印图文/视频作品文件</li>
 <li>✅ 自动跳过已下载的作品文件</li>
 <li>✅ 作品文件完整性处理机制</li>
-<li>☑️ 采集作品信息储存至文件</li>
+<li>✅ 持久化储存作品信息至文件</li>
+<li>☑️ 后台监听剪贴板下载作品</li>
+<li>☑️ 支持 API 调用功能</li>
 </ul>
 <h1>📸 程序截图</h1>
 <br>
@@ -136,6 +138,18 @@ async with XHS(path=path,
 <td align="center">int</td>
 <td align="center">请求数据失败时，重试的最大次数，单位：秒</td>
 <td align="center">5</td>
+</tr>
+<tr>
+<td align="center">record_data</td>
+<td align="center">bool</td>
+<td align="center">是否记录作品数据至文件</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">image_format</td>
+<td align="center">str</td>
+<td align="center">图文作品文件名称后缀，例如：<code>jpg</code>、<code>png</code></td>
+<td align="center">webp</td>
 </tr>
 </tbody>
 </table>

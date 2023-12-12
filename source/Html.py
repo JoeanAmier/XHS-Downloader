@@ -3,7 +3,7 @@ from aiohttp import ClientTimeout
 from aiohttp import ServerDisconnectedError
 from aiohttp import ServerTimeoutError
 
-__all__ = ['Html']
+__all__ = ["Html", "retry"]
 
 
 def retry(function):

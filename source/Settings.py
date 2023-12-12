@@ -16,6 +16,8 @@ class Settings:
         "timeout": 10,
         "chunk": 1024 * 1024,
         "max_retry": 5,
+        "record_data": False,
+        "image_format": "webp",
     }
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"
 

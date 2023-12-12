@@ -38,6 +38,10 @@ class XHS:
     SHARE = compile(r"https://www\.xiaohongshu\.com/discovery/item/[a-z0-9]+")
     SHORT = compile(r"https://xhslink\.com/[A-Za-z0-9]+")
     __INSTANCE = None
+    TYPE = {
+        "视频": "v",
+        "图文": "n",
+    }
 
     def __new__(cls, *args, **kwargs):
         if not cls.__INSTANCE:
@@ -54,6 +58,8 @@ class XHS:
             timeout=10,
             chunk=1024 * 1024,
             max_retry=5,
+            record_data=False,
+            image_format="webp",
             **kwargs,
     ):
         self.manager = Manager(
@@ -62,7 +68,10 @@ class XHS:
             folder_name,
             user_agent,
             cookie,
-            max_retry)
+            max_retry,
+            record_data,
+            image_format,
+        )
         self.html = Html(
             self.manager.headers,
             proxy,
@@ -78,27 +87,21 @@ class XHS:
             timeout, )
         self.rich_log = self.download.rich_log
 
-    async def __get_image(self, container: dict, html: str, download, log, bar):
-        urls = self.image.get_image_link(html)
-        # self.rich_log(log, urls)  # 调试代码
-        name = self.__naming_rules(container)
-        if download:
-            await self.download.run(urls, name, 1, log, bar)
-        container["下载地址"] = urls
-        self.manager.save_data(name, container)
+    def __extract_image(self, container: dict, html: str):
+        container["下载地址"] = self.image.get_image_link(html)
 
-    async def __get_video(self, container: dict, html: str, download, log, bar):
-        url = self.video.get_video_link(html)
-        # self.rich_log(log, url)  # 调试代码
+    def __extract_video(self, container: dict, html: str):
+        container["下载地址"] = self.video.get_video_link(html)
+
+    async def __download_files(self, container: dict, download: bool, log, bar):
         name = self.__naming_rules(container)
-        if download:
-            await self.download.run(url, name, 0, log, bar)
-        container["下载地址"] = url
+        if download and (u := container["下载地址"]):
+            await self.download.run(u, name, self.TYPE[container["作品类型"]], log, bar)
         self.manager.save_data(name, container)
 
     async def extract(self, url: str, download=False, log=None, bar=None) -> list[dict]:
         # return  # 调试代码
-        urls = await self.__deal_links(url)
+        urls = await self.__extract_links(url)
         if not urls:
             self.rich_log(log, "提取小红书作品链接失败", "bright_red")
         else:
@@ -106,7 +109,7 @@ class XHS:
         # return urls  # 调试代码
         return [await self.__deal_extract(i, download, log, bar) for i in urls]
 
-    async def __deal_links(self, url: str) -> list:
+    async def __extract_links(self, url: str) -> list:
         urls = []
         for i in url.split():
             if u := self.SHORT.search(i):
@@ -130,10 +133,14 @@ class XHS:
         if not data:
             self.rich_log(log, f"{url} 提取数据失败", "bright_red")
             return {}
-        if data["作品类型"] == "视频":
-            await self.__get_video(data, html, download, log, bar)
-        else:
-            await self.__get_image(data, html, download, log, bar)
+        match data["作品类型"]:
+            case "视频":
+                self.__extract_video(data, html)
+            case "图文":
+                self.__extract_image(data, html)
+            case _:
+                data["下载地址"] = []
+        await self.__download_files(data, download, log, bar)
         self.rich_log(log, f"完成处理：{url}")
         return data
 
@@ -145,6 +152,9 @@ class XHS:
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
+        await self.close()
+
+    async def close(self):
         self.manager.clean()
         await self.html.session.close()
         await self.download.session.close()

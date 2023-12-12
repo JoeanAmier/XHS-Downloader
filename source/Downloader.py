@@ -4,7 +4,7 @@ from aiohttp import ServerDisconnectedError
 from aiohttp import ServerTimeoutError
 from rich.text import Text
 
-from .Html import retry
+from .Html import retry as re_download
 
 __all__ = ['Download']
 
@@ -26,17 +26,18 @@ class Download:
             headers={"User-Agent": manager.headers["User-Agent"]},
             timeout=ClientTimeout(connect=timeout))
         self.retry = manager.retry
+        self.image_format = manager.image_format
 
-    async def run(self, urls: list, name: str, type_: int, log, bar):
-        if type_ == 0:
+    async def run(self, urls: list, name: str, type_: str, log, bar):
+        if type_ == "v":
             await self.__download(urls[0], f"{name}.mp4", log, bar)
-        elif type_ == 1:
+        elif type_ == "n":
             for index, url in enumerate(urls, start=1):
-                await self.__download(url, f"{name}_{index}.png", log, bar)
+                await self.__download(url, f"{name}_{index}.{self.image_format}", log, bar)
         else:
             raise ValueError
 
-    @retry
+    @re_download
     async def __download(self, url: str, name: str, log, bar):
         temp = self.temp.joinpath(name)
         file = self.folder.joinpath(name)
