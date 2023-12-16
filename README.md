@@ -6,24 +6,24 @@
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/XHS-Downloader?style=for-the-badge&color=fff200">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/XHS-Downloader/total?style=for-the-badge&color=1b9cfc">
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/XHS-Downloader?style=for-the-badge&color=44bd32">
-<hr>
+<p>🔥 <b>小红书作品采集工具</b>：采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
 </div>
 <h1>📑 功能清单</h1>
 <ul>
-<li>✅ 采集小红书图文/视频作品信息</li>
-<li>✅ 提取小红书图文/视频作品下载地址</li>
-<li>✅ 下载小红书无水印图文/视频作品文件</li>
+<li>✅ 采集小红书图文 / 视频作品信息</li>
+<li>✅ 提取小红书图文 / 视频作品下载地址</li>
+<li>✅ 下载小红书无水印图文 / 视频作品文件</li>
 <li>✅ 自动跳过已下载的作品文件</li>
 <li>✅ 作品文件完整性处理机制</li>
 <li>✅ 持久化储存作品信息至文件</li>
+<li>✅ 作品文件储存至单独文件夹</li>
 <li>☑️ 后台监听剪贴板下载作品</li>
 <li>☑️ 支持 API 调用功能</li>
 </ul>
 <h1>📸 程序截图</h1>
 <br>
-<img src="static/程序运行截图1.png" alt="">
-<hr>
-<img src="static/程序运行截图2.png" alt="">
+<p><b>🎥 点击图片观看演示视频</b></p>
+<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/程序运行截图.png" alt=""></a>
 <h1>🔗 支持链接</h1>
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/作品ID</code></li>
@@ -35,18 +35,19 @@
 <h1>🪟 关于终端</h1>
 <p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 自带默认终端）运行程序以便获得最佳显示效果！</p>
 <h1>🥣 使用方法</h1>
-<p>如果仅需下载作品文件，选择 <b>直接运行</b> 或者 <b>源码运行</b> 均可，如果需要获取作品信息，则需要进行二次开发进行调用。</p>
-<h2>🖱 直接运行</h2>
-<p>前往 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
+<p>如果仅需下载无水印作品文件，建议选择 <b>程序运行</b>；如果有其他需求，建议选择 <b>源码运行</b>！</p>
+<h2>🖱 程序运行</h2>
+<p>Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
+<p>若通过此方式使用程序，文件默认下载路径：<code>.\_internal\Download</code>；配置文件路径：<code>.\_internal\settings.json</code></p>
 <h2>⌨️ 源码运行</h2>
 <ol>
 <li>安装版本号不低于 <code>3.12</code> 的 Python 解释器</li>
-<li>运行 <code>pip install -r requirements.txt</code> 命令安装程序所需模块</li>
+<li>运行 <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> 命令安装程序所需模块</li>
 <li>下载本项目最新的源码或 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
 <li>运行 <code>main.py</code> 即可使用</li>
 </ol>
-<h2>💻 二次开发</h2>
-<p>如果需要获取小红书图文/视频作品信息，可以根据 <code>main.py</code> 的注释提示进行代码调用。</p>
+<h1>💻 二次开发</h1>
+<p>如果有其他需求，可以根据 <code>main.py</code> 的注释提示进行代码调用或修改！</p>
 <pre>
 # 测试链接
 error_demo = "https://github.com/JoeanAmier/XHS_Downloader"
@@ -58,12 +59,15 @@ path = ""  # 作品数据/文件保存根路径，默认值：项目根路径
 folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
 user_agent = ""  # 请求头 User-Agent
 cookie = ""  # 小红书网页版 Cookie，无需登录
-proxy = ""  # 网络代理
-timeout = 5  # 网络请求超时限制，单位：秒，默认值：10
-chunk = 1024 * 1024  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
+proxy = None  # 网络代理
+timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
+chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
 max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，默认值：5
-# async with XHS() as xhs:
-#     pass  # 使用默认参数
+record_data = False  # 是否记录作品数据至文件
+image_format = "jpg"  # 图文作品文件名称后缀
+folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
+async with XHS() as xhs:
+    pass  # 使用默认参数
 async with XHS(path=path,
                folder_name=folder_name,
                user_agent=user_agent,
@@ -71,7 +75,11 @@ async with XHS(path=path,
                proxy=proxy,
                timeout=timeout,
                chunk=chunk,
-               max_retry=max_retry, ) as xhs:  # 使用自定义参数
+               max_retry=max_retry,
+               record_data=record_data,
+               image_format=image_format,
+               folder_mode=folder_mode,
+               ) as xhs:  # 使用自定义参数
     download = True  # 是否下载作品文件，默认值：False
     # 返回作品详细信息，包括下载地址
     print(await xhs.extract(error_demo, download))  # 获取数据失败时返回空字典
@@ -81,6 +89,7 @@ async with XHS(path=path,
 </pre>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>settings.json</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
+<p>如果您的计算机没有合适的程序编辑 JSON 文件，建议使用 <a href="https://try8.cn/tool/format/json">JSON 在线工具</a> 编辑配置文件内容</p>
 <table>
 <thead>
 <tr>
@@ -112,14 +121,14 @@ async with XHS(path=path,
 <tr>
 <td align="center">cookie</td>
 <td align="center">str</td>
-<td align="center">小红书网页版 Cookie，无需登录</td>
+<td align="center">小红书网页版 Cookie，<b>无需登录</b></td>
 <td align="center">默认 Cookie</td>
 </tr>
 <tr>
 <td align="center">proxy</td>
 <td align="center">str</td>
-<td align="center">设置代理</td>
-<td align="center">无</td>
+<td align="center">设置程序代理</td>
+<td align="center">null</td>
 </tr>
 <tr>
 <td align="center">timeout</td>
@@ -142,14 +151,26 @@ async with XHS(path=path,
 <tr>
 <td align="center">record_data</td>
 <td align="center">bool</td>
-<td align="center">是否记录作品数据至文件</td>
+<td align="center">是否记录作品数据至 <code>TXT</code> 文件</td>
 <td align="center">false</td>
 </tr>
 <tr>
 <td align="center">image_format</td>
 <td align="center">str</td>
-<td align="center">图文作品文件名称后缀，例如：<code>jpg</code>、<code>png</code></td>
+<td align="center">图文作品文件名称后缀，不影响实际文件格式</td>
 <td align="center">webp</td>
+</tr>
+<tr>
+<td align="center">video_format</td>
+<td align="center">str</td>
+<td align="center">视频作品文件名称后缀，不影响实际文件格式</td>
+<td align="center">mp4</td>
+</tr>
+<tr>
+<td align="center">folder_mode</td>
+<td align="center">bool</td>
+<td align="center">是否将每个作品的文件储存至单独的文件夹；文件夹名称与文件名称保持一致</td>
+<td align="center">false</td>
 </tr>
 </tbody>
 </table>

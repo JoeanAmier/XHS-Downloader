@@ -1,3 +1,4 @@
+from aiohttp import ClientOSError
 from aiohttp import ClientSession
 from aiohttp import ClientTimeout
 from aiohttp import ServerDisconnectedError
@@ -20,19 +21,14 @@ def retry(function):
 
 class Html:
 
-    def __init__(
-            self,
-            headers: dict,
-            proxy: str = "",
-            timeout=10,
-            retry_=5, ):
-        self.proxy = proxy
+    def __init__(self, manager, ):
+        self.proxy = manager.proxy
         self.session = ClientSession(
-            headers=headers | {
+            headers=manager.headers | {
                 "Referer": "https://www.xiaohongshu.com/", },
-            timeout=ClientTimeout(connect=timeout),
+            timeout=ClientTimeout(connect=manager.timeout),
         )
-        self.retry = retry_
+        self.retry = manager.retry
 
     @retry
     async def request_url(
@@ -48,6 +44,7 @@ class Html:
         except (
                 ServerTimeoutError,
                 ServerDisconnectedError,
+                ClientOSError,
         ):
             return ""
 

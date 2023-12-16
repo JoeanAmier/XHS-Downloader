@@ -18,10 +18,15 @@ class Manager:
             path: str,
             folder: str,
             user_agent: str,
+            chunk: int,
             cookie: str,
+            proxy: str,
+            timeout: int,
             retry: int,
             record_data: bool,
             image_format: str,
+            video_format: str,
+            folder_mode: bool,
     ):
         self.root = root
         self.temp = root.joinpath("./temp")
@@ -37,8 +42,13 @@ class Manager:
                                 "-bcc2-a859e97518bf; unread={%22ub%22:%22655eb3d60000000032033955%22%2C%22ue%22:%22656"
                                 "e9ef2000000003801ff3d%22%2C%22uc%22:29}; cache_feeds=[]"}
         self.retry = retry
+        self.chunk = chunk
         self.record_data = record_data
         self.image_format = image_format
+        self.video_format = video_format
+        self.folder_mode = folder_mode
+        self.timeout = timeout
+        self.proxy = proxy
 
     def __init_root(self, root: Path, path: str, folder: str) -> Path:
         if path and (r := Path(path)).is_dir():
@@ -56,6 +66,10 @@ class Manager:
     @staticmethod
     def delete(path: Path):
         path.unlink()
+
+    @staticmethod
+    def archive(root: Path, name: str, folder_mode: bool) -> Path:
+        return root.joinpath(name) if folder_mode else root
 
     @staticmethod
     def move(temp: Path, path: Path):

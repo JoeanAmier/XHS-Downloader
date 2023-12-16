@@ -11,11 +11,19 @@ Button#reset {
 }
 Label {
     width: 100%;
-    padding: 1;
     content-align-horizontal: center;
     content-align-vertical: middle;
     text-style: bold;
 }
+Label#prompt {
+    padding: 1;
+}
+Bar {
+    width: 33vw;
+}
 Bar > .bar--indeterminate {
-    color: #2ed573;
+    color: #7bed9f;
+}
+Bar > .bar--complete {
+    color: #ff7f50;
 }
