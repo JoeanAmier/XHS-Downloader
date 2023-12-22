@@ -7,7 +7,7 @@ __all__ = ['Image']
 class Image:
     IMAGE_INFO = compile(r'("infoList":\[\{.*?}])')
     IMAGE_TOKEN = compile(
-        r"http://sns-webpic-qc.xhscdn.com/\d+/\w+/(\w+)!")
+        r"http://sns-webpic-qc.xhscdn.com/\d+/\w+/([/\w]+)!")
 
     def get_image_link(self, html: str) -> list:
         data = self.__extract_image_data(html)
