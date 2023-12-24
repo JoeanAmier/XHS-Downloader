@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from aiohttp import ClientOSError
+from aiohttp import ClientPayloadError
 from aiohttp import ClientSession
 from aiohttp import ClientTimeout
 from aiohttp import ServerDisconnectedError
@@ -71,6 +72,7 @@ class Download:
                 ServerTimeoutError,
                 ServerDisconnectedError,
                 ClientOSError,
+                ClientPayloadError,
         ):
             self.manager.delete(temp)
             # self.__create_progress(bar, None)

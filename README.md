@@ -1,11 +1,14 @@
 <div align="center">
 <img src="static/XHS-Downloader.png" alt="" height="256" width="256"><br>
 <h1>XHS-Downloader</h1>
-<img alt="GitHub" src="https://img.shields.io/github/license/JoeanAmier/XHS-Downloader?style=for-the-badge">
-<img alt="GitHub forks" src="https://img.shields.io/github/forks/JoeanAmier/XHS-Downloader?style=for-the-badge&color=c56cf0">
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/XHS-Downloader?style=for-the-badge&color=fff200">
-<img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/XHS-Downloader/total?style=for-the-badge&color=1b9cfc">
-<img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/XHS-Downloader?style=for-the-badge&color=44bd32">
+<img alt="GitHub" src="https://img.shields.io/github/license/JoeanAmier/XHS-Downloader?style=for-the-badge&color=ff7a45">
+<img alt="GitHub forks" src="https://img.shields.io/github/forks/JoeanAmier/XHS-Downloader?style=for-the-badge&color=9254de">
+<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/XHS-Downloader?style=for-the-badge&color=ff7875">
+<img alt="Static Badge" src="https://img.shields.io/badge/UserScript-ffec3d?style=for-the-badge&logo=tampermonkey&logoColor=%2300485B">
+<br>
+<img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/JoeanAmier/XHS-Downloader?style=for-the-badge&color=73d13d">
+<img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/XHS-Downloader?style=for-the-badge&color=40a9ff">
+<img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/XHS-Downloader/total?style=for-the-badge&color=f759ab">
 <p>🔥 <b>小红书作品采集工具</b>：采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
 </div>
 <h1>📑 功能清单</h1>
@@ -184,6 +187,8 @@ async with XHS(path=path,
 </ol>
 <br>
 <img src="static/获取Cookie示意图.png" alt="">
+<h1>🕹 用户脚本</h1>
+<p>如果您的浏览器安装了 Tampermonkey 浏览器扩展程序，可以 <a href="https://github.com/JoeanAmier/XHS-Downloader/blob/master/static/XHS-Downloader.js">点击安装</a> 用户脚本，无需下载即可体验！</p>
 <h1>♥️ 支持项目</h1>
 <p>如果 <b>XHS-Downloader</b> 对您有帮助，请考虑为它点个 <b>Star</b> ⭐，感谢您的支持！</p>
 <table>

@@ -1,4 +1,5 @@
 from aiohttp import ClientOSError
+from aiohttp import ClientPayloadError
 from aiohttp import ClientSession
 from aiohttp import ClientTimeout
 from aiohttp import ServerDisconnectedError
@@ -45,6 +46,7 @@ class Html:
                 ServerTimeoutError,
                 ServerDisconnectedError,
                 ClientOSError,
+                ClientPayloadError,
         ):
             return ""
 
