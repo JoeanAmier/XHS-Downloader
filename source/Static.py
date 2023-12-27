@@ -19,8 +19,8 @@ __all__ = [
 ]
 
 VERSION_MAJOR = 1
-VERSION_MINOR = 7
-VERSION_BETA = False
+VERSION_MINOR = 8
+VERSION_BETA = True
 ROOT = Path(__file__).resolve().parent.parent
 
 REPOSITORY = "https://github.com/JoeanAmier/XHS-Downloader"

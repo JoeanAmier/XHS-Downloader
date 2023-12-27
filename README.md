@@ -188,7 +188,8 @@ async with XHS(path=path,
 <br>
 <img src="static/获取Cookie示意图.png" alt="">
 <h1>🕹 用户脚本</h1>
-<p>如果您的浏览器安装了 Tampermonkey 浏览器扩展程序，可以 <a href="https://github.com/JoeanAmier/XHS-Downloader/blob/master/static/XHS-Downloader.js">点击安装</a> 用户脚本，无需下载即可体验！</p>
+<p>如果您的浏览器安装了 Tampermonkey 浏览器扩展程序，可以 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">点击获取</a> 用户脚本，无需下载即可体验！</p>
+<p>可以使用 XHS-Downloader 用户脚本获取账号作品链接，搭配 XHS-Downloader 程序实现批量下载账号作品文件！</p>
 <h1>♥️ 支持项目</h1>
 <p>如果 <b>XHS-Downloader</b> 对您有帮助，请考虑为它点个 <b>Star</b> ⭐，感谢您的支持！</p>
 <table>
