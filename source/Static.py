@@ -15,7 +15,8 @@ __all__ = [
     "ERROR",
     "WARNING",
     "INFO",
-    "DISCLAIMER_TEXT"
+    "DISCLAIMER_TEXT",
+    "USERSCRIPT",
 ]
 
 VERSION_MAJOR = 1
@@ -43,6 +44,8 @@ DISCLAIMER_TEXT = (
     "",
     ">" * 50,
 )
+
+USERSCRIPT = "https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js"
 
 MASTER = "b #fff200"
 PROMPT = "b turquoise2"

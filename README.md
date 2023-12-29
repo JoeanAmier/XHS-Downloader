@@ -10,12 +10,14 @@
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/XHS-Downloader?style=for-the-badge&color=40a9ff">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/XHS-Downloader/total?style=for-the-badge&color=f759ab">
 <p>🔥 <b>小红书作品采集工具</b>：采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
+<p>❤️ 作者仅在 GitHub 发布 XHS-Downloader，未与任何个人或网站合作，且没有任何收费计划！</p>
 </div>
 <h1>📑 功能清单</h1>
 <ul>
 <li>✅ 采集小红书图文 / 视频作品信息</li>
 <li>✅ 提取小红书图文 / 视频作品下载地址</li>
 <li>✅ 下载小红书无水印图文 / 视频作品文件</li>
+<li>✅ 批量下载账号作品（搭配用户脚本）</li>
 <li>✅ 自动跳过已下载的作品文件</li>
 <li>✅ 作品文件完整性处理机制</li>
 <li>✅ 持久化储存作品信息至文件</li>
@@ -160,13 +162,13 @@ async with XHS(path=path,
 <tr>
 <td align="center">image_format</td>
 <td align="center">str</td>
-<td align="center">图文作品文件名称后缀，不影响实际文件格式</td>
+<td align="center">图文作品文件名称后缀，不影响实际文件格式，仅在无法判断文件类型时生效</td>
 <td align="center">webp</td>
 </tr>
 <tr>
 <td align="center">video_format</td>
 <td align="center">str</td>
-<td align="center">视频作品文件名称后缀，不影响实际文件格式</td>
+<td align="center">视频作品文件名称后缀，不影响实际文件格式，仅在无法判断文件类型时生效</td>
 <td align="center">mp4</td>
 </tr>
 <tr>
@@ -189,7 +191,7 @@ async with XHS(path=path,
 <img src="static/获取Cookie示意图.png" alt="">
 <h1>🕹 用户脚本</h1>
 <p>如果您的浏览器安装了 Tampermonkey 浏览器扩展程序，可以 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">点击获取</a> 用户脚本，无需下载即可体验！</p>
-<p>可以使用 XHS-Downloader 用户脚本获取账号作品链接，搭配 XHS-Downloader 程序实现批量下载账号作品文件！</p>
+<p>可以使用 XHS-Downloader 用户脚本批量获取账号作品链接，搭配 XHS-Downloader 程序实现批量下载账号作品文件！</p>
 <h1>♥️ 支持项目</h1>
 <p>如果 <b>XHS-Downloader</b> 对您有帮助，请考虑为它点个 <b>Star</b> ⭐，感谢您的支持！</p>
 <table>

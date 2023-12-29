@@ -1,3 +1,5 @@
+from webbrowser import open
+
 from pyperclip import paste
 from rich.text import Text
 from textual.app import App
@@ -31,6 +33,7 @@ from .Static import (
     RELEASES,
     GENERAL,
     DISCLAIMER_TEXT,
+    USERSCRIPT,
 )
 
 
@@ -53,6 +56,7 @@ class XHSDownloader(App):
         Binding(key="q", action="quit", description="退出程序"),
         # ("d", "toggle_dark", "切换主题"),
         Binding(key="u", action="check_update", description="检查更新"),
+        Binding(key="m", action="user_script", description="获取脚本"),
     ]
 
     def __init__(self):
@@ -146,3 +150,7 @@ class XHSDownloader(App):
                 self.tip.write(Text("当前已是最新正式版！", style=INFO))
         except ValueError:
             self.tip.write(Text("检测新版本失败！", style=ERROR))
+
+    @staticmethod
+    def action_user_script():
+        open(USERSCRIPT)
