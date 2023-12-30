@@ -21,7 +21,7 @@ class Settings:
         "video_format": "mp4",
         "folder_mode": False,
     }
-    encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"
+    encode = "utf-8-sig"
 
     def __init__(self, root: Path):
         self.file = root.joinpath("./settings.json")

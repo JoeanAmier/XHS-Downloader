@@ -9,5 +9,4 @@ class Video:
     VIDEO_TOKEN = compile(r'"originVideoKey":"(\S+?)"')
 
     def get_video_link(self, html: str) -> list:
-        return [Html.format_url(f"https://sns-video-hw.xhscdn.com/{
-        t.group(1)}")] if (t := self.VIDEO_TOKEN.search(html)) else []
+        return [Html.format_url(f"https://sns-video-hw.xhscdn.com/{t.group(1)}")] if (t := self.VIDEO_TOKEN.search(html)) else []

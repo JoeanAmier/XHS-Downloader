@@ -91,8 +91,7 @@ class XHSDownloader(App):
         yield Footer()
 
     def on_mount(self) -> None:
-        self.title = f"XHS-Downloader V{VERSION_MAJOR}.{
-        VERSION_MINOR}{" Beta" if VERSION_BETA else ""}"
+        self.title = f"XHS-Downloader V{VERSION_MAJOR}.{VERSION_MINOR}{ 'Beta' if VERSION_BETA else ''}"
 
     def on_ready(self) -> None:
         self.url = self.query_one(Input)
