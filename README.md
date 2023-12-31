@@ -49,6 +49,13 @@
 <li>下载本项目最新的源码或 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
 <li>运行 <code>main.py</code> 即可使用</li>
 </ol>
+<h2>⌨️ Docker部署</h2>
+<ol>
+<li>下载本项目最新的源码或 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
+<li><code>cd XHS-Downloader</code>来到文件目录下</li>
+<li>运行 <code>docker build -t xhs-downloader .</code> 命令配置环境</li>
+<li>运行 <code>docker run -it --privileged=true xhs-downloader</code> 即可使用</li>
+</ol>
 <h1>💻 二次开发</h1>
 <p>如果有其他需求，可以根据 <code>main.py</code> 的注释提示进行代码调用或修改！</p>
 <pre>
