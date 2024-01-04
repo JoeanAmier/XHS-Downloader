@@ -1,53 +1,35 @@
-from aiohttp import ClientOSError
-from aiohttp import ClientPayloadError
-from aiohttp import ClientSession
-from aiohttp import ClientTimeout
-from aiohttp import ServerDisconnectedError
-from aiohttp import ServerTimeoutError
+from aiohttp import ClientError
 
-__all__ = ["Html", "retry"]
+from .Manager import Manager
+from .Static import ERROR
+from .Tools import logging
+from .Tools import retry
 
-
-def retry(function):
-    async def inner(self, *args, **kwargs):
-        if result := await function(self, *args, **kwargs):
-            return result
-        for _ in range(self.retry):
-            if result := await function(self, *args, **kwargs):
-                return result
-        return result
-
-    return inner
+__all__ = ["Html"]
 
 
 class Html:
-
-    def __init__(self, manager, ):
+    def __init__(self, manager: Manager, ):
         self.proxy = manager.proxy
-        self.session = ClientSession(
-            headers=manager.headers | {
-                "Referer": "https://www.xiaohongshu.com/", },
-            timeout=ClientTimeout(connect=manager.timeout),
-        )
         self.retry = manager.retry
+        self.session = manager.request_session
 
     @retry
     async def request_url(
             self,
             url: str,
-            text=True, ) -> str:
+            content=True,
+            log=None,
+    ) -> str:
         try:
             async with self.session.get(
                     url,
                     proxy=self.proxy,
             ) as response:
-                return await response.text() if text else str(response.url)
-        except (
-                ServerTimeoutError,
-                ServerDisconnectedError,
-                ClientOSError,
-                ClientPayloadError,
-        ):
+                return await response.text() if content else str(response.url)
+        except ClientError as error:
+            logging(log, error, ERROR)
+            logging(log, f"网络异常，请求 {url} 失败！", ERROR)
             return ""
 
     @staticmethod

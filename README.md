@@ -9,17 +9,20 @@
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/JoeanAmier/XHS-Downloader?style=for-the-badge&color=73d13d">
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/XHS-Downloader?style=for-the-badge&color=40a9ff">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/XHS-Downloader/total?style=for-the-badge&color=f759ab">
+<br>
 <p>🔥 <b>小红书作品采集工具</b>：采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
 <p>❤️ 作者仅在 GitHub 发布 XHS-Downloader，未与任何个人或网站合作，且没有任何收费计划！</p>
 </div>
-<h1>📑 功能清单</h1>
+<h1>📑 项目功能</h1>
 <ul>
 <li>✅ 采集小红书图文 / 视频作品信息</li>
 <li>✅ 提取小红书图文 / 视频作品下载地址</li>
 <li>✅ 下载小红书无水印图文 / 视频作品文件</li>
+<li>✅ 支持 Tampermonkey 用户脚本</li>
 <li>✅ 批量下载账号作品（搭配用户脚本）</li>
 <li>✅ 自动跳过已下载的作品文件</li>
 <li>✅ 作品文件完整性处理机制</li>
+<li>✅ 自定义图文作品文件下载格式</li>
 <li>✅ 持久化储存作品信息至文件</li>
 <li>✅ 作品文件储存至单独文件夹</li>
 <li>☑️ 后台监听剪贴板下载作品</li>
@@ -54,13 +57,12 @@
 <h1>💻 二次开发</h1>
 <p>如果有其他需求，可以根据 <code>main.py</code> 的注释提示进行代码调用或修改！</p>
 <pre>
-# 测试链接
-error_demo = "https://github.com/JoeanAmier/XHS_Downloader"
-image_demo = "https://www.xiaohongshu.com/explore/63b275a30000000019020185"
-video_demo = "https://www.xiaohongshu.com/explore/64edb460000000001f03cadc"
-multiple_demo = f"{image_demo} {video_demo}"
+# 示例链接
+error_link = "https://github.com/JoeanAmier/XHS_Downloader"
+demo_link = "https://www.xiaohongshu.com/explore/xxxxxxxxxx"
+multiple_links = f"{demo_link} {demo_link} {demo_link}"
 # 实例对象
-path = ""  # 作品数据/文件保存根路径，默认值：项目根路径
+work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
 folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
 user_agent = ""  # 请求头 User-Agent
 cookie = ""  # 小红书网页版 Cookie，无需登录
@@ -69,11 +71,11 @@ timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
 chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
 max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，默认值：5
 record_data = False  # 是否记录作品数据至文件
-image_format = "jpg"  # 图文作品文件名称后缀
+image_format = "WEBP"  # 图文作品文件下载格式，支持：PNG、WEBP
 folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
 async with XHS() as xhs:
     pass  # 使用默认参数
-async with XHS(path=path,
+async with XHS(work_path=work_path,
                folder_name=folder_name,
                user_agent=user_agent,
                cookie=cookie,
@@ -87,10 +89,9 @@ async with XHS(path=path,
                ) as xhs:  # 使用自定义参数
     download = True  # 是否下载作品文件，默认值：False
     # 返回作品详细信息，包括下载地址
-    print(await xhs.extract(error_demo, download))  # 获取数据失败时返回空字典
-    print(await xhs.extract(image_demo, download))
-    print(await xhs.extract(video_demo, download))
-    print(await xhs.extract(multiple_demo, download))  # 支持传入多个作品链接
+    print(await xhs.extract(error_link, download))  # 获取数据失败时返回空字典
+    print(await xhs.extract(demo_link, download))
+    print(await xhs.extract(multiple_links, download))  # 支持传入多个作品链接
 </pre>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>settings.json</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
@@ -106,7 +107,7 @@ async with XHS(path=path,
 </thead>
 <tbody>
 <tr>
-<td align="center">path</td>
+<td align="center">work_path</td>
 <td align="center">str</td>
 <td align="center">作品数据 / 文件保存根路径</td>
 <td align="center">项目根路径</td>
@@ -162,14 +163,8 @@ async with XHS(path=path,
 <tr>
 <td align="center">image_format</td>
 <td align="center">str</td>
-<td align="center">图文作品文件名称后缀，不影响实际文件格式，仅在无法判断文件类型时生效</td>
-<td align="center">webp</td>
-</tr>
-<tr>
-<td align="center">video_format</td>
-<td align="center">str</td>
-<td align="center">视频作品文件名称后缀，不影响实际文件格式，仅在无法判断文件类型时生效</td>
-<td align="center">mp4</td>
+<td align="center">图文作品文件下载格式，支持：<code>PNG</code>、<code>WEBP</code></td>
+<td align="center">PNG</td>
 </tr>
 <tr>
 <td align="center">folder_mode</td>

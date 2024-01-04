@@ -1,44 +1,40 @@
 from pathlib import Path
 
-from aiohttp import ClientOSError
-from aiohttp import ClientPayloadError
-from aiohttp import ClientSession
-from aiohttp import ClientTimeout
-from aiohttp import ServerDisconnectedError
-from aiohttp import ServerTimeoutError
-from rich.text import Text
+from aiohttp import ClientError
 
-from .Html import retry as re_download
-from .Static import ERROR, INFO
+from .Manager import Manager
+from .Static import ERROR
+from .Tools import logging
+from .Tools import retry as re_download
 
 __all__ = ['Download']
 
 
 class Download:
 
-    def __init__(self, manager, ):
+    def __init__(self, manager: Manager, ):
         self.manager = manager
         self.folder = manager.folder
         self.temp = manager.temp
         self.proxy = manager.proxy
         self.chunk = manager.chunk
-        self.session = ClientSession(
-            headers={"User-Agent": manager.headers["User-Agent"]},
-            timeout=ClientTimeout(connect=manager.timeout))
+        self.session = manager.download_session
         self.retry = manager.retry
         self.folder_mode = manager.folder_mode
-        self.video_format = manager.video_format
+        self.video_format = "mp4"
         self.image_format = manager.image_format
 
-    async def run(self, urls: list, name: str, type_: str, log, bar):
+    async def run(self, urls: list, name: str, type_: str, log, bar) -> Path:
         path = self.__generate_path(name)
-        if type_ == "v":
-            await self.__download(urls[0], path, f"{name}", self.video_format, log, bar)
-        elif type_ == "n":
-            for index, url in enumerate(urls, start=1):
-                await self.__download(url, path, f"{name}_{index}", self.image_format, log, bar)
-        else:
-            raise ValueError
+        match type_:
+            case "视频":
+                await self.__download(urls[0], path, f"{name}", self.video_format, log, bar)
+            case "图文":
+                for index, url in enumerate(urls, start=1):
+                    await self.__download(url, path, f"{name}_{index}", self.image_format, log, bar)
+            case _:
+                raise ValueError
+        return path
 
     def __generate_path(self, name: str):
         path = self.manager.archive(self.folder, name, self.folder_mode)
@@ -54,7 +50,7 @@ class Download:
                 temp = self.temp.joinpath(name)
                 file = path.joinpath(name).with_suffix(f".{suffix}")
                 if self.manager.is_exists(file):
-                    self.rich_log(log, f"{name} 已存在，跳过下载！")
+                    logging(log, f"{name} 已存在，跳过下载！")
                     return True
                 # self.__create_progress(
                 #     bar, int(
@@ -66,17 +62,13 @@ class Download:
                         # self.__update_progress(bar, len(chunk))
             self.manager.move(temp, file)
             # self.__create_progress(bar, None)
-            self.rich_log(log, f"{name} 下载成功！")
+            logging(log, f"{name} 下载成功！")
             return True
-        except (
-                ServerTimeoutError,
-                ServerDisconnectedError,
-                ClientOSError,
-                ClientPayloadError,
-        ):
+        except ClientError as error:
             self.manager.delete(temp)
             # self.__create_progress(bar, None)
-            self.rich_log(log, f"{name} 下载失败！", ERROR)
+            logging(log, error, ERROR)
+            logging(log, f"网络异常，{name} 下载失败！", ERROR)
             return False
 
     @staticmethod
@@ -93,10 +85,3 @@ class Download:
     def __extract_type(content: str) -> str:
         return "" if content == "application/octet-stream" else content.split(
             "/")[-1]
-
-    @staticmethod
-    def rich_log(log, text, style=INFO):
-        if log:
-            log.write(Text(text, style=style))
-        else:
-            print(Text(text, style=style))

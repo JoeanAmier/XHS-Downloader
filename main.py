@@ -6,13 +6,12 @@ from source import XHSDownloader
 
 async def example():
     """通过代码设置参数，适合二次开发"""
-    # 测试链接
-    error_demo = "https://github.com/JoeanAmier/XHS_Downloader"
-    image_demo = "https://www.xiaohongshu.com/explore/63b275a30000000019020185"
-    video_demo = "https://www.xiaohongshu.com/explore/64edb460000000001f03cadc"
-    multiple_demo = f"{image_demo} {video_demo}"
+    # 示例链接
+    error_link = "https://github.com/JoeanAmier/XHS_Downloader"
+    demo_link = "https://www.xiaohongshu.com/explore/xxxxxxxxxx"
+    multiple_links = f"{demo_link} {demo_link} {demo_link}"
     # 实例对象
-    path = ""  # 作品数据/文件保存根路径，默认值：项目根路径
+    work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
     user_agent = ""  # 请求头 User-Agent
     cookie = ""  # 小红书网页版 Cookie，无需登录
@@ -21,11 +20,11 @@ async def example():
     chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
     max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，默认值：5
     record_data = False  # 是否记录作品数据至文件
-    image_format = "jpg"  # 图文作品文件名称后缀
+    image_format = "WEBP"  # 图文作品文件下载格式，支持：PNG、WEBP
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
     async with XHS() as xhs:
         pass  # 使用默认参数
-    async with XHS(path=path,
+    async with XHS(work_path=work_path,
                    folder_name=folder_name,
                    user_agent=user_agent,
                    cookie=cookie,
@@ -39,10 +38,9 @@ async def example():
                    ) as xhs:  # 使用自定义参数
         download = True  # 是否下载作品文件，默认值：False
         # 返回作品详细信息，包括下载地址
-        print(await xhs.extract(error_demo, download))  # 获取数据失败时返回空字典
-        print(await xhs.extract(image_demo, download))
-        print(await xhs.extract(video_demo, download))
-        print(await xhs.extract(multiple_demo, download))  # 支持传入多个作品链接
+        print(await xhs.extract(error_link, download))  # 获取数据失败时返回空字典
+        print(await xhs.extract(demo_link, download))
+        print(await xhs.extract(multiple_links, download))  # 支持传入多个作品链接
 
 
 async def main():

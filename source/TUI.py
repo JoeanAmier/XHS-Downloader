@@ -36,10 +36,12 @@ from .Static import (
     USERSCRIPT,
 )
 
+__all__ = ["XHSDownloader"]
+
 
 def show_state(function):
     async def inner(self, *args, **kwargs):
-        self.close_show()
+        self.close_disclaimer()
         self.bar.update(total=100, progress=100)
         result = await function(self, *args, **kwargs)
         self.bar.update(total=None)
@@ -65,7 +67,7 @@ class XHSDownloader(App):
         self.url = None
         self.tip = None
         self.bar = None
-        self.show = True
+        self.disclaimer = True
 
     async def __aenter__(self):
         await self.APP.__aenter__()
@@ -104,10 +106,10 @@ class XHSDownloader(App):
         self.bar = self.query_one(ProgressBar)
         self.tip.write(Text("\n".join(DISCLAIMER_TEXT), style=MASTER))
 
-    def close_show(self):
-        if self.show:
+    def close_disclaimer(self):
+        if self.disclaimer:
             self.tip.clear()
-            self.show = False
+            self.disclaimer = False
 
     async def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "deal":
@@ -131,7 +133,7 @@ class XHSDownloader(App):
     async def action_check_update(self):
         self.tip.write(Text("正在检查新版本，请稍等...", style=WARNING))
         try:
-            url = await self.APP.html.request_url(RELEASES, False)
+            url = await self.APP.html.request_url(RELEASES, False, self.tip)
             latest_major, latest_minor = map(
                 int, url.split("/")[-1].split(".", 1))
             if latest_major > VERSION_MAJOR or latest_minor > VERSION_MINOR:

@@ -1,13 +1,17 @@
-from re import compile
-
+from .Converter import Namespace
 from .Html import Html
 
 __all__ = ['Video']
 
 
 class Video:
-    VIDEO_TOKEN = compile(r'"originVideoKey":"(\S+?)"')
+    VIDEO_LINK = (
+        "video",
+        "consumer",
+        "originVideoKey",
+    )
 
-    def get_video_link(self, html: str) -> list:
-        return [Html.format_url(f"https://sns-video-hw.xhscdn.com/{
-        t.group(1)}")] if (t := self.VIDEO_TOKEN.search(html)) else []
+    @classmethod
+    def get_video_link(cls, data: Namespace) -> list:
+        return [Html.format_url(f"https://sns-video-hw.xhscdn.com/{t}")] if (
+            t := data.safe_extract(".".join(cls.VIDEO_LINK))) else []
