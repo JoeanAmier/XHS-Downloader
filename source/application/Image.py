@@ -1,4 +1,4 @@
-from .Converter import Namespace
+from source.expansion import Namespace
 from .Html import Html
 
 __all__ = ['Image']

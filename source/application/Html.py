@@ -1,9 +1,9 @@
 from aiohttp import ClientError
 
-from .Manager import Manager
-from .Static import ERROR
-from .Tools import logging
-from .Tools import retry
+from source.module import ERROR
+from source.module import Manager
+from source.module import logging
+from source.module import retry
 
 __all__ = ["Html"]
 
@@ -12,6 +12,7 @@ class Html:
     def __init__(self, manager: Manager, ):
         self.proxy = manager.proxy
         self.retry = manager.retry
+        self.prompt = manager.prompt
         self.session = manager.request_session
 
     @retry
@@ -29,7 +30,7 @@ class Html:
                 return await response.text() if content else str(response.url)
         except ClientError as error:
             logging(log, error, ERROR)
-            logging(log, f"网络异常，请求 {url} 失败！", ERROR)
+            logging(log, self.prompt.request_error(url), ERROR)
             return ""
 
     @staticmethod

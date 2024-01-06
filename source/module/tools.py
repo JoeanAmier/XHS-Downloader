@@ -1,6 +1,6 @@
 from rich.text import Text
 
-from .Static import INFO
+from .static import INFO
 
 __all__ = ["retry", "logging"]
 

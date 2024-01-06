@@ -19,6 +19,8 @@ class Settings:
         "record_data": False,
         "image_format": "PNG",
         "folder_mode": False,
+        "language": "zh-CN",
+        # "server": False,
     }
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"
 

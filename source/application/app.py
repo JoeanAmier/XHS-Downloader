@@ -1,18 +1,23 @@
 from re import compile
 
-from .Converter import Converter
-from .Converter import Namespace
-from .Downloader import Download
-from .Explore import Explore
-from .Html import Html
-from .Image import Image
-from .Manager import Manager
-from .Static import (
+from source.expansion import Converter
+from source.expansion import Namespace
+from source.module import Manager
+from source.module import (
     ROOT,
     ERROR,
     WARNING,
 )
-from .Tools import logging
+from source.module import logging
+from source.translator import (
+    LANGUAGE,
+    Chinese,
+    English,
+)
+from .Downloader import Download
+from .Explore import Explore
+from .Html import Html
+from .Image import Image
 from .Video import Video
 
 __all__ = ["XHS"]
@@ -42,7 +47,10 @@ class XHS:
             record_data=False,
             image_format="PNG",
             folder_mode=False,
+            language="zh-CN",
+            language_object: Chinese | English = None,
     ):
+        self.prompt = language_object or LANGUAGE.get(language, Chinese)
         self.manager = Manager(
             ROOT,
             work_path,
@@ -56,6 +64,7 @@ class XHS:
             record_data,
             image_format,
             folder_mode,
+            self.prompt,
         )
         self.html = Html(self.manager)
         self.image = Image()
@@ -77,16 +86,16 @@ class XHS:
         if (u := container["下载地址"]) and download:
             path = await self.download.run(u, name, container["作品类型"], log, bar)
         elif not u:
-            logging(log, "提取作品文件下载地址失败！", ERROR)
+            logging(log, self.prompt.download_link_error, ERROR)
         self.manager.save_data(path, name, container)
 
     async def extract(self, url: str, download=False, log=None, bar=None) -> list[dict]:
         # return  # 调试代码
         urls = await self.__extract_links(url, log)
         if not urls:
-            logging(log, "提取小红书作品链接失败！", WARNING)
+            logging(log, self.prompt.extract_link_failure, WARNING)
         else:
-            logging(log, f"共 {len(urls)} 个小红书作品待处理...")
+            logging(log, self.prompt.pending_processing(len(urls)))
         # return urls  # 调试代码
         return [await self.__deal_extract(i, download, log, bar) for i in urls]
 
@@ -103,17 +112,17 @@ class XHS:
         return urls
 
     async def __deal_extract(self, url: str, download: bool, log, bar):
-        logging(log, f"开始处理作品：{url}")
+        logging(log, self.prompt.start_processing(url))
         html = await self.html.request_url(url, log=log)
         # logging(log, html)  # 调试代码
         if not html:
-            logging(log, f"{url} 获取数据失败！", ERROR)
+            logging(log, self.prompt.get_data_failure(url), ERROR)
             return {}
         namespace = self.__generate_data_object(html)
         data = self.explore.run(namespace)
         # logging(log, data)  # 调试代码
         if not data:
-            logging(log, f"{url} 提取数据失败！", ERROR)
+            logging(log, self.prompt.extract_data_failure(url), ERROR)
             return {}
         match data["作品类型"]:
             case "视频":
@@ -123,7 +132,7 @@ class XHS:
             case _:
                 data["下载地址"] = []
         await self.__download_files(data, download, log, bar)
-        logging(log, f"作品处理完成：{url}")
+        logging(log, self.prompt.processing_completed(url))
         return data
 
     def __generate_data_object(self, html: str) -> Namespace:

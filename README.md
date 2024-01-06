@@ -1,6 +1,7 @@
 <div align="center">
 <img src="static/XHS-Downloader.png" alt="" height="256" width="256"><br>
 <h1>XHS-Downloader</h1>
+<p>简体中文 | <a href="README_EN.md">English</a></p>
 <img alt="GitHub" src="https://img.shields.io/github/license/JoeanAmier/XHS-Downloader?style=for-the-badge&color=ff7a45">
 <img alt="GitHub forks" src="https://img.shields.io/github/forks/JoeanAmier/XHS-Downloader?style=for-the-badge&color=9254de">
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/XHS-Downloader?style=for-the-badge&color=ff7875">
@@ -9,7 +10,9 @@
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/JoeanAmier/XHS-Downloader?style=for-the-badge&color=73d13d">
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/XHS-Downloader?style=for-the-badge&color=40a9ff">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/XHS-Downloader/total?style=for-the-badge&color=f759ab">
+</div>
 <br>
+<div align="center">
 <p>🔥 <b>小红书作品采集工具</b>：采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
 <p>❤️ 作者仅在 GitHub 发布 XHS-Downloader，未与任何个人或网站合作，且没有任何收费计划！</p>
 </div>
@@ -171,6 +174,12 @@ async with XHS(work_path=work_path,
 <td align="center">bool</td>
 <td align="center">是否将每个作品的文件储存至单独的文件夹；文件夹名称与文件名称保持一致</td>
 <td align="center">false</td>
+</tr>
+<tr>
+<td align="center">language</td>
+<td align="center">str</td>
+<td align="center">设置程序语言，目前支持：<code>zh-CN</code></td>
+<td align="center">zh-CN</td>
 </tr>
 </tbody>
 </table>

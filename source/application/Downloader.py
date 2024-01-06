@@ -2,10 +2,10 @@ from pathlib import Path
 
 from aiohttp import ClientError
 
-from .Manager import Manager
-from .Static import ERROR
-from .Tools import logging
-from .Tools import retry as re_download
+from source.module import ERROR
+from source.module import Manager
+from source.module import logging
+from source.module import retry as re_download
 
 __all__ = ['Download']
 
@@ -20,6 +20,7 @@ class Download:
         self.chunk = manager.chunk
         self.session = manager.download_session
         self.retry = manager.retry
+        self.prompt = manager.prompt
         self.folder_mode = manager.folder_mode
         self.video_format = "mp4"
         self.image_format = manager.image_format
@@ -50,7 +51,7 @@ class Download:
                 temp = self.temp.joinpath(name)
                 file = path.joinpath(name).with_suffix(f".{suffix}")
                 if self.manager.is_exists(file):
-                    logging(log, f"{name} 已存在，跳过下载！")
+                    logging(log, self.prompt.skip_download(name))
                     return True
                 # self.__create_progress(
                 #     bar, int(
@@ -62,13 +63,13 @@ class Download:
                         # self.__update_progress(bar, len(chunk))
             self.manager.move(temp, file)
             # self.__create_progress(bar, None)
-            logging(log, f"{name} 下载成功！")
+            logging(log, self.prompt.download_success(name))
             return True
         except ClientError as error:
             self.manager.delete(temp)
             # self.__create_progress(bar, None)
             logging(log, error, ERROR)
-            logging(log, f"网络异常，{name} 下载失败！", ERROR)
+            logging(log, self.prompt.download_error(name), ERROR)
             return False
 
     @staticmethod

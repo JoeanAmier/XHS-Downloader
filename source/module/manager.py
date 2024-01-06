@@ -9,8 +9,10 @@ from shutil import rmtree
 from aiohttp import ClientSession
 from aiohttp import ClientTimeout
 
-from .Static import COOKIE
-from .Static import USERAGENT
+from source.translator import Chinese
+from source.translator import English
+from .static import COOKIE
+from .static import USERAGENT
 
 __all__ = ["Manager"]
 
@@ -32,6 +34,7 @@ class Manager:
             record_data: bool,
             image_format: str,
             folder_mode: bool,
+            language: Chinese | English,
     ):
         self.root = root
         self.temp = root.joinpath("./temp")
@@ -54,6 +57,7 @@ class Manager:
         self.download_session = ClientSession(
             headers={"User-Agent": self.headers["User-Agent"]},
             timeout=ClientTimeout(connect=timeout))
+        self.prompt = language
 
     def __check_path(self, path: str) -> Path:
         if not path:

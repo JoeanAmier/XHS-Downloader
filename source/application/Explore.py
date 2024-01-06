@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from .Converter import Namespace
+from source.expansion import Namespace
 
 __all__ = ['Explore']
 
