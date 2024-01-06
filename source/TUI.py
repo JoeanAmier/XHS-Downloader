@@ -33,6 +33,7 @@ from .Static import (
     RELEASES,
     GENERAL,
     DISCLAIMER_TEXT,
+    DISCLAIMER_TEXT_ENG,
     USERSCRIPT,
 )
 
@@ -57,6 +58,7 @@ class XHSDownloader(App):
         # ("d", "toggle_dark", "切换主题"),
         Binding(key="u", action="check_update", description="检查更新"),
         Binding(key="m", action="user_script", description="获取脚本"),
+        Binding(key="e", action="change_language", description="ENG")
     ]
 
     def __init__(self):
@@ -66,6 +68,7 @@ class XHSDownloader(App):
         self.tip = None
         self.bar = None
         self.show = True
+        self.isEng = False
 
     async def __aenter__(self):
         await self.APP.__aenter__()
@@ -102,7 +105,7 @@ class XHSDownloader(App):
         self.url = self.query_one(Input)
         self.tip = self.query_one(RichLog)
         self.bar = self.query_one(ProgressBar)
-        self.tip.write(Text("\n".join(DISCLAIMER_TEXT), style=MASTER))
+        self.tip.write(Text("\n".join(DISCLAIMER_TEXT_ENG if self.isEng else DISCLAIMER_TEXT), style=MASTER))
 
     def close_show(self):
         if self.show:
@@ -120,16 +123,16 @@ class XHSDownloader(App):
     @show_state
     async def deal(self):
         if not self.url.value:
-            self.tip.write(Text("未输入任何小红书作品链接！", style=WARNING))
+            self.tip.write(Text("Didn't enter any links to Xiaohongshu works!" if self.isEng else "未输入任何小红书作品链接！", style=WARNING))
             return
         if any(await self.APP.extract(self.url.value, True, log=self.tip)):
             self.url.value = ""
         else:
-            self.tip.write(Text("下载小红书作品文件失败！", style=ERROR))
+            self.tip.write(Text("Failed to download the Xiaohongshu work file!" if self.isEng else "下载小红书作品文件失败！", style=ERROR))
 
     @show_state
     async def action_check_update(self):
-        self.tip.write(Text("正在检查新版本，请稍等...", style=WARNING))
+        self.tip.write(Text("Checking for new version, please wait..." if self.isEng else "正在检查新版本，请稍等...", style=WARNING))
         try:
             url = await self.APP.html.request_url(RELEASES, False)
             latest_major, latest_minor = map(
@@ -137,20 +140,26 @@ class XHSDownloader(App):
             if latest_major > VERSION_MAJOR or latest_minor > VERSION_MINOR:
                 self.tip.write(
                     Text(
-                        f"检测到新版本：{latest_major}.{latest_minor}",
+                        f"New version detected: {latest_major}.{latest_minor}" if self.isEng else f"检测到新版本：{latest_major}.{latest_minor}",
                         style=WARNING))
                 self.tip.write(RELEASES)
             elif latest_minor == VERSION_MINOR and VERSION_BETA:
                 self.tip.write(
-                    Text("当前版本为开发版, 可更新至正式版！", style=WARNING))
+                    Text("The current version is the development version, which can be updated to the official version!" if self.isEng else "当前版本为开发版, 可更新至正式版！", style=WARNING))
                 self.tip.write(RELEASES)
             elif VERSION_BETA:
-                self.tip.write(Text("当前已是最新开发版！", style=WARNING))
+                self.tip.write(Text("It's the latest development version!" if self.isEng else "当前已是最新开发版！", style=WARNING))
             else:
-                self.tip.write(Text("当前已是最新正式版！", style=INFO))
+                self.tip.write(Text("It's the latest official version!" if self.isEng else "当前已是最新正式版！", style=INFO))
         except ValueError:
-            self.tip.write(Text("检测新版本失败！", style=ERROR))
+            self.tip.write(Text("Failed to detect new versions!" if self.isEng else "检测新版本失败！", style=ERROR))
 
     @staticmethod
     def action_user_script():
         open(USERSCRIPT)
+        
+    @show_state
+    async def action_change_language(self):
+        self.isEng = not self.isEng
+        self.tip.write(Text("Switching languages successfully!" if self.isEng else "切换语言成功！", style=INFO))
+        self.tip.write(Text("\n".join(DISCLAIMER_TEXT_ENG if self.isEng else DISCLAIMER_TEXT), style=MASTER))
