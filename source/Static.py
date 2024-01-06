@@ -44,6 +44,21 @@ DISCLAIMER_TEXT = (
     "",
     ">" * 50,
 )
+DISCLAIMER_TEXT_ENG = (
+    "Disclaimer about XHS-Downloader:",
+    "",
+    "1. The use of the Program by the User is at the user's own discretion and risk. The author shall not be liable for any loss, liability, or risk arising from the use of this project.",
+    "2. The code and functionality provided by the authors of this project are based on the development of existing knowledge and technology. The author makes every effort to ensure the correctness and security of the code, but does not guarantee that the code is completely free of errors or defects.",
+    "3. Users must strictly comply with the requirements of the GNU General Public License v3.0 when using the Project, and indicate the use of the GNU General Public License v3.0 code where appropriate.",
+    "4. Under no circumstances shall the authors, contributors or other parties involved in the Project be associated with the User's use of the Project, or hold them liable for any loss or damage arising from the User's use of the Project.",
+    "5. When using the code and functions of this project, users must study the relevant laws and regulations on their own and ensure that their use is legal and compliant. Any legal liabilities and risks caused by violations of laws and regulations shall be borne by the user.",
+    "6. The authors of this project will not provide a paid version of the XHS-Downloader project, nor will they provide any commercial services related to the XHS-Downloader project.",
+    "7. Any secondary development, modification or compilation of programs based on this project has nothing to do with the original creator, and the original creator does not assume any responsibility related to the secondary development behavior or its results, and the user shall be fully responsible for the various situations that may be brought about by the secondary development.",
+    "",
+    "Before using the code and functions of this project, please carefully consider and accept the above disclaimer. If you have any questions or disagree with the above statement, please do not use the code and features of this project. If you use the code and functions of this project, it is deemed that you have fully understood and accepted the above disclaimer and voluntarily assume all risks and consequences of using this project.",
+    "",
+    ">" * 50,
+)
 
 USERSCRIPT = "https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js"
 
