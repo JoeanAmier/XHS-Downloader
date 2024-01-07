@@ -57,6 +57,19 @@
 <li>下载本项目最新的源码或 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
 <li>运行 <code>main.py</code> 即可使用</li>
 </ol>
+<h1>🕹 用户脚本</h1>
+<p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以添加 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">用户脚本</a>，无需下载即可体验！</p>
+<p>使用 XHS-Downloader 用户脚本批量获取作品链接，搭配 XHS-Downloader 程序可以实现批量下载无水印作品文件！</p>
+<h2>脚本功能</h2>
+<ul>
+<li>下载无水印作品文件</li>
+<li>提取发现页面作品链接</li>
+<li>提取账号发布作品链接</li>
+<li>提取账号收藏作品链接</li>
+<li>提取账号点赞作品链接</li>
+</ul>
+<h2>脚本截图</h2>
+<img src="static/用户脚本截图.png" alt="">
 <h1>💻 二次开发</h1>
 <p>如果有其他需求，可以根据 <code>main.py</code> 的注释提示进行代码调用或修改！</p>
 <pre>
@@ -193,9 +206,6 @@ async with XHS(work_path=work_path,
 </ol>
 <br>
 <img src="static/获取Cookie示意图.png" alt="">
-<h1>🕹 用户脚本</h1>
-<p>如果您的浏览器安装了 Tampermonkey 浏览器扩展程序，可以 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">点击获取</a> 用户脚本，无需下载即可体验！</p>
-<p>可以使用 XHS-Downloader 用户脚本批量获取账号作品链接，搭配 XHS-Downloader 程序实现批量下载账号作品文件！</p>
 <h1>♥️ 支持项目</h1>
 <p>如果 <b>XHS-Downloader</b> 对您有帮助，请考虑为它点个 <b>Star</b> ⭐，感谢您的支持！</p>
 <table>

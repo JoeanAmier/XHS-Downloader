@@ -68,7 +68,7 @@ class Download:
         except ClientError as error:
             self.manager.delete(temp)
             # self.__create_progress(bar, None)
-            logging(log, error, ERROR)
+            logging(log, str(error), ERROR)
             logging(log, self.prompt.download_error(name), ERROR)
             return False
 
