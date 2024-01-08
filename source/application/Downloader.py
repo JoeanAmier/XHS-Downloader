@@ -11,6 +11,9 @@ __all__ = ['Download']
 
 
 class Download:
+    CONTENT_TYPE_MAP = {
+        "quicktime": "mov",
+    }
 
     def __init__(self, manager: Manager, ):
         self.manager = manager
@@ -82,7 +85,7 @@ class Download:
         if bar:
             bar.advance(advance)
 
-    @staticmethod
-    def __extract_type(content: str) -> str:
-        return "" if content == "application/octet-stream" else content.split(
-            "/")[-1]
+    @classmethod
+    def __extract_type(cls, content: str) -> str:
+        return "" if content == "application/octet-stream" else cls.CONTENT_TYPE_MAP.get(
+            s := content.split("/")[-1], s)
