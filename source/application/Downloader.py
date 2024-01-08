@@ -46,8 +46,13 @@ class Download:
     async def __download(self, url: str, path: Path, name: str, format_: str, log, bar):
         try:
             async with self.session.get(url, proxy=self.proxy) as response:
-                suffix = self.__extract_type(
-                    response.headers.get("Content-Type", "")) or format_
+                content_type = self.__extract_type(
+                    response.headers.get("Content-Type", ""))
+                content_type_mapping = {
+                    "quicktime": "mov",
+                    "": format_
+                }
+                suffix = content_type_mapping.get(content_type, content_type)
                 temp = self.temp.joinpath(name)
                 file = path.joinpath(name).with_suffix(f".{suffix}")
                 if self.manager.is_exists(file):
