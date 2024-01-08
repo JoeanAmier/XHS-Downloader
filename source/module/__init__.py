@@ -24,6 +24,7 @@ from .static import (
 from .tools import (
     retry,
     logging,
+    wait,
 )
 
 __all__ = [
@@ -50,4 +51,5 @@ __all__ = [
     "COOKIE",
     "retry",
     "logging",
+    "wait",
 ]

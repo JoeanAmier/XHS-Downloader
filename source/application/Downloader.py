@@ -12,7 +12,11 @@ __all__ = ['Download']
 
 class Download:
     CONTENT_TYPE_MAP = {
-        "quicktime": "mov",
+        "image/png": "png",
+        "image/jpeg": "jpg",
+        "image/webp": "webp",
+        "application/octet-stream": "",
+        "video/quicktime": "mov",
     }
 
     def __init__(self, manager: Manager, ):
@@ -50,7 +54,7 @@ class Download:
         try:
             async with self.session.get(url, proxy=self.proxy) as response:
                 suffix = self.__extract_type(
-                    response.headers.get("Content-Type", "")) or format_
+                    response.headers.get("Content-Type")) or format_
                 temp = self.temp.joinpath(name)
                 file = path.joinpath(name).with_suffix(f".{suffix}")
                 if self.manager.is_exists(file):
@@ -87,5 +91,4 @@ class Download:
 
     @classmethod
     def __extract_type(cls, content: str) -> str:
-        return "" if content == "application/octet-stream" else cls.CONTENT_TYPE_MAP.get(
-            s := content.split("/")[-1], s)
+        return cls.CONTENT_TYPE_MAP.get(content, "")

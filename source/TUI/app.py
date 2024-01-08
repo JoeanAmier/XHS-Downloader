@@ -35,3 +35,6 @@ class XHSDownloader(App):
 
     async def action_settings(self):
         await self.push_screen("setting")
+
+    async def action_back(self):
+        await self.push_screen("index")

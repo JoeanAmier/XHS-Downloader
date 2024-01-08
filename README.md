@@ -58,11 +58,11 @@
 <li>运行 <code>main.py</code> 即可使用</li>
 </ol>
 <h1>🕹 用户脚本</h1>
-<p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以添加 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">用户脚本</a>，无需下载即可体验！</p>
-<p>使用 XHS-Downloader 用户脚本批量获取作品链接，搭配 XHS-Downloader 程序可以实现批量下载无水印作品文件！</p>
+<p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以添加 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">用户脚本</a>，无需下载安装即可体验项目功能！</p>
+<p>提示：可以使用 XHS-Downloader 用户脚本批量提取网页上的作品链接，搭配 XHS-Downloader 程序即可实现批量下载无水印作品文件！</p>
 <h2>脚本功能</h2>
 <ul>
-<li>下载无水印作品文件</li>
+<li>下载小红书无水印作品文件</li>
 <li>提取发现页面作品链接</li>
 <li>提取账号发布作品链接</li>
 <li>提取账号收藏作品链接</li>
@@ -228,9 +228,6 @@ async with XHS(work_path=work_path,
 <li>QQ Group: <a href="https://github.com/JoeanAmier/XHS-Downloader/blob/master/static/QQ%E7%BE%A4%E8%81%8A%E4%BA%8C%E7%BB%B4%E7%A0%81.png">点击扫码加入群聊</a></li>
 <li>Email: yonglelolu@gmail.com</li>
 </ul>
-<p>
-<b>XHS-Downloader 是我个人独立维护的一个开源项目，鉴于个人精力有限，请理解项目进展可能较为缓慢，我会尽力保持更新和维护，以确保项目的稳定性和功能的不断改进。</b>
-</p>
 <p>
 <b>如果您通过 Email 联系我，我可能无法及时查看并回复信息，我会尽力在七天内回复您的邮件；如果有紧急事项或需要更快的回复，请通过其他方式与我联系，谢谢理解！</b>
 </p>

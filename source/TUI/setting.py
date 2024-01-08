@@ -15,9 +15,13 @@ class Setting(Screen):
         "static/css/setting.tcss")
     BINDINGS = [
         Binding(key="q", action="quit", description="退出程序"),
+        Binding(key="b", action="back", description="返回首页"),
     ]
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Label("我是设置页")
+        yield Label("我是设置页，敬请期待！")
         yield Footer()
+
+    def on_mount(self) -> None:
+        self.title = "程序设置"
