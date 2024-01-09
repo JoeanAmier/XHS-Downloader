@@ -12,6 +12,7 @@ from aiohttp import ClientTimeout
 from source.translator import Chinese
 from source.translator import English
 from .static import COOKIE
+from .static import HEADERS
 from .static import USERAGENT
 
 __all__ = ["Manager"]
@@ -40,9 +41,9 @@ class Manager:
         self.temp = root.joinpath("./temp")
         self.path = self.__check_path(path)
         self.folder = self.__check_folder(folder)
-        self.headers = {
-            "User-Agent": user_agent or USERAGENT,
-            "Cookie": cookie or COOKIE}
+        self.blank_headers = HEADERS | {
+            "User-Agent": user_agent or USERAGENT, }
+        self.headers = self.blank_headers | {"Cookie": cookie or COOKIE}
         self.retry = retry
         self.chunk = chunk
         self.record_data = record_data
@@ -51,11 +52,11 @@ class Manager:
         self.proxy = proxy
         self.request_session = ClientSession(
             headers=self.headers | {
-                "Referer": "https://www.xiaohongshu.com/", },
+                "Referer": "https://www.xiaohongshu.com/explore", },
             timeout=ClientTimeout(connect=timeout),
         )
         self.download_session = ClientSession(
-            headers={"User-Agent": self.headers["User-Agent"]},
+            headers=self.blank_headers,
             timeout=ClientTimeout(connect=timeout))
         self.prompt = language
 

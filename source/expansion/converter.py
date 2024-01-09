@@ -1,3 +1,5 @@
+from typing import Union
+
 from lxml.etree import HTML
 from yaml import safe_load
 
@@ -19,6 +21,8 @@ class Converter:
                 self.__extract_object(content)))
 
     def __extract_object(self, html: str) -> str:
+        if not html:
+            return ""
         html_tree = HTML(html)
         return d[0] if (d := html_tree.xpath(self.INITIAL_STATE)) else ""
 
@@ -32,6 +36,8 @@ class Converter:
 
     @classmethod
     def deep_get(cls, data: dict, keys: list | tuple, default=None):
+        if not data:
+            return default
         try:
             for key in keys:
                 if key.startswith("[") and key.endswith("]"):
@@ -39,11 +45,11 @@ class Converter:
                 else:
                     data = data[key]
             return data
-        except (KeyError, IndexError, ValueError):
+        except (KeyError, IndexError, ValueError, TypeError):
             return default
 
     @staticmethod
-    def safe_get(data: dict | list | tuple | set, index: int):
+    def safe_get(data: Union[dict, list, tuple, set], index: int):
         if isinstance(data, dict):
             return list(data.values())[index]
         elif isinstance(data, list | tuple | set):

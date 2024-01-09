@@ -114,11 +114,10 @@ class XHS:
     async def __deal_extract(self, url: str, download: bool, log, bar):
         logging(log, self.prompt.start_processing(url))
         html = await self.html.request_url(url, log=log)
-        # logging(log, html)  # 调试代码
-        if not html:
+        namespace = self.__generate_data_object(html)
+        if not namespace:
             logging(log, self.prompt.get_data_failure(url), ERROR)
             return {}
-        namespace = self.__generate_data_object(html)
         data = self.explore.run(namespace)
         # logging(log, data)  # 调试代码
         if not data:

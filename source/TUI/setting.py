@@ -15,7 +15,7 @@ class Setting(Screen):
         "static/css/setting.tcss")
     BINDINGS = [
         Binding(key="q", action="quit", description="退出程序"),
-        Binding(key="b", action="back", description="返回首页"),
+        Binding(key="b", action="index", description="返回首页"),
     ]
 
     def compose(self) -> ComposeResult:

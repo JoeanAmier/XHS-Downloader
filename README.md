@@ -143,7 +143,7 @@ async with XHS(work_path=work_path,
 <tr>
 <td align="center">cookie</td>
 <td align="center">str</td>
-<td align="center">小红书网页版 Cookie，<b>无需登录</b></td>
+<td align="center">小红书网页版 Cookie，<b>无需登录，建议修改</b></td>
 <td align="center">默认 Cookie</td>
 </tr>
 <tr>

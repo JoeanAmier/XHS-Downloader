@@ -20,6 +20,7 @@ from .static import (
     USERSCRIPT,
     USERAGENT,
     COOKIE,
+    HEADERS,
 )
 from .tools import (
     retry,
@@ -49,6 +50,7 @@ __all__ = [
     "USERSCRIPT",
     "USERAGENT",
     "COOKIE",
+    "HEADERS",
     "retry",
     "logging",
     "wait",
