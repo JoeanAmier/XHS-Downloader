@@ -1,5 +1,5 @@
 from webbrowser import open
-
+from asyncio import get_event_loop
 # from asyncio import sleep
 from pyperclip import paste
 from rich.text import Text
@@ -105,8 +105,8 @@ class Index(Screen):
             self.disclaimer = False
 
     @on(Button.Pressed, "#deal")
-    async def deal_button(self):
-        await self.deal()
+    def deal_button(self):
+        get_event_loop().create_task(self.deal())
 
     @on(Button.Pressed, "#reset")
     def reset_button(self):
@@ -118,8 +118,6 @@ class Index(Screen):
 
     @show_state
     async def deal(self):
-        # TODO: 处理过程中，进度条异常卡顿，待排查！
-        # await sleep(2)
         if not self.url.value:
             self.tip.write(Text(self.prompt.invalid_link, style=WARNING))
             return
