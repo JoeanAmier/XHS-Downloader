@@ -3,10 +3,21 @@ Button {
     margin: 1 1;
     text-style: bold;
 }
-Button#deal, Button#paste {
+.vertical-layout {
+    layout: vertical;
+    height: auto;
+}
+.horizontal-layout, .settings_button {
+    layout: horizontal;
+    height: auto;
+}
+.horizontal-layout > * {
+    width: 25vw;
+}
+Button#deal, Button#paste, Button#save {
     tint: #27ae60 60%;
 }
-Button#reset {
+Button#reset, Button#abandon {
     tint: #c0392b 60%;
 }
 Label {
@@ -14,6 +25,9 @@ Label {
     content-align-horizontal: center;
     content-align-vertical: middle;
     text-style: bold;
+}
+Label.params {
+    margin: 1 0 0 0;
 }
 Label#prompt {
     padding: 1;

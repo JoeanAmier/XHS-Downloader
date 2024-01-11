@@ -53,11 +53,9 @@ def show_state(function):
 
 
 class Index(Screen):
-    CSS_PATH = ROOT.joinpath(
-        "static/css/index.tcss")
+    CSS_PATH = ROOT.joinpath("static/XHS-Downloader.tcss")
     BINDINGS = [
         Binding(key="q", action="quit", description="退出程序"),
-        # ("d", "toggle_dark", "切换主题"),
         Binding(key="u", action="check_update", description="检查更新"),
         Binding(key="m", action="user_script", description="获取脚本"),
         Binding(key="s", action="settings", description="程序设置"),
@@ -74,18 +72,29 @@ class Index(Screen):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield ScrollableContainer(Label(Text(f"{self.prompt.open_source_protocol}{LICENCE}", style=MASTER)),
-                                  Label(
-                                      Text(
-                                          f"{self.prompt.project_address}{REPOSITORY}",
-                                          style=MASTER)),
-                                  Label(Text(self.prompt.input_box_title,
-                                             style=PROMPT), id="prompt"),
-                                  Input(placeholder=self.prompt.input_prompt),
-                                  HorizontalScroll(Button(self.prompt.download_button, id="deal"),
-                                                   Button(self.prompt.paste_button, id="paste"),
-                                                   Button(self.prompt.reset_button, id="reset"), ),
-                                  )
+        yield ScrollableContainer(
+            Label(
+                Text(
+                    f"{self.prompt.open_source_protocol}{LICENCE}",
+                    style=MASTER)
+            ),
+            Label(
+                Text(
+                    f"{self.prompt.project_address}{REPOSITORY}",
+                    style=MASTER)
+            ),
+            Label(
+                Text(
+                    self.prompt.input_box_title,
+                    style=PROMPT), id="prompt",
+            ),
+            Input(placeholder=self.prompt.input_prompt),
+            HorizontalScroll(
+                Button(self.prompt.download_button, id="deal"),
+                Button(self.prompt.paste_button, id="paste"),
+                Button(self.prompt.reset_button, id="reset"),
+            ),
+        )
         with Center():
             yield ProgressBar(total=None, show_percentage=False, show_eta=False)
         yield RichLog(markup=True)

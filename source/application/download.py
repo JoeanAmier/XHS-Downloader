@@ -53,6 +53,8 @@ class Download:
     async def __download(self, url: str, path: Path, name: str, format_: str, log, bar):
         try:
             async with self.session.get(url, proxy=self.proxy) as response:
+                if response.status != 200:
+                    return False
                 suffix = self.__extract_type(
                     response.headers.get("Content-Type")) or format_
                 temp = self.temp.joinpath(name)

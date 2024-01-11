@@ -29,4 +29,4 @@ def logging(log, text, style=INFO):
 
 
 async def wait():
-    await sleep(randint(15, 35) * 0.1)
+    await sleep(randint(15, 45) * 0.1)

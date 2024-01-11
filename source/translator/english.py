@@ -1,7 +1,7 @@
-from .template import Language
+from .chinese import Chinese
 
 __all__ = ["English"]
 
 
-class English(Language):
+class English(Chinese):
     pass

@@ -1,9 +1,7 @@
-from .template import Language
-
 __all__ = ["Chinese"]
 
 
-class Chinese(Language):
+class Chinese:
     code: str = "zh-CN"
     disclaimer: tuple[str] = (
         "关于 XHS-Downloader 的 免责声明：",

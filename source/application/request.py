@@ -27,6 +27,8 @@ class Html:
                     url,
                     proxy=self.proxy,
             ) as response:
+                if response.status != 200:
+                    return ""
                 return await response.text() if content else str(response.url)
         except ClientError as error:
             logging(log, str(error), ERROR)
