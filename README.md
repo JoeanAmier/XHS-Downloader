@@ -34,7 +34,9 @@
 <h1>📸 程序截图</h1>
 <br>
 <p><b>🎥 点击图片观看演示视频</b></p>
-<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/程序运行截图.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/程序运行截图1.png" alt=""></a>
+<hr>
+<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/程序运行截图2.png" alt=""></a>
 <h1>🔗 支持链接</h1>
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/作品ID</code></li>

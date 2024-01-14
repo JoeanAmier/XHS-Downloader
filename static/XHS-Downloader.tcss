@@ -1,3 +1,6 @@
+Screen, RichLog {
+    background: #2f3542;
+}
 Button {
     width: 1fr;
     margin: 1 1;
