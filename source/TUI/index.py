@@ -55,10 +55,10 @@ def show_state(function):
 class Index(Screen):
     CSS_PATH = ROOT.joinpath("static/XHS-Downloader.tcss")
     BINDINGS = [
-        Binding(key="q", action="quit", description="退出程序"),
-        Binding(key="u", action="check_update", description="检查更新"),
-        Binding(key="m", action="user_script", description="获取脚本"),
-        Binding(key="s", action="settings", description="程序设置"),
+        Binding(key="q", action="quit", description="退出程序/Quit"),
+        Binding(key="u", action="check_update", description="检查更新/Update"),
+        Binding(key="m", action="user_script", description="获取脚本/Script"),
+        Binding(key="s", action="settings", description="程序设置/Settings"),
     ]
 
     def __init__(self, app: XHS, language: Chinese | English):

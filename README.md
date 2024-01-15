@@ -193,7 +193,7 @@ async with XHS(work_path=work_path,
 <tr>
 <td align="center">language</td>
 <td align="center">str</td>
-<td align="center">设置程序语言，目前支持：<code>zh-CN</code></td>
+<td align="center">设置程序语言，目前支持：<code>zh-CN</code>、<code>en-GB</code></td>
 <td align="center">zh-CN</td>
 </tr>
 </tbody>

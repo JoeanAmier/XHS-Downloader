@@ -25,8 +25,8 @@ __all__ = ["Setting"]
 class Setting(Screen):
     CSS_PATH = ROOT.joinpath("static/XHS-Downloader.tcss")
     BINDINGS = [
-        Binding(key="q", action="quit", description="退出程序"),
-        Binding(key="b", action="index", description="返回首页"),
+        Binding(key="q", action="quit", description="退出程序/Quit"),
+        Binding(key="b", action="index", description="返回首页/Back"),
     ]
 
     def __init__(self, data: dict, language: Chinese | English):
@@ -73,8 +73,7 @@ class Setting(Screen):
                 Select.from_values(list(LANGUAGE.keys()),
                                    value=self.data["language"],
                                    allow_blank=False,
-                                   id="language",
-                                   disabled=True, ),
+                                   id="language", ),
                 classes="horizontal-layout"),
             Container(
                 Button(self.prompt.save_button, id="save", ),
