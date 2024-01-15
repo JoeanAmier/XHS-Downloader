@@ -60,6 +60,7 @@ class Index(Screen):
         Binding(key="m", action="user_script", description="获取脚本"),
         Binding(key="s", action="settings", description="程序设置"),
     ]
+    
     def __init__(self, app: XHS, language: Chinese | English):
         super().__init__()
         self.app_ = app
@@ -69,7 +70,6 @@ class Index(Screen):
         self.bar = None
         self.disclaimer = True
         
-
     def compose(self) -> ComposeResult:
         yield Header()
         yield ScrollableContainer(
