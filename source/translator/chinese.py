@@ -35,14 +35,36 @@ class Chinese:
     project_address: str = "项目地址："
     input_box_title: str = "请输入小红书图文/视频作品链接："
     input_prompt: str = "多个链接之间使用空格分隔"
-    download_button: str = "下载无水印图片/视频"
+    download_button: str = "下载无水印作品文件"
     paste_button: str = "读取剪贴板"
     reset_button: str = "清空输入框"
 
     exit_program: str = "退出程序"
     check_updates: str = "检查更新"
     get_script: str = "获取脚本"
-    choose_language: str = "选择语言"
+    settings: str = "程序设置"
+
+    work_path: str = "工作路径："
+    folder_name: str = "文件夹名称："
+    user_agent: str = "User-Agent："
+    cookie: str = "Cookie："
+    proxy: str = "网络代理："
+    timeout: str = "请求超时限制："
+    chunk: str = "下载数据块大小："
+    max_retry: str = "最大重试次数："
+    record_data: str = "记录作品数据"
+    image_format: str = "图片下载格式"
+    folder_mode: str = "文件夹归档模式"
+    language: str = "程序语言"
+    server: str = "启动本地服务器"
+
+    work_path_placeholder: str = "程序根路径"
+    user_agent_placeholder: str = "默认 UA"
+    cookie_placeholder: str = "内置 Cookie，建议自行设置"
+    proxy_placeholder: str = "无代理"
+
+    save_button: str = "保存配置"
+    abandon_button: str = "放弃更改"
 
     @staticmethod
     def request_error(url: str) -> str:
