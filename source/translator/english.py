@@ -44,6 +44,28 @@ class English(Chinese):
     get_script: str = "Get the script"
     choose_language: str = "Select language"
 
+    work_path: str = "Work path:"
+    folder_name: str = "Folder name:"
+    user_agent: str = "User-Agent:"
+    cookie: str = "Cookie:"
+    proxy: str = "Network proxy:"
+    timeout: str = "Request timeout limit:"
+    chunk: str = "Download data block size:"
+    max_retry: str = "Maximum retry attempts:"
+    record_data: str = "Record work data"
+    image_format: str = "Image download format"
+    folder_mode: str = "Folder archiving mode"
+    language: str = "Programming language"
+    server: str = "Start local server"
+
+    work_path_placeholder: str = "Program root path"
+    user_agent_placeholder: str = "Default UA"
+    cookie_placeholder: str = "Built-in Cookie, it is recommended to set it manually"
+    proxy_placeholder: str = "No proxy"
+
+    save_button: str = "Save configuration"
+    abandon_button: str = "Discard changes"
+
     @staticmethod
     def request_error(url: str) -> str:
         return f"Network error, failed to access {url} "
@@ -54,11 +76,11 @@ class English(Chinese):
 
     @staticmethod
     def download_success(name: str) -> str:
-        return f"{name} Download successful!"
+        return f"{name} download successful!"
 
     @staticmethod
     def download_error(name: str) -> str:
-        return f"Network error, {name} Download failed!"
+        return f"Network error, {name} download failed!"
 
     @staticmethod
     def pending_processing(num: int) -> str:
@@ -70,15 +92,15 @@ class English(Chinese):
 
     @staticmethod
     def get_data_failure(url: str) -> str:
-        return f"{url} Failed to retrieve data!"
+        return f"{url} failed to retrieve data!"
 
     @staticmethod
     def extract_data_failure(url: str) -> str:
-        return f"{url} Failed to extract data!"
+        return f"{url} failed to extract data!"
 
     @staticmethod
     def processing_completed(url: str) -> str:
-        return f"Work processing completed: {url}"
+        return f"work processing completed: {url}"
 
     @staticmethod
     def official_version_update(major: int, minor: int) -> str:
