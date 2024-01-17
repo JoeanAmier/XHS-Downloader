@@ -42,7 +42,11 @@ class XHSDownloader(App):
         self.APP = XHS(**self.parameter, language_object=self.prompt)
 
     async def on_mount(self) -> None:
-        self.install_screen(Setting(self.parameter), name="setting")
+        self.install_screen(
+            Setting(
+                self.parameter,
+                self.prompt),
+            name="setting")
         self.install_screen(Index(self.APP, self.prompt), name="index")
         self.install_screen(Loading(), name="loading")
         await self.push_screen("index")
@@ -61,5 +65,9 @@ class XHSDownloader(App):
         await self.push_screen("loading")
         self.uninstall_screen("setting")
         self.__initialization()
-        self.install_screen(Setting(self.parameter), name="setting")
+        self.install_screen(
+            Setting(
+                self.parameter,
+                self.prompt),
+            name="setting")
         await self.push_screen("index")

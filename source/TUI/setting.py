@@ -13,6 +13,11 @@ from textual.widgets import Label
 from textual.widgets import Select
 
 from source.module import ROOT
+from source.translator import (
+    LANGUAGE,
+    Chinese,
+    English,
+)
 
 __all__ = ["Setting"]
 
@@ -24,53 +29,56 @@ class Setting(Screen):
         Binding(key="b", action="index", description="返回首页"),
     ]
 
-    def __init__(self, data: dict):
+    def __init__(self, data: dict, language: Chinese | English):
         super().__init__()
         self.data = data
+        self.prompt = language
 
     def compose(self) -> ComposeResult:
         yield Header()
         yield ScrollableContainer(
-            Label("工作路径：", classes="params", ),
-            Input(self.data["work_path"], placeholder="程序根路径", valid_empty=True, id="work_path", ),
-            Label("文件夹名称：", classes="params", ),
+            Label(self.prompt.work_path, classes="params", ),
+            Input(self.data["work_path"], placeholder=self.prompt.work_path_placeholder, valid_empty=True,
+                  id="work_path", ),
+            Label(self.prompt.folder_name, classes="params", ),
             Input(self.data["folder_name"], placeholder="Download", id="folder_name", ),
-            Label("User-Agent：", classes="params", ),
-            Input(self.data["user_agent"], placeholder="默认 UA", valid_empty=True, id="user_agent", ),
-            Label("Cookie：", classes="params", ),
-            Input(self.data["cookie"], placeholder="内置 Cookie，建议自行设置", valid_empty=True, id="cookie", ),
-            Label("网络代理：", classes="params", ),
-            Input(self.data["proxy"], placeholder="无代理", valid_empty=True, id="proxy", ),
-            Label("请求超时限制：", classes="params", ),
+            Label(self.prompt.user_agent, classes="params", ),
+            Input(self.data["user_agent"], placeholder=self.prompt.user_agent_placeholder, valid_empty=True,
+                  id="user_agent", ),
+            Label(self.prompt.cookie, classes="params", ),
+            Input(self.data["cookie"], placeholder=self.prompt.cookie_placeholder, valid_empty=True, id="cookie", ),
+            Label(self.prompt.proxy, classes="params", ),
+            Input(self.data["proxy"], placeholder=self.prompt.proxy_placeholder, valid_empty=True, id="proxy", ),
+            Label(self.prompt.timeout, classes="params", ),
             Input(str(self.data["timeout"]), placeholder="10", type="integer", id="timeout", ),
-            Label("数据块大小：", classes="params", ),
+            Label(self.prompt.chunk, classes="params", ),
             Input(str(self.data["chunk"]), placeholder="1048576", type="integer", id="chunk", ),
-            Label("最大重试次数：", classes="params", ),
+            Label(self.prompt.max_retry, classes="params", ),
             Input(str(self.data["max_retry"]), placeholder="5", type="integer", id="max_retry", ),
             Container(
                 Label("", classes="params", ),
                 Label("", classes="params", ),
-                Label("图片下载格式", classes="params", ),
-                Label("程序语言", classes="params", ),
+                Label(self.prompt.image_format, classes="params", ),
+                Label(self.prompt.language, classes="params", ),
                 classes="horizontal-layout",
             ),
             Container(
-                Checkbox("记录作品数据", id="record_data", value=self.data["record_data"], ),
-                Checkbox("文件夹归档模式", id="folder_mode", value=self.data["folder_mode"], ),
+                Checkbox(self.prompt.record_data, id="record_data", value=self.data["record_data"], ),
+                Checkbox(self.prompt.folder_mode, id="folder_mode", value=self.data["folder_mode"], ),
                 Select.from_values(
                     ("PNG", "WEBP"),
                     value=self.data["image_format"],
                     allow_blank=False,
                     id="image_format"),
-                Select.from_values(("zh-CN", "en-US"),
+                Select.from_values(list(LANGUAGE.keys()),
                                    value=self.data["language"],
                                    allow_blank=False,
                                    id="language",
                                    disabled=True, ),
                 classes="horizontal-layout"),
             Container(
-                Button("保存设置", id="save", ),
-                Button("放弃更改", id="abandon", ),
+                Button(self.prompt.save_button, id="save", ),
+                Button(self.prompt.abandon_button, id="abandon", ),
                 classes="settings_button", ),
         )
         yield Footer()
