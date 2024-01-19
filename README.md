@@ -12,17 +12,13 @@
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/XHS-Downloader/total?style=for-the-badge&color=f759ab">
 </div>
 <br>
-<div align="center">
-<p>🔥 <b>小红书作品采集工具</b>：采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
-<p>❤️ 作者仅在 GitHub 发布 XHS-Downloader，未与任何个人或网站合作，且没有任何收费计划！</p>
-</div>
+<p>🔥 <b>小红书链接提取/作品采集工具</b>：提取账号发布、收藏、点赞作品链接；提取搜索结果作品、用户链接；采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
+<p>❤️ 作者仅在 GitHub 发布 XHS-Downloader，没有任何收费计划，谨防上当受骗！</p>
 <h1>📑 项目功能</h1>
-<ul>
-<li>✅ 采集小红书图文 / 视频作品信息</li>
-<li>✅ 提取小红书图文 / 视频作品下载地址</li>
-<li>✅ 下载小红书无水印图文 / 视频作品文件</li>
-<li>✅ 支持 Tampermonkey 用户脚本</li>
-<li>✅ 批量下载账号作品（搭配用户脚本）</li>
+<ul><b>程序功能</b>
+<li>✅ 采集小红书作品信息</li>
+<li>✅ 提取小红书作品下载地址</li>
+<li>✅ 下载小红书无水印作品文件</li>
 <li>✅ 自动跳过已下载的作品文件</li>
 <li>✅ 作品文件完整性处理机制</li>
 <li>✅ 自定义图文作品文件下载格式</li>
@@ -31,8 +27,16 @@
 <li>☑️ 后台监听剪贴板下载作品</li>
 <li>☑️ 支持 API 调用功能</li>
 </ul>
+<ul><b>脚本功能</b>
+<li>✅ 下载小红书无水印作品文件</li>
+<li>✅ 提取发现页面作品链接</li>
+<li>✅ 提取账号发布作品链接</li>
+<li>✅ 提取账号收藏作品链接</li>
+<li>✅ 提取账号点赞作品链接</li>
+<li>✅ 提取搜索结果作品链接</li>
+<li>✅ 提取搜索结果用户链接</li>
+</ul>
 <h1>📸 程序截图</h1>
-<br>
 <p><b>🎥 点击图片观看演示视频</b></p>
 <a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/程序运行截图1.png" alt=""></a>
 <hr>
@@ -46,12 +50,12 @@
 <p><b>支持单次输入多个作品链接，链接之间使用空格分隔。</b></p>
 </ul>
 <h1>🪟 关于终端</h1>
-<p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 自带默认终端）运行程序以便获得最佳显示效果！</p>
+<p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 默认终端）运行程序以便获得最佳显示效果！</p>
 <h1>🥣 使用方法</h1>
 <p>如果仅需下载无水印作品文件，建议选择 <b>程序运行</b>；如果有其他需求，建议选择 <b>源码运行</b>！</p>
 <h2>🖱 程序运行</h2>
 <p>Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
-<p>若通过此方式使用程序，文件默认下载路径：<code>.\_internal\Download</code>；配置文件路径：<code>.\_internal\settings.json</code></p>
+<p>若通过此方式使用程序，文件默认下载路径为：<code>.\_internal\Download</code>；配置文件路径为：<code>.\_internal\settings.json</code></p>
 <h2>⌨️ 源码运行</h2>
 <ol>
 <li>安装版本号不低于 <code>3.12</code> 的 Python 解释器</li>
@@ -60,18 +64,9 @@
 <li>运行 <code>main.py</code> 即可使用</li>
 </ol>
 <h1>🕹 用户脚本</h1>
-<p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以添加 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">用户脚本</a>，无需下载安装即可体验项目功能！</p>
-<p>提示：可以使用 XHS-Downloader 用户脚本批量提取网页上的作品链接，搭配 XHS-Downloader 程序即可实现批量下载无水印作品文件！</p>
-<h2>脚本功能</h2>
-<ul>
-<li>下载小红书无水印作品文件</li>
-<li>提取发现页面作品链接</li>
-<li>提取账号发布作品链接</li>
-<li>提取账号收藏作品链接</li>
-<li>提取账号点赞作品链接</li>
-</ul>
-<h2>脚本截图</h2>
 <img src="static/用户脚本截图.png" alt="">
+<p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以添加 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">用户脚本</a>，无需下载安装即可体验项目功能！</p>
+<p>提示：使用 XHS-Downloader 用户脚本批量提取作品链接，搭配 XHS-Downloader 程序可以实现批量下载无水印作品文件！</p>
 <h1>💻 二次开发</h1>
 <p>如果有其他需求，可以根据 <code>main.py</code> 的注释提示进行代码调用或修改！</p>
 <pre>
@@ -113,7 +108,6 @@ async with XHS(work_path=work_path,
 </pre>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>settings.json</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
-<p>如果您的计算机没有合适的程序编辑 JSON 文件，建议使用 <a href="https://try8.cn/tool/format/json">JSON 在线工具</a> 编辑配置文件内容</p>
 <table>
 <thead>
 <tr>
