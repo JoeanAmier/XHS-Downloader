@@ -83,7 +83,7 @@ class Setting(Screen):
         yield Footer()
 
     def on_mount(self) -> None:
-        self.title = "程序设置"
+        self.title = self.prompt.settings_title
 
     @on(Button.Pressed, "#save")
     def save_settings(self):

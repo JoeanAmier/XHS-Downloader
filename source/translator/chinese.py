@@ -63,6 +63,7 @@ class Chinese:
     cookie_placeholder: str = "内置 Cookie，建议自行设置"
     proxy_placeholder: str = "无代理"
 
+    settings_title: str = "程序设置"
     save_button: str = "保存配置"
     abandon_button: str = "放弃更改"
 

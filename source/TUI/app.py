@@ -13,7 +13,6 @@ from source.translator import (
     English,
 )
 from .index import Index
-from .loading import Loading
 from .setting import Setting
 
 __all__ = ["XHSDownloader"]
@@ -48,7 +47,6 @@ class XHSDownloader(App):
                 self.prompt),
             name="setting")
         self.install_screen(Index(self.APP, self.prompt), name="index")
-        self.install_screen(Loading(), name="loading")
         await self.push_screen("index")
 
     async def action_settings(self):
@@ -62,12 +60,14 @@ class XHSDownloader(App):
         await self.push_screen("index")
 
     async def refresh_screen(self):
-        await self.push_screen("loading")
-        self.uninstall_screen("setting")
+        self.pop_screen()
         self.__initialization()
+        self.uninstall_screen("setting")
         self.install_screen(
             Setting(
                 self.parameter,
                 self.prompt),
             name="setting")
+        self.uninstall_screen("index")
+        self.install_screen(Index(self.APP, self.prompt), name="index")
         await self.push_screen("index")

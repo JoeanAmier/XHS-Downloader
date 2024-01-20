@@ -60,7 +60,7 @@ class English(Chinese):
     exit_program: str = "Exit the program"
     check_updates: str = "Check for updates"
     get_script: str = "Get the script"
-    choose_language: str = "Select language"
+    settings: str = "Settings"
 
     work_path: str = "Work path:"
     folder_name: str = "Folder name:"
@@ -81,6 +81,7 @@ class English(Chinese):
     cookie_placeholder: str = "built-in cookie, it is recommended to set it manually"
     proxy_placeholder: str = "No proxy"
 
+    settings_title: str = "Settings"
     save_button: str = "Save configuration"
     abandon_button: str = "Discard changes"
 

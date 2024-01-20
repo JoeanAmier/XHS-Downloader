@@ -34,9 +34,9 @@
 <h1>📸 Program Screenshot</h1>
 <br>
 <p><b>🎥 Click on the image to watch the demo video</b></p>
-<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/程序运行截图1.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/screenshot/程序运行截图EN1.png" alt=""></a>
 <hr>
-<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/程序运行截图2.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/screenshot/程序运行截图EN2.png" alt=""></a>
 <h1>🔗 Support Hyperlinks</h1>
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/artwork's ID</code></li>
@@ -71,7 +71,9 @@
 <li>Extract artwork links from account-liked content</li>
 </ul>
 <h2>Script Screenshot</h2>
-<img src="static/用户脚本截图.png" alt="">
+<img src="static/screenshot/用户脚本截图1.png" alt="">
+<hr>
+<img src="static/screenshot/用户脚本截图2.png" alt="">
 <h1>💻 Secondary Development</h1>
 <p>If there are other requirements, you can call or modify the program refer to the comments in <code>main.py</code></p>
 <pre>
@@ -207,7 +209,7 @@ async with XHS(work_path=work_path,
 <li>The output content is the Cookie</li>
 </ol>
 <br>
-<img src="static/获取Cookie示意图.png" alt="">
+<img src="static/screenshot/获取Cookie示意图.png" alt="">
 <h1>♥️ Support the Project</h1>
 <p>If <b>XHS-Downloader</b> is helpful, please consider giving it a <b>Star</b> ⭐, thank you for your support!</p>
 <table>

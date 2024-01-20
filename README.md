@@ -38,9 +38,9 @@
 </ul>
 <h1>📸 程序截图</h1>
 <p><b>🎥 点击图片观看演示视频</b></p>
-<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/程序运行截图1.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/screenshot/程序运行截图CN1.png" alt=""></a>
 <hr>
-<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/程序运行截图2.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/screenshot/程序运行截图CN2.png" alt=""></a>
 <h1>🔗 支持链接</h1>
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/作品ID</code></li>
@@ -64,7 +64,9 @@
 <li>运行 <code>main.py</code> 即可使用</li>
 </ol>
 <h1>🕹 用户脚本</h1>
-<img src="static/用户脚本截图.png" alt="">
+<img src="static/screenshot/用户脚本截图1.png" alt="">
+<hr>
+<img src="static/screenshot/用户脚本截图2.png" alt="">
 <p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以添加 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">用户脚本</a>，无需下载安装即可体验项目功能！</p>
 <p>提示：使用 XHS-Downloader 用户脚本批量提取作品链接，搭配 XHS-Downloader 程序可以实现批量下载无水印作品文件！</p>
 <h1>💻 二次开发</h1>
@@ -201,7 +203,7 @@ async with XHS(work_path=work_path,
 <li>输出内容即为所需 Cookie</li>
 </ol>
 <br>
-<img src="static/获取Cookie示意图.png" alt="">
+<img src="static/screenshot/获取Cookie示意图.png" alt="">
 <h1>♥️ 支持项目</h1>
 <p>如果 <b>XHS-Downloader</b> 对您有帮助，请考虑为它点个 <b>Star</b> ⭐，感谢您的支持！</p>
 <table>
