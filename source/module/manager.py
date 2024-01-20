@@ -19,7 +19,7 @@ __all__ = ["Manager"]
 
 
 class Manager:
-    NAME = compile(r"[^\u4e00-\u9fa5a-zA-Z0-9_]")
+    NAME = compile(r"[^\u4e00-\u9fa5a-zA-Z0-9]")
 
     def __init__(
             self,

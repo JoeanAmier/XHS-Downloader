@@ -21,11 +21,13 @@ class Html:
             url: str,
             content=True,
             log=None,
+            **kwargs,
     ) -> str:
         try:
             async with self.session.get(
                     url,
                     proxy=self.proxy,
+                    **kwargs,
             ) as response:
                 if response.status != 200:
                     return ""

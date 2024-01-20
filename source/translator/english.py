@@ -85,6 +85,8 @@ class English(Chinese):
     save_button: str = "Save configuration"
     abandon_button: str = "Discard changes"
 
+    processing: str = "Processing..."
+
     @staticmethod
     def request_error(url: str) -> str:
         return f"Network error, failed to access {url}!"

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.4
+// @version      1.4.1
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://www.xiaohongshu.com/explore*
@@ -385,16 +385,18 @@
     const buttons = [createButton("Download", "下载无水印作品文件", extractDownloadLinks), createButton("Post", "提取发布作品链接", extractAllLinksEvent, 0), createButton("Collection", "提取收藏作品链接", extractAllLinksEvent, 1), createButton("Favorite", "提取点赞作品链接", extractAllLinksEvent, 2), createButton("Feed", "提取发现作品链接", extractAllLinksEvent, -1), createButton("Search", "提取搜索作品链接", extractAllLinksEvent, 3), createButton("User", "提取搜索用户链接", extractAllLinksEvent, 4), createButton("About", "关于 XHS-Downloader", about,)]
 
     const run = url => {
-        if (url === "https://www.xiaohongshu.com/explore") {
-            updateContainer(buttons.slice(4, 5));
-        } else if (url.includes("https://www.xiaohongshu.com/explore/")) {
-            updateContainer(buttons.slice(0, 1));
-        } else if (url.includes("https://www.xiaohongshu.com/user/profile/")) {
-            updateContainer(buttons.slice(1, 4));
-        } else if (url.includes("https://www.xiaohongshu.com/search_result")) {
-            updateContainer(buttons.slice(5, 7));
-        }
-    };
+        setTimeout(function () {
+            if (url === "https://www.xiaohongshu.com/explore") {
+                updateContainer(buttons.slice(4, 5));
+            } else if (url.includes("https://www.xiaohongshu.com/explore/")) {
+                updateContainer(buttons.slice(0, 1));
+            } else if (url.includes("https://www.xiaohongshu.com/user/profile/")) {
+                updateContainer(buttons.slice(1, 4));
+            } else if (url.includes("https://www.xiaohongshu.com/search_result")) {
+                updateContainer(buttons.slice(5, 7));
+            }
+        }, 500)
+    }
 
     let currentUrl = window.location.href;
 

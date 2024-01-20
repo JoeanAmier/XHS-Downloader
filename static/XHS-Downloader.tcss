@@ -1,4 +1,4 @@
-Screen, RichLog {
+ScrollableContainer, RichLog {
     background: #2f3542;
 }
 Button {
@@ -43,4 +43,15 @@ Bar > .bar--indeterminate {
 }
 Bar > .bar--complete {
     color: #ff7f50;
+}
+.loading {
+    grid-size: 1 2;
+    grid-gutter: 1;
+    width: 40vw;
+    height: 5;
+    background: #353b48;
+    border: double #747d8c;
+}
+ModalScreen {
+    align: center middle;
 }

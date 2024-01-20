@@ -1,3 +1,4 @@
+from asyncio import gather
 from pathlib import Path
 
 from aiohttp import ClientError
@@ -36,18 +37,35 @@ class Download:
         path = self.__generate_path(name)
         match type_:
             case "视频":
-                await self.__download(urls[0], path, f"{name}", self.video_format, log, bar)
+                tasks = self.__ready_download_video(urls, path, name, log)
             case "图文":
-                for index, url in enumerate(urls, start=1):
-                    await self.__download(url, path, f"{name}_{index}", self.image_format, log, bar)
+                tasks = self.__ready_download_image(urls, path, name, log)
             case _:
                 raise ValueError
+        tasks = [self.__download(url, path, name, format_, log, bar) for url, name, format_ in tasks]
+        await gather(*tasks)
         return path
 
     def __generate_path(self, name: str):
         path = self.manager.archive(self.folder, name, self.folder_mode)
         path.mkdir(exist_ok=True)
         return path
+
+    def __ready_download_video(self, urls: list[str], path: Path, name: str, log) -> list:
+        if any(path.glob(f"{name}.*")):
+            logging(log, self.prompt.skip_download(name))
+            return []
+        return [(urls[0], name, self.video_format)]
+
+    def __ready_download_image(self, urls: list[str], path: Path, name: str, log) -> list:
+        tasks = []
+        for i, j in enumerate(urls, start=1):
+            file = f"{name}_{i}"
+            if any(path.glob(f"{file}.*")):
+                logging(log, self.prompt.skip_download(file))
+                continue
+            tasks.append([j, file, self.image_format])
+        return tasks
 
     @re_download
     async def __download(self, url: str, path: Path, name: str, format_: str, log, bar):
@@ -58,10 +76,7 @@ class Download:
                 suffix = self.__extract_type(
                     response.headers.get("Content-Type")) or format_
                 temp = self.temp.joinpath(name)
-                file = path.joinpath(name).with_suffix(f".{suffix}")
-                if self.manager.is_exists(file):
-                    logging(log, self.prompt.skip_download(name))
-                    return True
+                real = path.joinpath(name).with_suffix(f".{suffix}")
                 # self.__create_progress(
                 #     bar, int(
                 #         response.headers.get(
@@ -70,7 +85,7 @@ class Download:
                     async for chunk in response.content.iter_chunked(self.chunk):
                         f.write(chunk)
                         # self.__update_progress(bar, len(chunk))
-            self.manager.move(temp, file)
+            self.manager.move(temp, real)
             # self.__create_progress(bar, None)
             logging(log, self.prompt.download_success(name))
             return True

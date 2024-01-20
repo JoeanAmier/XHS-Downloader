@@ -12,7 +12,6 @@ from textual.widgets import Input
 from textual.widgets import Label
 from textual.widgets import Select
 
-from source.module import ROOT
 from source.translator import (
     LANGUAGE,
     Chinese,
@@ -23,7 +22,6 @@ __all__ = ["Setting"]
 
 
 class Setting(Screen):
-    CSS_PATH = ROOT.joinpath("static/XHS-Downloader.tcss")
     BINDINGS = [
         Binding(key="q", action="quit", description="退出程序/Quit"),
         Binding(key="b", action="index", description="返回首页/Back"),
