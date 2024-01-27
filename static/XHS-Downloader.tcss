@@ -1,4 +1,4 @@
-ScrollableContainer, RichLog {
+ScrollableContainer, RichLog, Monitor {
     background: #2f3542;
 }
 Button {
@@ -20,7 +20,7 @@ Button {
 Button#deal, Button#paste, Button#save {
     tint: #27ae60 60%;
 }
-Button#reset, Button#abandon {
+Button#reset, Button#abandon, Button#close {
     tint: #c0392b 60%;
 }
 Label {
@@ -32,7 +32,7 @@ Label {
 Label.params {
     margin: 1 0 0 0;
 }
-Label#prompt {
+Label#prompt, Label#monitor {
     padding: 1;
 }
 Bar {

@@ -6,7 +6,7 @@ __all__ = ['Explore']
 
 
 class Explore:
-    time_format = "%Y-%m-%d %H:%M:%S"
+    time_format = "%Y-%m-%d_%H:%M:%S"
     explore_type = {"video": "视频", "normal": "图文"}
 
     def run(self, data: Namespace) -> dict:

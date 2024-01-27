@@ -15,6 +15,7 @@ from source.translator import (
 )
 from .index import Index
 from .loading import Loading
+from .monitor import Monitor
 from .setting import Setting
 from .update import Update
 
@@ -84,3 +85,6 @@ class XHSDownloader(App):
 
     async def action_check_update(self):
         await self.push_screen(Update(self.APP, self.prompt), callback=self.update_result)
+
+    async def action_clipboard(self):
+        await self.push_screen(Monitor(self.APP, self.prompt))

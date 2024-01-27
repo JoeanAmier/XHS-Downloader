@@ -18,9 +18,7 @@ from textual.widgets import RichLog
 
 from source.application import XHS
 from source.module import (
-    VERSION_MAJOR,
-    VERSION_MINOR,
-    VERSION_BETA,
+    PROJECT,
     PROMPT,
     MASTER,
     ERROR,
@@ -44,6 +42,7 @@ class Index(Screen):
         Binding(key="u", action="check_update", description="检查更新/Update"),
         Binding(key="m", action="user_script", description="获取脚本/Script"),
         Binding(key="s", action="settings", description="程序设置/Settings"),
+        Binding(key="c", action="clipboard", description="监听链接/ClipBoard"),
     ]
 
     def __init__(self, app: XHS, language: Chinese | English):
@@ -82,8 +81,7 @@ class Index(Screen):
         yield Footer()
 
     def on_mount(self) -> None:
-        self.title = f"XHS-Downloader V{VERSION_MAJOR}.{
-        VERSION_MINOR}{" Beta" if VERSION_BETA else ""}"
+        self.title = PROJECT
         self.url = self.query_one(Input)
         self.tip = self.query_one(RichLog)
         self.tip.write(Text("\n".join(self.prompt.disclaimer), style=MASTER))

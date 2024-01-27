@@ -19,8 +19,8 @@ from .static import (
     INFO,
     USERSCRIPT,
     USERAGENT,
-    COOKIE,
     HEADERS,
+    PROJECT,
 )
 from .tools import (
     retry,
@@ -49,9 +49,9 @@ __all__ = [
     "INFO",
     "USERSCRIPT",
     "USERAGENT",
-    "COOKIE",
     "HEADERS",
     "retry",
     "logging",
     "wait",
+    "PROJECT",
 ]

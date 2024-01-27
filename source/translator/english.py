@@ -78,7 +78,8 @@ class English(Chinese):
 
     work_path_placeholder: str = "Program root path"
     user_agent_placeholder: str = "Default UA"
-    cookie_placeholder: str = "built-in cookie, it is recommended to set it manually"
+    cookie_placeholder_true: str = "Xiaohongshu web version cookie, no login required, parameters have been set"
+    cookie_placeholder_false: str = "Xiaohongshu web version cookie, no login required, parameters not set"
     proxy_placeholder: str = "No proxy"
 
     settings_title: str = "Settings"
@@ -86,6 +87,13 @@ class English(Chinese):
     abandon_button: str = "Discard changes"
 
     processing: str = "Processing..."
+
+    monitor_mode: str = "Currently in monitoring clipboard mode"
+    monitor_text: str = (
+        "The program will automatically read and extract the link to Xiaohongshu's works from the "
+        "clipboard, and automatically download the corresponding work file. If you want to close it, "
+        "please click the close button or write the \"close\" text to the clipboard!")
+    close_monitor: str = "Exit monitoring clipboard mode"
 
     @staticmethod
     def request_error(url: str) -> str:

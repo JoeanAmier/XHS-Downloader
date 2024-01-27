@@ -13,7 +13,7 @@
 </div>
 <br>
 <p>🔥 <b>小红书链接提取/作品采集工具</b>：提取账号发布、收藏、点赞作品链接；提取搜索结果作品、用户链接；采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
-<p>❤️ 作者仅在 GitHub 发布 XHS-Downloader，没有任何收费计划，谨防上当受骗！</p>
+<p>❤️ 作者仅在 GitHub 发布 XHS-Downloader，未与任何个人或网站合作发布，项目没有任何收费计划，谨防上当受骗！</p>
 <h1>📑 项目功能</h1>
 <ul><b>程序功能</b>
 <li>✅ 采集小红书作品信息</li>
@@ -24,7 +24,7 @@
 <li>✅ 自定义图文作品文件下载格式</li>
 <li>✅ 持久化储存作品信息至文件</li>
 <li>✅ 作品文件储存至单独文件夹</li>
-<li>☑️ 后台监听剪贴板下载作品</li>
+<li>✅ 后台监听剪贴板下载作品</li>
 <li>☑️ 支持 API 调用功能</li>
 </ul>
 <ul><b>脚本功能</b>
@@ -41,6 +41,8 @@
 <a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/screenshot/程序运行截图CN1.png" alt=""></a>
 <hr>
 <a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/screenshot/程序运行截图CN2.png" alt=""></a>
+<hr>
+<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/screenshot/程序运行截图CN3.png" alt=""></a>
 <h1>🔗 支持链接</h1>
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/作品ID</code></li>
@@ -110,6 +112,7 @@ async with XHS(work_path=work_path,
 </pre>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>settings.json</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
+<p>建议自行设置 <code>cookie</code> 参数，若不设置该参数，程序功能可能无法正常使用！</p>
 <table>
 <thead>
 <tr>
@@ -141,8 +144,8 @@ async with XHS(work_path=work_path,
 <tr>
 <td align="center">cookie</td>
 <td align="center">str</td>
-<td align="center">小红书网页版 Cookie，<b>无需登录，建议修改</b></td>
-<td align="center">默认 Cookie</td>
+<td align="center">小红书网页版 Cookie，<b>无需登录</b></td>
+<td align="center">无</td>
 </tr>
 <tr>
 <td align="center">proxy</td>

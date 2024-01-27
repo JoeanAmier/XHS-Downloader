@@ -1,4 +1,12 @@
+from asyncio import Event
+from asyncio import Queue
+from asyncio import QueueEmpty
+from asyncio import gather
+from asyncio import sleep
+from contextlib import suppress
 from re import compile
+
+from pyperclip import paste
 
 from source.expansion import Converter
 from source.expansion import Namespace
@@ -73,6 +81,9 @@ class XHS:
         self.explore = Explore()
         self.convert = Converter()
         self.download = Download(self.manager)
+        self.clipboard_cache: str = ""
+        self.queue = Queue()
+        self.event = Event()
 
     def __extract_image(self, container: dict, data: Namespace):
         container["下载地址"] = self.image.get_image_link(
@@ -141,10 +152,32 @@ class XHS:
         return Namespace(data)
 
     def __naming_rules(self, data: dict) -> str:
-        """下载文件默认使用 作品标题 或 作品 ID 作为文件名称，可修改此方法自定义文件名称格式"""
+        time_ = data["发布时间"].replace(":", ".")
         author = self.manager.filter_name(data["作者昵称"]) or data["作者ID"]
         title = self.manager.filter_name(data["作品标题"]) or data["作品ID"]
-        return f"{author}-{title}"
+        return f"{time_}_{author}_{title[:64]}"
+
+    async def monitor(self, delay=1, download=False, efficient=False, log=None, bar=None) -> None:
+        self.event.clear()
+        await gather(self.__push_link(delay), self.__receive_link(delay, download, efficient, log, bar))
+
+    async def __push_link(self, delay: int):
+        while not self.event.is_set():
+            if (t := paste()).lower() == "close":
+                self.stop_monitor()
+            elif t != self.clipboard_cache:
+                self.clipboard_cache = t
+                [await self.queue.put(i) for i in await self.__extract_links(t, None)]
+            await sleep(delay)
+
+    async def __receive_link(self, delay: int, *args, **kwargs):
+        while not self.event.is_set() or self.queue.qsize() > 0:
+            with suppress(QueueEmpty):
+                await self.__deal_extract(self.queue.get_nowait(), *args, **kwargs)
+            await sleep(delay)
+
+    def stop_monitor(self):
+        self.event.set()
 
     @staticmethod
     async def __suspend(efficient: bool) -> None:

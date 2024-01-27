@@ -17,14 +17,16 @@ __all__ = [
     "INFO",
     "USERSCRIPT",
     "USERAGENT",
-    "COOKIE",
     "HEADERS",
+    "PROJECT",
 ]
 
 VERSION_MAJOR = 1
 VERSION_MINOR = 8
 VERSION_BETA = True
 ROOT = Path(__file__).resolve().parent.parent.parent
+PROJECT = f"XHS-Downloader V{VERSION_MAJOR}.{
+VERSION_MINOR}{" Beta" if VERSION_BETA else ""}"
 
 REPOSITORY = "https://github.com/JoeanAmier/XHS-Downloader"
 LICENCE = "GNU General Public License v3.0"
@@ -49,14 +51,8 @@ HEADERS = {
     "Upgrade-Insecure-Requests": "1",
 }
 USERAGENT = (
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 "
-    "Safari/537.36 Edg/120.0.0.0")
-COOKIE = (
-    "abRequestId=a1c55c3d-edcd-5753-938b-15d22a78cb8a; webBuild=3.23.2; "
-    "a1=18ceecc41c5d2gkprctahn1jayh458m5eoos9grxb50000267832; webId=79879aaf1b46fa2120dfba20d6155928; "
-    "websectiga=3fff3a6f9f07284b62c0f2ebf91a3b10193175c06e4f71492b60e056edcdebb2; "
-    "sec_poison_id=52bff38d-96eb-40b6-a46b-5e7cc86014e4; web_session=030037a2ae3713ec49882425e5224a3cbb4eef; "
-    "gid=yYSddSS2DKdyyYSddSS4ylkFS2fJkTUFS90xlCDIyV0vxM2842Y62j888JKWYqJ8iDD4KY2d; xsecappid=xhs-pc-web")
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 "
+    "Safari/537.36 Edg/121.0.0.0")
 
 MASTER = "b #fff200"
 PROMPT = "b turquoise2"

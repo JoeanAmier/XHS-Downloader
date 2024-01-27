@@ -44,7 +44,7 @@ class Setting(Screen):
             Input(self.data["user_agent"], placeholder=self.prompt.user_agent_placeholder, valid_empty=True,
                   id="user_agent", ),
             Label(self.prompt.cookie, classes="params", ),
-            Input(self.data["cookie"], placeholder=self.prompt.cookie_placeholder, valid_empty=True, id="cookie", ),
+            Input(placeholder=self.__check_cookie(), valid_empty=True, id="cookie", ),
             Label(self.prompt.proxy, classes="params", ),
             Input(self.data["proxy"], placeholder=self.prompt.proxy_placeholder, valid_empty=True, id="proxy", ),
             Label(self.prompt.timeout, classes="params", ),
@@ -80,6 +80,11 @@ class Setting(Screen):
         )
         yield Footer()
 
+    def __check_cookie(self) -> str:
+        if self.data["cookie"]:
+            return self.prompt.cookie_placeholder_true
+        return self.prompt.cookie_placeholder_false
+
     def on_mount(self) -> None:
         self.title = self.prompt.settings_title
 
@@ -89,7 +94,7 @@ class Setting(Screen):
             "work_path": self.query_one("#work_path").value,
             "folder_name": self.query_one("#folder_name").value,
             "user_agent": self.query_one("#user_agent").value,
-            "cookie": self.query_one("#cookie").value,
+            "cookie": self.query_one("#cookie").value or self.data["cookie"],
             "proxy": self.query_one("#proxy").value or None,
             "timeout": int(self.query_one("#timeout").value),
             "chunk": int(self.query_one("#chunk").value),

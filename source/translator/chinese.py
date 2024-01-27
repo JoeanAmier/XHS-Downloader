@@ -60,7 +60,8 @@ class Chinese:
 
     work_path_placeholder: str = "程序根路径"
     user_agent_placeholder: str = "默认 UA"
-    cookie_placeholder: str = "内置 Cookie，建议自行设置"
+    cookie_placeholder_true: str = "小红书网页版 Cookie，无需登录，参数已设置"
+    cookie_placeholder_false: str = "小红书网页版 Cookie，无需登录，参数未设置"
     proxy_placeholder: str = "无代理"
 
     settings_title: str = "程序设置"
@@ -68,6 +69,10 @@ class Chinese:
     abandon_button: str = "放弃更改"
 
     processing: str = "程序处理中..."
+
+    monitor_mode: str = "已启动监听剪贴板模式"
+    monitor_text: str = "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"
+    close_monitor: str = "退出监听剪贴板模式"
 
     @staticmethod
     def request_error(url: str) -> str:
