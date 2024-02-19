@@ -13,9 +13,11 @@ from source.translator import (
     Chinese,
     English,
 )
+# from .about import About
 from .index import Index
 from .loading import Loading
 from .monitor import Monitor
+from .record import Record
 from .setting import Setting
 from .update import Update
 
@@ -53,6 +55,8 @@ class XHSDownloader(App):
             name="setting")
         self.install_screen(Index(self.APP, self.prompt), name="index")
         self.install_screen(Loading(self.prompt), name="loading")
+        # self.install_screen(About(self.prompt), name="about")
+        self.install_screen(Record(self.APP, self.prompt), name="record")
         await self.push_screen("index")
 
     async def action_settings(self):
@@ -62,15 +66,26 @@ class XHSDownloader(App):
 
         await self.push_screen("setting", save_settings)
 
+    async def action_about(self):
+        await self.push_screen("about")
+
     async def action_index(self):
         await self.push_screen("index")
 
+    async def action_record(self):
+        await self.push_screen("record")
+
     async def refresh_screen(self):
         self.pop_screen()
+        await self.APP.recorder.database.close()
+        await self.APP.close()
         self.__initialization()
+        await self.__aenter__()
         self.uninstall_screen("index")
         self.uninstall_screen("setting")
         self.uninstall_screen("loading")
+        # self.uninstall_screen("about")
+        self.uninstall_screen("record")
         self.install_screen(Index(self.APP, self.prompt), name="index")
         self.install_screen(
             Setting(
@@ -78,13 +93,21 @@ class XHSDownloader(App):
                 self.prompt),
             name="setting")
         self.install_screen(Loading(self.prompt), name="loading")
+        # self.install_screen(About(self.prompt), name="about")
+        self.install_screen(Record(self.APP, self.prompt), name="record")
         await self.push_screen("index")
 
     def update_result(self, tip: str) -> None:
-        self.query_one(RichLog).write(tip)
+        log = self.query_one(RichLog)
+        log.write(tip)
+        log.write(">" * 50)
 
     async def action_check_update(self):
         await self.push_screen(Update(self.APP, self.prompt), callback=self.update_result)
 
-    async def action_clipboard(self):
+    async def action_check_update_about(self):
+        await self.push_screen("index")
+        await self.action_check_update()
+
+    async def action_monitor(self):
         await self.push_screen(Monitor(self.APP, self.prompt))

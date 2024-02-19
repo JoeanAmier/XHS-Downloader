@@ -1,9 +1,7 @@
-from asyncio import create_task
-from webbrowser import open
-
 from pyperclip import paste
 from rich.text import Text
 from textual import on
+from textual import work
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import HorizontalScroll
@@ -26,7 +24,6 @@ from source.module import (
     LICENCE,
     REPOSITORY,
     GENERAL,
-    USERSCRIPT,
 )
 from source.translator import (
     English,
@@ -40,9 +37,10 @@ class Index(Screen):
     BINDINGS = [
         Binding(key="q", action="quit", description="退出程序/Quit"),
         Binding(key="u", action="check_update", description="检查更新/Update"),
-        Binding(key="m", action="user_script", description="获取脚本/Script"),
         Binding(key="s", action="settings", description="程序设置/Settings"),
-        Binding(key="c", action="clipboard", description="监听链接/ClipBoard"),
+        Binding(key="r", action="record", description="下载记录/Record"),
+        Binding(key="m", action="monitor", description="开启监听/Monitor"),
+        # Binding(key="a", action="about", description="关于项目/About"),
     ]
 
     def __init__(self, app: XHS, language: Chinese | English):
@@ -68,7 +66,7 @@ class Index(Screen):
             Label(
                 Text(
                     self.prompt.input_box_title,
-                    style=PROMPT), id="prompt",
+                    style=PROMPT), classes="prompt",
             ),
             Input(placeholder=self.prompt.input_prompt),
             HorizontalScroll(
@@ -89,7 +87,7 @@ class Index(Screen):
     @on(Button.Pressed, "#deal")
     async def deal_button(self):
         if self.url.value:
-            await create_task(self.deal())
+            self.deal()
         else:
             self.tip.write(Text(self.prompt.invalid_link, style=WARNING))
         self.tip.write(Text(">" * 50, style=GENERAL))
@@ -102,6 +100,7 @@ class Index(Screen):
     def paste_button(self):
         self.query_one(Input).value = paste()
 
+    @work()
     async def deal(self):
         await self.app.push_screen("loading")
         if any(await self.xhs.extract(self.url.value, True, log=self.tip)):
@@ -109,7 +108,3 @@ class Index(Screen):
         else:
             self.tip.write(Text(self.prompt.download_failure, style=ERROR))
         self.app.pop_screen()
-
-    @staticmethod
-    def action_user_script():
-        open(USERSCRIPT)

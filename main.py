@@ -13,8 +13,8 @@ async def example():
     # 实例对象
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
-    user_agent = ""  # 请求头 User-Agent
-    cookie = ""  # 小红书网页版 Cookie，无需登录
+    user_agent = ""  # 请求头 User-Agent，可选参数
+    cookie = ""  # 小红书网页版 Cookie，无需登录，必需参数
     proxy = None  # 网络代理
     timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
     chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
@@ -37,10 +37,11 @@ async def example():
                    folder_mode=folder_mode,
                    ) as xhs:  # 使用自定义参数
         download = True  # 是否下载作品文件，默认值：False
+        efficient = True  # 高效模式，禁用请求延时
         # 返回作品详细信息，包括下载地址
-        print(await xhs.extract(error_link, download))  # 获取数据失败时返回空字典
-        print(await xhs.extract(demo_link, download))
-        print(await xhs.extract(multiple_links, download))  # 支持传入多个作品链接
+        print(await xhs.extract(error_link, download, efficient))  # 获取数据失败时返回空字典
+        print(await xhs.extract(demo_link, download, efficient))
+        print(await xhs.extract(multiple_links, download, efficient))  # 支持传入多个作品链接
 
 
 async def main():

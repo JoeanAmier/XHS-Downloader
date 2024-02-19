@@ -10,6 +10,7 @@ from pyperclip import paste
 
 from source.expansion import Converter
 from source.expansion import Namespace
+from source.module import IDRecorder
 from source.module import Manager
 from source.module import (
     ROOT,
@@ -81,6 +82,7 @@ class XHS:
         self.explore = Explore()
         self.convert = Converter()
         self.download = Download(self.manager)
+        self.recorder = IDRecorder(self.manager)
         self.clipboard_cache: str = ""
         self.queue = Queue()
         self.event = Event()
@@ -96,10 +98,18 @@ class XHS:
         name = self.__naming_rules(container)
         path = self.manager.folder
         if (u := container["下载地址"]) and download:
-            path = await self.download.run(u, name, container["作品类型"], log, bar)
+            if await self.skip_download(i := container["作品ID"]):
+                logging(log, self.prompt.exist_record(i))
+            else:
+                path, result = await self.download.run(u, name, container["作品类型"], log, bar)
+                await self.__add_record(i, result)
         elif not u:
             logging(log, self.prompt.download_link_error, ERROR)
         self.manager.save_data(path, name, container)
+
+    async def __add_record(self, id_: str, result: tuple) -> None:
+        if all(result):
+            await self.recorder.add(id_)
 
     async def extract(self, url: str, download=False, efficient=False, log=None, bar=None) -> list[dict]:
         # return  # 调试代码
@@ -179,6 +189,9 @@ class XHS:
     def stop_monitor(self):
         self.event.set()
 
+    async def skip_download(self, id_: str) -> bool:
+        return bool(await self.recorder.select(id_))
+
     @staticmethod
     async def __suspend(efficient: bool) -> None:
         if efficient:
@@ -186,9 +199,11 @@ class XHS:
         await wait()
 
     async def __aenter__(self):
+        await self.recorder.__aenter__()
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
+        await self.recorder.__aexit__(exc_type, exc_value, traceback)
         await self.close()
 
     async def close(self):

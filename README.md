@@ -25,7 +25,9 @@
 <li>✅ 持久化储存作品信息至文件</li>
 <li>✅ 作品文件储存至单独文件夹</li>
 <li>✅ 后台监听剪贴板下载作品</li>
+<li>✅ 记录已下载作品 ID</li>
 <li>☑️ 支持 API 调用功能</li>
+<li>☑️ 支持命令行参数下载作品文件</li>
 </ul>
 <ul><b>脚本功能</b>
 <li>✅ 下载小红书无水印作品文件</li>
@@ -38,11 +40,11 @@
 </ul>
 <h1>📸 程序截图</h1>
 <p><b>🎥 点击图片观看演示视频</b></p>
-<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/screenshot/程序运行截图CN1.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1PJ4m1Y7Jt/"><img src="static/screenshot/程序运行截图CN1.png" alt=""></a>
 <hr>
-<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/screenshot/程序运行截图CN2.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1PJ4m1Y7Jt/"><img src="static/screenshot/程序运行截图CN2.png" alt=""></a>
 <hr>
-<a href="https://www.bilibili.com/video/BV1nQ4y137it/"><img src="static/screenshot/程序运行截图CN3.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1PJ4m1Y7Jt/"><img src="static/screenshot/程序运行截图CN3.png" alt=""></a>
 <h1>🔗 支持链接</h1>
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/作品ID</code></li>
@@ -74,41 +76,44 @@
 <h1>💻 二次开发</h1>
 <p>如果有其他需求，可以根据 <code>main.py</code> 的注释提示进行代码调用或修改！</p>
 <pre>
-# 示例链接
-error_link = "https://github.com/JoeanAmier/XHS_Downloader"
-demo_link = "https://www.xiaohongshu.com/explore/xxxxxxxxxx"
-multiple_links = f"{demo_link} {demo_link} {demo_link}"
-# 实例对象
-work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
-folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
-user_agent = ""  # 请求头 User-Agent
-cookie = ""  # 小红书网页版 Cookie，无需登录
-proxy = None  # 网络代理
-timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
-chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
-max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，默认值：5
-record_data = False  # 是否记录作品数据至文件
-image_format = "WEBP"  # 图文作品文件下载格式，支持：PNG、WEBP
-folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
-async with XHS() as xhs:
-    pass  # 使用默认参数
-async with XHS(work_path=work_path,
-               folder_name=folder_name,
-               user_agent=user_agent,
-               cookie=cookie,
-               proxy=proxy,
-               timeout=timeout,
-               chunk=chunk,
-               max_retry=max_retry,
-               record_data=record_data,
-               image_format=image_format,
-               folder_mode=folder_mode,
-               ) as xhs:  # 使用自定义参数
-    download = True  # 是否下载作品文件，默认值：False
-    # 返回作品详细信息，包括下载地址
-    print(await xhs.extract(error_link, download))  # 获取数据失败时返回空字典
-    print(await xhs.extract(demo_link, download))
-    print(await xhs.extract(multiple_links, download))  # 支持传入多个作品链接
+async def example():
+    """通过代码设置参数，适合二次开发"""
+    # 示例链接
+    error_link = "https://github.com/JoeanAmier/XHS_Downloader"
+    demo_link = "https://www.xiaohongshu.com/explore/xxxxxxxxxx"
+    multiple_links = f"{demo_link} {demo_link} {demo_link}"
+    # 实例对象
+    work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
+    folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
+    user_agent = ""  # 请求头 User-Agent，可选参数
+    cookie = ""  # 小红书网页版 Cookie，无需登录，必需参数
+    proxy = None  # 网络代理
+    timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
+    chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
+    max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，默认值：5
+    record_data = False  # 是否记录作品数据至文件
+    image_format = "WEBP"  # 图文作品文件下载格式，支持：PNG、WEBP
+    folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
+    async with XHS() as xhs:
+        pass  # 使用默认参数
+    async with XHS(work_path=work_path,
+                   folder_name=folder_name,
+                   user_agent=user_agent,
+                   cookie=cookie,
+                   proxy=proxy,
+                   timeout=timeout,
+                   chunk=chunk,
+                   max_retry=max_retry,
+                   record_data=record_data,
+                   image_format=image_format,
+                   folder_mode=folder_mode,
+                   ) as xhs:  # 使用自定义参数
+        download = True  # 是否下载作品文件，默认值：False
+        efficient = True  # 高效模式，禁用请求延时
+        # 返回作品详细信息，包括下载地址
+        print(await xhs.extract(error_link, download, efficient))  # 获取数据失败时返回空字典
+        print(await xhs.extract(demo_link, download, efficient))
+        print(await xhs.extract(multiple_links, download, efficient))  # 支持传入多个作品链接
 </pre>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>settings.json</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
@@ -199,14 +204,19 @@ async with XHS(work_path=work_path,
 </table>
 <h1>🌐 Cookie</h1>
 <ol>
-<li>打开浏览器（可选无痕模式启动），访问小红书任意网页</li>
-<li>按 <code>F12</code> 打开开发人员工具</li>
-<li>选择 <code>控制台</code> 选项卡</li>
-<li>输入 <code>document.cookie</code> 后回车确认</li>
-<li>输出内容即为所需 Cookie</li>
+<li>打开浏览器（可选无痕模式启动），访问 <code>https://www.xiaohongshu.com/explore</code></li>
+<li>按下 <code>F12</code> 打开开发人员工具</li>
+<li>选择 <code>网络</code> 选项卡</li>
+<li>选择 <code>Fetch/XHR</code> 筛选器</li>
+<li>点击小红书页面任意作品</li>
+<li>在 <code>网络</code> 选项卡挑选包含 Cookie 的数据包</li>
+<li>检查 Cookie 是否包含 <code>web_session</code> 字段</li>
+<li>全选复制包含 <code>web_session</code> 字段的 Cookie</li>
 </ol>
 <br>
 <img src="static/screenshot/获取Cookie示意图.png" alt="">
+<h1>🗳 下载记录</h1>
+<p>XHS-Downloader 会将下载过的作品 ID 储存至数据库，当重复下载相同的作品时，XHS-Downloader 会自动跳过该作品的文件下载（即使作品文件不存在），如果想要重新下载作品文件，请先删除数据库中对应的作品 ID，再使用 XHS-Downloader 下载作品文件！</p>
 <h1>♥️ 支持项目</h1>
 <p>如果 <b>XHS-Downloader</b> 对您有帮助，请考虑为它点个 <b>Star</b> ⭐，感谢您的支持！</p>
 <table>
@@ -229,6 +239,9 @@ async with XHS(work_path=work_path,
 <li>QQ Group: <a href="https://github.com/JoeanAmier/XHS-Downloader/blob/master/static/QQ%E7%BE%A4%E8%81%8A%E4%BA%8C%E7%BB%B4%E7%A0%81.png">点击扫码加入群聊</a></li>
 <li>Email: yonglelolu@gmail.com</li>
 </ul>
+<p>
+<b>如果您在使用 XHS-Downloader 的时候遇到问题，请先阅读<a href="https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md">《提问的智慧》</a>，然后加入 QQ 群聊寻求帮助！</b>
+</p>
 <p>
 <b>如果您通过 Email 联系我，我可能无法及时查看并回复信息，我会尽力在七天内回复您的邮件；如果有紧急事项或需要更快的回复，请通过其他方式与我联系，谢谢理解！</b>
 </p>

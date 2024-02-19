@@ -37,7 +37,7 @@ class Monitor(Screen):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Label(Text(self.prompt.monitor_mode, style=INFO), id="monitor")
+        yield Label(Text(self.prompt.monitor_mode, style=INFO), classes="prompt")
         yield RichLog(markup=True, wrap=True)
         yield Button(self.prompt.close_monitor, id="close")
         yield Footer()

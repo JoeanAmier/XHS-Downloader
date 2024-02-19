@@ -95,6 +95,13 @@ class English(Chinese):
         "please click the close button or write the \"close\" text to the clipboard!")
     close_monitor: str = "Exit monitoring clipboard mode"
 
+    record_title: str = "Please enter the link or ID of the Xiaohongshu work to be deleted:"
+    record_placeholder: str = (
+        "Support input of works ID or links containing work ID, with multiple links or IDs "
+        "separated by spaces")
+    record_enter_button: str = "Delete specified works ID"
+    record_close_button: str = "return"
+
     @staticmethod
     def request_error(url: str) -> str:
         return f"Network error, failed to access {url}!"
@@ -134,3 +141,7 @@ class English(Chinese):
     @staticmethod
     def official_version_update(major: int, minor: int) -> str:
         return f"New version detected: {major}.{minor}"
+
+    @staticmethod
+    def exist_record(id_: str) -> str:
+        return f"works {id_} has a download record, skipping download!"

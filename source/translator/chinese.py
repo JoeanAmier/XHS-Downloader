@@ -74,13 +74,18 @@ class Chinese:
     monitor_text: str = "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"
     close_monitor: str = "退出监听剪贴板模式"
 
+    record_title: str = "请输入待删除的小红书作品链接或作品 ID："
+    record_placeholder: str = "支持输入作品 ID 或包含作品 ID 的作品链接，多个链接或 ID 之间使用空格分隔"
+    record_enter_button: str = "删除指定作品 ID"
+    record_close_button: str = "返回"
+
     @staticmethod
     def request_error(url: str) -> str:
         return f"网络异常，请求 {url} 失败！"
 
     @staticmethod
     def skip_download(name: str) -> str:
-        return f"{name} 已存在，跳过下载！"
+        return f"{name} 文件已存在，跳过下载！"
 
     @staticmethod
     def download_success(name: str) -> str:
@@ -113,3 +118,7 @@ class Chinese:
     @staticmethod
     def official_version_update(major: int, minor: int) -> str:
         return f"检测到新版本：{major}.{minor}"
+
+    @staticmethod
+    def exist_record(id_: str) -> str:
+        return f"作品 {id_} 存在下载记录，跳过下载！"

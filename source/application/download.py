@@ -33,7 +33,7 @@ class Download:
         self.video_format = "mp4"
         self.image_format = manager.image_format
 
-    async def run(self, urls: list, name: str, type_: str, log, bar) -> Path:
+    async def run(self, urls: list, name: str, type_: str, log, bar) -> tuple[Path, tuple]:
         path = self.__generate_path(name)
         match type_:
             case "视频":
@@ -52,8 +52,8 @@ class Download:
                 bar) for url,
             name,
             format_ in tasks]
-        await gather(*tasks)
-        return path
+        result = await gather(*tasks)
+        return path, result
 
     def __generate_path(self, name: str):
         path = self.manager.archive(self.folder, name, self.folder_mode)

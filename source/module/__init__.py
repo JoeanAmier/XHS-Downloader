@@ -1,6 +1,6 @@
 from .extend import Account
 from .manager import Manager
-from .recorder import Recorder
+from .recorder import IDRecorder
 from .settings import Settings
 from .static import (
     VERSION_MAJOR,
@@ -31,7 +31,7 @@ from .tools import (
 __all__ = [
     "Account",
     "Settings",
-    "Recorder",
+    "IDRecorder",
     "Manager",
     "VERSION_MAJOR",
     "VERSION_MINOR",
