@@ -14,7 +14,7 @@ class IDRecorder:
     async def __connect_database(self):
         self.database = await connect(self.file)
         self.cursor = await self.database.cursor()
-        await self.cursor.execute("CREATE TABLE IF NOT EXISTS explore_ids (ID TEXT PRIMARY KEY);")
+        await self.database.execute("CREATE TABLE IF NOT EXISTS explore_ids (ID TEXT PRIMARY KEY);")
         await self.database.commit()
 
     async def select(self, id_: str):
@@ -22,12 +22,12 @@ class IDRecorder:
         return await self.cursor.fetchone()
 
     async def add(self, id_: str) -> None:
-        await self.cursor.execute("REPLACE INTO explore_ids VALUES (?);", (id_,))
+        await self.database.execute("REPLACE INTO explore_ids VALUES (?);", (id_,))
         await self.database.commit()
 
     async def delete(self, id_: str) -> None:
         if id_:
-            await self.cursor.execute("DELETE FROM explore_ids WHERE ID=?", (id_,))
+            await self.database.execute("DELETE FROM explore_ids WHERE ID=?", (id_,))
             await self.database.commit()
 
     async def delete_many(self, ids: list | tuple):

@@ -33,13 +33,14 @@ class Download:
         self.video_format = "mp4"
         self.image_format = manager.image_format
 
-    async def run(self, urls: list, name: str, type_: str, log, bar) -> tuple[Path, tuple]:
+    async def run(self, urls: list, index: list | tuple | None, name: str, type_: str, log, bar) -> tuple[Path, tuple]:
         path = self.__generate_path(name)
         match type_:
             case "视频":
                 tasks = self.__ready_download_video(urls, path, name, log)
             case "图文":
-                tasks = self.__ready_download_image(urls, path, name, log)
+                tasks = self.__ready_download_image(
+                    urls, index, path, name, log)
             case _:
                 raise ValueError
         tasks = [
@@ -74,11 +75,14 @@ class Download:
     def __ready_download_image(
             self,
             urls: list[str],
+            index: list | tuple | None,
             path: Path,
             name: str,
             log) -> list:
         tasks = []
         for i, j in enumerate(urls, start=1):
+            if index and i not in index:
+                continue
             file = f"{name}_{i}"
             if any(path.glob(f"{file}.*")):
                 logging(log, self.prompt.skip_download(file))

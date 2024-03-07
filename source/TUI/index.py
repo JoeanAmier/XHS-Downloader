@@ -90,7 +90,7 @@ class Index(Screen):
             self.deal()
         else:
             self.tip.write(Text(self.prompt.invalid_link, style=WARNING))
-        self.tip.write(Text(">" * 50, style=GENERAL))
+            self.tip.write(Text(">" * 50, style=GENERAL))
 
     @on(Button.Pressed, "#reset")
     def reset_button(self):
@@ -107,4 +107,5 @@ class Index(Screen):
             self.url.value = ""
         else:
             self.tip.write(Text(self.prompt.download_failure, style=ERROR))
+        self.tip.write(Text(">" * 50, style=GENERAL))
         self.app.pop_screen()

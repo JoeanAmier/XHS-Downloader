@@ -1,7 +1,9 @@
 from asyncio import run
+from sys import argv
 
 from source import XHS
 from source import XHSDownloader
+from source import cli
 
 
 async def example():
@@ -39,9 +41,11 @@ async def example():
         download = True  # 是否下载作品文件，默认值：False
         efficient = True  # 高效模式，禁用请求延时
         # 返回作品详细信息，包括下载地址
-        print(await xhs.extract(error_link, download, efficient))  # 获取数据失败时返回空字典
-        print(await xhs.extract(demo_link, download, efficient))
-        print(await xhs.extract(multiple_links, download, efficient))  # 支持传入多个作品链接
+        # 获取数据失败时返回空字典
+        print(await xhs.extract(error_link, download, efficient=efficient))
+        print(await xhs.extract(demo_link, download, efficient=efficient))
+        # 支持传入多个作品链接
+        print(await xhs.extract(multiple_links, download, efficient=efficient))
 
 
 async def main():
@@ -50,5 +54,7 @@ async def main():
 
 
 if __name__ == '__main__':
-    # run(example())
-    run(main())
+    if len(argv) > 1:
+        cli()
+    else:
+        run(main())

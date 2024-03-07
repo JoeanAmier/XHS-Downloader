@@ -94,14 +94,14 @@ class XHS:
     def __extract_video(self, container: dict, data: Namespace):
         container["下载地址"] = self.video.get_video_link(data)
 
-    async def __download_files(self, container: dict, download: bool, log, bar):
+    async def __download_files(self, container: dict, download: bool, index, log, bar):
         name = self.__naming_rules(container)
         path = self.manager.folder
         if (u := container["下载地址"]) and download:
             if await self.skip_download(i := container["作品ID"]):
                 logging(log, self.prompt.exist_record(i))
             else:
-                path, result = await self.download.run(u, name, container["作品类型"], log, bar)
+                path, result = await self.download.run(u, index, name, container["作品类型"], log, bar)
                 await self.__add_record(i, result)
         elif not u:
             logging(log, self.prompt.download_link_error, ERROR)
@@ -111,7 +111,13 @@ class XHS:
         if all(result):
             await self.recorder.add(id_)
 
-    async def extract(self, url: str, download=False, efficient=False, log=None, bar=None) -> list[dict]:
+    async def extract(self,
+                      url: str,
+                      download=False,
+                      index: list | tuple = None,
+                      efficient=False,
+                      log=None,
+                      bar=None) -> list[dict]:
         # return  # 调试代码
         urls = await self.__extract_links(url, log)
         if not urls:
@@ -119,7 +125,20 @@ class XHS:
         else:
             logging(log, self.prompt.pending_processing(len(urls)))
         # return urls  # 调试代码
-        return [await self.__deal_extract(i, download, efficient, log, bar) for i in urls]
+        return [await self.__deal_extract(i, download, index, efficient, log, bar) for i in urls]
+
+    async def extract_cli(self,
+                          url: str,
+                          download=True,
+                          index: list | tuple = None,
+                          efficient=True,
+                          log=None,
+                          bar=None) -> None:
+        url = await self.__extract_links(url, log)
+        if not url:
+            logging(log, self.prompt.extract_link_failure, WARNING)
+        else:
+            await self.__deal_extract(url[0], download, index, efficient, log, bar)
 
     async def __extract_links(self, url: str, log) -> list:
         urls = []
@@ -133,7 +152,7 @@ class XHS:
                 urls.append(u.group())
         return urls
 
-    async def __deal_extract(self, url: str, download: bool, efficient: bool, log, bar):
+    async def __deal_extract(self, url: str, download: bool, index: list | tuple | None, efficient: bool, log, bar):
         logging(log, self.prompt.start_processing(url))
         html = await self.html.request_url(url, log=log)
         namespace = self.__generate_data_object(html)
@@ -153,7 +172,7 @@ class XHS:
                 self.__extract_image(data, namespace)
             case _:
                 data["下载地址"] = []
-        await self.__download_files(data, download, log, bar)
+        await self.__download_files(data, download, index, log, bar)
         logging(log, self.prompt.processing_completed(url))
         return data
 

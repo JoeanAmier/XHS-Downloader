@@ -4,3 +4,4 @@ pyperclip>=1.8.2
 lxml>=5.1.0
 PyYAML>=6.0.1
 aiosqlite>=0.20.0
+click>=8.1.7

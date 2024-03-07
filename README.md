@@ -26,8 +26,8 @@
 <li>✅ 作品文件储存至单独文件夹</li>
 <li>✅ 后台监听剪贴板下载作品</li>
 <li>✅ 记录已下载作品 ID</li>
+<li>✅ 支持命令行下载作品文件</li>
 <li>☑️ 支持 API 调用功能</li>
-<li>☑️ 支持命令行参数下载作品文件</li>
 </ul>
 <ul><b>脚本功能</b>
 <li>✅ 下载小红书无水印作品文件</li>
@@ -67,6 +67,11 @@
 <li>下载本项目最新的源码或 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
 <li>运行 <code>main.py</code> 即可使用</li>
 </ol>
+<h1>🛠 命令行模式</h1>
+<p>项目支持命令行运行模式，若想要下载图文作品的部分图片，可以使用此模式传入需要下载的图片序号！</p>
+<img src="static/screenshot/命令行模式截图1.png" alt="">
+<hr>
+<img src="static/screenshot/命令行模式截图2.png" alt="">
 <h1>🕹 用户脚本</h1>
 <img src="static/screenshot/用户脚本截图1.png" alt="">
 <hr>
@@ -111,9 +116,11 @@ async def example():
         download = True  # 是否下载作品文件，默认值：False
         efficient = True  # 高效模式，禁用请求延时
         # 返回作品详细信息，包括下载地址
-        print(await xhs.extract(error_link, download, efficient))  # 获取数据失败时返回空字典
-        print(await xhs.extract(demo_link, download, efficient))
-        print(await xhs.extract(multiple_links, download, efficient))  # 支持传入多个作品链接
+        # 获取数据失败时返回空字典
+        print(await xhs.extract(error_link, download, efficient=efficient))
+        print(await xhs.extract(demo_link, download, efficient=efficient))
+        # 支持传入多个作品链接
+        print(await xhs.extract(multiple_links, download, efficient=efficient))
 </pre>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>settings.json</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
@@ -235,16 +242,10 @@ async def example():
 <p>如果您愿意，可以考虑提供资助为 <b>XHS-Downloader</b> 提供额外的支持！</p>
 <h1>✉️ 联系作者</h1>
 <ul>
-<li>QQ: 2437596031（联系请说明来意）</li>
-<li>QQ Group: <a href="https://github.com/JoeanAmier/XHS-Downloader/blob/master/static/QQ%E7%BE%A4%E8%81%8A%E4%BA%8C%E7%BB%B4%E7%A0%81.png">点击扫码加入群聊</a></li>
-<li>Email: yonglelolu@gmail.com</li>
+<li>微信: Downloader_Tools</li>
+<li>微信公众号: Downloader Tools</li>
+<li>QQ 群聊(使用交流): <a href="https://github.com/JoeanAmier/XHS-Downloader/blob/master/static/QQ%E7%BE%A4%E8%81%8A%E4%BA%8C%E7%BB%B4%E7%A0%81.png">扫码加入群聊</a></li>
 </ul>
-<p>
-<b>如果您在使用 XHS-Downloader 的时候遇到问题，请先阅读<a href="https://github.com/ryanhanwu/How-To-Ask-Questions-The-Smart-Way/blob/main/README-zh_CN.md">《提问的智慧》</a>，然后加入 QQ 群聊寻求帮助！</b>
-</p>
-<p>
-<b>如果您通过 Email 联系我，我可能无法及时查看并回复信息，我会尽力在七天内回复您的邮件；如果有紧急事项或需要更快的回复，请通过其他方式与我联系，谢谢理解！</b>
-</p>
 <p><b>如果您对抖音 / TikTok 感兴趣，可以了解一下我的另一个开源项目 <a href="https://github.com/JoeanAmier/TikTokDownloader">TikTokDownloader</a></b></p>
 <h1>⚠️ 免责声明</h1>
 <ul>
@@ -264,5 +265,7 @@ async def example():
 
 # 💡 代码参考
 
-* https://textual.textualize.io/
 * https://docs.aiohttp.org/en/stable/
+* https://textual.textualize.io/
+* https://aiosqlite.omnilib.dev/en/stable/
+* https://click.palletsprojects.com/en/8.1.x/
