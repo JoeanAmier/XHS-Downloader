@@ -13,7 +13,6 @@
 </div>
 <br>
 <p>🔥 <b>小红书链接提取/作品采集工具</b>：提取账号发布、收藏、点赞作品链接；提取搜索结果作品、用户链接；采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
-<p>❤️ 作者仅在 GitHub 发布 XHS-Downloader，未与任何个人或网站合作发布，项目没有任何收费计划，谨防上当受骗！</p>
 <h1>📑 项目功能</h1>
 <ul><b>程序功能</b>
 <li>✅ 采集小红书作品信息</li>
@@ -27,6 +26,7 @@
 <li>✅ 后台监听剪贴板下载作品</li>
 <li>✅ 记录已下载作品 ID</li>
 <li>✅ 支持命令行下载作品文件</li>
+<li>✅ 从浏览器读取 Cookie</li>
 <li>☑️ 支持 API 调用功能</li>
 </ul>
 <ul><b>脚本功能</b>
@@ -57,8 +57,9 @@
 <p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 默认终端）运行程序以便获得最佳显示效果！</p>
 <h1>🥣 使用方法</h1>
 <p>如果仅需下载无水印作品文件，建议选择 <b>程序运行</b>；如果有其他需求，建议选择 <b>源码运行</b>！</p>
+<p>建议自行设置 <code>cookie</code> 参数，若不设置该参数，程序功能可能无法正常使用！</p>
 <h2>🖱 程序运行</h2>
-<p>Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
+<p>Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 下载程序压缩包或安装包，解压或安装后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
 <p>若通过此方式使用程序，文件默认下载路径为：<code>.\_internal\Download</code>；配置文件路径为：<code>.\_internal\settings.json</code></p>
 <h2>⌨️ 源码运行</h2>
 <ol>
@@ -69,6 +70,10 @@
 </ol>
 <h1>🛠 命令行模式</h1>
 <p>项目支持命令行运行模式，若想要下载图文作品的部分图片，可以使用此模式传入需要下载的图片序号！</p>
+<p>可以使用命令行从浏览器读取 Cookie 并写入配置文件！注意需要关闭对应浏览器才能读取数据！</p>
+<p><code>bool</code> 类型参数支持使用 <code>true</code>、<code>false</code>、<code>1</code>、<code>0</code>、<code>yes</code>、<code>no</code>、<code>on</code> 或 <code>off</code>（不区分大小写）来设置。</p>
+<p>命令示例：<code>python .\main.py --browser_cookie Chrome --update_settings</code></p>
+<hr>
 <img src="static/screenshot/命令行模式截图1.png" alt="">
 <hr>
 <img src="static/screenshot/命令行模式截图2.png" alt="">
@@ -96,7 +101,7 @@ async def example():
     timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
     chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
     max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，默认值：5
-    record_data = False  # 是否记录作品数据至文件
+    record_data = False  # 是否保存作品数据至文件
     image_format = "WEBP"  # 图文作品文件下载格式，支持：PNG、WEBP
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
     async with XHS() as xhs:
@@ -114,17 +119,15 @@ async def example():
                    folder_mode=folder_mode,
                    ) as xhs:  # 使用自定义参数
         download = True  # 是否下载作品文件，默认值：False
-        efficient = True  # 高效模式，禁用请求延时
         # 返回作品详细信息，包括下载地址
         # 获取数据失败时返回空字典
-        print(await xhs.extract(error_link, download, efficient=efficient))
-        print(await xhs.extract(demo_link, download, efficient=efficient))
+        print(await xhs.extract(error_link, download, ))
+        print(await xhs.extract(demo_link, download, ))
         # 支持传入多个作品链接
-        print(await xhs.extract(multiple_links, download, efficient=efficient))
+        print(await xhs.extract(multiple_links, download, ))
 </pre>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>settings.json</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
-<p>建议自行设置 <code>cookie</code> 参数，若不设置该参数，程序功能可能无法正常使用！</p>
 <table>
 <thead>
 <tr>
@@ -186,7 +189,7 @@ async def example():
 <tr>
 <td align="center">record_data</td>
 <td align="center">bool</td>
-<td align="center">是否记录作品数据至 <code>TXT</code> 文件</td>
+<td align="center">是否保存作品数据至文件，保存格式：<code>SQLite</code></td>
 <td align="center">false</td>
 </tr>
 <tr>
@@ -204,8 +207,8 @@ async def example():
 <tr>
 <td align="center">language</td>
 <td align="center">str</td>
-<td align="center">设置程序语言，目前支持：<code>zh-CN</code>、<code>en-GB</code></td>
-<td align="center">zh-CN</td>
+<td align="center">设置程序语言，目前支持：<code>zh_CN</code>、<code>en_GB</code></td>
+<td align="center">zh_CN</td>
 </tr>
 </tbody>
 </table>
@@ -214,11 +217,12 @@ async def example():
 <li>打开浏览器（可选无痕模式启动），访问 <code>https://www.xiaohongshu.com/explore</code></li>
 <li>按下 <code>F12</code> 打开开发人员工具</li>
 <li>选择 <code>网络</code> 选项卡</li>
+<li>勾选 <code>保留日志</code></li>
+<li>在 <code>过滤</code> 输入框输入 <code>cookie-name:web_session</code></li>
 <li>选择 <code>Fetch/XHR</code> 筛选器</li>
 <li>点击小红书页面任意作品</li>
-<li>在 <code>网络</code> 选项卡挑选包含 Cookie 的数据包</li>
-<li>检查 Cookie 是否包含 <code>web_session</code> 字段</li>
-<li>全选复制包含 <code>web_session</code> 字段的 Cookie</li>
+<li>在 <code>网络</code> 选项卡选择任意数据包（如果无数据包，重复步骤7）</li>
+<li>全选复制 Cookie 写入程序或配置文件</li>
 </ol>
 <br>
 <img src="static/screenshot/获取Cookie示意图.png" alt="">
@@ -242,11 +246,16 @@ async def example():
 <p>如果您愿意，可以考虑提供资助为 <b>XHS-Downloader</b> 提供额外的支持！</p>
 <h1>✉️ 联系作者</h1>
 <ul>
-<li>微信: Downloader_Tools</li>
-<li>微信公众号: Downloader Tools</li>
+<li>微信(其他事务): Downloader_Tools</li>
+<li>微信公众号(问题解答): Downloader Tools</li>
 <li>QQ 群聊(使用交流): <a href="https://github.com/JoeanAmier/XHS-Downloader/blob/master/static/QQ%E7%BE%A4%E8%81%8A%E4%BA%8C%E7%BB%B4%E7%A0%81.png">扫码加入群聊</a></li>
 </ul>
-<p><b>如果您对抖音 / TikTok 感兴趣，可以了解一下我的另一个开源项目 <a href="https://github.com/JoeanAmier/TikTokDownloader">TikTokDownloader</a></b></p>
+<p><b>说明：</b>QQ 群聊仅限于讨论项目使用问题，严禁发布任何广告，严禁讨论任何账号交易、账号流量、流量变现、灰色产业等相关的内容！</p>
+<p>✨ <b>作者的其他开源项目：</b></p>
+<ul>
+<li><b>TikTokDownloader（抖音 / TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
+<li><b>KS-Downloader（快手）</b>：<a href="https://github.com/JoeanAmier/KS-Downloader">https://github.com/JoeanAmier/KS-Downloader</a></li>
+</ul>
 <h1>⚠️ 免责声明</h1>
 <ul>
 <li>使用者对本项目的使用由使用者自行决定，并自行承担风险。作者对使用者使用本项目所产生的任何损失、责任、或风险概不负责。</li>
@@ -269,3 +278,4 @@ async def example():
 * https://textual.textualize.io/
 * https://aiosqlite.omnilib.dev/en/stable/
 * https://click.palletsprojects.com/en/8.1.x/
+* https://github.com/borisbabic/browser_cookie3

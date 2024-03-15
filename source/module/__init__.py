@@ -1,5 +1,6 @@
 from .extend import Account
 from .manager import Manager
+from .recorder import DataRecorder
 from .recorder import IDRecorder
 from .settings import Settings
 from .static import (
@@ -25,8 +26,8 @@ from .static import (
 from .tools import (
     retry,
     logging,
-    wait,
 )
+from .translator import Translate
 
 __all__ = [
     "Account",
@@ -52,6 +53,7 @@ __all__ = [
     "HEADERS",
     "retry",
     "logging",
-    "wait",
     "PROJECT",
+    "Translate",
+    "DataRecorder",
 ]

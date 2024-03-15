@@ -1,3 +1,5 @@
+from typing import Callable
+
 from pyperclip import paste
 from rich.text import Text
 from textual import on
@@ -25,10 +27,6 @@ from source.module import (
     REPOSITORY,
     GENERAL,
 )
-from source.translator import (
-    English,
-    Chinese,
-)
 
 __all__ = ["Index"]
 
@@ -40,13 +38,13 @@ class Index(Screen):
         Binding(key="s", action="settings", description="程序设置/Settings"),
         Binding(key="r", action="record", description="下载记录/Record"),
         Binding(key="m", action="monitor", description="开启监听/Monitor"),
-        # Binding(key="a", action="about", description="关于项目/About"),
+        Binding(key="a", action="about", description="关于项目/About"),
     ]
 
-    def __init__(self, app: XHS, language: Chinese | English):
+    def __init__(self, app: XHS, message: Callable[[str], str]):
         super().__init__()
         self.xhs = app
-        self.prompt = language
+        self.message = message
         self.url = None
         self.tip = None
 
@@ -55,24 +53,24 @@ class Index(Screen):
         yield ScrollableContainer(
             Label(
                 Text(
-                    f"{self.prompt.open_source_protocol}{LICENCE}",
+                    f"{self.message("开源协议")}: {LICENCE}",
                     style=MASTER)
             ),
             Label(
                 Text(
-                    f"{self.prompt.project_address}{REPOSITORY}",
+                    f"{self.message("项目地址")}{REPOSITORY}",
                     style=MASTER)
             ),
             Label(
                 Text(
-                    self.prompt.input_box_title,
+                    self.message("请输入小红书图文/视频作品链接"),
                     style=PROMPT), classes="prompt",
             ),
-            Input(placeholder=self.prompt.input_prompt),
+            Input(placeholder=self.message("多个链接之间使用空格分隔")),
             HorizontalScroll(
-                Button(self.prompt.download_button, id="deal"),
-                Button(self.prompt.paste_button, id="paste"),
-                Button(self.prompt.reset_button, id="reset"),
+                Button(self.message("下载无水印作品文件"), id="deal"),
+                Button(self.message("读取剪贴板"), id="paste"),
+                Button(self.message("清空输入框"), id="reset"),
             ),
         )
         yield RichLog(markup=True, wrap=True)
@@ -82,14 +80,20 @@ class Index(Screen):
         self.title = PROJECT
         self.url = self.query_one(Input)
         self.tip = self.query_one(RichLog)
-        self.tip.write(Text("\n".join(self.prompt.disclaimer), style=MASTER))
+        self.tip.write(
+            Text(
+                self.message("免责声明\n") +
+                f"\n{
+                ">" *
+                50}",
+                style=MASTER), scroll_end=False)
 
     @on(Button.Pressed, "#deal")
     async def deal_button(self):
         if self.url.value:
             self.deal()
         else:
-            self.tip.write(Text(self.prompt.invalid_link, style=WARNING))
+            self.tip.write(Text(self.message("未输入任何小红书作品链接"), style=WARNING))
             self.tip.write(Text(">" * 50, style=GENERAL))
 
     @on(Button.Pressed, "#reset")
@@ -106,6 +110,6 @@ class Index(Screen):
         if any(await self.xhs.extract(self.url.value, True, log=self.tip)):
             self.url.value = ""
         else:
-            self.tip.write(Text(self.prompt.download_failure, style=ERROR))
+            self.tip.write(Text(self.message("下载小红书作品文件失败"), style=ERROR))
         self.tip.write(Text(">" * 50, style=GENERAL))
         self.app.pop_screen()

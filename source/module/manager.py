@@ -1,16 +1,13 @@
-from datetime import datetime
-from json import dumps
 from pathlib import Path
 from re import compile
 from re import sub
 from shutil import move
 from shutil import rmtree
+from typing import Callable
 
 from aiohttp import ClientSession
 from aiohttp import ClientTimeout
 
-from source.translator import Chinese
-from source.translator import English
 from .static import HEADERS
 from .static import USERAGENT
 
@@ -34,7 +31,7 @@ class Manager:
             record_data: bool,
             image_format: str,
             folder_mode: bool,
-            language: Chinese | English,
+            transition: Callable[[str], str],
     ):
         self.root = root
         self.temp = root.joinpath("./temp")
@@ -57,7 +54,7 @@ class Manager:
         self.download_session = ClientSession(
             headers=self.blank_headers,
             timeout=ClientTimeout(connect=timeout))
-        self.prompt = language
+        self.message = transition
 
     def __check_path(self, path: str) -> Path:
         if not path:
@@ -107,21 +104,6 @@ class Manager:
     def filter_name(self, name: str) -> str:
         name = self.NAME.sub("_", name)
         return sub(r"_+", "_", name).strip("_")
-
-    def save_data(self, path: Path, name: str, data: dict):
-        if not self.record_data:
-            return
-        with path.joinpath(f"{name}.txt").open("a", encoding="utf-8") as f:
-            time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            content = f"{
-            time.center(
-                50,
-                "=")}\n{
-            dumps(
-                data,
-                indent=4,
-                ensure_ascii=False)}\n"
-            f.write(content)
 
     async def close(self):
         await self.request_session.close()

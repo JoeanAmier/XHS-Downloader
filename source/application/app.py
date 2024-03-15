@@ -4,12 +4,15 @@ from asyncio import QueueEmpty
 from asyncio import gather
 from asyncio import sleep
 from contextlib import suppress
+from datetime import datetime
 from re import compile
+from typing import Callable
 
 from pyperclip import paste
 
 from source.expansion import Converter
 from source.expansion import Namespace
+from source.module import DataRecorder
 from source.module import IDRecorder
 from source.module import Manager
 from source.module import (
@@ -17,13 +20,8 @@ from source.module import (
     ERROR,
     WARNING,
 )
+from source.module import Translate
 from source.module import logging
-from source.module import wait
-from source.translator import (
-    LANGUAGE,
-    Chinese,
-    English,
-)
 from .download import Download
 from .explore import Explore
 from .image import Image
@@ -56,11 +54,16 @@ class XHS:
             max_retry=5,
             record_data=False,
             image_format="PNG",
+            image_download=True,
+            video_download=True,
             folder_mode=False,
-            language="zh-CN",
-            language_object: Chinese | English = None,
+            language="zh_CN",
+            server=False,
+            transition: Callable[[str], str] = None,
+            *args,
+            **kwargs,
     ):
-        self.prompt = language_object or LANGUAGE.get(language, Chinese)
+        self.message = transition or Translate(language).message()
         self.manager = Manager(
             ROOT,
             work_path,
@@ -74,7 +77,7 @@ class XHS:
             record_data,
             image_format,
             folder_mode,
-            self.prompt,
+            self.message,
         )
         self.html = Html(self.manager)
         self.image = Image()
@@ -82,7 +85,8 @@ class XHS:
         self.explore = Explore()
         self.convert = Converter()
         self.download = Download(self.manager)
-        self.recorder = IDRecorder(self.manager)
+        self.id_recorder = IDRecorder(self.manager)
+        self.data_recorder = DataRecorder(self.manager)
         self.clipboard_cache: str = ""
         self.queue = Queue()
         self.event = Event()
@@ -96,49 +100,53 @@ class XHS:
 
     async def __download_files(self, container: dict, download: bool, index, log, bar):
         name = self.__naming_rules(container)
-        path = self.manager.folder
         if (u := container["下载地址"]) and download:
             if await self.skip_download(i := container["作品ID"]):
-                logging(log, self.prompt.exist_record(i))
+                logging(
+                    log, self.message("作品 {0} 存在下载记录，跳过下载").format(i))
             else:
                 path, result = await self.download.run(u, index, name, container["作品类型"], log, bar)
                 await self.__add_record(i, result)
         elif not u:
-            logging(log, self.prompt.download_link_error, ERROR)
-        self.manager.save_data(path, name, container)
+            logging(log, self.message("提取作品文件下载地址失败"), ERROR)
+        await self.save_data(container)
+
+    async def save_data(self, data: dict, ):
+        data["采集时间"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        data["下载地址"] = " ".join(data["下载地址"])
+        await self.data_recorder.add(**data)
 
     async def __add_record(self, id_: str, result: tuple) -> None:
         if all(result):
-            await self.recorder.add(id_)
+            await self.id_recorder.add(id_)
 
     async def extract(self,
                       url: str,
                       download=False,
                       index: list | tuple = None,
-                      efficient=False,
                       log=None,
                       bar=None) -> list[dict]:
         # return  # 调试代码
         urls = await self.__extract_links(url, log)
         if not urls:
-            logging(log, self.prompt.extract_link_failure, WARNING)
+            logging(log, self.message("提取小红书作品链接失败"), WARNING)
         else:
-            logging(log, self.prompt.pending_processing(len(urls)))
+            logging(
+                log, self.message("共 {0} 个小红书作品待处理...").format(len(urls)))
         # return urls  # 调试代码
-        return [await self.__deal_extract(i, download, index, efficient, log, bar) for i in urls]
+        return [await self.__deal_extract(i, download, index, log, bar, ) for i in urls]
 
     async def extract_cli(self,
                           url: str,
                           download=True,
                           index: list | tuple = None,
-                          efficient=True,
                           log=None,
                           bar=None) -> None:
         url = await self.__extract_links(url, log)
         if not url:
-            logging(log, self.prompt.extract_link_failure, WARNING)
+            logging(log, self.message("提取小红书作品链接失败"), WARNING)
         else:
-            await self.__deal_extract(url[0], download, index, efficient, log, bar)
+            await self.__deal_extract(url[0], download, index, log, bar)
 
     async def __extract_links(self, url: str, log) -> list:
         urls = []
@@ -152,18 +160,17 @@ class XHS:
                 urls.append(u.group())
         return urls
 
-    async def __deal_extract(self, url: str, download: bool, index: list | tuple | None, efficient: bool, log, bar):
-        logging(log, self.prompt.start_processing(url))
+    async def __deal_extract(self, url: str, download: bool, index: list | tuple | None, log, bar):
+        logging(log, self.message("开始处理作品：{0}").format(url))
         html = await self.html.request_url(url, log=log)
         namespace = self.__generate_data_object(html)
         if not namespace:
-            logging(log, self.prompt.get_data_failure(url), ERROR)
+            logging(log, self.message("{0} 获取数据失败").format(url), ERROR)
             return {}
-        await self.__suspend(efficient)
         data = self.explore.run(namespace)
         # logging(log, data)  # 调试代码
         if not data:
-            logging(log, self.prompt.extract_data_failure(url), ERROR)
+            logging(log, self.message("{0} 提取数据失败").format(url), ERROR)
             return {}
         match data["作品类型"]:
             case "视频":
@@ -173,7 +180,7 @@ class XHS:
             case _:
                 data["下载地址"] = []
         await self.__download_files(data, download, index, log, bar)
-        logging(log, self.prompt.processing_completed(url))
+        logging(log, self.message("作品处理完成：{0}").format(url))
         return data
 
     def __generate_data_object(self, html: str) -> Namespace:
@@ -188,7 +195,7 @@ class XHS:
 
     async def monitor(self, delay=1, download=False, efficient=False, log=None, bar=None) -> None:
         self.event.clear()
-        await gather(self.__push_link(delay), self.__receive_link(delay, download, efficient, log, bar))
+        await gather(self.__push_link(delay), self.__receive_link(delay, download, None, efficient, log, bar))
 
     async def __push_link(self, delay: int):
         while not self.event.is_set():
@@ -209,20 +216,16 @@ class XHS:
         self.event.set()
 
     async def skip_download(self, id_: str) -> bool:
-        return bool(await self.recorder.select(id_))
-
-    @staticmethod
-    async def __suspend(efficient: bool) -> None:
-        if efficient:
-            return
-        await wait()
+        return bool(await self.id_recorder.select(id_))
 
     async def __aenter__(self):
-        await self.recorder.__aenter__()
+        await self.id_recorder.__aenter__()
+        await self.data_recorder.__aenter__()
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
-        await self.recorder.__aexit__(exc_type, exc_value, traceback)
+        await self.id_recorder.__aexit__(exc_type, exc_value, traceback)
+        await self.data_recorder.__aexit__(exc_type, exc_value, traceback)
         await self.close()
 
     async def close(self):

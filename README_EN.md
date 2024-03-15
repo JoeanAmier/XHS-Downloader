@@ -15,6 +15,7 @@
 <div align="center">
 <p>🔥 <b>Xiaohongshu Artwork Collection Tool</b>: Collect information on Xiaohongshu artworks; Extract the download address of Xiaohongshu artworks; Download the Xiaohongshu watermark-free artwork files!</p>
 <p>❤️ The author only releases XHS-Downloader on GitHub, without collaborating with any individuals or websites. Additionally, there are no charging plans for the tool!</p>
+<p>⭐ Due to the author's limited energy, I was unable to update the English document in a timely manner, and the content may have become outdated. Suggest referring to Chinese documentation. If you want to contribute to translation, we warmly welcome you</p>
 </div>
 <h1>📑 The Project Features:</h1>
 <ul>
@@ -195,8 +196,8 @@ async with XHS(work_path=work_path,
 <tr>
 <td align="center">language</td>
 <td align="center">str</td>
-<td align="center">Set programming language, currently support: <code>zh-CN</code>, <code>en-GB</code></td>
-<td align="center">zh-CN</td>
+<td align="center">Set programming language, currently support: <code>zh_CN</code>, <code>en_GB</code></td>
+<td align="center">zh_CN</td>
 </tr>
 </tbody>
 </table>

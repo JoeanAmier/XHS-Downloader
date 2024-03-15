@@ -1,11 +1,9 @@
-from asyncio import sleep
-from random import randint
-
+from rich import print
 from rich.text import Text
 
 from .static import INFO
 
-__all__ = ["retry", "logging", "wait"]
+__all__ = ["retry", "logging", ]
 
 
 def retry(function):
@@ -26,7 +24,3 @@ def logging(log, text, style=INFO):
         log.write(string)
     else:
         print(string)
-
-
-async def wait():
-    await sleep(randint(15, 45) * 0.1)

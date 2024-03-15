@@ -1,3 +1,5 @@
+from typing import Callable
+
 from aiohttp import ClientTimeout
 from rich.text import Text
 from textual import work
@@ -17,23 +19,19 @@ from source.module import (
     INFO,
     RELEASES,
 )
-from source.translator import (
-    English,
-    Chinese,
-)
 
 __all__ = ["Update"]
 
 
 class Update(ModalScreen):
-    def __init__(self, app: XHS, language: Chinese | English):
+    def __init__(self, app: XHS, message: Callable[[str], str]):
         super().__init__()
         self.xhs = app
-        self.prompt = language
+        self.message = message
 
     def compose(self) -> ComposeResult:
         yield Grid(
-            Label(self.prompt.check_update_notification),
+            Label(self.message("正在检查新版本，请稍等...")),
             LoadingIndicator(),
             classes="loading",
         )
@@ -45,25 +43,22 @@ class Update(ModalScreen):
             latest_major, latest_minor = map(
                 int, url.split("/")[-1].split(".", 1))
             if latest_major > VERSION_MAJOR or latest_minor > VERSION_MINOR:
-                tip = Text(
-                    f"{self.prompt.official_version_update(
-                        latest_major,
-                        latest_minor)}\n{RELEASES}",
-                    style=WARNING)
+                tip = Text(f"{self.message("检测到新版本：{0}.{1}").format(
+                    VERSION_MAJOR, VERSION_MINOR)}\n{RELEASES}", style=WARNING)
             elif latest_minor == VERSION_MINOR and VERSION_BETA:
                 tip = Text(
-                    f"{self.prompt.development_version_update}\n{RELEASES}",
+                    f"{self.message("当前版本为开发版, 可更新至正式版")}\n{RELEASES}",
                     style=WARNING)
             elif VERSION_BETA:
                 tip = Text(
-                    self.prompt.latest_development_version,
+                    self.message("当前已是最新开发版"),
                     style=WARNING)
             else:
                 tip = Text(
-                    self.prompt.latest_official_version,
+                    self.message("当前已是最新正式版"),
                     style=INFO)
         except ValueError:
-            tip = Text(self.prompt.check_update_failure, style=ERROR)
+            tip = Text(self.message("检测新版本失败"), style=ERROR)
         self.dismiss(tip)
 
     def on_mount(self) -> None:

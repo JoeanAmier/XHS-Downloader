@@ -18,9 +18,11 @@ class Settings:
         "max_retry": 5,
         "record_data": False,
         "image_format": "PNG",
+        "image_download": True,
+        "video_download": True,
         "folder_mode": False,
-        "language": "zh-CN",
-        # "server": False,
+        "language": "zh_CN",
+        "server": False,
     }
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"
 

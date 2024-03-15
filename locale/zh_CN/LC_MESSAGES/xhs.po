@@ -1,0 +1,233 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: zh_CN\n"
+
+msgid "免责声明\n"
+msgstr "关于 XHS-Downloader 的 免责声明：\n"
+"\n"
+"1.使用者对本项目的使用由使用者自行决定，并自行承担风险。作者对使用者使用本项目所产生的任何损失、责任、或风险概不负责。\n"
+"2.本项目的作者提供的代码和功能是基于现有知识和技术的开发成果。作者尽力确保代码的正确性和安全性，但不保证代码完全没有错误或缺陷。\n"
+"3.使用者在使用本项目时必须严格遵守 GNU General Public License v3.0 的要求，并在适当的地方注明使用了 GNU General Public License v3.0 的代码。\n"
+"4.使用者在任何情况下均不得将本项目的作者、贡献者或其他相关方与使用者的使用行为联系起来，或要求其对使用者使用本项目所产生的任何损失或损害负责。\n"
+"5.使用者在使用本项目的代码和功能时，必须自行研究相关法律法规，并确保其使用行为合法合规。任何因违反法律法规而导致的法律责任和风险，均由使用者自行承担。\n"
+"6.本项目的作者不会提供 XHS-Downloader 项目的付费版本，也不会提供与 XHS-Downloader 项目相关的任何商业服务。\n"
+"7.基于本项目进行的任何二次开发、修改或编译的程序与原创作者无关，原创作者不承担与二次开发行为或其结果相关的任何责任，使用者应自行对因二次开发可能带来的各种情况负全部责任。\n"
+"\n"
+"在使用本项目的代码和功能之前，请您认真考虑并接受以上免责声明。如果您对上述声明有任何疑问或不同意，请不要使用本项目的代码和功能。如果您使用了本项目的代码和功能，则视为您已完全理解并接受上述免责声明，并自愿承担使用本项目的一切风险和后果。\n"
+
+msgid "提取作品文件下载地址失败"
+msgstr ""
+
+msgid "提取小红书作品链接失败"
+msgstr ""
+
+msgid "未输入任何小红书作品链接"
+msgstr ""
+
+msgid "下载小红书作品文件失败"
+msgstr ""
+
+msgid "正在检查新版本，请稍等..."
+msgstr ""
+
+msgid "当前版本为开发版, 可更新至正式版"
+msgstr ""
+
+msgid "当前已是最新开发版"
+msgstr ""
+
+msgid "当前已是最新正式版"
+msgstr ""
+
+msgid "检测新版本失败"
+msgstr ""
+
+msgid "开源协议"
+msgstr ""
+
+msgid "项目地址"
+msgstr ""
+
+msgid "请输入小红书图文/视频作品链接"
+msgstr ""
+
+msgid "多个链接之间使用空格分隔"
+msgstr ""
+
+msgid "下载无水印作品文件"
+msgstr ""
+
+msgid "读取剪贴板"
+msgstr ""
+
+msgid "清空输入框"
+msgstr ""
+
+msgid "退出程序"
+msgstr ""
+
+msgid "检查更新"
+msgstr ""
+
+msgid "程序设置"
+msgstr ""
+
+msgid "作品数据 / 文件保存根路径"
+msgstr ""
+
+msgid "作品文件储存文件夹名称"
+msgstr ""
+
+msgid "小红书网页版 Cookie"
+msgstr ""
+
+msgid "网络代理"
+msgstr ""
+
+msgid "记录作品数据"
+msgstr ""
+
+msgid "图片下载格式"
+msgstr ""
+
+msgid "作品文件夹归档模式"
+msgstr ""
+
+msgid "程序语言"
+msgstr ""
+
+msgid "启动本地服务器"
+msgstr ""
+
+msgid "程序根路径"
+msgstr ""
+
+msgid "小红书网页版 Cookie，无需登录，参数已设置"
+msgstr ""
+
+msgid "小红书网页版 Cookie，无需登录，参数未设置"
+msgstr ""
+
+msgid "默认 User-Agent"
+msgstr ""
+
+msgid "不使用代理"
+msgstr ""
+
+msgid "保存配置"
+msgstr ""
+
+msgid "放弃更改"
+msgstr ""
+
+msgid "程序处理中..."
+msgstr ""
+
+msgid "已启动监听剪贴板模式"
+msgstr ""
+
+msgid "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"
+msgstr ""
+
+msgid "退出监听剪贴板模式"
+msgstr ""
+
+msgid "请输入待删除的小红书作品链接或作品 ID"
+msgstr ""
+
+msgid "支持输入作品 ID 或包含作品 ID 的作品链接，多个链接或 ID 之间使用空格分隔"
+msgstr ""
+
+msgid "删除指定作品 ID"
+msgstr ""
+
+msgid "返回首页"
+msgstr ""
+
+msgid "小红书作品链接"
+msgstr ""
+
+msgid "下载指定序号的图片文件，仅对图文作品生效；多个序号输入示例：\"1 3 5 7\""
+msgstr ""
+
+msgid "小红书网页版 Cookie，无需登录"
+msgstr ""
+
+msgid "请求数据超时限制，单位：秒"
+msgstr ""
+
+msgid "下载文件时，每次从服务器获取的数据块大小，单位：字节"
+msgstr ""
+
+msgid "请求数据失败时，重试的最大次数"
+msgstr ""
+
+msgid "是否记录作品数据至文件"
+msgstr ""
+
+msgid "图文作品文件下载格式，支持：PNG、WEBP"
+msgstr ""
+
+msgid "是否将每个作品的文件储存至单独的文件夹"
+msgstr ""
+
+msgid "设置程序语言，目前支持：zh_CN、en_GB"
+msgstr ""
+
+msgid "读取指定配置文件"
+msgstr ""
+
+msgid "是否更新配置文件"
+msgstr ""
+
+msgid "查看详细参数说明"
+msgstr ""
+
+msgid "网络异常，请求 {0} 失败"
+msgstr ""
+
+msgid "{0} 文件已存在，跳过下载"
+msgstr ""
+
+msgid "文件 {0} 下载成功"
+msgstr ""
+
+msgid "网络异常，{0} 下载失败"
+msgstr ""
+
+msgid "共 {0} 个小红书作品待处理..."
+msgstr ""
+
+msgid "开始处理作品：{0}"
+msgstr ""
+
+msgid "{0} 获取数据失败"
+msgstr ""
+
+msgid "{0} 提取数据失败"
+msgstr ""
+
+msgid "作品处理完成：{0}"
+msgstr ""
+
+msgid "检测到新版本：{0}.{1}"
+msgstr ""
+
+msgid "作品 {0} 存在下载记录，跳过下载"
+msgstr ""
+
+msgid "从指定的浏览器读取小红书网页版 Cookie，需要关闭对应的浏览器，支持：1 Chrome, 2 Chromium, 3 Opera, 4 Opera GX, 5 Brave, 6 Edge, 7 Vivaldi, 8 Firefox, 9 LibreWolf, 10 Safari，输入浏览器类型或序号"
+msgstr ""
+
+msgid "查看 XHS-Downloader 版本"
+msgstr ""
+
+msgid "如果 XHS-Downloader 对您有帮助，请考虑为它点个 Star，感谢您的支持！"
+msgstr ""
+
+msgid "作者的其他开源项目"
+msgstr ""
+
+msgid "文件 {0} 请求失败，响应码 {1}"
+msgstr ""

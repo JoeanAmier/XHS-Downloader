@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.4.1
+// @version      1.4.3
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
+// @match        http*://xhslink.com/*
 // @match        http*://www.xiaohongshu.com/explore*
 // @match        http*://www.xiaohongshu.com/user/profile/*
 // @match        http*://www.xiaohongshu.com/search_result*
@@ -140,7 +141,7 @@
 
     const generateImageUrl = note => {
         let images = note.imageList;
-        const regex = /\/([^\/]+?)!/;
+        const regex = /http:\/\/sns-webpic-qc\.xhscdn.com\/\d+\/[0-9a-z]+\/(\S+)!/;
         let urls = [];
         try {
             images.forEach((item) => {
@@ -202,6 +203,13 @@
         try {
             // 使用 fetch 获取文件数据
             let response = await fetch(link);
+
+            // 检查响应状态码
+            if (!response.ok) {
+                console.error(`请求失败，状态码: ${response.status}`, response.status);
+                return false
+            }
+
             let blob = await response.blob();
 
             // 创建 Blob 对象的 URL
@@ -217,8 +225,11 @@
 
             // 清理临时链接元素
             window.URL.revokeObjectURL(blobUrl);
+
+            return true
         } catch (error) {
             console.error(`下载失败 (${filename}):`, error);
+            return false
         }
     }
 
@@ -230,12 +241,18 @@
     };
 
     const downloadVideo = async (url, name) => {
-        await downloadFile(url, `${name}.mp4`);
+        if (!await downloadFile(url, `${name}.mp4`)) {
+            abnormal();
+        }
     };
 
     const downloadImage = async (urls, name) => {
+        let result = [];
         for (const [index, url] of urls.entries()) {
-            await downloadFile(url, `${name}_${index + 1}.png`);
+            result.push(await downloadFile(url, `${name}_${index + 1}.png`));
+        }
+        if (!result.every(item => item === true)) {
+            abnormal();
         }
     };
 

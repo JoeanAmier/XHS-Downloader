@@ -1,3 +1,5 @@
+from typing import Callable
+
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Grid
@@ -8,32 +10,30 @@ from textual.widgets import Input
 from textual.widgets import Label
 
 from source.application import XHS
-from source.translator import (
-    Chinese,
-    English,
-)
 
 __all__ = ["Record"]
 
 
 class Record(ModalScreen):
-    def __init__(self, app: XHS, language: Chinese | English):
+
+    def __init__(self, app: XHS, message: Callable[[str], str]):
         super().__init__()
         self.xhs = app
-        self.prompt = language
+        self.message = message
 
     def compose(self) -> ComposeResult:
         yield Grid(
-            Label(self.prompt.record_title, classes="prompt"),
-            Input(placeholder=self.prompt.record_placeholder, id="id", ),
+            Label(self.message("请输入待删除的小红书作品链接或作品 ID"), classes="prompt"),
+            Input(placeholder=self.message("支持输入作品 ID 或包含作品 ID 的作品链接，多个链接或 ID 之间使用空格分隔"),
+                  id="id", ),
             HorizontalScroll(
-                Button(self.prompt.record_enter_button, id="enter", ),
-                Button(self.prompt.record_close_button, id="close"), ),
+                Button(self.message("删除指定作品 ID"), id="enter", ),
+                Button(self.message("返回首页"), id="close"), ),
             id="record",
         )
 
     async def delete(self, text: str):
-        await self.xhs.recorder.delete_many(text.split())
+        await self.xhs.id_recorder.delete(text)
 
     @on(Button.Pressed, "#enter")
     async def save_settings(self):

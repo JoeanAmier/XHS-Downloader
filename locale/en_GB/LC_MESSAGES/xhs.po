@@ -1,0 +1,233 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en_GB\n"
+
+msgid "免责声明\n"
+msgstr "Disclaimer about XHS-Downloader:\n"
+"\n"
+"1. The user decides on their own use of this project and assumes all risks. The author is not responsible for any losses, liabilities, or risks incurred by the user in using this project.\n"
+"2. The code and features provided by the author of this project are developed based on existing knowledge and technology. The author strives to ensure the correctness and security of the code but does not guarantee that the code is entirely free of errors or defects.\n"
+"3. The user must strictly adhere to the requirements of the GNU General Public License v3.0 when using this project and appropriately acknowledge the use of code licensed under the GNU General Public License v3.0.\n"
+"4. Under no circumstances may the user associate the author, contributors, or other relevant parties of this project with the user's actions, nor demand them to be held responsible for any losses or damages incurred by the user in using this project.\n"
+"5. The user must independently research relevant laws and regulations when using the code and features of this project, ensuring that their use is legal and compliant. Any legal responsibilities and risks arising from violations of laws and regulations are the sole responsibility of the user.\n"
+"6. The author of this project will not offer a paid version of the XHS-Downloader project and will not provide any commercial services related to the XHS-Downloader project.\n"
+"7. Any secondary development, modification, or compilation of programs based on this project is not associated with the original author. The original author is not responsible for any consequences related to secondary development actions or their results. The user is solely responsible for all situations that may arise from secondary development.\n"
+"\n"
+"Before using the code and features of this project, please carefully consider and accept the above disclaimers. If you have any questions or do not agree with the statements above, please refrain from using the code and features of this project. If you proceed to use the code and features of this project, it will be considered that you fully understand and accept the disclaimers mentioned above, and willingly assume all risks and consequences associated with using this project.\n"
+
+msgid "提取作品文件下载地址失败"
+msgstr "Failed to extract the download address for the Xiaohongshu works files"
+
+msgid "提取小红书作品链接失败"
+msgstr "Failed to extract the links for Xiaohongshu works"
+
+msgid "未输入任何小红书作品链接"
+msgstr "No Xiaohongshu works links provided"
+
+msgid "下载小红书作品文件失败"
+msgstr "Failed to download the Xiaohongshu works files"
+
+msgid "正在检查新版本，请稍等..."
+msgstr "Checking for new version, please wait..."
+
+msgid "当前版本为开发版, 可更新至正式版"
+msgstr "The current version is a development version, and can be updated to the official version"
+
+msgid "当前已是最新开发版"
+msgstr "You are already using the latest development version"
+
+msgid "当前已是最新正式版"
+msgstr "You are already using the latest official version"
+
+msgid "检测新版本失败"
+msgstr "Failed to check for a new version"
+
+msgid "开源协议"
+msgstr "Open Source License"
+
+msgid "项目地址"
+msgstr "Project Address"
+
+msgid "请输入小红书图文/视频作品链接"
+msgstr "Please enter the link to the Xiaohongshu image/text or video works"
+
+msgid "多个链接之间使用空格分隔"
+msgstr "Separate multiple links with spaces"
+
+msgid "下载无水印作品文件"
+msgstr "Download images/video files"
+
+msgid "读取剪贴板"
+msgstr "Read the clipboard"
+
+msgid "清空输入框"
+msgstr "Clear the input box"
+
+msgid "退出程序"
+msgstr "Exit the program"
+
+msgid "检查更新"
+msgstr "Check for updates"
+
+msgid "程序设置"
+msgstr "Settings"
+
+msgid "作品数据 / 文件保存根路径"
+msgstr "Root path for saving works data / files"
+
+msgid "作品文件储存文件夹名称"
+msgstr "Name of the folder for storing works files"
+
+msgid "小红书网页版 Cookie"
+msgstr "Xiaohongshu Web Cookie"
+
+msgid "网络代理"
+msgstr "Network proxy"
+
+msgid "记录作品数据"
+msgstr "Record works data"
+
+msgid "图片下载格式"
+msgstr "Image download format"
+
+msgid "作品文件夹归档模式"
+msgstr "Folder archiving mode"
+
+msgid "程序语言"
+msgstr "Program language"
+
+msgid "启动本地服务器"
+msgstr "Start local server"
+
+msgid "程序根路径"
+msgstr "Program root path"
+
+msgid "小红书网页版 Cookie，无需登录，参数已设置"
+msgstr "Xiaohongshu web version cookie, no login required, parameters have been set"
+
+msgid "小红书网页版 Cookie，无需登录，参数未设置"
+msgstr "Xiaohongshu web version cookie, no login required, parameters not set"
+
+msgid "默认 User-Agent"
+msgstr "Default User-Agent"
+
+msgid "不使用代理"
+msgstr "No proxy"
+
+msgid "保存配置"
+msgstr "Save configuration"
+
+msgid "放弃更改"
+msgstr "Discard changes"
+
+msgid "程序处理中..."
+msgstr "Processing..."
+
+msgid "已启动监听剪贴板模式"
+msgstr "Currently in monitoring clipboard mode"
+
+msgid "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"
+msgstr "The program will automatically read and extract the link to Xiaohongshu's works from the clipboard, and automatically download the corresponding work file. If you want to close it, please click the close button or write the \"close\" text to the clipboard!"
+
+msgid "退出监听剪贴板模式"
+msgstr "Exit monitoring clipboard mode"
+
+msgid "请输入待删除的小红书作品链接或作品 ID"
+msgstr "Please enter the link or ID of the Xiaohongshu works to be deleted"
+
+msgid "支持输入作品 ID 或包含作品 ID 的作品链接，多个链接或 ID 之间使用空格分隔"
+msgstr "Support input of works ID or links containing works ID, with multiple links or IDs separated by spaces"
+
+msgid "删除指定作品 ID"
+msgstr "Delete specified works ID"
+
+msgid "返回首页"
+msgstr "return"
+
+msgid "小红书作品链接"
+msgstr "Link to Xiaohongshu works"
+
+msgid "下载指定序号的图片文件，仅对图文作品生效；多个序号输入示例：\"1 3 5 7\""
+msgstr "Download image files with specified serial numbers, only effective for image works; Example of multiple serial numbers input: \"1 3 5 7\""
+
+msgid "小红书网页版 Cookie，无需登录"
+msgstr "Xiaohongshu web version cookie, no need to log in"
+
+msgid "请求数据超时限制，单位：秒"
+msgstr "Network request timeout limit, in seconds"
+
+msgid "下载文件时，每次从服务器获取的数据块大小，单位：字节"
+msgstr "When downloading a file, the size of the data block obtained from the server each time, in bytes"
+
+msgid "请求数据失败时，重试的最大次数"
+msgstr "The maximum number of retries when data request fails"
+
+msgid "是否记录作品数据至文件"
+msgstr "Record works data to file"
+
+msgid "图文作品文件下载格式，支持：PNG、WEBP"
+msgstr "Image works file download format, supporting: PNG, WEBP"
+
+msgid "是否将每个作品的文件储存至单独的文件夹"
+msgstr "Do you need to store the files of each works in a separate folder"
+
+msgid "设置程序语言，目前支持：zh_CN、en_GB"
+msgstr "Set program language, currently supports: zh_CN, en_GB"
+
+msgid "读取指定配置文件"
+msgstr "Read specified configuration file"
+
+msgid "是否更新配置文件"
+msgstr "Do you need to update the configuration file"
+
+msgid "查看详细参数说明"
+msgstr "View detailed parameter descriptions"
+
+msgid "网络异常，请求 {0} 失败"
+msgstr "Network error, failed to access {0}"
+
+msgid "{0} 文件已存在，跳过下载"
+msgstr "{0} already exists, skipping download"
+
+msgid "文件 {0} 下载成功"
+msgstr "file {0} download successful"
+
+msgid "网络异常，{0} 下载失败"
+msgstr "Network error, {0} download failed"
+
+msgid "共 {0} 个小红书作品待处理..."
+msgstr "{0} works from Xiaohongshu are awaiting processing..."
+
+msgid "开始处理作品：{0}"
+msgstr "Start processing the works: {0}"
+
+msgid "{0} 获取数据失败"
+msgstr "{0} failed to retrieve data"
+
+msgid "{0} 提取数据失败"
+msgstr "{0} failed to extract data"
+
+msgid "作品处理完成：{0}"
+msgstr "works processing completed: {0}"
+
+msgid "检测到新版本：{0}.{1}"
+msgstr "New version detected: {0}.{1}"
+
+msgid "作品 {0} 存在下载记录，跳过下载"
+msgstr "works {0} has a download record, skipping download"
+
+msgid "从指定的浏览器读取小红书网页版 Cookie，需要关闭对应的浏览器，支持：1 Chrome, 2 Chromium, 3 Opera, 4 Opera GX, 5 Brave, 6 Edge, 7 Vivaldi, 8 Firefox, 9 LibreWolf, 10 Safari，输入浏览器类型或序号"
+msgstr "To read the Xiaohongshu web version cookie from the specified browser, the corresponding browser needs to be closed. Supports: 1 Chrome, 2 Chromium, 3 Opera, 4 Opera GX, 5 Brave, 6 Edge, 7 Vivaldi, 8 Firefox, 9 LibreWolf, 10 Safari, enter the browser type or serial number"
+
+msgid "查看 XHS-Downloader 版本"
+msgstr "View XHS Downloader Version"
+
+msgid "如果 XHS-Downloader 对您有帮助，请考虑为它点个 Star，感谢您的支持！"
+msgstr "If XHS-Downloader is helpful to you, please consider giving it Star. Thank you for your support!"
+
+msgid "作者的其他开源项目"
+msgstr "Other open-source projects of the author"
+
+msgid "文件 {0} 请求失败，响应码 {1}"
+msgstr "File {0} request failed with response code {1}"

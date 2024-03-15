@@ -28,7 +28,7 @@ class Download:
         self.chunk = manager.chunk
         self.session = manager.download_session
         self.retry = manager.retry
-        self.prompt = manager.prompt
+        self.message = manager.message
         self.folder_mode = manager.folder_mode
         self.video_format = "mp4"
         self.image_format = manager.image_format
@@ -68,7 +68,7 @@ class Download:
             name: str,
             log) -> list:
         if any(path.glob(f"{name}.*")):
-            logging(log, self.prompt.skip_download(name))
+            logging(log, self.message("{0} 文件已存在，跳过下载").format(name))
             return []
         return [(urls[0], name, self.video_format)]
 
@@ -85,7 +85,9 @@ class Download:
                 continue
             file = f"{name}_{i}"
             if any(path.glob(f"{file}.*")):
-                logging(log, self.prompt.skip_download(file))
+                logging(
+                    log, self.message(
+                        "{0} 文件已存在，跳过下载").format(name))
                 continue
             tasks.append([j, file, self.image_format])
         return tasks
@@ -95,6 +97,9 @@ class Download:
         try:
             async with self.session.get(url, proxy=self.proxy) as response:
                 if response.status != 200:
+                    logging(
+                        log, self.message("链接 {0} 请求失败，响应码 {1}").format(
+                            url, response.status), style=ERROR)
                     return False
                 suffix = self.__extract_type(
                     response.headers.get("Content-Type")) or format_
@@ -110,13 +115,15 @@ class Download:
                         # self.__update_progress(bar, len(chunk))
             self.manager.move(temp, real)
             # self.__create_progress(bar, None)
-            logging(log, self.prompt.download_success(name))
+            logging(log, self.message("文件 {0} 下载成功").format(name))
             return True
         except ClientError as error:
             self.manager.delete(temp)
             # self.__create_progress(bar, None)
             logging(log, str(error), ERROR)
-            logging(log, self.prompt.download_error(name), ERROR)
+            logging(
+                log, self.message(
+                    "网络异常，{0} 下载失败").format(name), ERROR)
             return False
 
     @staticmethod

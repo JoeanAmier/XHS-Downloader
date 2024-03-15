@@ -12,7 +12,7 @@ class Html:
     def __init__(self, manager: Manager, ):
         self.proxy = manager.proxy
         self.retry = manager.retry
-        self.prompt = manager.prompt
+        self.message = manager.message
         self.session = manager.request_session
 
     @retry
@@ -34,7 +34,8 @@ class Html:
                 return await response.text() if content else str(response.url)
         except ClientError as error:
             logging(log, str(error), ERROR)
-            logging(log, self.prompt.request_error(url), ERROR)
+            logging(
+                log, self.message("网络异常，请求 {0} 失败").format(url), ERROR)
             return ""
 
     @staticmethod
