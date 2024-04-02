@@ -19,6 +19,7 @@ from source.module import (
     ROOT,
     ERROR,
     WARNING,
+    MASTER,
 )
 from source.module import Translate
 from source.module import logging
@@ -193,9 +194,15 @@ class XHS:
         title = self.manager.filter_name(data["作品标题"]) or data["作品ID"]
         return f"{time_}_{author}_{title[:64]}"
 
-    async def monitor(self, delay=1, download=False, efficient=False, log=None, bar=None) -> None:
+    async def monitor(self, delay=1, download=False, log=None, bar=None) -> None:
+        logging(
+            None,
+            self.message(
+                "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"),
+            style=MASTER,
+        )
         self.event.clear()
-        await gather(self.__push_link(delay), self.__receive_link(delay, download, None, efficient, log, bar))
+        await gather(self.__push_link(delay), self.__receive_link(delay, download, None, log, bar))
 
     async def __push_link(self, delay: int):
         while not self.event.is_set():
