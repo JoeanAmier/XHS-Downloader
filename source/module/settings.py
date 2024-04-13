@@ -44,3 +44,18 @@ class Settings:
     def update(self, data: dict):
         with self.file.open("w", encoding=self.encode) as f:
             dump(data, f, indent=4, ensure_ascii=False)
+
+    @classmethod
+    def check_keys(
+            cls,
+            data: dict,
+            callback: callable,
+            *args,
+            **kwargs,
+    ) -> dict:
+        needful_keys = set(cls.default.keys())
+        given_keys = set(data.keys())
+        if not needful_keys.issubset(given_keys):
+            callback(*args, **kwargs)
+            return cls.default
+        return data

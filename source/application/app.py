@@ -7,6 +7,7 @@ from contextlib import suppress
 from datetime import datetime
 from re import compile
 from typing import Callable
+from urllib.parse import urlparse
 
 from pyperclip import paste
 
@@ -77,6 +78,8 @@ class XHS:
             max_retry,
             record_data,
             image_format,
+            image_download,
+            video_download,
             folder_mode,
             self.message,
         )
@@ -91,6 +94,7 @@ class XHS:
         self.clipboard_cache: str = ""
         self.queue = Queue()
         self.event = Event()
+        self.server = server
 
     def __extract_image(self, container: dict, data: Namespace):
         container["下载地址"] = self.image.get_image_link(
@@ -126,7 +130,8 @@ class XHS:
                       download=False,
                       index: list | tuple = None,
                       log=None,
-                      bar=None) -> list[dict]:
+                      bar=None,
+                      data=True, ) -> list[dict]:
         # return  # 调试代码
         urls = await self.__extract_links(url, log)
         if not urls:
@@ -135,19 +140,20 @@ class XHS:
             logging(
                 log, self.message("共 {0} 个小红书作品待处理...").format(len(urls)))
         # return urls  # 调试代码
-        return [await self.__deal_extract(i, download, index, log, bar, ) for i in urls]
+        return [await self.__deal_extract(i, download, index, log, bar, data, ) for i in urls]
 
     async def extract_cli(self,
                           url: str,
                           download=True,
                           index: list | tuple = None,
                           log=None,
-                          bar=None) -> None:
+                          bar=None,
+                          data=False, ) -> None:
         url = await self.__extract_links(url, log)
         if not url:
             logging(log, self.message("提取小红书作品链接失败"), WARNING)
         else:
-            await self.__deal_extract(url[0], download, index, log, bar)
+            await self.__deal_extract(url[0], download, index, log, bar, data, )
 
     async def __extract_links(self, url: str, log) -> list:
         urls = []
@@ -161,7 +167,11 @@ class XHS:
                 urls.append(u.group())
         return urls
 
-    async def __deal_extract(self, url: str, download: bool, index: list | tuple | None, log, bar):
+    async def __deal_extract(self, url: str, download: bool, index: list | tuple | None, log, bar, data: bool, ):
+        if not data and await self.skip_download(i := self.__extract_link_id(url)):
+            msg = self.message("作品 {0} 存在下载记录，跳过处理").format(i)
+            logging(log, msg)
+            return {"message": msg}
         logging(log, self.message("开始处理作品：{0}").format(url))
         html = await self.html.request_url(url, log=log)
         namespace = self.__generate_data_object(html)
@@ -184,6 +194,11 @@ class XHS:
         logging(log, self.message("作品处理完成：{0}").format(url))
         return data
 
+    @staticmethod
+    def __extract_link_id(url: str) -> str:
+        link = urlparse(url)
+        return link.path.split("/")[-1]
+
     def __generate_data_object(self, html: str) -> Namespace:
         data = self.convert.run(html)
         return Namespace(data)
@@ -194,7 +209,7 @@ class XHS:
         title = self.manager.filter_name(data["作品标题"]) or data["作品ID"]
         return f"{time_}_{author}_{title[:64]}"
 
-    async def monitor(self, delay=1, download=False, log=None, bar=None) -> None:
+    async def monitor(self, delay=1, download=False, log=None, bar=None, data=True, ) -> None:
         logging(
             None,
             self.message(
@@ -202,7 +217,7 @@ class XHS:
             style=MASTER,
         )
         self.event.clear()
-        await gather(self.__push_link(delay), self.__receive_link(delay, download, None, log, bar))
+        await gather(self.__push_link(delay), self.__receive_link(delay, download, None, log, bar, data))
 
     async def __push_link(self, delay: int):
         while not self.event.is_set():

@@ -17,6 +17,7 @@ class Download:
         "image/jpeg": "jpg",
         "image/webp": "webp",
         "application/octet-stream": "",
+        "video/mp4": "mp4",
         "video/quicktime": "mov",
     }
 
@@ -32,6 +33,8 @@ class Download:
         self.folder_mode = manager.folder_mode
         self.video_format = "mp4"
         self.image_format = manager.image_format
+        self.image_download = manager.image_download
+        self.video_download = manager.video_download
 
     async def run(self, urls: list, index: list | tuple | None, name: str, type_: str, log, bar) -> tuple[Path, tuple]:
         path = self.__generate_path(name)
@@ -67,6 +70,9 @@ class Download:
             path: Path,
             name: str,
             log) -> list:
+        if not self.video_download:
+            logging(log, self.message("视频作品下载功能已关闭，跳过下载"))
+            return []
         if any(path.glob(f"{name}.*")):
             logging(log, self.message("{0} 文件已存在，跳过下载").format(name))
             return []
@@ -80,6 +86,9 @@ class Download:
             name: str,
             log) -> list:
         tasks = []
+        if not self.image_download:
+            logging(log, self.message("图文作品下载功能已关闭，跳过下载"))
+            return tasks
         for i, j in enumerate(urls, start=1):
             if index and i not in index:
                 continue
@@ -94,6 +103,7 @@ class Download:
 
     @re_download
     async def __download(self, url: str, path: Path, name: str, format_: str, log, bar):
+        temp = self.temp.joinpath(name)
         try:
             async with self.session.get(url, proxy=self.proxy) as response:
                 if response.status != 200:
@@ -103,7 +113,6 @@ class Download:
                     return False
                 suffix = self.__extract_type(
                     response.headers.get("Content-Type")) or format_
-                temp = self.temp.joinpath(name)
                 real = path.joinpath(f"{name}.{suffix}")
                 # self.__create_progress(
                 #     bar, int(

@@ -27,6 +27,7 @@ class Setting(Screen):
         super().__init__()
         self.data = data
         self.message = message
+
     def compose(self) -> ComposeResult:
         yield Header()
         yield ScrollableContainer(
@@ -49,15 +50,17 @@ class Setting(Screen):
             Label(self.message("请求数据失败时，重试的最大次数"), classes="params", ),
             Input(str(self.data["max_retry"]), placeholder="5", type="integer", id="max_retry", ),
             Container(
-                Label("", classes="params", ),
-                Label("", classes="params", ),
+                Checkbox(self.message("记录作品数据"), id="record_data", value=self.data["record_data"], ),
+                Checkbox(self.message("作品文件夹归档模式"), id="folder_mode", value=self.data["folder_mode"], ),
+                Checkbox(self.message("视频作品下载开关"), id="video_download", value=self.data["video_download"], ),
+                Checkbox(self.message("图文作品下载开关"), id="image_download", value=self.data["image_download"], ),
+                classes="horizontal-layout"),
+            Container(
                 Label(self.message("图片下载格式"), classes="params", ),
                 Label(self.message("程序语言"), classes="params", ),
                 classes="horizontal-layout",
             ),
             Container(
-                Checkbox(self.message("记录作品数据"), id="record_data", value=self.data["record_data"], ),
-                Checkbox(self.message("作品文件夹归档模式"), id="folder_mode", value=self.data["folder_mode"], ),
                 Select.from_values(
                     ("PNG", "WEBP"),
                     value=self.data["image_format"],
@@ -98,6 +101,8 @@ class Setting(Screen):
             "image_format": self.query_one("#image_format").value,
             "folder_mode": self.query_one("#folder_mode").value,
             "language": self.query_one("#language").value,
+            "image_download": self.query_one("#image_download").value,
+            "video_download": self.query_one("#video_download").value,
         })
 
     @on(Button.Pressed, "#abandon")

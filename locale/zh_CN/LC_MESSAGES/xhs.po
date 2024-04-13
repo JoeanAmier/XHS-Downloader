@@ -231,3 +231,21 @@ msgstr ""
 
 msgid "文件 {0} 请求失败，响应码 {1}"
 msgstr ""
+
+msgid "视频作品下载功能已关闭，跳过下载"
+msgstr ""
+
+msgid "图集作品下载功能已关闭，跳过下载"
+msgstr ""
+
+msgid "作品 {0} 存在下载记录，跳过处理"
+msgstr ""
+
+msgid "视频作品下载开关"
+msgstr ""
+
+msgid "图文作品下载开关"
+msgstr ""
+
+msgid "配置文件 settings.json 缺少必要的参数，请删除该文件，然后重新运行程序，自动生成默认配置文件！"
+msgstr ""

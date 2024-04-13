@@ -215,7 +215,7 @@ msgid "检测到新版本：{0}.{1}"
 msgstr "New version detected: {0}.{1}"
 
 msgid "作品 {0} 存在下载记录，跳过下载"
-msgstr "works {0} has a download record, skipping download"
+msgstr "works {0} has a download record, skip download"
 
 msgid "从指定的浏览器读取小红书网页版 Cookie，需要关闭对应的浏览器，支持：1 Chrome, 2 Chromium, 3 Opera, 4 Opera GX, 5 Brave, 6 Edge, 7 Vivaldi, 8 Firefox, 9 LibreWolf, 10 Safari，输入浏览器类型或序号"
 msgstr "To read the Xiaohongshu web version cookie from the specified browser, the corresponding browser needs to be closed. Supports: 1 Chrome, 2 Chromium, 3 Opera, 4 Opera GX, 5 Brave, 6 Edge, 7 Vivaldi, 8 Firefox, 9 LibreWolf, 10 Safari, enter the browser type or serial number"
@@ -231,3 +231,21 @@ msgstr "Other open-source projects of the author"
 
 msgid "文件 {0} 请求失败，响应码 {1}"
 msgstr "File {0} request failed with response code {1}"
+
+msgid "视频作品下载功能已关闭，跳过下载"
+msgstr "The video download function has been turned off, skip download"
+
+msgid "图集作品下载功能已关闭，跳过下载"
+msgstr "The image download function has been turned off, skip download"
+
+msgid "作品 {0} 存在下载记录，跳过处理"
+msgstr "Works {0} has a download record, skip processing"
+
+msgid "视频作品下载开关"
+msgstr "Video works download switch"
+
+msgid "图文作品下载开关"
+msgstr "Image works download switch"
+
+msgid "配置文件 settings.json 缺少必要的参数，请删除该文件，然后重新运行程序，自动生成默认配置文件！"
+msgstr "The configuration file settings.json is missing necessary parameters. Please delete the file and run the program again to automatically generate the default configuration file!"

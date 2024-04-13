@@ -46,7 +46,7 @@ class Monitor(Screen):
 
     @work()
     async def run_monitor(self):
-        await self.xhs.monitor(download=True, log=self.query_one(RichLog))
+        await self.xhs.monitor(download=True, log=self.query_one(RichLog), data=False, )
         self.action_close()
 
     def on_mount(self) -> None:

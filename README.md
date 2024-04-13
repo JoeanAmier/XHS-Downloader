@@ -199,6 +199,18 @@ async def example():
 <td align="center">PNG</td>
 </tr>
 <tr>
+<td align="center">image_download</td>
+<td align="center">bool</td>
+<td align="center">图文作品文件下载开关</td>
+<td align="center">true</td>
+</tr>
+<tr>
+<td align="center">video_download</td>
+<td align="center">bool</td>
+<td align="center">视频作品文件下载开关</td>
+<td align="center">true</td>
+</tr>
+<tr>
 <td align="center">folder_mode</td>
 <td align="center">bool</td>
 <td align="center">是否将每个作品的文件储存至单独的文件夹；文件夹名称与文件名称保持一致</td>

@@ -107,7 +107,7 @@ class Index(Screen):
     @work()
     async def deal(self):
         await self.app.push_screen("loading")
-        if any(await self.xhs.extract(self.url.value, True, log=self.tip)):
+        if any(await self.xhs.extract(self.url.value, True, log=self.tip, data=False, )):
             self.url.value = ""
         else:
             self.tip.write(Text(self.message("下载小红书作品文件失败"), style=ERROR))

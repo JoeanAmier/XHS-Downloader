@@ -30,6 +30,8 @@ class Manager:
             retry: int,
             record_data: bool,
             image_format: str,
+            image_download: bool,
+            video_download: bool,
             folder_mode: bool,
             transition: Callable[[str], str],
     ):
@@ -42,9 +44,9 @@ class Manager:
         self.headers = self.blank_headers | {"Cookie": cookie}
         self.retry = retry
         self.chunk = chunk
-        self.record_data = record_data
+        self.record_data = self.check_bool(record_data, False)
         self.image_format = self.__check_image_format(image_format)
-        self.folder_mode = folder_mode
+        self.folder_mode = self.check_bool(folder_mode, False)
         self.proxy = proxy
         self.request_session = ClientSession(
             headers=self.headers | {
@@ -55,6 +57,8 @@ class Manager:
             headers=self.blank_headers,
             timeout=ClientTimeout(connect=timeout))
         self.message = transition
+        self.image_download = self.check_bool(image_download, True)
+        self.video_download = self.check_bool(video_download, True)
 
     def __check_path(self, path: str) -> Path:
         if not path:
@@ -88,7 +92,8 @@ class Manager:
 
     @staticmethod
     def delete(path: Path):
-        path.unlink()
+        if path.exists():
+            path.unlink()
 
     @staticmethod
     def archive(root: Path, name: str, folder_mode: bool) -> Path:
@@ -104,6 +109,10 @@ class Manager:
     def filter_name(self, name: str) -> str:
         name = self.NAME.sub("_", name)
         return sub(r"_+", "_", name).strip("_")
+
+    @staticmethod
+    def check_bool(value: bool, default: bool) -> bool:
+        return value if isinstance(value, bool) else default
 
     async def close(self):
         await self.request_session.close()
