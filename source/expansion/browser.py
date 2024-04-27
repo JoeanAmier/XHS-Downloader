@@ -27,17 +27,6 @@ class BrowserCookie:
         "firefox": firefox,
         "librewolf": librewolf,
         "safari": safari,
-
-        "Chrome": chrome,
-        "Chromium": chromium,
-        "Opera": opera,
-        "Opera_gx": opera_gx,
-        "Brave": brave,
-        "Edge": edge,
-        "Vivaldi": vivaldi,
-        "Firefox": firefox,
-        "Librewolf": librewolf,
-        "Safari": safari,
     }
 
     @classmethod
@@ -56,7 +45,7 @@ class BrowserCookie:
     @classmethod
     def __browser_object(cls, browser: str | int):
         if isinstance(browser, str):
-            return cls.SUPPORT_BROWSER[browser]
+            return cls.SUPPORT_BROWSER[browser.lower()]
         elif isinstance(browser, int):
             return list(cls.SUPPORT_BROWSER.values())[browser - 1]
         raise TypeError

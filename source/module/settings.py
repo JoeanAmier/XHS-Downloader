@@ -10,6 +10,7 @@ class Settings:
     default = {
         "work_path": "",
         "folder_name": "Download",
+        "name_format": "发布时间 作者昵称 作品标题",
         "user_agent": "",
         "cookie": "",
         "proxy": None,
@@ -38,7 +39,7 @@ class Settings:
 
     def create(self) -> dict:
         with self.file.open("w", encoding=self.encode) as f:
-            dump(self.default, f, indent=4)
+            dump(self.default, f, indent=4, ensure_ascii=False)
             return self.default
 
     def update(self, data: dict):

@@ -15,13 +15,30 @@ __all__ = ["Manager"]
 
 
 class Manager:
-    NAME = compile(r"[^\u4e00-\u9fffa-zA-Z0-9！？，。；：“”（）《》]")
+    NAME = compile(r"[^\u4e00-\u9fffa-zA-Z0-9-_！？，。；：“”（）《》]")
+    NAME_KEYS = (
+        '收藏数量',
+        '评论数量',
+        '分享数量',
+        '点赞数量',
+        '作品标签',
+        '作品ID',
+        '作品标题',
+        '作品描述',
+        '作品类型',
+        '发布时间',
+        '最后更新时间',
+        '作者昵称',
+        '作者ID',
+    )
+    SEPARATE = "_"
 
     def __init__(
             self,
             root: Path,
             path: str,
             folder: str,
+            name_format: str,
             user_agent: str,
             chunk: int,
             cookie: str,
@@ -44,6 +61,7 @@ class Manager:
         self.headers = self.blank_headers | {"Cookie": cookie}
         self.retry = retry
         self.chunk = chunk
+        self.name_format = self.__check_name_format(name_format)
         self.record_data = self.check_bool(record_data, False)
         self.image_format = self.__check_image_format(image_format)
         self.folder_mode = self.check_bool(folder_mode, False)
@@ -118,3 +136,14 @@ class Manager:
         await self.request_session.close()
         await self.download_session.close()
         self.__clean()
+
+    def __check_name_format(self, format_: str) -> str:
+        keys = format_.split()
+        return next(
+            (
+                "发布时间 作者昵称 作品标题"
+                for key in keys
+                if key not in self.NAME_KEYS
+            ),
+            format_,
+        )

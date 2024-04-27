@@ -249,3 +249,9 @@ msgstr ""
 
 msgid "配置文件 settings.json 缺少必要的参数，请删除该文件，然后重新运行程序，自动生成默认配置文件！"
 msgstr ""
+
+msgid "作品文件名称格式"
+msgstr ""
+
+msgid "邀请链接："
+msgstr ""

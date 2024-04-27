@@ -67,7 +67,7 @@ class DataRecorder(IDRecorder):
         ("点赞数量", "TEXT"),
         ("作者昵称", "TEXT"),
         ("作者ID", "TEXT"),
-        ("IP归属地", "TEXT"),
+        # ("IP归属地", "TEXT"),
         ("作者链接", "TEXT"),
         ("作品链接", "TEXT"),
         ("下载地址", "TEXT"),

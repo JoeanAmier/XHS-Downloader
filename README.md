@@ -12,7 +12,7 @@
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/XHS-Downloader/total?style=for-the-badge&color=f759ab">
 </div>
 <br>
-<p>🔥 <b>小红书链接提取/作品采集工具</b>：提取账号发布、收藏、点赞作品链接；提取搜索结果作品、用户链接；采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
+<p>🔥 <b>小红书链接提取/作品采集工具</b>：提取账号发布、收藏、点赞作品链接；提取搜索结果作品链接、用户链接；采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
 <h1>📑 项目功能</h1>
 <ul><b>程序功能</b>
 <li>✅ 采集小红书作品信息</li>
@@ -26,7 +26,8 @@
 <li>✅ 后台监听剪贴板下载作品</li>
 <li>✅ 记录已下载作品 ID</li>
 <li>✅ 支持命令行下载作品文件</li>
-<li>✅ 从浏览器读取 Cookie</li>
+<li>✅ 从浏览器读取 Cookie</li> 
+<li>✅ 自定义文件名称格式</li> 
 <li>☑️ 支持 API 调用功能</li>
 </ul>
 <ul><b>脚本功能</b>
@@ -59,7 +60,7 @@
 <p>如果仅需下载无水印作品文件，建议选择 <b>程序运行</b>；如果有其他需求，建议选择 <b>源码运行</b>！</p>
 <p>建议自行设置 <code>cookie</code> 参数，若不设置该参数，程序功能可能无法正常使用！</p>
 <h2>🖱 程序运行</h2>
-<p>Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 下载程序压缩包或安装包，解压或安装后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
+<p>Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main.exe</code> 即可使用。</p>
 <p>若通过此方式使用程序，文件默认下载路径为：<code>.\_internal\Download</code>；配置文件路径为：<code>.\_internal\settings.json</code></p>
 <h2>⌨️ 源码运行</h2>
 <ol>
@@ -128,6 +129,7 @@ async def example():
 </pre>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>settings.json</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
+<p>如果设置了无效的参数值，程序将会使用参数默认值！</p>
 <table>
 <thead>
 <tr>
@@ -149,6 +151,12 @@ async def example():
 <td align="center">str</td>
 <td align="center">作品文件储存文件夹名称</td>
 <td align="center">Download</td>
+</tr>
+<tr>
+<td align="center">name_format</td>
+<td align="center">str</td>
+<td align="center">作品文件名称格式，字段之间使用空格分隔，支持字段：<code>收藏数量</code>、<code>评论数量</code>、<code>分享数量</code>、<code>点赞数量</code>、<code>作品标签</code>、<code>作品ID</code>、<code>作品标题</code>、<code>作品描述</code>、<code>作品类型</code>、<code>发布时间</code>、<code>最后更新时间</code>、<code>作者昵称</code>、<code>作者ID</code></td>
+<td align="center"><code>发布时间 作者昵称 作品标题</code></td>
 </tr>
 <tr>
 <td align="center">user_agent</td>
@@ -260,6 +268,7 @@ async def example():
 <ul>
 <li>微信(其他事务): Downloader_Tools</li>
 <li>微信公众号(问题解答): Downloader Tools</li>
+<li><b>Discord 社区</b>: <a href="https://discord.com/invite/ZYtmgKud9Y">点击加入社区</a></li>
 <li>QQ 群聊(使用交流): <a href="https://github.com/JoeanAmier/XHS-Downloader/blob/master/static/QQ%E7%BE%A4%E8%81%8A%E4%BA%8C%E7%BB%B4%E7%A0%81.png">扫码加入群聊</a></li>
 </ul>
 <p><b>说明：</b>QQ 群聊仅限于讨论项目使用问题，严禁发布任何广告，严禁讨论任何账号交易、账号流量、流量变现、灰色产业等相关的内容！</p>

@@ -122,6 +122,7 @@ class CLI:
             ("--index", "-i", "str", _("下载指定序号的图片文件，仅对图文作品生效；多个序号输入示例：\"1 3 5 7\"")),
             ("--work_path", "-wp", "str", _("作品数据 / 文件保存根路径")),
             ("--folder_name", "-fn", "str", _("作品文件储存文件夹名称")),
+            ("--name_format", "-nf", "str", _("作品文件名称格式")),
             ("--user_agent", "-ua", "str", _("User-Agent")),
             ("--cookie", "-ck", "str", _("小红书网页版 Cookie，无需登录")),
             ("--proxy", "-p", "str", _("网络代理")),
@@ -161,6 +162,7 @@ class CLI:
         type=Path(file_okay=False),
         )
 @option("--folder_name", "-fn", )
+@option("--name_format", "-nf", )
 @option("--user_agent", "-ua", )
 @option("--cookie", "-ck", )
 @option("--proxy", "-p", )
@@ -173,9 +175,8 @@ class CLI:
 @option("--language", "-l",
         type=Choice(["zh_CN", "en_GB"]), )
 @option("--settings", "-s", type=Path(dir_okay=False), )
-@option("--browser_cookie", "-bc",
-        type=Choice(list(BrowserCookie.SUPPORT_BROWSER.keys()) + [str(i) for i in range(1, 11)]),
-        callback=CLI.read_cookie, )
+@option("--browser_cookie", "-bc", type=Choice(list(BrowserCookie.SUPPORT_BROWSER.keys()
+                                                    ) + [str(i) for i in range(1, 11)]), callback=CLI.read_cookie, )
 @option("--update_settings", "-us", type=bool,
         is_flag=True, )
 @option("-h",

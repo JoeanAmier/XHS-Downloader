@@ -249,3 +249,9 @@ msgstr "Image works download switch"
 
 msgid "配置文件 settings.json 缺少必要的参数，请删除该文件，然后重新运行程序，自动生成默认配置文件！"
 msgstr "The configuration file settings.json is missing necessary parameters. Please delete the file and run the program again to automatically generate the default configuration file!"
+
+msgid "作品文件名称格式"
+msgstr "Format of works file name"
+
+msgid "邀请链接："
+msgstr "Invitation link: "

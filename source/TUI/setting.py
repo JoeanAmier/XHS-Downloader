@@ -36,6 +36,9 @@ class Setting(Screen):
                   id="work_path", ),
             Label(self.message("作品文件储存文件夹名称"), classes="params", ),
             Input(self.data["folder_name"], placeholder="Download", id="folder_name", ),
+            Label(self.message("作品文件名称格式"), classes="params", ),
+            Input(self.data["name_format"], placeholder=self.message("发布时间 作者昵称 作品标题"), valid_empty=True,
+                  id="name_format", ),
             Label(self.message("User-Agent"), classes="params", ),
             Input(self.data["user_agent"], placeholder=self.message("默认 User-Agent"), valid_empty=True,
                   id="user_agent", ),
@@ -91,6 +94,7 @@ class Setting(Screen):
         self.dismiss({
             "work_path": self.query_one("#work_path").value,
             "folder_name": self.query_one("#folder_name").value,
+            "name_format": self.query_one("#name_format").value,
             "user_agent": self.query_one("#user_agent").value,
             "cookie": self.query_one("#cookie").value or self.data["cookie"],
             "proxy": self.query_one("#proxy").value or None,
@@ -103,6 +107,7 @@ class Setting(Screen):
             "language": self.query_one("#language").value,
             "image_download": self.query_one("#image_download").value,
             "video_download": self.query_one("#video_download").value,
+            "server": False,
         })
 
     @on(Button.Pressed, "#abandon")

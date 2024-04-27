@@ -11,6 +11,7 @@ from urllib.parse import urlparse
 
 from pyperclip import paste
 
+from source.expansion import BrowserCookie
 from source.expansion import Converter
 from source.expansion import Namespace
 from source.module import DataRecorder
@@ -48,6 +49,7 @@ class XHS:
             self,
             work_path="",
             folder_name="Download",
+            name_format="发布时间 作者昵称 作品标题",
             user_agent: str = None,
             cookie: str = None,
             proxy: str = None,
@@ -62,6 +64,7 @@ class XHS:
             language="zh_CN",
             server=False,
             transition: Callable[[str], str] = None,
+            read_cookie: int | str = None,
             *args,
             **kwargs,
     ):
@@ -70,9 +73,10 @@ class XHS:
             ROOT,
             work_path,
             folder_name,
+            name_format,
             user_agent,
             chunk,
-            cookie,
+            self.read_browser_cookie(read_cookie) or cookie,
             proxy,
             timeout,
             max_retry,
@@ -204,10 +208,28 @@ class XHS:
         return Namespace(data)
 
     def __naming_rules(self, data: dict) -> str:
-        time_ = data["发布时间"].replace(":", ".")
-        author = self.manager.filter_name(data["作者昵称"]) or data["作者ID"]
-        title = self.manager.filter_name(data["作品标题"]) or data["作品ID"]
-        return f"{time_}_{author}_{title[:64]}"
+        keys = self.manager.name_format.split()
+        values = []
+        for key in keys:
+            match key:
+                case "发布时间":
+                    values.append(self.__get_name_time(data))
+                case "作者昵称":
+                    values.append(self.__get_name_author(data))
+                case "作品标题":
+                    values.append(self.__get_name_title(data))
+                case _:
+                    values.append(data[key])
+        return self.manager.SEPARATE.join(values)
+
+    def __get_name_time(self, data: dict) -> str:
+        return data["发布时间"].replace(":", ".")
+
+    def __get_name_author(self, data: dict) -> str:
+        return self.manager.filter_name(data["作者昵称"]) or data["作者ID"]
+
+    def __get_name_title(self, data: dict) -> str:
+        return self.manager.filter_name(data["作品标题"])[:64] or data["作品ID"]
 
     async def monitor(self, delay=1, download=False, log=None, bar=None, data=True, ) -> None:
         logging(
@@ -252,3 +274,8 @@ class XHS:
 
     async def close(self):
         await self.manager.close()
+
+    @staticmethod
+    def read_browser_cookie(value: str | int) -> str:
+        return BrowserCookie.get(
+            value, domain="xiaohongshu.com") if value else ""
