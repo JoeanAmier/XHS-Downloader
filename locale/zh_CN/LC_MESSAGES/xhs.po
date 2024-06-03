@@ -255,3 +255,18 @@ msgstr ""
 
 msgid "邀请链接："
 msgstr ""
+
+msgid "获取小红书作品数据成功"
+msgstr ""
+
+msgid "获取小红书作品数据失败"
+msgstr ""
+
+msgid "Web API 服务器已启动！"
+msgstr ""
+
+msgid "Web API 服务器已关闭！"
+msgstr ""
+
+msgid "服务器主机及端口: {0}"
+msgstr ""

@@ -107,7 +107,7 @@ class Setting(Screen):
             "language": self.query_one("#language").value,
             "image_download": self.query_one("#image_download").value,
             "video_download": self.query_one("#video_download").value,
-            "server": False,
+            # "server": False,
         })
 
     @on(Button.Pressed, "#abandon")

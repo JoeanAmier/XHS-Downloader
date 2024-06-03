@@ -1,6 +1,7 @@
 from asyncio import run
 from sys import argv
 
+from source import Settings
 from source import XHS
 from source import XHSDownloader
 from source import cli
@@ -47,13 +48,20 @@ async def example():
         print(await xhs.extract(multiple_links, download, ))
 
 
-async def main():
+async def app():
     async with XHSDownloader() as xhs:
         await xhs.run_async()
 
 
+async def server():
+    async with XHS(**Settings().run()) as xhs:
+        await xhs.run_server()
+
+
 if __name__ == '__main__':
-    if len(argv) > 1:
-        cli()
+    if len(argv) == 1:
+        run(app())
+    elif argv[1] == "server":
+        run(server())
     else:
-        run(main())
+        cli()

@@ -13,5 +13,5 @@ class Video:
 
     @classmethod
     def get_video_link(cls, data: Namespace) -> list:
-        return [Html.format_url(f"https://sns-video-hw.xhscdn.com/{t}")] if (
+        return [Html.format_url(f"https://sns-video-bd.xhscdn.com/{t}")] if (
             t := data.safe_extract(".".join(cls.VIDEO_LINK))) else []

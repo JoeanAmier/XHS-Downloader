@@ -255,3 +255,18 @@ msgstr "Format of works file name"
 
 msgid "邀请链接："
 msgstr "Invitation link: "
+
+msgid "获取小红书作品数据成功"
+msgstr "Successfully obtained data on Xiaohongshu's works"
+
+msgid "获取小红书作品数据失败"
+msgstr "Failed to obtain data on Xiaohongshu's works"
+
+msgid "Web API 服务器已启动！"
+msgstr "Web API server started!"
+
+msgid "Web API 服务器已关闭！"
+msgstr "Web API server has been shut down!"
+
+msgid "服务器主机及端口: {0}"
+msgstr "Server host and port: {0}"

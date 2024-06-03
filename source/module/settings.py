@@ -3,6 +3,8 @@ from json import load
 from pathlib import Path
 from platform import system
 
+from .static import ROOT
+
 __all__ = ['Settings']
 
 
@@ -23,11 +25,11 @@ class Settings:
         "video_download": True,
         "folder_mode": False,
         "language": "zh_CN",
-        "server": False,
+        # "server": False,
     }
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"
 
-    def __init__(self, root: Path):
+    def __init__(self, root: Path = ROOT):
         self.file = root.joinpath("./settings.json")
 
     def run(self):

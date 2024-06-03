@@ -50,6 +50,7 @@ class Manager:
             image_download: bool,
             video_download: bool,
             folder_mode: bool,
+            # server: bool,
             transition: Callable[[str], str],
     ):
         self.root = root
@@ -77,6 +78,7 @@ class Manager:
         self.message = transition
         self.image_download = self.check_bool(image_download, True)
         self.video_download = self.check_bool(video_download, True)
+        # self.server = self.check_bool(server, False)
 
     def __check_path(self, path: str) -> Path:
         if not path:

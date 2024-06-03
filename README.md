@@ -28,7 +28,7 @@
 <li>✅ 支持命令行下载作品文件</li>
 <li>✅ 从浏览器读取 Cookie</li> 
 <li>✅ 自定义文件名称格式</li> 
-<li>☑️ 支持 API 调用功能</li>
+<li>✅ 支持 API 调用功能</li>
 </ul>
 <ul><b>脚本功能</b>
 <li>✅ 下载小红书无水印作品文件</li>
@@ -70,14 +70,66 @@
 <li>运行 <code>main.py</code> 即可使用</li>
 </ol>
 <h1>🛠 命令行模式</h1>
-<p>项目支持命令行运行模式，若想要下载图文作品的部分图片，可以使用此模式传入需要下载的图片序号！</p>
-<p>可以使用命令行从浏览器读取 Cookie 并写入配置文件！注意需要关闭对应浏览器才能读取数据！</p>
-<p><code>bool</code> 类型参数支持使用 <code>true</code>、<code>false</code>、<code>1</code>、<code>0</code>、<code>yes</code>、<code>no</code>、<code>on</code> 或 <code>off</code>（不区分大小写）来设置。</p>
+<p>项目支持命令行运行模式，若想要下载图文作品的部分图片，可以使用此模式设置需要下载的图片序号！</p>
+<p>可以使用命令行<b>从浏览器读取 Cookie 并写入配置文件</b>！注意需要关闭浏览器才能读取数据！</p>
 <p>命令示例：<code>python .\main.py --browser_cookie Chrome --update_settings</code></p>
+<p><code>bool</code> 类型参数支持使用 <code>true</code>、<code>false</code>、<code>1</code>、<code>0</code>、<code>yes</code>、<code>no</code>、<code>on</code> 或 <code>off</code>（不区分大小写）来设置。</p>
 <hr>
 <img src="static/screenshot/命令行模式截图1.png" alt="">
 <hr>
 <img src="static/screenshot/命令行模式截图2.png" alt="">
+<h1>🖥 服务器模式</h1>
+<p><b>启动：</b>运行命令：<code>python .\main.py server</code></p>
+<p><b>关闭：</b>按下 <code>Ctrl</code> + <code>C</code> 关闭服务器</p>
+<p><b>请求接口：</b><code>/xhs/</code></p>
+<p><b>请求类型：</b><code>POST</code></p>
+<p><b>请求参数：</b></p>
+<table>
+<thead>
+<tr>
+<th align="center">参数</th>
+<th align="center">类型</th>
+<th align="center">含义</th>
+<th align="center">默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">url</td>
+<td align="center">str</td>
+<td align="center">小红书作品链接，自动提取，不支持多链接</td>
+<td align="center">无</td>
+</tr>
+<tr>
+<td align="center">download</td>
+<td align="center">bool</td>
+<td align="center">是否下载作品文件；设置为 <code>true</code> 将会耗费更多时间</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">index</td>
+<td align="center">str</td>
+<td align="center">下载指定序号的图片文件，仅对图文作品生效；多个序号之间使用空格分隔；<code>download</code> 参数设置为 <code>false</code> 时不生效</td>
+<td align="center">null</td>
+</tr>
+<tr>
+<td align="center">skip</td>
+<td align="center">bool</td>
+<td align="center">是否跳过存在下载记录的作品；设置为 <code>true</code> 将不会返回存在下载记录的作品数据</td>
+<td align="center">false</td>
+</tr>
+</tbody>
+</table>
+<p><b>代码示例：</b></p>
+<pre>
+def api_demo():
+    server = "http://127.0.0.1:8080"
+    data = {
+        "url": "https://www.xiaohongshu.com/explore/123456789",
+    }
+    response = requests.post(server, data=data)
+    print(response.json())
+</pre>
 <h1>🕹 用户脚本</h1>
 <img src="static/screenshot/用户脚本截图1.png" alt="">
 <hr>
@@ -235,6 +287,7 @@ async def example():
 <h1>🌐 Cookie</h1>
 <ol>
 <li>打开浏览器（可选无痕模式启动），访问 <code>https://www.xiaohongshu.com/explore</code></li>
+<li>登录小红书账号（可跳过）</li>
 <li>按下 <code>F12</code> 打开开发人员工具</li>
 <li>选择 <code>网络</code> 选项卡</li>
 <li>勾选 <code>保留日志</code></li>

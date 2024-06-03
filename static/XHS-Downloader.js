@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.4.3
+// @version      1.4.4
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -42,7 +42,7 @@
 2. 提取账号发布、收藏、点赞作品链接时，脚本会尝试自动滚动屏幕直至加载全部作品，滚动检测间隔：2.5 秒
 3. 提取搜索结果作品、用户链接时，脚本会自动滚动屏幕以尝试加载更多内容，滚动屏幕次数：10 次
 4. 可以修改滚动检测间隔、滚动屏幕次数，修改后立即生效；亦可关闭自动滚动屏幕功能，手动滚动屏幕加载内容
-5. XHS-Downloader 用户脚本仅实现可见即可得的数据采集功能，无任何破解功能
+5. XHS-Downloader 用户脚本仅实现可见即可得的数据采集功能，无任何收费功能和破解功能
 
 项目开源地址：https://github.com/JoeanAmier/XHS-Downloader
 `
@@ -132,7 +132,7 @@
 
     const generateVideoUrl = note => {
         try {
-            return [`https://sns-video-hw.xhscdn.com/${note.video.consumer.originVideoKey}`];
+            return [`https://sns-video-bd.xhscdn.com/${note.video.consumer.originVideoKey}`];
         } catch (error) {
             console.error("Error generating video URL:", error);
             return [];
