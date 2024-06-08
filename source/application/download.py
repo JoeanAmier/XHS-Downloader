@@ -32,18 +32,21 @@ class Download:
         self.message = manager.message
         self.folder_mode = manager.folder_mode
         self.video_format = "mp4"
+        self.live_format = "mp4"
         self.image_format = manager.image_format
         self.image_download = manager.image_download
         self.video_download = manager.video_download
+        self.live_download = manager.live_download
 
-    async def run(self, urls: list, index: list | tuple | None, name: str, type_: str, log, bar) -> tuple[Path, tuple]:
+    async def run(self, urls: list, lives: list, index: list | tuple | None, name: str, type_: str, log, bar) -> tuple[
+        Path, tuple]:
         path = self.__generate_path(name)
         match type_:
             case "视频":
                 tasks = self.__ready_download_video(urls, path, name, log)
             case "图文":
                 tasks = self.__ready_download_image(
-                    urls, index, path, name, log)
+                    urls, lives, index, path, name, log)
             case _:
                 raise ValueError
         tasks = [
@@ -73,14 +76,14 @@ class Download:
         if not self.video_download:
             logging(log, self.message("视频作品下载功能已关闭，跳过下载"))
             return []
-        if any(path.glob(f"{name}.*")):
-            logging(log, self.message("{0} 文件已存在，跳过下载").format(name))
+        if self.__check_exists(path, f"{name}.{self.video_format}", log):
             return []
         return [(urls[0], name, self.video_format)]
 
     def __ready_download_image(
             self,
             urls: list[str],
+            lives: list[str],
             index: list | tuple | None,
             path: Path,
             name: str,
@@ -89,21 +92,30 @@ class Download:
         if not self.image_download:
             logging(log, self.message("图文作品下载功能已关闭，跳过下载"))
             return tasks
-        for i, j in enumerate(urls, start=1):
+        for i, j in enumerate(zip(urls, lives), start=1):
             if index and i not in index:
                 continue
             file = f"{name}_{i}"
-            if any(path.glob(f"{file}.*")):
-                logging(
-                    log, self.message(
-                        "{0} 文件已存在，跳过下载").format(name))
+            if not self.__check_exists(
+                    path, f"{file}.{self.image_format}", log):
+                tasks.append([j[0], file, self.image_format])
+            if not self.live_download or not j[1] or self.__check_exists(
+                    path, f"{file}.{self.live_format}", log):
                 continue
-            tasks.append([j, file, self.image_format])
+            tasks.append([j[1], file, self.live_format])
         return tasks
+
+    def __check_exists(self, path: Path, name: str, log, ) -> bool:
+        if any(path.glob(name)):
+            logging(
+                log, self.message(
+                    "{0} 文件已存在，跳过下载").format(name))
+            return True
+        return False
 
     @re_download
     async def __download(self, url: str, path: Path, name: str, format_: str, log, bar):
-        temp = self.temp.joinpath(name)
+        temp = self.temp.joinpath(f"{name}.{format_}")
         try:
             async with self.session.get(url, proxy=self.proxy) as response:
                 if response.status != 200:
@@ -124,7 +136,7 @@ class Download:
                         # self.__update_progress(bar, len(chunk))
             self.manager.move(temp, real)
             # self.__create_progress(bar, None)
-            logging(log, self.message("文件 {0} 下载成功").format(name))
+            logging(log, self.message("文件 {0} 下载成功").format(real.name))
             return True
         except ClientError as error:
             self.manager.delete(temp)

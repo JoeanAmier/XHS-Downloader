@@ -39,9 +39,6 @@ class Setting(Screen):
             Label(self.message("作品文件名称格式"), classes="params", ),
             Input(self.data["name_format"], placeholder=self.message("发布时间 作者昵称 作品标题"), valid_empty=True,
                   id="name_format", ),
-            Label(self.message("User-Agent"), classes="params", ),
-            Input(self.data["user_agent"], placeholder=self.message("默认 User-Agent"), valid_empty=True,
-                  id="user_agent", ),
             Label(self.message("小红书网页版 Cookie"), classes="params", ),
             Input(placeholder=self.__check_cookie(), valid_empty=True, id="cookie", ),
             Label(self.message("网络代理"), classes="params", ),
@@ -58,11 +55,16 @@ class Setting(Screen):
                 Checkbox(self.message("视频作品下载开关"), id="video_download", value=self.data["video_download"], ),
                 Checkbox(self.message("图文作品下载开关"), id="image_download", value=self.data["image_download"], ),
                 classes="horizontal-layout"),
+            Label(),
+            Container(
+                Checkbox(self.message("动图文件下载开关"), id="live_download", value=self.data["live_download"], ),
+                classes="horizontal-layout"),
             Container(
                 Label(self.message("图片下载格式"), classes="params", ),
                 Label(self.message("程序语言"), classes="params", ),
                 classes="horizontal-layout",
             ),
+            Label(),
             Container(
                 Select.from_values(
                     ("PNG", "WEBP"),
@@ -95,7 +97,6 @@ class Setting(Screen):
             "work_path": self.query_one("#work_path").value,
             "folder_name": self.query_one("#folder_name").value,
             "name_format": self.query_one("#name_format").value,
-            "user_agent": self.query_one("#user_agent").value,
             "cookie": self.query_one("#cookie").value or self.data["cookie"],
             "proxy": self.query_one("#proxy").value or None,
             "timeout": int(self.query_one("#timeout").value),
@@ -107,6 +108,7 @@ class Setting(Screen):
             "language": self.query_one("#language").value,
             "image_download": self.query_one("#image_download").value,
             "video_download": self.query_one("#video_download").value,
+            "live_download": self.query_one("#live_download").value,
             # "server": False,
         })
 

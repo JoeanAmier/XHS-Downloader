@@ -16,8 +16,7 @@ async def example():
     # 实例对象
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
-    user_agent = ""  # 请求头 User-Agent，可选参数
-    cookie = ""  # 小红书网页版 Cookie，无需登录，必需参数
+    cookie = ""  # 小红书网页版 Cookie，无需登录，必需参数，登录状态对数据采集有影响
     proxy = None  # 网络代理
     timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
     chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
@@ -29,7 +28,6 @@ async def example():
         pass  # 使用默认参数
     async with XHS(work_path=work_path,
                    folder_name=folder_name,
-                   user_agent=user_agent,
                    cookie=cookie,
                    proxy=proxy,
                    timeout=timeout,

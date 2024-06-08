@@ -63,6 +63,7 @@ class XHS:
             image_format="PNG",
             image_download=True,
             video_download=True,
+            live_download=False,
             folder_mode=False,
             language="zh_CN",
             # server=False,
@@ -77,7 +78,7 @@ class XHS:
             work_path,
             folder_name,
             name_format,
-            user_agent,
+            # user_agent,
             chunk,
             self.read_browser_cookie(read_cookie) or cookie,
             proxy,
@@ -87,6 +88,7 @@ class XHS:
             image_format,
             image_download,
             video_download,
+            live_download,
             folder_mode,
             # server,
             self.message,
@@ -106,7 +108,7 @@ class XHS:
         self.site = None
 
     def __extract_image(self, container: dict, data: Namespace):
-        container["下载地址"] = self.image.get_image_link(
+        container["下载地址"], container["动图地址"] = self.image.get_image_link(
             data, self.manager.image_format)
 
     def __extract_video(self, container: dict, data: Namespace):
@@ -119,7 +121,8 @@ class XHS:
                 logging(
                     log, self.message("作品 {0} 存在下载记录，跳过下载").format(i))
             else:
-                path, result = await self.download.run(u, index, name, container["作品类型"], log, bar)
+                path, result = await self.download.run(u, container["动图地址"], index, name, container["作品类型"],
+                                                       log, bar)
                 await self.__add_record(i, result)
         elif not u:
             logging(log, self.message("提取作品文件下载地址失败"), ERROR)
@@ -128,6 +131,7 @@ class XHS:
     async def save_data(self, data: dict, ):
         data["采集时间"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         data["下载地址"] = " ".join(data["下载地址"])
+        data["动图地址"] = " ".join(i or "NaN" for i in data["动图地址"])
         await self.data_recorder.add(**data)
 
     async def __add_record(self, id_: str, result: tuple) -> None:

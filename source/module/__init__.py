@@ -19,7 +19,6 @@ from .static import (
     WARNING,
     INFO,
     USERSCRIPT,
-    USERAGENT,
     HEADERS,
     PROJECT,
 )
@@ -49,7 +48,6 @@ __all__ = [
     "WARNING",
     "INFO",
     "USERSCRIPT",
-    "USERAGENT",
     "HEADERS",
     "retry",
     "logging",

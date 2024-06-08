@@ -123,7 +123,6 @@ class CLI:
             ("--work_path", "-wp", "str", _("作品数据 / 文件保存根路径")),
             ("--folder_name", "-fn", "str", _("作品文件储存文件夹名称")),
             ("--name_format", "-nf", "str", _("作品文件名称格式")),
-            ("--user_agent", "-ua", "str", _("User-Agent")),
             ("--cookie", "-ck", "str", _("小红书网页版 Cookie，无需登录")),
             ("--proxy", "-p", "str", _("网络代理")),
             ("--timeout", "-t", "int", _("请求数据超时限制，单位：秒")),
@@ -131,6 +130,7 @@ class CLI:
             ("--max_retry", "-mr", "int", _("请求数据失败时，重试的最大次数")),
             ("--record_data", "-rd", "bool", _("是否记录作品数据至文件")),
             ("--image_format", "-if", "choice", _("图文作品文件下载格式，支持：PNG、WEBP")),
+            ("--live_download", "-ld", "bool", _("图文动图文件下载开关")),
             ("--folder_mode", "-fm", "bool", _("是否将每个作品的文件储存至单独的文件夹")),
             ("--language", "-l", "choice", _("设置程序语言，目前支持：zh_CN、en_GB")),
             ("--settings", "-s", "str", _("读取指定配置文件")),
@@ -163,7 +163,6 @@ class CLI:
         )
 @option("--folder_name", "-fn", )
 @option("--name_format", "-nf", )
-@option("--user_agent", "-ua", )
 @option("--cookie", "-ck", )
 @option("--proxy", "-p", )
 @option("--timeout", "-t", type=int, )
@@ -171,6 +170,7 @@ class CLI:
 @option("--max_retry", "-mr", type=int, )
 @option("--record_data", "-rd", type=bool, )
 @option("--image_format", "-if", type=Choice(["png", "PNG", "webp", "WEBP"]), )
+@option("--live_download", "-ld", type=bool, )
 @option("--folder_mode", "-fm", type=bool, )
 @option("--language", "-l",
         type=Choice(["zh_CN", "en_GB"]), )

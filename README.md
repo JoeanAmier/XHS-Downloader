@@ -18,6 +18,7 @@
 <li>✅ 采集小红书作品信息</li>
 <li>✅ 提取小红书作品下载地址</li>
 <li>✅ 下载小红书无水印作品文件</li>
+<li>✅ 下载小红书 livePhoto 文件(非无水印)</li>
 <li>✅ 自动跳过已下载的作品文件</li>
 <li>✅ 作品文件完整性处理机制</li>
 <li>✅ 自定义图文作品文件下载格式</li>
@@ -148,8 +149,7 @@ async def example():
     # 实例对象
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
-    user_agent = ""  # 请求头 User-Agent，可选参数
-    cookie = ""  # 小红书网页版 Cookie，无需登录，必需参数
+    cookie = ""  # 小红书网页版 Cookie，无需登录，必需参数，登录状态对数据采集有影响
     proxy = None  # 网络代理
     timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
     chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
@@ -161,7 +161,6 @@ async def example():
         pass  # 使用默认参数
     async with XHS(work_path=work_path,
                    folder_name=folder_name,
-                   user_agent=user_agent,
                    cookie=cookie,
                    proxy=proxy,
                    timeout=timeout,
@@ -209,12 +208,6 @@ async def example():
 <td align="center">str</td>
 <td align="center">作品文件名称格式，字段之间使用空格分隔，支持字段：<code>收藏数量</code>、<code>评论数量</code>、<code>分享数量</code>、<code>点赞数量</code>、<code>作品标签</code>、<code>作品ID</code>、<code>作品标题</code>、<code>作品描述</code>、<code>作品类型</code>、<code>发布时间</code>、<code>最后更新时间</code>、<code>作者昵称</code>、<code>作者ID</code></td>
 <td align="center"><code>发布时间 作者昵称 作品标题</code></td>
-</tr>
-<tr>
-<td align="center">user_agent</td>
-<td align="center">str</td>
-<td align="center">请求头 User-Agent</td>
-<td align="center">默认 UA</td>
 </tr>
 <tr>
 <td align="center">cookie</td>
@@ -269,6 +262,12 @@ async def example():
 <td align="center">bool</td>
 <td align="center">视频作品文件下载开关</td>
 <td align="center">true</td>
+</tr>
+<tr>
+<td align="center">live_download</td>
+<td align="center">bool</td>
+<td align="center">图文动图文件下载开关</td>
+<td align="center">false</td>
 </tr>
 <tr>
 <td align="center">folder_mode</td>

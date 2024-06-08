@@ -109,9 +109,6 @@ msgstr "Xiaohongshu web version cookie, no login required, parameters have been 
 msgid "小红书网页版 Cookie，无需登录，参数未设置"
 msgstr "Xiaohongshu web version cookie, no login required, parameters not set"
 
-msgid "默认 User-Agent"
-msgstr "Default User-Agent"
-
 msgid "不使用代理"
 msgstr "No proxy"
 
@@ -246,6 +243,9 @@ msgstr "Video works download switch"
 
 msgid "图文作品下载开关"
 msgstr "Image works download switch"
+
+msgid "动图文件下载开关"
+msgstr "Live photo download switch"
 
 msgid "配置文件 settings.json 缺少必要的参数，请删除该文件，然后重新运行程序，自动生成默认配置文件！"
 msgstr "The configuration file settings.json is missing necessary parameters. Please delete the file and run the program again to automatically generate the default configuration file!"

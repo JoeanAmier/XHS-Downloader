@@ -9,7 +9,6 @@ from aiohttp import ClientSession
 from aiohttp import ClientTimeout
 
 from .static import HEADERS
-from .static import USERAGENT
 
 __all__ = ["Manager"]
 
@@ -39,7 +38,6 @@ class Manager:
             path: str,
             folder: str,
             name_format: str,
-            user_agent: str,
             chunk: int,
             cookie: str,
             proxy: str,
@@ -49,6 +47,7 @@ class Manager:
             image_format: str,
             image_download: bool,
             video_download: bool,
+            live_download: bool,
             folder_mode: bool,
             # server: bool,
             transition: Callable[[str], str],
@@ -57,8 +56,7 @@ class Manager:
         self.temp = root.joinpath("./temp")
         self.path = self.__check_path(path)
         self.folder = self.__check_folder(folder)
-        self.blank_headers = HEADERS | {
-            "User-Agent": user_agent or USERAGENT, }
+        self.blank_headers = HEADERS
         self.headers = self.blank_headers | {"Cookie": cookie}
         self.retry = retry
         self.chunk = chunk
@@ -78,6 +76,7 @@ class Manager:
         self.message = transition
         self.image_download = self.check_bool(image_download, True)
         self.video_download = self.check_bool(video_download, True)
+        self.live_download = self.check_bool(live_download, True)
         # self.server = self.check_bool(server, False)
 
     def __check_path(self, path: str) -> Path:

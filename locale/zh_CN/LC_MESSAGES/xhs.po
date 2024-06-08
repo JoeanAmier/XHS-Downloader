@@ -109,9 +109,6 @@ msgstr ""
 msgid "小红书网页版 Cookie，无需登录，参数未设置"
 msgstr ""
 
-msgid "默认 User-Agent"
-msgstr ""
-
 msgid "不使用代理"
 msgstr ""
 
@@ -245,6 +242,9 @@ msgid "视频作品下载开关"
 msgstr ""
 
 msgid "图文作品下载开关"
+msgstr ""
+
+msgid "动图文件下载开关"
 msgstr ""
 
 msgid "配置文件 settings.json 缺少必要的参数，请删除该文件，然后重新运行程序，自动生成默认配置文件！"
