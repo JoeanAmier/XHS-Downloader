@@ -113,6 +113,7 @@ class XHS:
 
     def __extract_video(self, container: dict, data: Namespace):
         container["下载地址"] = self.video.get_video_link(data)
+        container["动图地址"] = ""
 
     async def __download_files(self, container: dict, download: bool, index, log, bar):
         name = self.__naming_rules(container)

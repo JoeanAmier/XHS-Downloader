@@ -49,6 +49,7 @@ class Setting(Screen):
             Input(str(self.data["chunk"]), placeholder="1048576", type="integer", id="chunk", ),
             Label(self.message("请求数据失败时，重试的最大次数"), classes="params", ),
             Input(str(self.data["max_retry"]), placeholder="5", type="integer", id="max_retry", ),
+            Label(),
             Container(
                 Checkbox(self.message("记录作品数据"), id="record_data", value=self.data["record_data"], ),
                 Checkbox(self.message("作品文件夹归档模式"), id="folder_mode", value=self.data["folder_mode"], ),
