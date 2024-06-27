@@ -270,3 +270,18 @@ msgstr "Web API server has been shut down!"
 
 msgid "服务器主机及端口: {0}"
 msgstr "Server host and port: {0}"
+
+msgid "内置 Chrome User-Agent"
+msgstr "Built in Chrome User Agent"
+
+msgid "proxy 参数 {0} 设置错误，程序将不会使用代理"
+msgstr "The proxy parameter {0} is set incorrectly, and the program will not use the proxy"
+
+msgid "代理 {0} 测试成功"
+msgstr "Agent {0} tested successfully"
+
+msgid "代理 {0} 测试超时"
+msgstr "Agent {0} test timeout"
+
+msgid "代理 {0} 测试失败：{1}"
+msgstr "Agent {0} test failed: {1}"

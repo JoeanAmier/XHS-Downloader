@@ -1,4 +1,4 @@
-from asyncio import CancelledError
+# from asyncio import CancelledError
 from asyncio import Event
 from asyncio import Queue
 from asyncio import QueueEmpty
@@ -10,7 +10,7 @@ from re import compile
 from typing import Callable
 from urllib.parse import urlparse
 
-from aiohttp import web
+# from aiohttp import web
 from pyperclip import paste
 
 from source.expansion import BrowserCookie
@@ -24,7 +24,7 @@ from source.module import (
     ERROR,
     WARNING,
     MASTER,
-    REPOSITORY,
+    # REPOSITORY,
 )
 from source.module import Translate
 from source.module import logging
@@ -55,7 +55,7 @@ class XHS:
             name_format="发布时间 作者昵称 作品标题",
             user_agent: str = None,
             cookie: str = None,
-            proxy: str = None,
+            proxy: str | dict = None,
             timeout=10,
             chunk=1024 * 1024,
             max_retry=5,
@@ -69,6 +69,7 @@ class XHS:
             # server=False,
             transition: Callable[[str], str] = None,
             read_cookie: int | str = None,
+            _print: bool = True,
             *args,
             **kwargs,
     ):
@@ -78,8 +79,8 @@ class XHS:
             work_path,
             folder_name,
             name_format,
-            # user_agent,
             chunk,
+            user_agent,
             self.read_browser_cookie(read_cookie) or cookie,
             proxy,
             timeout,
@@ -92,6 +93,7 @@ class XHS:
             folder_mode,
             # server,
             self.message,
+            _print,
         )
         self.html = Html(self.manager)
         self.image = Image()
@@ -104,8 +106,8 @@ class XHS:
         self.clipboard_cache: str = ""
         self.queue = Queue()
         self.event = Event()
-        self.runner = self.init_server()
-        self.site = None
+        # self.runner = self.init_server()
+        # self.site = None
 
     def __extract_image(self, container: dict, data: Namespace):
         container["下载地址"], container["动图地址"] = self.image.get_image_link(
@@ -232,7 +234,8 @@ class XHS:
                     values.append(data[key])
         return self.manager.SEPARATE.join(values)
 
-    def __get_name_time(self, data: dict) -> str:
+    @staticmethod
+    def __get_name_time(data: dict) -> str:
         return data["发布时间"].replace(":", ".")
 
     def __get_name_author(self, data: dict) -> str:
@@ -290,49 +293,49 @@ class XHS:
         return BrowserCookie.get(
             value, domain="xiaohongshu.com") if value else ""
 
-    @staticmethod
-    async def index(request):
-        return web.HTTPFound(REPOSITORY)
+    # @staticmethod
+    # async def index(request):
+    #     return web.HTTPFound(REPOSITORY)
 
-    async def handle(self, request):
-        data = await request.post()
-        url = data.get("url")
-        download = data.get("download", False)
-        index = data.get("index")
-        skip = data.get("skip", False)
-        url = await self.__extract_links(url, None)
-        if not url:
-            msg = self.message("提取小红书作品链接失败")
-            data = None
-        else:
-            if data := await self.__deal_extract(url[0], download, index, None, None, not skip, ):
-                msg = self.message("获取小红书作品数据成功")
-            else:
-                msg = self.message("获取小红书作品数据失败")
-                data = None
-        return web.json_response(dict(message=msg, url=url[0], data=data))
+    # async def handle(self, request):
+    #     data = await request.post()
+    #     url = data.get("url")
+    #     download = data.get("download", False)
+    #     index = data.get("index")
+    #     skip = data.get("skip", False)
+    #     url = await self.__extract_links(url, None)
+    #     if not url:
+    #         msg = self.message("提取小红书作品链接失败")
+    #         data = None
+    #     else:
+    #         if data := await self.__deal_extract(url[0], download, index, None, None, not skip, ):
+    #             msg = self.message("获取小红书作品数据成功")
+    #         else:
+    #             msg = self.message("获取小红书作品数据失败")
+    #             data = None
+    #     return web.json_response(dict(message=msg, url=url[0], data=data))
 
-    def init_server(self, ):
-        app = web.Application(debug=True)
-        app.router.add_get('/', self.index)
-        app.router.add_post('/xhs/', self.handle)
-        return web.AppRunner(app)
+    # def init_server(self, ):
+    #     app = web.Application(debug=True)
+    #     app.router.add_get('/', self.index)
+    #     app.router.add_post('/xhs/', self.handle)
+    #     return web.AppRunner(app)
 
-    async def run_server(self, log=None, ):
-        try:
-            await self.start_server(log)
-            while True:
-                await sleep(3600)  # 保持服务器运行
-        except (CancelledError, KeyboardInterrupt):
-            await self.close_server(log)
+    # async def run_server(self, log=None, ):
+    #     try:
+    #         await self.start_server(log)
+    #         while True:
+    #             await sleep(3600)  # 保持服务器运行
+    #     except (CancelledError, KeyboardInterrupt):
+    #         await self.close_server(log)
 
-    async def start_server(self, log=None, ):
-        await self.runner.setup()
-        self.site = web.TCPSite(self.runner, "0.0.0.0")
-        await self.site.start()
-        logging(log, self.message("Web API 服务器已启动！"))
-        logging(log, self.message("服务器主机及端口: {0}".format(self.site.name, )))
+    # async def start_server(self, log=None, ):
+    #     await self.runner.setup()
+    #     self.site = web.TCPSite(self.runner, "0.0.0.0")
+    #     await self.site.start()
+    #     logging(log, self.message("Web API 服务器已启动！"))
+    #     logging(log, self.message("服务器主机及端口: {0}".format(self.site.name, )))
 
-    async def close_server(self, log=None, ):
-        await self.runner.cleanup()
-        logging(log, self.message("Web API 服务器已关闭！"))
+    # async def close_server(self, log=None, ):
+    #     await self.runner.cleanup()
+    #     logging(log, self.message("Web API 服务器已关闭！"))

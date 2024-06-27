@@ -1,7 +1,7 @@
 from asyncio import gather
 from pathlib import Path
 
-from aiohttp import ClientError
+from httpx import HTTPError
 
 from source.module import ERROR
 from source.module import Manager
@@ -25,9 +25,8 @@ class Download:
         self.manager = manager
         self.folder = manager.folder
         self.temp = manager.temp
-        self.proxy = manager.proxy
         self.chunk = manager.chunk
-        self.session = manager.download_session
+        self.client = manager.download_client
         self.retry = manager.retry
         self.message = manager.message
         self.folder_mode = manager.folder_mode
@@ -117,11 +116,11 @@ class Download:
     async def __download(self, url: str, path: Path, name: str, format_: str, log, bar):
         temp = self.temp.joinpath(f"{name}.{format_}")
         try:
-            async with self.session.get(url, proxy=self.proxy) as response:
-                if response.status != 200:
+            async with self.client.stream("GET", url, ) as response:
+                if response.status_code != 200:
                     logging(
                         log, self.message("链接 {0} 请求失败，响应码 {1}").format(
-                            url, response.status), style=ERROR)
+                            url, response.status_code), style=ERROR)
                     return False
                 suffix = self.__extract_type(
                     response.headers.get("Content-Type")) or format_
@@ -131,14 +130,14 @@ class Download:
                 #         response.headers.get(
                 #             'content-length', 0)) or None)
                 with temp.open("wb") as f:
-                    async for chunk in response.content.iter_chunked(self.chunk):
+                    async for chunk in response.aiter_bytes(self.chunk):
                         f.write(chunk)
                         # self.__update_progress(bar, len(chunk))
             self.manager.move(temp, real)
             # self.__create_progress(bar, None)
             logging(log, self.message("文件 {0} 下载成功").format(real.name))
             return True
-        except ClientError as error:
+        except HTTPError as error:
             self.manager.delete(temp)
             # self.__create_progress(bar, None)
             logging(log, str(error), ERROR)

@@ -1,4 +1,4 @@
-from aiohttp import ClientError
+from httpx import HTTPError
 
 from source.module import ERROR
 from source.module import Manager
@@ -10,10 +10,9 @@ __all__ = ["Html"]
 
 class Html:
     def __init__(self, manager: Manager, ):
-        self.proxy = manager.proxy
         self.retry = manager.retry
         self.message = manager.message
-        self.session = manager.request_session
+        self.client = manager.request_client
 
     @retry
     async def request_url(
@@ -24,15 +23,14 @@ class Html:
             **kwargs,
     ) -> str:
         try:
-            async with self.session.get(
-                    url,
-                    proxy=self.proxy,
-                    **kwargs,
-            ) as response:
-                if response.status != 200:
-                    return ""
-                return await response.text() if content else str(response.url)
-        except ClientError as error:
+            response = await self.client.get(
+                url,
+                **kwargs,
+            )
+            if response.status_code != 200:
+                return ""
+            return response.text if content else str(response.url)
+        except HTTPError as error:
             logging(log, str(error), ERROR)
             logging(
                 log, self.message("网络异常，请求 {0} 失败").format(url), ERROR)

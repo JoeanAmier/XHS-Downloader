@@ -1,6 +1,5 @@
 from typing import Callable
 
-from aiohttp import ClientTimeout
 from rich.text import Text
 from textual import work
 from textual.app import ComposeResult
@@ -39,7 +38,7 @@ class Update(ModalScreen):
     @work()
     async def check_update(self) -> None:
         try:
-            url = await self.xhs.html.request_url(RELEASES, False, None, timeout=ClientTimeout(connect=5))
+            url = await self.xhs.html.request_url(RELEASES, False, None, timeout=5, )
             version = url.split("/")[-1]
             match self.compare_versions(f"{VERSION_MAJOR}.{VERSION_MINOR}", version, VERSION_BETA):
                 case 4:

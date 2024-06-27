@@ -43,7 +43,11 @@ class XHSDownloader(App):
     def __initialization(self) -> None:
         self.parameter = self.SETTINGS.run()
         self.message = Translate(self.parameter["language"]).message()
-        self.APP = XHS(**self.parameter, transition=self.message)
+        self.APP = XHS(
+            **self.parameter,
+            transition=self.message,
+            _print=False,
+        )
 
     async def on_mount(self) -> None:
         self.install_screen(

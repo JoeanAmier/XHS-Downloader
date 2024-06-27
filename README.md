@@ -151,6 +151,8 @@ async def example():
     # 实例对象
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
+    name_format = "作品标题 作品描述"
+    user_agent = ""  # User-Agent
     cookie = ""  # 小红书网页版 Cookie，无需登录，必需参数，登录状态对数据采集有影响
     proxy = None  # 网络代理
     timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
@@ -163,6 +165,8 @@ async def example():
         pass  # 使用默认参数
     async with XHS(work_path=work_path,
                    folder_name=folder_name,
+                   name_format=name_format,
+                   user_agent=user_agent,
                    cookie=cookie,
                    proxy=proxy,
                    timeout=timeout,
@@ -212,6 +216,12 @@ async def example():
 <td align="center"><code>发布时间 作者昵称 作品标题</code></td>
 </tr>
 <tr>
+<td align="center">user_agent</td>
+<td align="center">str</td>
+<td align="center">浏览器 User-Agent</td>
+<td align="center">内置 chrome user-agent</td>
+</tr>
+<tr>
 <td align="center">cookie</td>
 <td align="center">str</td>
 <td align="center">小红书网页版 Cookie，<b>无需登录</b></td>
@@ -219,7 +229,7 @@ async def example():
 </tr>
 <tr>
 <td align="center">proxy</td>
-<td align="center">str</td>
+<td align="center">str|dict</td>
 <td align="center">设置程序代理</td>
 <td align="center">null</td>
 </tr>
@@ -349,7 +359,8 @@ async def example():
 
 # 💡 代码参考
 
-* https://docs.aiohttp.org/en/stable/
+* https://github.com/encode/httpx/
+* https://github.com/tiangolo/fastapi
 * https://textual.textualize.io/
 * https://aiosqlite.omnilib.dev/en/stable/
 * https://click.palletsprojects.com/en/8.1.x/

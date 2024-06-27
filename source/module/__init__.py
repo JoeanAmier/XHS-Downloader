@@ -21,6 +21,7 @@ from .static import (
     USERSCRIPT,
     HEADERS,
     PROJECT,
+    USERAGENT,
 )
 from .tools import (
     retry,
@@ -54,4 +55,5 @@ __all__ = [
     "PROJECT",
     "Translate",
     "DataRecorder",
+    "USERAGENT",
 ]

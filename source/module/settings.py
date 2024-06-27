@@ -4,6 +4,7 @@ from pathlib import Path
 from platform import system
 
 from .static import ROOT
+from .static import USERAGENT
 
 __all__ = ['Settings']
 
@@ -13,6 +14,7 @@ class Settings:
         "work_path": "",
         "folder_name": "Download",
         "name_format": "发布时间 作者昵称 作品标题",
+        "user_agent": USERAGENT,
         "cookie": "",
         "proxy": None,
         "timeout": 10,

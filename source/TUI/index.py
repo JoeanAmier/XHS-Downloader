@@ -87,6 +87,7 @@ class Index(Screen):
                 ">" *
                 50}",
                 style=MASTER), scroll_end=False)
+        self.xhs.manager.print_proxy_tip(log=self.tip, )
 
     @on(Button.Pressed, "#deal")
     async def deal_button(self):
