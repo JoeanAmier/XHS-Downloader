@@ -123,6 +123,9 @@ class CLI:
             ("--work_path", "-wp", "str", _("作品数据 / 文件保存根路径")),
             ("--folder_name", "-fn", "str", _("作品文件储存文件夹名称")),
             ("--name_format", "-nf", "str", _("作品文件名称格式")),
+            ("--sec_ch_ua", "-su", "str", _("Sec-Ch-Ua")),
+            ("--sec_ch_ua_platform", "-sp", "str", _("User-Agent")),
+            ("--user_agent", "-ua", "str", _("Sec-Ch-Ua-Platform")),
             ("--cookie", "-ck", "str", _("小红书网页版 Cookie，无需登录")),
             ("--proxy", "-p", "str", _("网络代理")),
             ("--timeout", "-t", "int", _("请求数据超时限制，单位：秒")),
@@ -163,6 +166,9 @@ class CLI:
         )
 @option("--folder_name", "-fn", )
 @option("--name_format", "-nf", )
+@option("--sec_ch_ua", "-su", )
+@option("--sec_ch_ua_platform", "-sp", )
+@option("--user_agent", "-ua", )
 @option("--cookie", "-ck", )
 @option("--proxy", "-p", )
 @option("--timeout", "-t", type=int, )

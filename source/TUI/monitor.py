@@ -24,8 +24,8 @@ __all__ = ["Monitor"]
 
 class Monitor(Screen):
     BINDINGS = [
-        Binding(key="q", action="quit", description="退出程序/Quit"),
-        Binding(key="c", action="close", description="关闭监听/Close"),
+        Binding(key="Q", action="quit", description="退出程序/Quit"),
+        Binding(key="C", action="close", description="关闭监听/Close"),
     ]
 
     def __init__(self, app: XHS, message: Callable[[str], str]):
@@ -60,3 +60,7 @@ class Monitor(Screen):
     def action_close(self):
         self.xhs.stop_monitor()
         self.app.pop_screen()
+
+    async def action_quit(self) -> None:
+        self.action_close()
+        await self.app.action_quit()

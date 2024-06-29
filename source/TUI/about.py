@@ -21,15 +21,15 @@ __all__ = ["About"]
 class About(Screen):
     BINDINGS = [
         Binding(
-            key="q",
+            key="Q",
             action="quit",
             description="退出程序/Quit"),
         Binding(
-            key="u",
-            action="check_update_about",
+            key="U",
+            action="check_update",
             description="检查更新/Update"),
         Binding(
-            key="b",
+            key="B",
             action="index",
             description="返回首页/Back"),
     ]
@@ -53,3 +53,12 @@ class About(Screen):
 
     def on_mount(self) -> None:
         self.title = PROJECT
+
+    async def action_quit(self) -> None:
+        await self.app.action_quit()
+
+    async def action_index(self):
+        await self.app.push_screen("index")
+
+    async def action_check_update(self):
+        await self.app.run_action("update_and_return")

@@ -271,7 +271,13 @@ msgstr ""
 msgid "服务器主机及端口: {0}"
 msgstr ""
 
-msgid "内置 Chrome User-Agent"
+msgid "内置 Chrome Sec-Ch-Ua"
+msgstr ""
+
+msgid "内置 Chrome Sec-Ch-Ua-Platform"
+msgstr ""
+
+msgid "内置 Chrome User Agent"
 msgstr ""
 
 msgid "proxy 参数 {0} 设置错误，程序将不会使用代理"

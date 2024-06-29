@@ -19,8 +19,8 @@ __all__ = ["Setting"]
 
 class Setting(Screen):
     BINDINGS = [
-        Binding(key="q", action="quit", description="退出程序/Quit"),
-        Binding(key="b", action="index", description="返回首页/Back"),
+        Binding(key="Q", action="quit", description="退出程序/Quit"),
+        Binding(key="B", action="index", description="返回首页/Back"),
     ]
 
     def __init__(self, data: dict, message: Callable[[str], str]):
@@ -39,8 +39,15 @@ class Setting(Screen):
             Label(self.message("作品文件名称格式"), classes="params", ),
             Input(self.data["name_format"], placeholder=self.message("发布时间 作者昵称 作品标题"), valid_empty=True,
                   id="name_format", ),
+            Label(self.message("Sec-Ch-Ua"), classes="params", ),
+            Input(self.data["sec_ch_ua"], placeholder=self.message("内置 Chrome Sec-Ch-Ua"), valid_empty=True,
+                  id="sec_ch_ua", ),
+            Label(self.message("Sec-Ch-Ua-Platform"), classes="params", ),
+            Input(self.data["sec_ch_ua_platform"], placeholder=self.message("内置 Chrome Sec-Ch-Ua-Platform"),
+                  valid_empty=True,
+                  id="sec_ch_ua_platform", ),
             Label(self.message("User-Agent"), classes="params", ),
-            Input(self.data["user_agent"], placeholder=self.message("内置 Chrome User-Agent"), valid_empty=True,
+            Input(self.data["user_agent"], placeholder=self.message("内置 Chrome User Agent"), valid_empty=True,
                   id="user_agent", ),
             Label(self.message("小红书网页版 Cookie"), classes="params", ),
             Input(placeholder=self.__check_cookie(), valid_empty=True, id="cookie", ),
@@ -101,6 +108,8 @@ class Setting(Screen):
             "work_path": self.query_one("#work_path").value,
             "folder_name": self.query_one("#folder_name").value,
             "name_format": self.query_one("#name_format").value,
+            "sec_ch_ua": self.query_one("#sec_ch_ua").value,
+            "sec_ch_ua_platform": self.query_one("#sec_ch_ua_platform").value,
             "user_agent": self.query_one("#user_agent").value,
             "cookie": self.query_one("#cookie").value or self.data["cookie"],
             "proxy": self.query_one("#proxy").value or None,
@@ -120,3 +129,9 @@ class Setting(Screen):
     @on(Button.Pressed, "#abandon")
     def reset(self):
         self.dismiss(self.data)
+
+    async def action_quit(self) -> None:
+        await self.app.action_quit()
+
+    async def action_index(self):
+        await self.app.push_screen("index")

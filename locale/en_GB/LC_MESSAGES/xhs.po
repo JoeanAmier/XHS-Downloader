@@ -271,7 +271,13 @@ msgstr "Web API server has been shut down!"
 msgid "服务器主机及端口: {0}"
 msgstr "Server host and port: {0}"
 
-msgid "内置 Chrome User-Agent"
+msgid "内置 Chrome Sec-Ch-Ua"
+msgstr "Built in Chrome Sec-Ch-Ua"
+
+msgid "内置 Chrome Sec-Ch-Ua-Platform"
+msgstr "Built in Chrome Sec-Ch-Ua-Platform"
+
+msgid "内置 Chrome User Agent"
 msgstr "Built in Chrome User Agent"
 
 msgid "proxy 参数 {0} 设置错误，程序将不会使用代理"

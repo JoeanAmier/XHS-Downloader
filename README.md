@@ -40,6 +40,7 @@
 <li>✅ 提取搜索结果作品链接</li>
 <li>✅ 提取搜索结果用户链接</li>
 </ul>
+<p>⭐ XHS-Downloader 开发计划及进度可前往 <a href="https://github.com/users/JoeanAmier/projects/5">Projects</a> 查阅</p>
 <h1>📸 程序截图</h1>
 <p><b>🎥 点击图片观看演示视频</b></p>
 <a href="https://www.bilibili.com/video/BV1PJ4m1Y7Jt/"><img src="static/screenshot/程序运行截图CN1.png" alt=""></a>
@@ -83,7 +84,8 @@
 <p><b>启动：</b>运行命令：<code>python .\main.py server</code></p>
 <p><b>关闭：</b>按下 <code>Ctrl</code> + <code>C</code> 关闭服务器</p>
 <p><b>请求接口：</b><code>/xhs/</code></p>
-<p><b>请求类型：</b><code>POST</code></p>
+<p><b>请求方法：</b><code>POST</code></p>
+<p><b>请求格式：</b><code>JSON</code></p>
 <p><b>请求参数：</b></p>
 <table>
 <thead>
@@ -109,8 +111,8 @@
 </tr>
 <tr>
 <td align="center">index</td>
-<td align="center">str</td>
-<td align="center">下载指定序号的图片文件，仅对图文作品生效；多个序号之间使用空格分隔；<code>download</code> 参数设置为 <code>false</code> 时不生效</td>
+<td align="center">list[int]</td>
+<td align="center">下载指定序号的图片文件，仅对图文作品生效；<code>download</code> 参数设置为 <code>false</code> 时不生效</td>
 <td align="center">null</td>
 </tr>
 <tr>
@@ -124,11 +126,17 @@
 <p><b>代码示例：</b></p>
 <pre>
 def api_demo():
-    server = "http://127.0.0.1:8080"
+    server = "http://127.0.0.1:8000/xhs/"
     data = {
         "url": "https://www.xiaohongshu.com/explore/123456789",
+        "download": True,
+        "index": [
+            3,
+            6,
+            9,
+        ],
     }
-    response = requests.post(server, data=data)
+    response = requests.post(server, json=data)
     print(response.json())
 </pre>
 <h1>🕹 用户脚本</h1>
@@ -152,6 +160,8 @@ async def example():
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
     name_format = "作品标题 作品描述"
+    sec_ch_ua = ""  # 请求头 Sec-Ch-Ua
+    sec_ch_ua_platform = ""  # 请求头 Sec-Ch-Ua-Platform
     user_agent = ""  # User-Agent
     cookie = ""  # 小红书网页版 Cookie，无需登录，必需参数，登录状态对数据采集有影响
     proxy = None  # 网络代理
@@ -166,6 +176,8 @@ async def example():
     async with XHS(work_path=work_path,
                    folder_name=folder_name,
                    name_format=name_format,
+                   sec_ch_ua=sec_ch_ua,
+                   sec_ch_ua_platform=sec_ch_ua_platform,
                    user_agent=user_agent,
                    cookie=cookie,
                    proxy=proxy,
@@ -216,10 +228,22 @@ async def example():
 <td align="center"><code>发布时间 作者昵称 作品标题</code></td>
 </tr>
 <tr>
+<td align="center">sec_ch_ua</td>
+<td align="center">str</td>
+<td align="center">浏览器请求头 Sec-Ch-Ua</td>
+<td align="center">内置 Chrome Sec-Ch-Ua</td>
+</tr>
+<tr>
+<td align="center">sec_ch_ua_platform</td>
+<td align="center">str</td>
+<td align="center">浏览器请求头 Sec-Ch-Ua-Platform</td>
+<td align="center">内置 Chrome Sec-Ch-Ua-Platform</td>
+</tr>
+<tr>
 <td align="center">user_agent</td>
 <td align="center">str</td>
-<td align="center">浏览器 User-Agent</td>
-<td align="center">内置 chrome user-agent</td>
+<td align="center">浏览器 User Agent</td>
+<td align="center">内置 Chrome User Agent</td>
 </tr>
 <tr>
 <td align="center">cookie</td>
@@ -295,6 +319,8 @@ async def example():
 </tr>
 </tbody>
 </table>
+<p><b>其他说明：<code>sec_ch_ua</code>、<code>sec_ch_ua_platform</code>、<code>user_agent</code>参数获取示例，仅当程序获取数据失败时需要自行设置！</b></p>
+<img src="static/screenshot/请求头示例图.png" alt="">
 <h1>🌐 Cookie</h1>
 <ol>
 <li>打开浏览器（可选无痕模式启动），访问 <code>https://www.xiaohongshu.com/explore</code></li>
@@ -361,6 +387,7 @@ async def example():
 
 * https://github.com/encode/httpx/
 * https://github.com/tiangolo/fastapi
+* https://github.com/textualize/textual/
 * https://textual.textualize.io/
 * https://aiosqlite.omnilib.dev/en/stable/
 * https://click.palletsprojects.com/en/8.1.x/

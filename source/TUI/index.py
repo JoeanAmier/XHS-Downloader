@@ -27,18 +27,19 @@ from source.module import (
     REPOSITORY,
     GENERAL,
 )
+from .monitor import Monitor
 
 __all__ = ["Index"]
 
 
 class Index(Screen):
     BINDINGS = [
-        Binding(key="q", action="quit", description="退出程序/Quit"),
-        Binding(key="u", action="check_update", description="检查更新/Update"),
-        Binding(key="s", action="settings", description="程序设置/Settings"),
-        Binding(key="r", action="record", description="下载记录/Record"),
-        Binding(key="m", action="monitor", description="开启监听/Monitor"),
-        Binding(key="a", action="about", description="关于项目/About"),
+        Binding(key="Q", action="quit", description="退出程序/Quit"),
+        Binding(key="U", action="update", description="检查更新/Update"),
+        Binding(key="S", action="settings", description="程序设置/Settings"),
+        Binding(key="R", action="record", description="下载记录/Record"),
+        Binding(key="M", action="monitor", description="开启监听/Monitor"),
+        Binding(key="A", action="about", description="关于项目/About"),
     ]
 
     def __init__(self, app: XHS, message: Callable[[str], str]):
@@ -73,7 +74,7 @@ class Index(Screen):
                 Button(self.message("清空输入框"), id="reset"),
             ),
         )
-        yield RichLog(markup=True, wrap=True)
+        yield RichLog(markup=True, )
         yield Footer()
 
     def on_mount(self) -> None:
@@ -86,7 +87,8 @@ class Index(Screen):
                 f"\n{
                 ">" *
                 50}",
-                style=MASTER), scroll_end=False)
+                style=MASTER), scroll_end=False,
+        )
         self.xhs.manager.print_proxy_tip(log=self.tip, )
 
     @on(Button.Pressed, "#deal")
@@ -114,3 +116,21 @@ class Index(Screen):
             self.tip.write(Text(self.message("下载小红书作品文件失败"), style=ERROR))
         self.tip.write(Text(">" * 50, style=GENERAL))
         self.app.pop_screen()
+
+    async def action_quit(self) -> None:
+        await self.app.action_quit()
+
+    async def action_update(self) -> None:
+        await self.app.run_action("check_update")
+
+    async def action_settings(self):
+        await self.app.run_action("settings")
+
+    async def action_monitor(self):
+        await self.app.push_screen(Monitor(self.xhs, self.message))
+
+    async def action_about(self):
+        await self.app.push_screen("about")
+
+    async def action_record(self):
+        await self.app.push_screen("record")

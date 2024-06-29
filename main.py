@@ -1,4 +1,6 @@
 from asyncio import run
+from asyncio.exceptions import CancelledError
+from contextlib import suppress
 from sys import argv
 
 from source import Settings
@@ -17,6 +19,8 @@ async def example():
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
     name_format = "作品标题 作品描述"
+    sec_ch_ua = ""  # 请求头 Sec-Ch-Ua
+    sec_ch_ua_platform = ""  # 请求头 Sec-Ch-Ua-Platform
     user_agent = ""  # User-Agent
     cookie = ""  # 小红书网页版 Cookie，无需登录，必需参数，登录状态对数据采集有影响
     proxy = None  # 网络代理
@@ -31,6 +35,8 @@ async def example():
     async with XHS(work_path=work_path,
                    folder_name=folder_name,
                    name_format=name_format,
+                   sec_ch_ua=sec_ch_ua,
+                   sec_ch_ua_platform=sec_ch_ua_platform,
                    user_agent=user_agent,
                    cookie=cookie,
                    proxy=proxy,
@@ -55,16 +61,19 @@ async def app():
         await xhs.run_async()
 
 
-async def server():
+async def server(host="127.0.0.1", port=8000, log_level="info", ):
     async with XHS(**Settings().run()) as xhs:
-        await xhs.run_server()
+        await xhs.run_server(host, port, log_level, )
 
 
 if __name__ == '__main__':
-    if len(argv) == 1:
-        run(app())
-    elif argv[1] == "server":
-        print("该模式重构中！")
-        # run(server())
-    else:
-        cli()
+    with suppress(
+            KeyboardInterrupt,
+            CancelledError,
+    ):
+        if len(argv) == 1:
+            run(app())
+        elif argv[1] == "server":
+            run(server())
+        else:
+            cli()

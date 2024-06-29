@@ -14,7 +14,6 @@ from source.module import logging
 from .about import About
 from .index import Index
 from .loading import Loading
-from .monitor import Monitor
 from .record import Record
 from .setting import Setting
 from .update import Update
@@ -78,15 +77,6 @@ class XHSDownloader(App):
 
         await self.push_screen("setting", save_settings)
 
-    async def action_about(self):
-        await self.push_screen("about")
-
-    async def action_index(self):
-        await self.push_screen("index")
-
-    async def action_record(self):
-        await self.push_screen("record")
-
     async def refresh_screen(self):
         self.pop_screen()
         await self.close_database()
@@ -117,12 +107,9 @@ class XHSDownloader(App):
     async def action_check_update(self):
         await self.push_screen(Update(self.APP, self.message), callback=self.update_result)
 
-    async def action_check_update_about(self):
+    async def action_update_and_return(self):
         await self.push_screen("index")
         await self.action_check_update()
-
-    async def action_monitor(self):
-        await self.push_screen(Monitor(self.APP, self.message))
 
     async def close_database(self):
         await self.APP.id_recorder.cursor.close()

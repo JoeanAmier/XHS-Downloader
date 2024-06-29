@@ -11,6 +11,8 @@ from httpx import TimeoutException
 from httpx import get
 
 from .static import HEADERS
+from .static import SEC_CH_UA
+from .static import SEC_CH_UA_PLATFORM
 from .static import USERAGENT
 from .static import WARNING
 from .tools import logging
@@ -48,6 +50,8 @@ class Manager:
             folder: str,
             name_format: str,
             chunk: int,
+            sec_ch_ua: str,
+            sec_ch_ua_platform: str,
             user_agent: str,
             cookie: str,
             proxy: str | dict,
@@ -68,7 +72,11 @@ class Manager:
         self.path = self.__check_path(path)
         self.folder = self.__check_folder(folder)
         self.message = transition
-        self.blank_headers = HEADERS | {"User-Agent": user_agent or USERAGENT}
+        self.blank_headers = HEADERS | {
+            "User-Agent": user_agent or USERAGENT,
+            "Sec-Ch-Ua": sec_ch_ua or SEC_CH_UA,
+            "Sec-Ch-Ua-Platform": sec_ch_ua_platform or SEC_CH_UA_PLATFORM,
+        }
         self.headers = self.blank_headers | {"Cookie": cookie}
         self.retry = retry
         self.chunk = chunk
@@ -83,11 +91,13 @@ class Manager:
             headers=self.headers | {
                 "Referer": "https://www.xiaohongshu.com/explore", },
             timeout=timeout,
+            verify=False,
             **self.proxy,
         )
         self.download_client = AsyncClient(
             headers=self.blank_headers,
             timeout=timeout,
+            verify=False,
             **self.proxy,
         )
         self.image_download = self.check_bool(image_download, True)

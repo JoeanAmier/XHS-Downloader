@@ -19,6 +19,8 @@ __all__ = [
     "HEADERS",
     "PROJECT",
     "USERAGENT",
+    "SEC_CH_UA",
+    "SEC_CH_UA_PLATFORM",
 ]
 
 VERSION_MAJOR = 2
@@ -37,6 +39,8 @@ USERSCRIPT = "https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master
 USERAGENT = (
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 "
     "Safari/537.36")
+SEC_CH_UA = "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\""
+SEC_CH_UA_PLATFORM = "\"Windows\""
 
 HEADERS = {
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,"
@@ -46,9 +50,9 @@ HEADERS = {
     "Cookie": "",
     "Dnt": "1",
     # "Priority": "u=0, i",
-    # "Sec-Ch-Ua": "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"",
+    "Sec-Ch-Ua": SEC_CH_UA,
     "Sec-Ch-Ua-Mobile": "?0",
-    # "Sec-Ch-Ua-Platform": "\"Windows\"",
+    "Sec-Ch-Ua-Platform": SEC_CH_UA_PLATFORM,
     "Sec-Fetch-Dest": "document",
     "Sec-Fetch-Mode": "navigate",
     "Sec-Fetch-Site": "none",

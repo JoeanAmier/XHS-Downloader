@@ -1,4 +1,3 @@
-# from asyncio import CancelledError
 from asyncio import Event
 from asyncio import Queue
 from asyncio import QueueEmpty
@@ -10,13 +9,19 @@ from re import compile
 from typing import Callable
 from urllib.parse import urlparse
 
+from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
 # from aiohttp import web
 from pyperclip import paste
+from uvicorn import Config
+from uvicorn import Server
 
 from source.expansion import BrowserCookie
 from source.expansion import Converter
 from source.expansion import Namespace
 from source.module import DataRecorder
+from source.module import ExtractData
+from source.module import ExtractParams
 from source.module import IDRecorder
 from source.module import Manager
 from source.module import (
@@ -24,7 +29,9 @@ from source.module import (
     ERROR,
     WARNING,
     MASTER,
-    # REPOSITORY,
+    REPOSITORY,
+    VERSION_MAJOR,
+    VERSION_MINOR,
 )
 from source.module import Translate
 from source.module import logging
@@ -53,6 +60,8 @@ class XHS:
             work_path="",
             folder_name="Download",
             name_format="发布时间 作者昵称 作品标题",
+            sec_ch_ua: str = "",
+            sec_ch_ua_platform: str = "",
             user_agent: str = None,
             cookie: str = None,
             proxy: str | dict = None,
@@ -80,6 +89,8 @@ class XHS:
             folder_name,
             name_format,
             chunk,
+            sec_ch_ua,
+            sec_ch_ua_platform,
             user_agent,
             self.read_browser_cookie(read_cookie) or cookie,
             proxy,
@@ -108,6 +119,7 @@ class XHS:
         self.event = Event()
         # self.runner = self.init_server()
         # self.site = None
+        self.server = None
 
     def __extract_image(self, container: dict, data: Namespace):
         container["下载地址"], container["动图地址"] = self.image.get_image_link(
@@ -339,3 +351,46 @@ class XHS:
     # async def close_server(self, log=None, ):
     #     await self.runner.cleanup()
     #     logging(log, self.message("Web API 服务器已关闭！"))
+
+    async def run_server(self, host="127.0.0.1", port=8000, log_level="info", ):
+        self.server = FastAPI(
+            title="XHS-Downloader",
+            version=f"{VERSION_MAJOR}.{VERSION_MINOR}")
+        self.setup_routes()
+        config = Config(
+            self.server,
+            host=host,
+            port=port,
+            log_level=log_level,
+        )
+        server = Server(config)
+        await server.serve()
+
+    def setup_routes(self):
+        @self.server.get("/")
+        async def index():
+            return RedirectResponse(url=REPOSITORY)
+
+        @self.server.post("/xhs/", response_model=ExtractData, )
+        async def handle(extract: ExtractParams):
+            url = await self.__extract_links(extract.url, None)
+            if not url:
+                msg = self.message("提取小红书作品链接失败")
+                data = None
+            else:
+                if data := await self.__deal_extract(
+                        url[0],
+                        extract.download,
+                        extract.index,
+                        None,
+                        None,
+                        not extract.skip,
+                ):
+                    msg = self.message("获取小红书作品数据成功")
+                else:
+                    msg = self.message("获取小红书作品数据失败")
+                    data = None
+            return ExtractData(
+                message=msg,
+                url=url[0] if url else extract.url,
+                data=data)

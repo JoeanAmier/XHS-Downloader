@@ -15,7 +15,6 @@ __all__ = ["Record"]
 
 
 class Record(ModalScreen):
-
     def __init__(self, app: XHS, message: Callable[[str], str]):
         super().__init__()
         self.xhs = app
