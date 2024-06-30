@@ -13,4 +13,4 @@ COPY requirements.txt /requirements.txt
 
 RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
 
-CMD ["python", "main.py"]
+CMD ["python", "main.py", "server"]
