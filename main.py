@@ -61,10 +61,15 @@ async def app():
         await xhs.run_async()
 
 
-async def server(host="127.0.0.1", port=8000, log_level="info", ):
-    async with XHS(**Settings().run()) as xhs:
-        await xhs.run_server(host, port, log_level, )
+import os
 
+async def server():
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", 8000))
+    log_level = os.getenv("LOG_LEVEL", "info")
+
+    async with XHS(**Settings().run()) as xhs:
+        await xhs.run_server(host, port, log_level)
 
 if __name__ == '__main__':
     with suppress(
