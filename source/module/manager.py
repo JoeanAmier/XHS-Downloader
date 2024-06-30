@@ -92,12 +92,14 @@ class Manager:
                 "Referer": "https://www.xiaohongshu.com/explore", },
             timeout=timeout,
             verify=False,
+            follow_redirects=True,
             **self.proxy,
         )
         self.download_client = AsyncClient(
             headers=self.blank_headers,
             timeout=timeout,
             verify=False,
+            follow_redirects=True,
             **self.proxy,
         )
         self.image_download = self.check_bool(image_download, True)

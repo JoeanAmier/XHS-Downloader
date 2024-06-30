@@ -117,6 +117,7 @@ class CLI:
         table.add_column("type", no_wrap=True, style="bold")
         table.add_column("description", no_wrap=True, )
 
+        # TODO: 语言设置未生效
         options = (
             ("--url", "-u", "str", _("小红书作品链接")),
             ("--index", "-i", "str", _("下载指定序号的图片文件，仅对图文作品生效；多个序号输入示例：\"1 3 5 7\"")),
