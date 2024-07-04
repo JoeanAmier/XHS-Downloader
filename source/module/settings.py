@@ -7,6 +7,8 @@ from .static import ROOT
 from .static import SEC_CH_UA
 from .static import SEC_CH_UA_PLATFORM
 from .static import USERAGENT
+import os
+
 
 __all__ = ['Settings']
 
@@ -19,7 +21,7 @@ class Settings:
         "sec_ch_ua": SEC_CH_UA,
         "sec_ch_ua_platform": SEC_CH_UA_PLATFORM,
         "user_agent": USERAGENT,
-        "cookie": "",
+        
         "proxy": None,
         "timeout": 10,
         "chunk": 1024 * 1024,
@@ -37,6 +39,7 @@ class Settings:
 
     def __init__(self, root: Path = ROOT):
         self.file = root.joinpath("./settings.json")
+        self.default["cookie"] = os.getenv("cookie", "")
 
     def run(self):
         return self.read() if self.file.is_file() else self.create()
