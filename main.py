@@ -70,7 +70,7 @@ async def server():
 
     async with XHS(**Settings().run()) as xhs:
         await xhs.run_server(host, port, log_level)
-
+        print(os.getenv("COOKIE"))
 if __name__ == '__main__':
     with suppress(
             KeyboardInterrupt,
