@@ -39,7 +39,7 @@ class Settings:
 
     def __init__(self, root: Path = ROOT):
         self.file = root.joinpath("./settings.json")
-        self.default["cookie"] = os.getenv("cookie", "")
+        self.default["cookie"] = os.getenv("COOKIE", "")
 
     def run(self):
         return self.read() if self.file.is_file() else self.create()
