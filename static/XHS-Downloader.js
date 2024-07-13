@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.4.4
+// @version      1.5.0
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -39,10 +39,11 @@
 详细说明：
 
 1. 下载小红书无水印作品文件时，脚本需要花费时间处理文件，请等待片刻，切勿多次点击下载按钮
-2. 提取账号发布、收藏、点赞作品链接时，脚本会尝试自动滚动屏幕直至加载全部作品，滚动检测间隔：2.5 秒
-3. 提取搜索结果作品、用户链接时，脚本会自动滚动屏幕以尝试加载更多内容，滚动屏幕次数：10 次
-4. 可以修改滚动检测间隔、滚动屏幕次数，修改后立即生效；亦可关闭自动滚动屏幕功能，手动滚动屏幕加载内容
-5. XHS-Downloader 用户脚本仅实现可见即可得的数据采集功能，无任何收费功能和破解功能
+2. 无水印图片文件为 PNG 格式；无水印视频文件较大，可能需要较长的时间处理，页面跳转可能会导致下载失败
+3. 提取账号发布、收藏、点赞作品链接时，脚本会尝试自动滚动屏幕直至加载全部作品，滚动检测间隔：2.5 秒
+4. 提取搜索结果作品、用户链接时，脚本会自动滚动屏幕以尝试加载更多内容，滚动屏幕次数：10 次
+5. 可以修改滚动检测间隔、滚动屏幕次数，修改后立即生效；亦可关闭自动滚动屏幕功能，手动滚动屏幕加载内容
+6. XHS-Downloader 用户脚本仅实现可见即可得的数据采集功能，无任何收费功能和破解功能
 
 项目开源地址：https://github.com/JoeanAmier/XHS-Downloader
 `
@@ -62,13 +63,16 @@
 是否已阅读 XHS-Downloader 功能说明与免责声明(YES/NO)
 `
         alert(instructions);
-        const answer = prompt(disclaimer_content, "");
-        if (answer === null) {
-            GM_setValue("disclaimer", false);
-            disclaimer = false;
-        } else {
-            GM_setValue("disclaimer", answer.toUpperCase() === "YES");
-            disclaimer = GM_getValue("disclaimer");
+        if (!disclaimer) {
+            const answer = prompt(disclaimer_content, "");
+            if (answer === null) {
+                GM_setValue("disclaimer", false);
+                disclaimer = false;
+            } else {
+                GM_setValue("disclaimer", answer.toUpperCase() === "YES");
+                disclaimer = GM_getValue("disclaimer");
+                location.reload();
+            }
         }
     };
 
@@ -78,12 +82,7 @@
 
     GM_registerMenuCommand("关于 XHS-Downloader", function () {
         readme();
-        location.reload();
     });
-
-    if (!disclaimer) {
-        return
-    }
 
     let scroll = GM_getValue("scroll", true);
 
@@ -127,7 +126,7 @@
     }
 
     const abnormal = () => {
-        alert("提取无水印作品文件下载地址失败！请及时告知作者修复！\n项目地址：https://github.com/JoeanAmier/XHS-Downloader");
+        alert("下载无水印作品文件失败！请向作者反馈！\n项目地址：https://github.com/JoeanAmier/XHS-Downloader");
     };
 
     const generateVideoUrl = note => {
@@ -159,6 +158,7 @@
 
     const download = async (urls, type_) => {
         const name = extractName();
+        console.info(`基础文件名称 ${name}`);
         if (type_ === "video") {
             await downloadVideo(urls[0], name);
         } else {
@@ -175,6 +175,7 @@
                 links = generateVideoUrl(note);
             }
             if (links.length > 0) {
+                console.info("无水印文件下载链接", links);
                 await download(links, note.type);
             } else {
                 abnormal()
@@ -186,8 +187,14 @@
     };
 
     const extractNoteInfo = () => {
-        let note = Object.values(unsafeWindow.__INITIAL_STATE__.note.noteDetailMap);
-        return note[note.length - 1]
+        const regex = /\/explore\/([^?]+)/;
+        const match = window.location.href.match(regex);
+        if (match) {
+            // let note = Object.values(unsafeWindow.__INITIAL_STATE__.note.noteDetailMap);
+            return unsafeWindow.__INITIAL_STATE__.note.noteDetailMap[match[1]]
+        } else {
+            console.error("使用当前链接提取作品 ID 失败", window.location.href,);
+        }
     };
 
     const extractDownloadLinks = async () => {
@@ -399,11 +406,12 @@
         });
     };
 
-    const buttons = [createButton("Download", "下载无水印作品文件", extractDownloadLinks), createButton("Post", "提取发布作品链接", extractAllLinksEvent, 0), createButton("Collection", "提取收藏作品链接", extractAllLinksEvent, 1), createButton("Favorite", "提取点赞作品链接", extractAllLinksEvent, 2), createButton("Feed", "提取发现作品链接", extractAllLinksEvent, -1), createButton("Search", "提取搜索作品链接", extractAllLinksEvent, 3), createButton("User", "提取搜索用户链接", extractAllLinksEvent, 4), createButton("About", "关于 XHS-Downloader", about,)]
+    const buttons = [createButton("Download", "下载无水印作品文件", extractDownloadLinks), createButton("Post", "提取发布作品链接", extractAllLinksEvent, 0), createButton("Collection", "提取收藏作品链接", extractAllLinksEvent, 1), createButton("Favorite", "提取点赞作品链接", extractAllLinksEvent, 2), createButton("Feed", "提取发现作品链接", extractAllLinksEvent, -1), createButton("Search", "提取搜索作品链接", extractAllLinksEvent, 3), createButton("User", "提取搜索用户链接", extractAllLinksEvent, 4), createButton("Disclaimer", "脚本说明及免责声明", readme,), createButton("About", "关于 XHS-Downloader", about,),];
 
     const run = url => {
         setTimeout(function () {
-            if (url === "https://www.xiaohongshu.com/explore") {
+            if (!disclaimer) {
+            } else if (url === "https://www.xiaohongshu.com/explore" || url.includes("https://www.xiaohongshu.com/explore?")) {
                 updateContainer(buttons.slice(4, 5));
             } else if (url.includes("https://www.xiaohongshu.com/explore/")) {
                 updateContainer(buttons.slice(0, 1));
@@ -417,22 +425,23 @@
 
     let currentUrl = window.location.href;
 
-    updateContainer(buttons.slice(-1));
+    updateContainer(buttons.slice(7));
 
     // 初始化容器
     run(currentUrl)
 
     // 设置 MutationObserver 来监听 URL 变化
-    let observer = new MutationObserver(function () {
-        if (currentUrl !== window.location.href) {
-            currentUrl = window.location.href;
-            run(currentUrl);
-        }
-    });
-
-    const config = {childList: true, subtree: true};
-
-    observer.observe(document.body, config);
+    let observer
+    if (disclaimer) {
+        observer = new MutationObserver(function () {
+            if (currentUrl !== window.location.href) {
+                currentUrl = window.location.href;
+                run(currentUrl);
+            }
+        });
+        const config = {childList: true, subtree: true};
+        observer.observe(document.body, config);
+    }
 
     const buttonStyle = `
     #xhsFunctionContainer {
@@ -494,4 +503,5 @@
 
     style.type = 'text/css';
     style.appendChild(document.createTextNode(buttonStyle));
+    console.info("用户接受 XHS-Downloader 免责声明", disclaimer)
 })();
