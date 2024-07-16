@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.5.0
+// @version      1.5.1
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -96,7 +96,7 @@
 
     GM_registerMenuCommand("修改滚动检测间隔", function () {
         let data;
-        data = prompt("请输入自动滚动屏幕检测间隔：\n如果脚本未能加载全部作品或者网络环境不佳，建议设置较大的检测间隔！", timeout / 1000);
+        data = prompt("请输入自动滚动屏幕检测间隔：\n如果网络环境不佳导致脚本未能加载全部作品，可以设置较大的检测间隔！", timeout / 1000);
         if (data === null) {
             return
         }
@@ -110,7 +110,7 @@
 
     GM_registerMenuCommand("修改滚动屏幕次数", function () {
         let data;
-        data = prompt("请输入自动滚动屏幕次数：\n仅对【提取搜索结果作品、用户链接】生效", number);
+        data = prompt("请输入自动滚动屏幕次数：\n仅对【提取搜索结果作品、用户链接】生效！", number);
         if (data === null) {
             return
         }
@@ -198,18 +198,24 @@
     };
 
     const extractDownloadLinks = async () => {
-        let note = extractNoteInfo();
-        if (note.note) {
-            await exploreDeal(note.note);
-        } else {
-            abnormal();
+        if (window.location.href.includes("https://www.xiaohongshu.com/explore/")) {
+            let note = extractNoteInfo();
+            if (note.note) {
+                await exploreDeal(note.note);
+            } else {
+                abnormal();
+            }
         }
     };
 
     const downloadFile = async (link, filename) => {
         try {
             // 使用 fetch 获取文件数据
-            let response = await fetch(link);
+            let response = await fetch(link, {
+                headers: {
+                    'Accept': 'application/octet-stream'
+                }
+            });
 
             // 检查响应状态码
             if (!response.ok) {
