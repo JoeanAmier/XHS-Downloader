@@ -210,6 +210,12 @@ async def example():
         # 支持传入多个作品链接
         print(await xhs.extract(multiple_links, download, ))
 </pre>
+<h1>📋 读取剪贴板</h1>
+<p>项目使用 <code>pyperclip</code> 实现读取剪贴板功能，该模块在不同的系统上会有差异。</p>
+<p>在 Windows 上，不需要额外的模块。</p>
+<p>在 Mac 上，该模块使用 pbcopy 和 pbpaste 命令，这些命令应该随操作系统一起提供。</p>
+<p>在 Linux 上，该模块使用 xclip 或 xsel 命令，这些命令应该随操作系统一起提供。否则，请运行 "sudo apt-get install xclip" 或 "sudo apt-get install xsel"（注意：xsel 似乎并不总是有效）</p>
+<p>在其他 Linux 系统上，你需要安装 qtpy 或 PyQT5 模块。</p>
 <h1>⚙️ 配置文件</h1>
 <p>项目根目录下的 <code>settings.json</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
 <p>如果设置了无效的参数值，程序将会使用参数默认值！</p>
@@ -381,6 +387,9 @@ async def example():
 <li><b>TikTokDownloader（抖音 / TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
 <li><b>KS-Downloader（快手）</b>：<a href="https://github.com/JoeanAmier/KS-Downloader">https://github.com/JoeanAmier/KS-Downloader</a></li>
 </ul>
+<h1>💰 项目赞助</h1>
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg" alt="PyCharm logo">
+<p><b>JetBrains</b> 支持全球开源社区认可的活跃项目，并为非商业开发提供免费许可证。</p>
 <h1>⚠️ 免责声明</h1>
 <ul>
 <li>使用者对本项目的使用由使用者自行决定，并自行承担风险。作者对使用者使用本项目所产生的任何损失、责任、或风险概不负责。</li>
@@ -405,4 +414,4 @@ async def example():
 * https://textual.textualize.io/
 * https://aiosqlite.omnilib.dev/en/stable/
 * https://click.palletsprojects.com/en/8.1.x/
-* https://github.com/borisbabic/browser_cookie3
+* https://github.com/thewh1teagle/rookie

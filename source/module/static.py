@@ -24,8 +24,8 @@ __all__ = [
 ]
 
 VERSION_MAJOR = 2
-VERSION_MINOR = 1
-VERSION_BETA = False
+VERSION_MINOR = 2
+VERSION_BETA = True
 ROOT = Path(__file__).resolve().parent.parent.parent
 PROJECT = f"XHS-Downloader V{VERSION_MAJOR}.{
 VERSION_MINOR}{" Beta" if VERSION_BETA else ""}"

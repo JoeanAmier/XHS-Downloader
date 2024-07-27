@@ -101,9 +101,7 @@ class CLI:
     @staticmethod
     @check_value
     def read_cookie(ctx: Context, param, value) -> str:
-        if len(value) == 1:
-            value = int(value)
-        return BrowserCookie.get(value, domain="xiaohongshu.com")
+        return BrowserCookie.get(value, domains=["xiaohongshu.com", ])
 
     @staticmethod
     @check_value
@@ -139,8 +137,8 @@ class CLI:
             ("--language", "-l", "choice", _("设置程序语言，目前支持：zh_CN、en_GB")),
             ("--settings", "-s", "str", _("读取指定配置文件")),
             ("--browser_cookie", "-bc", "choice",
-             fill(_("从指定的浏览器读取小红书网页版 Cookie，需要关闭对应的浏览器，支持：1 Chrome, 2 Chromium, 3 Opera, 4 Opera GX, "
-                    "5 Brave, 6 Edge, 7 Vivaldi, 8 Firefox, 9 LibreWolf, 10 Safari，输入浏览器类型或序号"), width=45)),
+             fill(_("从指定的浏览器读取小红书网页版 Cookie，支持：1 Arc, 2 Brave, 3 Chrome, 4 Chromium, "
+                    "5 Edge, 6 Firefox, 7 LibreWolf, 8 Opera, 9 Vivaldi; 输入浏览器名称或序号"), width=40)),
             ("--update_settings", "-us", "flag", _("是否更新配置文件")),
             ("--help", "-h", "flag", _("查看详细参数说明")),
             ("--version", "-v", "flag", _("查看 XHS-Downloader 版本")),

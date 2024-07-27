@@ -214,6 +214,12 @@ async def example():
         # 支持传入多个作品链接
         print(await xhs.extract(multiple_links, download, ))
 </pre>
+<h1>📋 Read Clipboard</h1>
+<p>The project uses <code>pyperclip</code> to implement clipboard reading functionality, which varies across different systems.</p>
+<p>On Windows, no additional modules are needed.</p>
+<p>On Mac, this module makes use of the pbcopy and pbpaste commands, which should come with the os.</p>
+<p>On Linux, this module makes use of the xclip or xsel commands, which should come with the os. Otherwise run "sudo apt-get install xclip" or "sudo apt-get install xsel" (Note: xsel does not always seem to work.)</p>
+<p>Otherwise on Linux, you will need the qtpy or PyQT5 modules installed.</p>
 <h1>⚙️ Configuration File</h1>
 <p>The <code>settings.json</code> file in the root directory of the project is automatically generated on the first run and allows customization of some runtime parameters.</p>
 <p>If invalid parameter values are set, the program will use the default values!</p>
@@ -382,6 +388,9 @@ async def example():
 <li><b>TikTokDownloader（抖音 / TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
 <li><b>KS-Downloader（快手）</b>：<a href="https://github.com/JoeanAmier/KS-Downloader">https://github.com/JoeanAmier/KS-Downloader</a></li>
 </ul>
+<h1>💰 Sponsor</h1>
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg" alt="PyCharm logo">
+<p><b>JetBrains</b> support active projects recognized within the global open-source community with complimentary licenses for non-commercial development.</p>
 <h1>⚠️ Disclaimer</h1>
 <ul>
 <li>Users decide on their own how to use this project and bear the risks themselves. The author is not responsible for any losses, liabilities, or risks incurred by users in the use of this project</li>
@@ -406,4 +415,4 @@ async def example():
 * https://textual.textualize.io/
 * https://aiosqlite.omnilib.dev/en/stable/
 * https://click.palletsprojects.com/en/8.1.x/
-* https://github.com/borisbabic/browser_cookie3
+* https://github.com/thewh1teagle/rookie

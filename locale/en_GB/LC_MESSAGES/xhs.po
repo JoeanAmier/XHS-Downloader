@@ -214,8 +214,8 @@ msgstr "New version detected: {0}.{1}"
 msgid "作品 {0} 存在下载记录，跳过下载"
 msgstr "works {0} has a download record, skip download"
 
-msgid "从指定的浏览器读取小红书网页版 Cookie，需要关闭对应的浏览器，支持：1 Chrome, 2 Chromium, 3 Opera, 4 Opera GX, 5 Brave, 6 Edge, 7 Vivaldi, 8 Firefox, 9 LibreWolf, 10 Safari，输入浏览器类型或序号"
-msgstr "To read the Xiaohongshu web version cookie from the specified browser, the corresponding browser needs to be closed. Supports: 1 Chrome, 2 Chromium, 3 Opera, 4 Opera GX, 5 Brave, 6 Edge, 7 Vivaldi, 8 Firefox, 9 LibreWolf, 10 Safari, enter the browser type or serial number"
+msgid "从指定的浏览器读取小红书网页版 Cookie，支持：1 Arc, 2 Brave, 3 Chrome, 4 Chromium, 5 Edge, 6 Firefox, 7 LibreWolf, 8 Opera, 9 Vivaldi; 输入浏览器名称或序号"
+msgstr "To read the Xiaohongshu web version cookie from the specified browser, the corresponding browser needs to be closed. Supports: 1 Arc, 2 Brave, 3 Chrome, 4 Chromium, 5 Edge, 6 Firefox, 7 LibreWolf, 8 Opera, 9 Vivaldi, enter the browser name or serial number"
 
 msgid "查看 XHS-Downloader 版本"
 msgstr "View XHS Downloader Version"
@@ -291,3 +291,6 @@ msgstr "Agent {0} test timeout"
 
 msgid "代理 {0} 测试失败：{1}"
 msgstr "Agent {0} test failed: {1}"
+
+msgid "浏览器名称或序号输入错误！"
+msgstr "Browser name or serial number input error!"
