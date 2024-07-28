@@ -77,7 +77,7 @@ class Manager:
             "Sec-Ch-Ua": sec_ch_ua or SEC_CH_UA,
             "Sec-Ch-Ua-Platform": sec_ch_ua_platform or SEC_CH_UA_PLATFORM,
         }
-        self.headers = self.blank_headers | {"Cookie": cookie}
+        self.headers = self.blank_headers | {"Cookie": ""}
         self.retry = retry
         self.chunk = chunk
         self.name_format = self.__check_name_format(name_format)

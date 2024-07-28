@@ -226,9 +226,6 @@ msgstr ""
 msgid "作者的其他开源项目"
 msgstr ""
 
-msgid "文件 {0} 请求失败，响应码 {1}"
-msgstr ""
-
 msgid "视频作品下载功能已关闭，跳过下载"
 msgstr ""
 

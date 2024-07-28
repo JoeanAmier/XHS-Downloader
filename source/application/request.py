@@ -27,8 +27,7 @@ class Html:
                 url,
                 **kwargs,
             )
-            if response.status_code != 200:
-                return ""
+            response.raise_for_status()
             return response.text if content else str(response.url)
         except HTTPError as error:
             logging(log, str(error), ERROR)

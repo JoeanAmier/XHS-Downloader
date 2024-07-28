@@ -7,7 +7,7 @@ __all__ = ["Converter"]
 
 
 class Converter:
-    INITIAL_STATE = "(//script)[last()]/text()"
+    INITIAL_STATE = "//script/text()"
     KEYS_LINK = (
         "note",
         "noteDetailMap",
@@ -16,22 +16,23 @@ class Converter:
     )
 
     def run(self, content: str) -> dict:
-        return self.__filter_object(
-            self.__convert_object(
-                self.__extract_object(content)))
+        return self._filter_object(
+            self._convert_object(
+                self._extract_object(content)))
 
-    def __extract_object(self, html: str) -> str:
+    def _extract_object(self, html: str) -> str:
         if not html:
             return ""
         html_tree = HTML(html)
-        return d[0] if (d := html_tree.xpath(self.INITIAL_STATE)) else ""
+        scripts = html_tree.xpath(self.INITIAL_STATE)
+        return self.get_script(scripts)
 
     @staticmethod
-    def __convert_object(text: str) -> dict:
+    def _convert_object(text: str) -> dict:
         return safe_load(text.lstrip("window.__INITIAL_STATE__="))
 
     @classmethod
-    def __filter_object(cls, data: dict) -> dict:
+    def _filter_object(cls, data: dict) -> dict:
         return cls.deep_get(data, cls.KEYS_LINK) or {}
 
     @classmethod
@@ -55,3 +56,11 @@ class Converter:
         elif isinstance(data, list | tuple | set):
             return data[index]
         raise TypeError
+
+    @staticmethod
+    def get_script(scripts: list) -> str:
+        scripts.reverse()
+        for script in scripts:
+            if script.startswith("window.__INITIAL_STATE__"):
+                return script
+        return ""

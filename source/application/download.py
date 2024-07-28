@@ -117,11 +117,7 @@ class Download:
         temp = self.temp.joinpath(f"{name}.{format_}")
         try:
             async with self.client.stream("GET", url, ) as response:
-                if response.status_code != 200:
-                    logging(
-                        log, self.message("链接 {0} 请求失败，响应码 {1}").format(
-                            url, response.status_code), style=ERROR)
-                    return False
+                response.raise_for_status()
                 suffix = self.__extract_type(
                     response.headers.get("Content-Type")) or format_
                 real = path.joinpath(f"{name}.{suffix}")
