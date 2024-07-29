@@ -42,6 +42,8 @@ class Manager:
         "https://": None,
     }
     SEPARATE = "_"
+    WEB_ID = r"(?:^|; )webId=[^;]+"
+    WEB_SESSION = r"(?:^|; )web_session=[^;]+"
 
     def __init__(
             self,
@@ -77,7 +79,9 @@ class Manager:
             "Sec-Ch-Ua": sec_ch_ua or SEC_CH_UA,
             "Sec-Ch-Ua-Platform": sec_ch_ua_platform or SEC_CH_UA_PLATFORM,
         }
-        self.headers = self.blank_headers | {"Cookie": ""}
+        self.headers = self.blank_headers | {
+            "Cookie": self.clean_cookie(cookie),
+        }
         self.retry = retry
         self.chunk = chunk
         self.name_format = self.__check_name_format(name_format)
@@ -211,3 +215,21 @@ class Manager:
     def print_proxy_tip(self, _print: bool = True, log=None, ) -> None:
         if _print and self.proxy_tip:
             logging(log, *self.proxy_tip)
+
+    @classmethod
+    def clean_cookie(cls, cookie_string: str) -> str:
+        for i in (
+                cls.WEB_ID,
+                cls.WEB_SESSION,
+        ):
+            cookie_string = cls.delete_cookie(cookie_string, i)
+        return cookie_string
+
+    @classmethod
+    def delete_cookie(cls, cookie_string: str, pattern) -> str:
+        # 使用空字符串替换匹配到的部分
+        cookie_string = sub(pattern, "", cookie_string)
+        # 去除多余的分号和空格
+        cookie_string = sub(r';\s*$', "", cookie_string)  # 删除末尾的分号和空格
+        cookie_string = sub(r';\s*;', ";", cookie_string)  # 删除中间多余分号后的空格
+        return cookie_string.strip('; ')

@@ -47,7 +47,7 @@ class BrowserCookie:
     @classmethod
     def __browser_object(cls, browser: str | int):
         with suppress(ValueError):
-            browser = int(browser)
+            browser = int(browser) - 1
         if isinstance(browser, int):
             try:
                 return list(cls.SUPPORT_BROWSER.values())[browser - 1]
