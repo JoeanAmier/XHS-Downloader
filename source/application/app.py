@@ -32,6 +32,7 @@ from source.module import (
     REPOSITORY,
     VERSION_MAJOR,
     VERSION_MINOR,
+    VERSION_BETA,
 )
 from source.module import Translate
 from source.module import logging
@@ -44,10 +45,25 @@ from .video import Video
 __all__ = ["XHS"]
 
 
+def _data_cache(function):
+    async def inner(self, data: dict, ):
+        if self.manager.record_data:
+            download = data["下载地址"]
+            lives = data["动图地址"]
+            await function(self, data, )
+            data["下载地址"] = download
+            data["动图地址"] = lives
+
+    return inner
+
+
 class XHS:
-    LINK = compile(r"https?://www\.xiaohongshu\.com/explore/[a-z0-9]+")
-    SHARE = compile(r"https?://www\.xiaohongshu\.com/discovery/item/[a-z0-9]+")
-    SHORT = compile(r"https?://xhslink\.com/[A-Za-z0-9]+")
+    VERSION_MAJOR = VERSION_MAJOR
+    VERSION_MINOR = VERSION_MINOR
+    VERSION_BETA = VERSION_BETA
+    LINK = compile(r"https?://www\.xiaohongshu\.com/explore/\S+")
+    SHARE = compile(r"https?://www\.xiaohongshu\.com/discovery/item/\S+")
+    SHORT = compile(r"https?://xhslink\.com/\S+")
     __INSTANCE = None
 
     def __new__(cls, *args, **kwargs):
@@ -74,6 +90,7 @@ class XHS:
             video_download=True,
             live_download=False,
             folder_mode=False,
+            download_record=True,
             language="zh_CN",
             # server=False,
             transition: Callable[[str], str] = None,
@@ -101,6 +118,7 @@ class XHS:
             image_download,
             video_download,
             live_download,
+            download_record,
             folder_mode,
             # server,
             self.message,
@@ -127,7 +145,7 @@ class XHS:
 
     def __extract_video(self, container: dict, data: Namespace):
         container["下载地址"] = self.video.get_video_link(data)
-        container["动图地址"] = ""
+        container["动图地址"] = [None, ]
 
     async def __download_files(self, container: dict, download: bool, index, log, bar):
         name = self.__naming_rules(container)
@@ -136,13 +154,21 @@ class XHS:
                 logging(
                     log, self.message("作品 {0} 存在下载记录，跳过下载").format(i))
             else:
-                path, result = await self.download.run(u, container["动图地址"], index, name, container["作品类型"],
-                                                       log, bar)
+                path, result = await self.download.run(
+                    u,
+                    container["动图地址"],
+                    index,
+                    name,
+                    container["作品类型"],
+                    log,
+                    bar,
+                )
                 await self.__add_record(i, result)
         elif not u:
             logging(log, self.message("提取作品文件下载地址失败"), ERROR)
         await self.save_data(container)
 
+    @_data_cache
     async def save_data(self, data: dict, ):
         data["采集时间"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         data["下载地址"] = " ".join(data["下载地址"])
@@ -196,20 +222,20 @@ class XHS:
         return urls
 
     async def __deal_extract(self, url: str, download: bool, index: list | tuple | None, log, bar, data: bool, ):
-        if not data and await self.skip_download(i := self.__extract_link_id(url)):
+        if await self.skip_download(i := self.__extract_link_id(url)) and not data:
             msg = self.message("作品 {0} 存在下载记录，跳过处理").format(i)
             logging(log, msg)
             return {"message": msg}
-        logging(log, self.message("开始处理作品：{0}").format(url))
+        logging(log, self.message("开始处理作品：{0}").format(i))
         html = await self.html.request_url(url, log=log)
         namespace = self.__generate_data_object(html)
         if not namespace:
-            logging(log, self.message("{0} 获取数据失败").format(url), ERROR)
+            logging(log, self.message("{0} 获取数据失败").format(i), ERROR)
             return {}
         data = self.explore.run(namespace)
         # logging(log, data)  # 调试代码
         if not data:
-            logging(log, self.message("{0} 提取数据失败").format(url), ERROR)
+            logging(log, self.message("{0} 提取数据失败").format(i), ERROR)
             return {}
         match data["作品类型"]:
             case "视频":
@@ -219,7 +245,7 @@ class XHS:
             case _:
                 data["下载地址"] = []
         await self.__download_files(data, download, index, log, bar)
-        logging(log, self.message("作品处理完成：{0}").format(url))
+        logging(log, self.message("作品处理完成：{0}").format(i))
         return data
 
     @staticmethod
@@ -352,7 +378,7 @@ class XHS:
     #     await self.runner.cleanup()
     #     logging(log, self.message("Web API 服务器已关闭！"))
 
-    async def run_server(self, host="127.0.0.1", port=8000, log_level="info", ):
+    async def run_server(self, host="0.0.0.0", port=8000, log_level="info", ):
         self.server = FastAPI(
             title="XHS-Downloader",
             version=f"{VERSION_MAJOR}.{VERSION_MINOR}")

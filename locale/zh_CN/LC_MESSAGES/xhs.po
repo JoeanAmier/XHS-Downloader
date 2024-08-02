@@ -85,7 +85,7 @@ msgstr ""
 msgid "网络代理"
 msgstr ""
 
-msgid "记录作品数据"
+msgid "记录作品详细数据"
 msgstr ""
 
 msgid "图片下载格式"
@@ -290,4 +290,7 @@ msgid "代理 {0} 测试失败：{1}"
 msgstr ""
 
 msgid "浏览器名称或序号输入错误！"
+msgstr ""
+
+msgid "作品下载记录开关"
 msgstr ""

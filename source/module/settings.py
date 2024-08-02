@@ -30,6 +30,7 @@ class Settings:
         "video_download": True,
         "live_download": False,
         "folder_mode": False,
+        "download_record": True,
         "language": "zh_CN",
         # "server": False,
     }

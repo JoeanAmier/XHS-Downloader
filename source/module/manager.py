@@ -6,6 +6,7 @@ from shutil import rmtree
 from typing import Callable
 
 from httpx import AsyncClient
+from httpx import HTTPStatusError
 from httpx import RequestError
 from httpx import TimeoutException
 from httpx import get
@@ -64,6 +65,7 @@ class Manager:
             image_download: bool,
             video_download: bool,
             live_download: bool,
+            download_record: bool,
             folder_mode: bool,
             # server: bool,
             transition: Callable[[str], str],
@@ -80,7 +82,7 @@ class Manager:
             "Sec-Ch-Ua-Platform": sec_ch_ua_platform or SEC_CH_UA_PLATFORM,
         }
         self.headers = self.blank_headers | {
-            "Cookie": self.clean_cookie(cookie),
+            "Cookie": cookie,
         }
         self.retry = retry
         self.chunk = chunk
@@ -88,6 +90,7 @@ class Manager:
         self.record_data = self.check_bool(record_data, False)
         self.image_format = self.__check_image_format(image_format)
         self.folder_mode = self.check_bool(folder_mode, False)
+        self.download_record = self.check_bool(download_record, True)
         self.proxy_tip = None
         self.proxy = self.__check_proxy(proxy)
         self.print_proxy_tip(_print, )
@@ -200,13 +203,16 @@ class Manager:
             response = get(
                 url,
                 **kwarg, )
-            if response.status_code < 400:
-                self.proxy_tip = (self.message("代理 {0} 测试成功").format(proxy),)
-                return kwarg
+            response.raise_for_status()
+            self.proxy_tip = (self.message("代理 {0} 测试成功").format(proxy),)
+            return kwarg
         except TimeoutException:
             self.proxy_tip = (
                 self.message("代理 {0} 测试超时").format(proxy), WARNING,)
-        except RequestError as e:
+        except (
+                RequestError,
+                HTTPStatusError,
+        ) as e:
             self.proxy_tip = (
                 self.message("代理 {0} 测试失败：{1}").format(
                     proxy, e), WARNING,)
@@ -218,17 +224,19 @@ class Manager:
 
     @classmethod
     def clean_cookie(cls, cookie_string: str) -> str:
-        for i in (
+        return cls.delete_cookie(
+            cookie_string,
+            (
                 cls.WEB_ID,
                 cls.WEB_SESSION,
-        ):
-            cookie_string = cls.delete_cookie(cookie_string, i)
-        return cookie_string
+            ),
+        )
 
     @classmethod
-    def delete_cookie(cls, cookie_string: str, pattern) -> str:
-        # 使用空字符串替换匹配到的部分
-        cookie_string = sub(pattern, "", cookie_string)
+    def delete_cookie(cls, cookie_string: str, patterns: list | tuple) -> str:
+        for pattern in patterns:
+            # 使用空字符串替换匹配到的部分
+            cookie_string = sub(pattern, "", cookie_string)
         # 去除多余的分号和空格
         cookie_string = sub(r';\s*$', "", cookie_string)  # 删除末尾的分号和空格
         cookie_string = sub(r';\s*;', ";", cookie_string)  # 删除中间多余分号后的空格

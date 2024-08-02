@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.5.2
+// @version      1.6.0
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -304,43 +304,43 @@
 
     const extractNotesInfo = order => {
         const notesRawValue = unsafeWindow.__INITIAL_STATE__.user.notes._rawValue[order];
-        return new Set(notesRawValue.map(({id}) => id));
+        return notesRawValue.map(item => [item.id, item.xsecToken]);
     };
 
     const extractFeedInfo = () => {
         const notesRawValue = unsafeWindow.__INITIAL_STATE__.feed.feeds._rawValue;
-        return new Set(notesRawValue.map(({id}) => id));
+        return notesRawValue.map(item => [item.id, item.xsecToken]);
     };
 
     const extractSearchNotes = () => {
         const notesRawValue = unsafeWindow.__INITIAL_STATE__.search.feeds._rawValue;
-        return new Set(notesRawValue.map(({id}) => id));
+        return notesRawValue.map(item => [item.id, item.xsecToken]);
     }
 
     const extractSearchUsers = () => {
         const notesRawValue = unsafeWindow.__INITIAL_STATE__.search.userLists._rawValue;
-        return new Set(notesRawValue.map(({id}) => id));
+        return notesRawValue.map(item => item.id);
     }
 
-    const generateNoteUrls = ids => [...ids].map(id => `https://www.xiaohongshu.com/explore/${id}`).join(" ");
+    const generateNoteUrls = data => data.map(([id, token]) => `https://www.xiaohongshu.com/explore/${id}?xsec_token=${token}&xsec_source=pc_feed`).join(" ");
 
-    const generateUserUrls = ids => [...ids].map(id => `https://www.xiaohongshu.com/user/profile/${id}`).join(" ");
+    const generateUserUrls = data => data.map(id => `https://www.xiaohongshu.com/user/profile/${id}`).join(" ");
 
     const extractAllLinks = (callback, order) => {
         scrollScreen(() => {
-            let ids;
+            let data;
             if (order >= 0 && order <= 2) {
-                ids = extractNotesInfo(order);
+                data = extractNotesInfo(order);
             } else if (order === 3) {
-                ids = extractSearchNotes();
+                data = extractSearchNotes();
             } else if (order === 4) {
-                ids = extractSearchUsers();
+                data = extractSearchUsers();
             } else if (order === -1) {
-                ids = extractFeedInfo()
+                data = extractFeedInfo()
             } else {
-                ids = [];
+                data = [];
             }
-            let urlsString = order !== 4 ? generateNoteUrls(ids) : generateUserUrls(ids);
+            let urlsString = order !== 4 ? generateNoteUrls(data) : generateUserUrls(data);
             callback(urlsString);
         }, order === -1, [3, 4].includes(order))
     };

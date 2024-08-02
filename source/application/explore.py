@@ -40,8 +40,7 @@ class Explore:
 
     def __extract_info(self, container: dict, data: Namespace):
         container["作品ID"] = data.safe_extract("noteId")
-        container["作品链接"] = f"https://www.xiaohongshu.com/explore/{
-        container["作品ID"]}"
+        container["作品链接"] = f"https://www.xiaohongshu.com/explore/{container["作品ID"]}"
         container["作品标题"] = data.safe_extract("title")
         container["作品描述"] = data.safe_extract("desc")
         container["作品类型"] = self.explore_type.get(

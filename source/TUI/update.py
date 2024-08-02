@@ -10,9 +10,6 @@ from textual.widgets import LoadingIndicator
 
 from source.application import XHS
 from source.module import (
-    VERSION_MAJOR,
-    VERSION_MINOR,
-    VERSION_BETA,
     ERROR,
     WARNING,
     INFO,
@@ -40,10 +37,10 @@ class Update(ModalScreen):
         try:
             url = await self.xhs.html.request_url(RELEASES, False, None, timeout=5, )
             version = url.split("/")[-1]
-            match self.compare_versions(f"{VERSION_MAJOR}.{VERSION_MINOR}", version, VERSION_BETA):
+            match self.compare_versions(f"{XHS.VERSION_MAJOR}.{XHS.VERSION_MINOR}", version, XHS.VERSION_BETA):
                 case 4:
                     tip = Text(f"{self.message("检测到新版本：{0}.{1}").format(
-                        VERSION_MAJOR, VERSION_MINOR)}\n{RELEASES}", style=WARNING)
+                        XHS.VERSION_MAJOR, XHS.VERSION_MINOR)}\n{RELEASES}", style=WARNING)
                 case 3:
                     tip = Text(
                         f"{self.message("当前版本为开发版, 可更新至正式版")}\n{RELEASES}",

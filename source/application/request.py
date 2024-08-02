@@ -13,6 +13,8 @@ class Html:
         self.retry = manager.retry
         self.message = manager.message
         self.client = manager.request_client
+        self.headers = manager.headers
+        self.blank_headers = manager.blank_headers
 
     @retry
     async def request_url(
@@ -25,6 +27,7 @@ class Html:
         try:
             response = await self.client.get(
                 url,
+                headers=self.select_headers(url, ),
                 **kwargs,
             )
             response.raise_for_status()
@@ -38,3 +41,6 @@ class Html:
     @staticmethod
     def format_url(url: str) -> str:
         return bytes(url, "utf-8").decode("unicode_escape")
+
+    def select_headers(self, url: str) -> dict:
+        return self.blank_headers if "discovery/item" in url else self.headers

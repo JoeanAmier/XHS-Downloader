@@ -37,9 +37,12 @@ class Image:
 
     @staticmethod
     def __get_live_link(items: list) -> list:
-        links = []
-        for item in items:
-            links.append(
-                Html.format_url(Namespace.object_extract(
-                    item, "stream.h264[0].masterUrl")))
-        return links
+        return [
+            (
+                    Html.format_url(
+                        Namespace.object_extract(item, "stream.h264[0].masterUrl")
+                    )
+                    or None
+            )
+            for item in items
+        ]

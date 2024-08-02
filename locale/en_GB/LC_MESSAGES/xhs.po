@@ -85,7 +85,7 @@ msgstr "Xiaohongshu Web Cookie"
 msgid "网络代理"
 msgstr "Network proxy"
 
-msgid "记录作品数据"
+msgid "记录作品详细数据"
 msgstr "Record works data"
 
 msgid "图片下载格式"
@@ -291,3 +291,6 @@ msgstr "Agent {0} test failed: {1}"
 
 msgid "浏览器名称或序号输入错误！"
 msgstr "Browser name or serial number input error!"
+
+msgid "作品下载记录开关"
+msgstr "Works download record switch"

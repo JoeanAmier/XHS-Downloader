@@ -61,7 +61,7 @@ class Setting(Screen):
             Input(str(self.data["max_retry"]), placeholder="5", type="integer", id="max_retry", ),
             Label(),
             Container(
-                Checkbox(self.message("记录作品数据"), id="record_data", value=self.data["record_data"], ),
+                Checkbox(self.message("记录作品详细数据"), id="record_data", value=self.data["record_data"], ),
                 Checkbox(self.message("作品文件夹归档模式"), id="folder_mode", value=self.data["folder_mode"], ),
                 Checkbox(self.message("视频作品下载开关"), id="video_download", value=self.data["video_download"], ),
                 Checkbox(self.message("图文作品下载开关"), id="image_download", value=self.data["image_download"], ),
@@ -69,6 +69,7 @@ class Setting(Screen):
             Label(),
             Container(
                 Checkbox(self.message("动图文件下载开关"), id="live_download", value=self.data["live_download"], ),
+                Checkbox(self.message("作品下载记录开关"), id="download_record", value=self.data["download_record"], ),
                 classes="horizontal-layout"),
             Container(
                 Label(self.message("图片下载格式"), classes="params", ),
@@ -123,6 +124,7 @@ class Setting(Screen):
             "image_download": self.query_one("#image_download").value,
             "video_download": self.query_one("#video_download").value,
             "live_download": self.query_one("#live_download").value,
+            "download_record": self.query_one("#download_record").value,
             # "server": False,
         })
 

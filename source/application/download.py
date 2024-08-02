@@ -37,8 +37,16 @@ class Download:
         self.video_download = manager.video_download
         self.live_download = manager.live_download
 
-    async def run(self, urls: list, lives: list, index: list | tuple | None, name: str, type_: str, log, bar) -> tuple[
-        Path, tuple]:
+    async def run(
+            self,
+            urls: list,
+            lives: list,
+            index: list | tuple | None,
+            name: str,
+            type_: str,
+            log,
+            bar,
+    ) -> tuple[Path, tuple]:
         path = self.__generate_path(name)
         match type_:
             case "视频":

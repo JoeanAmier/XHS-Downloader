@@ -1,3 +1,5 @@
+from asyncio import CancelledError
+from contextlib import suppress
 from re import compile
 
 from aiosqlite import connect
@@ -12,6 +14,7 @@ class IDRecorder:
 
     def __init__(self, manager: Manager):
         self.file = manager.root.joinpath("ExploreID.db")
+        self.switch = manager.download_record
         self.database = None
         self.cursor = None
 
@@ -22,12 +25,14 @@ class IDRecorder:
         await self.database.commit()
 
     async def select(self, id_: str):
-        await self.cursor.execute("SELECT ID FROM explore_id WHERE ID=?", (id_,))
-        return await self.cursor.fetchone()
+        if self.switch:
+            await self.cursor.execute("SELECT ID FROM explore_id WHERE ID=?", (id_,))
+            return await self.cursor.fetchone()
 
     async def add(self, id_: str) -> None:
-        await self.database.execute("REPLACE INTO explore_id VALUES (?);", (id_,))
-        await self.database.commit()
+        if self.switch:
+            await self.database.execute("REPLACE INTO explore_id VALUES (?);", (id_,))
+            await self.database.commit()
 
     async def __delete(self, id_: str) -> None:
         if id_:
@@ -35,19 +40,22 @@ class IDRecorder:
             await self.database.commit()
 
     async def delete(self, ids: str):
-        ids = [i.group(1) for i in self.URL.finditer(ids)]
-        [await self.__delete(i) for i in ids]
+        if self.switch:
+            ids = [i.group(1) for i in self.URL.finditer(ids)]
+            [await self.__delete(i) for i in ids]
 
     async def all(self):
-        await self.cursor.execute("SELECT ID FROM explore_id")
-        return [i[0] for i in await self.cursor.fetchmany()]
+        if self.switch:
+            await self.cursor.execute("SELECT ID FROM explore_id")
+            return [i[0] for i in await self.cursor.fetchmany()]
 
     async def __aenter__(self):
         await self._connect_database()
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
-        await self.cursor.close()
+        with suppress(CancelledError):
+            await self.cursor.close()
         await self.database.close()
 
 
@@ -76,6 +84,7 @@ class DataRecorder(IDRecorder):
     def __init__(self, manager: Manager):
         super().__init__(manager)
         self.file = manager.folder.joinpath("ExploreData.db")
+        self.switch = manager.record_data
 
     async def _connect_database(self):
         self.database = await connect(self.file)
@@ -89,12 +98,13 @@ class DataRecorder(IDRecorder):
         pass
 
     async def add(self, **kwargs) -> None:
-        await self.database.execute(f"""REPLACE INTO explore_data (
+        if self.switch:
+            await self.database.execute(f"""REPLACE INTO explore_data (
         {", ".join(i[0] for i in self.DATA_TABLE)}
         ) VALUES (
         {", ".join("?" for _ in kwargs)}
         );""", self.__generate_values(kwargs))
-        await self.database.commit()
+            await self.database.commit()
 
     async def __delete(self, id_: str) -> None:
         pass
