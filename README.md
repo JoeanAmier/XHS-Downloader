@@ -73,8 +73,8 @@
 </ul>
 <li>创建容器</li>
 <ul>
-<li>TUI 模式：<code>docker run -it joeanamier/xhs-downloader:2.1</code></li>
-<li>API 模式：<code>docker run -it joeanamier/xhs-downloader:2.1 python main.py server</code></li>
+<li>TUI 模式：<code>docker run -it joeanamier/xhs-downloader</code></li>
+<li>API 模式：<code>docker run -it joeanamier/xhs-downloader python main.py server</code></li>
 </ul>
 </ol>
 <p>Docker 运行项目时不支持 <b>命令行调用模式</b>，无法使用 <b>读取剪贴板</b> 与 <b>监听剪贴板</b> 功能，可以正常粘贴内容，其他功能如有异常请反馈！</p>

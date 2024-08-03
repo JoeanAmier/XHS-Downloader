@@ -74,8 +74,8 @@
 </ul>
 <li>Create Container</li>
 <ul>
-<li>TUI Mode: <code>docker run -it joeanamier/xhs-downloader:2.1</code></li>
-<li>API Mode: <code>docker run -it joeanamier/xhs-downloader:2.1 python main.py server</code></li>
+<li>TUI Mode: <code>docker run -it joeanamier/xhs-downloader</code></li>
+<li>API Mode: <code>docker run -it joeanamier/xhs-downloader python main.py server</code></li>
 </ul>
 </ol>
 <p>When running the project via Docker, the <b>command line call mode</b> is not supported. The <b>clipboard reading</b> and <b>clipboard monitoring</b> functions are unavailable, but pasting content works fine. Please provide feedback if other features are not functioning properly!</p>

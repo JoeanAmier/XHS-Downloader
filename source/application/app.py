@@ -380,8 +380,9 @@ class XHS:
 
     async def run_server(self, host="0.0.0.0", port=8000, log_level="info", ):
         self.server = FastAPI(
+            debug=self.VERSION_BETA,
             title="XHS-Downloader",
-            version=f"{VERSION_MAJOR}.{VERSION_MINOR}")
+            version=f"{self.VERSION_MAJOR}.{self.VERSION_MINOR}")
         self.setup_routes()
         config = Config(
             self.server,

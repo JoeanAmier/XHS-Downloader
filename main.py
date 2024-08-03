@@ -30,8 +30,8 @@ async def example():
     record_data = False  # 是否保存作品数据至文件
     image_format = "WEBP"  # 图文作品文件下载格式，支持：PNG、WEBP
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
-    async with XHS() as xhs:
-        pass  # 使用默认参数
+    # async with XHS() as xhs:
+    #     pass  # 使用默认参数
     async with XHS(work_path=work_path,
                    folder_name=folder_name,
                    name_format=name_format,
@@ -61,7 +61,7 @@ async def app():
         await xhs.run_async()
 
 
-async def server(host="127.0.0.1", port=8000, log_level="info", ):
+async def server(host="0.0.0.0", port=8000, log_level="info", ):
     async with XHS(**Settings().run()) as xhs:
         await xhs.run_server(host, port, log_level, )
 
