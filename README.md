@@ -287,7 +287,7 @@ async def example():
 <td align="center">chunk</td>
 <td align="center">int</td>
 <td align="center">下载文件时，每次从服务器获取的数据块大小，单位：字节</td>
-<td align="center">1048576(1 MB)</td>
+<td align="center">2097152(2 MB)</td>
 </tr>
 <tr>
 <td align="center">max_retry</td>
@@ -330,6 +330,12 @@ async def example():
 <td align="center">bool</td>
 <td align="center">是否将每个作品的文件储存至单独的文件夹；文件夹名称与文件名称保持一致</td>
 <td align="center">false</td>
+</tr>
+<tr>
+<td align="center">download_record</td>
+<td align="center">bool</td>
+<td align="center">是否记录下载成功的作品 ID，如果开启，程序将会自动跳过下载存在记录的作品</td>
+<td align="center">true</td>
 </tr>
 <tr>
 <td align="center">language</td>

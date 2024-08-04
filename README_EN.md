@@ -291,7 +291,7 @@ async def example():
 <td align="center">chunk</td>
 <td align="center">int</td>
 <td align="center">Size of data chunk to fetch from the server each time when downloading files, in bytes</td>
-<td align="center">1048576(1 MB)</td>
+<td align="center">2097152(2 MB)</td>
 </tr>
 <tr>
 <td align="center">max_retry</td>
@@ -334,6 +334,12 @@ async def example():
 <td align="center">bool</td>
 <td align="center">Whether to store each content's files in a separate folder; the folder name matches the file name</td>
 <td align="center">false</td>
+</tr>
+<tr>
+<td align="center">download_record</td>
+<td align="center">bool</td>
+<td align="center">Do record the ID of successfully downloaded works? If enabled, the program will automatically skip downloading works with records</td>
+<td align="center">true</td>
 </tr>
 <tr>
 <td align="center">language</td>

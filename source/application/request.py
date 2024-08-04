@@ -24,14 +24,16 @@ class Html:
             log=None,
             **kwargs,
     ) -> str:
+        headers = self.select_headers(url, )
         try:
-            response = await self.client.get(
-                url,
-                headers=self.select_headers(url, ),
-                **kwargs,
-            )
-            response.raise_for_status()
-            return response.text if content else str(response.url)
+            match content:
+                case True:
+                    response = await self.__request_url_get(url, headers, **kwargs, )
+                    response.raise_for_status()
+                    return response.text
+                case False:
+                    response = await self.__request_url_head(url, headers, **kwargs, )
+                    return str(response.url)
         except HTTPError as error:
             logging(log, str(error), ERROR)
             logging(
@@ -43,4 +45,18 @@ class Html:
         return bytes(url, "utf-8").decode("unicode_escape")
 
     def select_headers(self, url: str) -> dict:
-        return self.blank_headers if "discovery/item" in url else self.headers
+        return self.headers if "explore" in url else self.blank_headers
+
+    async def __request_url_head(self, url: str, headers: dict, **kwargs, ):
+        return await self.client.head(
+            url,
+            headers=headers,
+            **kwargs,
+        )
+
+    async def __request_url_get(self, url: str, headers: dict, **kwargs, ):
+        return await self.client.get(
+            url,
+            headers=headers,
+            **kwargs,
+        )

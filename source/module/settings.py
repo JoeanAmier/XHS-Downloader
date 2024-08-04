@@ -22,7 +22,7 @@ class Settings:
         "cookie": "",
         "proxy": None,
         "timeout": 10,
-        "chunk": 1024 * 1024,
+        "chunk": 1024 * 1024 * 2,
         "max_retry": 5,
         "record_data": False,
         "image_format": "PNG",
