@@ -2,8 +2,6 @@ name: Build-Dockerhub
 
 on:
   push:
-    branches:
-      - v*.*.*
     paths:
       - 'Dockerfile' # 监测指定的 Dockerfile 文件路径
 
