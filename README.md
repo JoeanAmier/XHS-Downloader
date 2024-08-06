@@ -382,6 +382,7 @@ async def example():
 <p>如果您愿意，可以考虑提供资助为 <b>XHS-Downloader</b> 提供额外的支持！</p>
 <h1>✉️ 联系作者</h1>
 <ul>
+<li>作者邮箱：yonglelolu@foxmail.com</li>
 <li>作者微信: Downloader_Tools</li>
 <li>微信公众号: Downloader Tools</li>
 <li><b>Discord 社区</b>: <a href="https://discord.com/invite/ZYtmgKud9Y">点击加入社区</a></li>
