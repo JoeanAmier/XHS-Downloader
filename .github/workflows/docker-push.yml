@@ -3,9 +3,9 @@ name: Build-Push-Dockerhub
 on:
   push:
     branches:
-      - master
+      - "master"
     tags:
-      - v*.*.*
+      - "v*.*.*"
     paths:
       - 'Dockerfile'
 
