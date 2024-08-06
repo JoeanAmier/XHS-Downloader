@@ -4,7 +4,6 @@ LABEL name="XHS-Downloader" version="2.2 Beta" authors="JoeanAmier"
 ENV TZ Asia/Shanghai
 
 WORKDIR /app
-
 COPY . /app
 
 RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
