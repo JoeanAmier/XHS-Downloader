@@ -1,12 +1,15 @@
 from asyncio import gather
 from pathlib import Path
-
+from aiofiles import open
 from httpx import HTTPError
-
+from typing import TYPE_CHECKING
 from source.module import ERROR
 from source.module import Manager
 from source.module import logging
 from source.module import retry as re_download
+
+if TYPE_CHECKING:
+    from httpx import AsyncClient
 
 __all__ = ['Download']
 
@@ -26,7 +29,8 @@ class Download:
         self.folder = manager.folder
         self.temp = manager.temp
         self.chunk = manager.chunk
-        self.client = manager.download_client
+        self.client: "AsyncClient" = manager.download_client
+        self.headers = manager.blank_headers
         self.retry = manager.retry
         self.message = manager.message
         self.folder_mode = manager.folder_mode
@@ -122,20 +126,32 @@ class Download:
 
     @re_download
     async def __download(self, url: str, path: Path, name: str, format_: str, log, bar):
-        temp = self.temp.joinpath(f"{name}.{format_}")
         try:
-            async with self.client.stream("GET", url, ) as response:
+            length, suffix = await self.__hand_file(url, format_, )
+        except HTTPError as error:
+            logging(log, str(error), ERROR)
+            logging(
+                log,
+                self.message(
+                    "网络异常，{0} 请求失败").format(name),
+                ERROR,
+            )
+            return False
+        temp = self.temp.joinpath(f"{name}.{suffix}")
+        real = path.joinpath(f"{name}.{suffix}")
+        self.__update_headers_range(temp, )
+        try:
+            async with self.client.stream("GET", url, headers=self.headers) as response:
                 response.raise_for_status()
-                suffix = self.__extract_type(
-                    response.headers.get("Content-Type")) or format_
-                real = path.joinpath(f"{name}.{suffix}")
                 # self.__create_progress(
-                #     bar, int(
+                #     bar,
+                #     int(
                 #         response.headers.get(
-                #             'content-length', 0)) or None)
-                with temp.open("wb") as f:
+                #             'content-length', 0)) or None,
+                # )
+                async with open(temp, "ab") as f:
                     async for chunk in response.aiter_bytes(self.chunk):
-                        f.write(chunk)
+                        await f.write(chunk)
                         # self.__update_progress(bar, len(chunk))
             self.manager.move(temp, real)
             # self.__create_progress(bar, None)
@@ -146,14 +162,17 @@ class Download:
             # self.__create_progress(bar, None)
             logging(log, str(error), ERROR)
             logging(
-                log, self.message(
-                    "网络异常，{0} 下载失败").format(name), ERROR)
+                log,
+                self.message(
+                    "网络异常，{0} 下载失败").format(name),
+                ERROR,
+            )
             return False
 
     @staticmethod
-    def __create_progress(bar, total: int | None):
+    def __create_progress(bar, total: int | None, completed=0, ):
         if bar:
-            bar.update(total=total)
+            bar.update(total=total, completed=completed)
 
     @staticmethod
     def __update_progress(bar, advance: int):
@@ -163,3 +182,26 @@ class Download:
     @classmethod
     def __extract_type(cls, content: str) -> str:
         return cls.CONTENT_TYPE_MAP.get(content, "")
+
+    async def __hand_file(self,
+                          url: str,
+                          suffix: str,
+                          ) -> [int, str]:
+        response = await self.client.head(url,
+                                          headers=self.headers | {
+                                              "Range": "bytes=0-",
+                                          }, )
+        response.raise_for_status()
+        suffix = self.__extract_type(
+            response.headers.get("Content-Type")) or suffix
+        length = response.headers.get(
+            "Content-Length", 0)
+        return int(length), suffix
+
+    @staticmethod
+    def __get_resume_byte_position(file: Path) -> int:
+        return file.stat().st_size if file.is_file() else 0
+
+    def __update_headers_range(self, file: Path) -> int:
+        self.headers["Range"] = f"bytes={(p := self.__get_resume_byte_position(file))}-"
+        return p

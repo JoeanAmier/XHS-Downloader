@@ -29,7 +29,11 @@ jobs:
 
     - name: 构建可执行文件
       run: |
-        pyinstaller --icon=/static/images/TikTokDownloader.ico --add-data "static;static" --add-data "templates;templates" main.py
+        if [ "$RUNNER_OS" = "Windows" ]; then
+          pyinstaller --icon=./static/XHS-Downloader.ico --add-data "static;static" --add-data "locale;locale" .\main.py
+        else
+          pyinstaller --icon=./static/XHS-Downloader.ico --add-data "static:static" --add-data "locale:locale" main.py
+        fi
 
     - name: 上传文件
       uses: actions/upload-artifact@v4

@@ -419,6 +419,7 @@ async def example():
 * https://github.com/tiangolo/fastapi
 * https://github.com/textualize/textual/
 * https://textual.textualize.io/
+* https://github.com/omnilib/aiosqlite
 * https://aiosqlite.omnilib.dev/en/stable/
 * https://click.palletsprojects.com/en/8.1.x/
 * https://github.com/thewh1teagle/rookie
