@@ -9,7 +9,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [macos-latest, windows-latest]
         python-version: [3.12]
 
     steps:
@@ -28,12 +28,15 @@ jobs:
         pip install pyinstaller
 
     - name: 构建可执行文件
+      if: runner.os == 'Windows'
       run: |
-        if [ "$RUNNER_OS" = "Windows" ]; then
-          pyinstaller --icon=./static/XHS-Downloader.ico --add-data "static;static" --add-data "locale;locale" .\main.py
-        else
-          pyinstaller --icon=./static/XHS-Downloader.ico --add-data "static:static" --add-data "locale:locale" main.py
-        fi
+        pyinstaller --icon=./static/XHS-Downloader.ico --add-data "static;static" --add-data "locale;locale" .\main.py
+      shell: pwsh
+
+    - name: Build executable on macOS
+      if: runner.os == 'macOS'
+      run: |
+        pyinstaller --icon=./static/XHS-Downloader.ico --add-data "static:static" --add-data "locale:locale" main.py
 
     - name: 上传文件
       uses: actions/upload-artifact@v4

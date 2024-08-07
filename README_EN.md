@@ -31,6 +31,7 @@
 <li>✅ Read cookies from browser</li>
 <li>✅ Customizable file name format</li>
 <li>✅ Support API call functionality</li>
+<li>✅ Support file breakpoint resume download</li>
 </ul>
 <ul><b>Script Features</b>
 <li>✅ Download Xiaohongshu watermark-free content files</li>
@@ -63,7 +64,7 @@
 <p>If you only need to download watermark-free content files, it is recommended to choose <b>Program Run</b>; if you have other needs, it is recommended to choose <b>Source Code Run</b>!</p>
 <p>It is recommended to set the <code>cookie</code> parameter manually; if this parameter is not set, the program functions may not work properly!</p>
 <h2>🖱 Program Run</h2>
-<p>Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main.exe</code> to use.</p>
+<p>Mac OS, Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
 <p>If you use the program in this way, the default download path for files is: <code>.\_internal\Download</code>; the configuration file path is: <code>.\_internal\settings.json</code></p>
 <h2>⌨️ Docker Run</h2>
 <ol>
@@ -82,8 +83,9 @@
 <h2>⌨️ Source Code Run</h2>
 <ol>
 <li>Install the Python interpreter with a version no lower than <code>3.12</code></li>
-<li>Run the command <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> to install the required modules</li>
 <li>Download the latest source code of this project or the source code released in <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to your local machine</li>
+<li>Open the terminal and switch to the root path of the project</li>
+<li>Run the command <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> to install the required modules</li>
 <li>Run <code>main.py</code> to use</li>
 </ol>
 <h1>🛠 Command Line Mode</h1>
@@ -189,8 +191,8 @@ async def example():
     record_data = False  # 是否保存作品数据至文件
     image_format = "WEBP"  # 图文作品文件下载格式，支持：PNG、WEBP
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
-    async with XHS() as xhs:
-        pass  # 使用默认参数
+    # async with XHS() as xhs:
+    #     pass  # 使用默认参数
     async with XHS(work_path=work_path,
                    folder_name=folder_name,
                    name_format=name_format,

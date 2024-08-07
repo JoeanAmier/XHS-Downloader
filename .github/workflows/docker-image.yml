@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   release:
     types: [published]
-  workflow_dispatch:  # 允许手动触发工作流
+  workflow_dispatch:
 
 jobs:
   publish-docker:
