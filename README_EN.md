@@ -386,6 +386,7 @@ async def example():
 <p>If you are willing, you may consider making a donation to provide additional support for <b>XHS-Downloader</b>!</p>
 <h1>✉️ Contact the Author</h1>
 <ul>
+<li>Author's Email：yonglelolu@foxmail.com</li>
 <li>Author's WeChat: Downloader_Tools</li>
 <li><b>Discord Community</b>: <a href="https://discord.com/invite/ZYtmgKud9Y">Click to Join the Community</a></li>
 </ul>
