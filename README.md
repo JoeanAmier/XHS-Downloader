@@ -426,3 +426,4 @@ async def example():
 * https://aiosqlite.omnilib.dev/en/stable/
 * https://click.palletsprojects.com/en/8.1.x/
 * https://github.com/thewh1teagle/rookie
+* https://github.com/carpedm20/emoji/

@@ -17,8 +17,10 @@ from uvicorn import Config
 from uvicorn import Server
 
 from source.expansion import BrowserCookie
+from source.expansion import Cleaner
 from source.expansion import Converter
 from source.expansion import Namespace
+from source.expansion import beautify_string
 from source.module import DataRecorder
 from source.module import ExtractData
 from source.module import ExtractParams
@@ -65,6 +67,7 @@ class XHS:
     SHARE = compile(r"https?://www\.xiaohongshu\.com/discovery/item/\S+")
     SHORT = compile(r"https?://xhslink\.com/\S+")
     __INSTANCE = None
+    CLEANER = Cleaner()
 
     def __new__(cls, *args, **kwargs):
         if not cls.__INSTANCE:
@@ -270,7 +273,13 @@ class XHS:
                     values.append(self.__get_name_title(data))
                 case _:
                     values.append(data[key])
-        return self.manager.SEPARATE.join(values)
+        return self.CLEANER.filter_name(
+            self.manager.SEPARATE.join(values),
+            default=self.manager.SEPARATE.join((
+                data["作者ID"],
+                data["作品ID"],
+            )),
+        )
 
     @staticmethod
     def __get_name_time(data: dict) -> str:
@@ -280,7 +289,10 @@ class XHS:
         return self.manager.filter_name(data["作者昵称"]) or data["作者ID"]
 
     def __get_name_title(self, data: dict) -> str:
-        return self.manager.filter_name(data["作品标题"])[:64] or data["作品ID"]
+        return beautify_string(
+            self.manager.filter_name(data["作品标题"]),
+            64,
+        ) or data["作品ID"]
 
     async def monitor(self, delay=1, download=False, log=None, bar=None, data=True, ) -> None:
         logging(
