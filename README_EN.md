@@ -65,7 +65,7 @@
 <p>If you only need to download watermark-free content files, it is recommended to choose <b>Program Run</b>; if you have other needs, it is recommended to choose <b>Source Code Run</b>!</p>
 <p>It is recommended to set the <code>cookie</code> parameter manually; if this parameter is not set, the program functions may not work properly!</p>
 <h2>🖱 Program Run</h2>
-<p>Mac OS, Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
+<p>Mac OS(ARM), Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
 <p>If you use the program in this way, the default download path for files is: <code>.\_internal\Download</code>; the configuration file path is: <code>.\_internal\settings.json</code></p>
 <h2>⌨️ Docker Run</h2>
 <ol>
@@ -371,6 +371,7 @@ async def example():
 <img src="static/screenshot/获取Cookie示意图.png" alt="">
 <h1>🗳 Download Records</h1>
 <p>XHS-Downloader will store the IDs of downloaded content in a database. When downloading the same content again, XHS-Downloader will automatically skip the file download (even if the content file does not exist). If you want to re-download the content file, please delete the corresponding content ID from the database and then use XHS-Downloader to download the content file again!</p>
+<p>This feature is enabled by default. If it is turned off, XHS-Downloader will check if the file exists. If the file exists, it will skip the download!</p>
 <h1>♥️ Support the Project</h1>
 <p>If <b>XHS-Downloader</b> has been helpful to you, please consider giving it a <b>Star</b> ⭐. Thank you for your support!</p>
 <table>
