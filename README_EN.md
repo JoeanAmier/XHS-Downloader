@@ -7,6 +7,7 @@
 <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/JoeanAmier/XHS-Downloader?style=for-the-badge&color=ff7875">
 <img alt="Static Badge" src="https://img.shields.io/badge/UserScript-ffec3d?style=for-the-badge&logo=tampermonkey&logoColor=%2300485B">
 <br>
+<img alt="Static Badge" src="https://img.shields.io/badge/Python-3.12-3498db?style=for-the-badge&logo=python&labelColor=fffa65">
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/JoeanAmier/XHS-Downloader?style=for-the-badge&color=73d13d">
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/XHS-Downloader?style=for-the-badge&color=40a9ff">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/XHS-Downloader/total?style=for-the-badge&color=f759ab">
@@ -423,9 +424,12 @@ async def example():
 * https://github.com/encode/httpx/
 * https://github.com/tiangolo/fastapi
 * https://github.com/textualize/textual/
-* https://textual.textualize.io/
 * https://github.com/omnilib/aiosqlite
-* https://aiosqlite.omnilib.dev/en/stable/
-* https://click.palletsprojects.com/en/8.1.x/
 * https://github.com/thewh1teagle/rookie
 * https://github.com/carpedm20/emoji/
+* https://github.com/asweigart/pyperclip
+* https://github.com/lxml/lxml
+* https://github.com/yaml/pyyaml
+* https://github.com/pallets/click/
+* https://github.com/encode/uvicorn
+* https://github.com/Tinche/aiofiles

@@ -144,7 +144,7 @@ class Download:
         real = path.joinpath(f"{name}.{suffix}")
         self.__update_headers_range(headers, temp, )
         try:
-            # print(f"{url} Stream Headers:", headers)  # 调试代码
+            # print(f"{url} Stream Headers:", headers.get("Range"))  # 调试代码
             async with self.client.stream("GET", url, headers=headers, ) as response:
                 response.raise_for_status()
                 # self.__create_progress(
@@ -192,7 +192,7 @@ class Download:
                           headers: dict[str, str],
                           suffix: str,
                           ) -> [int, str]:
-        # print(f"{url} Head Headers:", headers)  # 调试代码
+        # print(f"{url} Head Headers:", headers.get("Range"))  # 调试代码
         response = await self.client.head(
             url,
             headers=headers,
