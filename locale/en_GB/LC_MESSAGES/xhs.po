@@ -181,8 +181,8 @@ msgstr "Do you need to update the configuration file"
 msgid "查看详细参数说明"
 msgstr "View detailed parameter descriptions"
 
-msgid "网络异常，请求 {0} 失败"
-msgstr "Network error, failed to access {0}"
+msgid "网络异常，{0} 请求失败: {1}"
+msgstr "Network error, {0} request failed: {1}"
 
 msgid "{0} 文件已存在，跳过下载"
 msgstr "{0} already exists, skipping download"

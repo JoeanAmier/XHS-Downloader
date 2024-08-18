@@ -181,7 +181,7 @@ msgstr ""
 msgid "查看详细参数说明"
 msgstr ""
 
-msgid "网络异常，请求 {0} 失败"
+msgid "网络异常，{0} 请求失败: {1}"
 msgstr ""
 
 msgid "{0} 文件已存在，跳过下载"

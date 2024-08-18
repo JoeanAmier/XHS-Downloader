@@ -135,7 +135,7 @@ class Download:
             logging(
                 log,
                 self.message(
-                    "网络异常，{0} 请求失败，错误信息: {1}").format(name, error),
+                    "网络异常，{0} 请求失败，错误信息: {1}").format(name, repr(error)),
                 ERROR,
             )
             logging(
@@ -170,7 +170,7 @@ class Download:
             logging(
                 log,
                 self.message(
-                    "网络异常，{0} 下载失败，错误信息: {1}").format(name, error),
+                    "网络异常，{0} 下载失败，错误信息: {1}").format(name, repr(error)),
                 ERROR,
             )
             logging(

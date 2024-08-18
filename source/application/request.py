@@ -35,9 +35,11 @@ class Html:
                     response = await self.__request_url_head(url, headers, **kwargs, )
                     return str(response.url)
         except HTTPError as error:
-            logging(log, str(error), ERROR)
             logging(
-                log, self.message("网络异常，请求 {0} 失败").format(url), ERROR)
+                log,
+                self.message("网络异常，{0} 请求失败: {1}").format(url, repr(error)),
+                ERROR
+            )
             return ""
 
     @staticmethod
