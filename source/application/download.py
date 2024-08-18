@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 from aiofiles import open
 from httpx import HTTPError
 
-from source.module import ERROR
+from source.module import ERROR, WARNING
 from source.module import Manager
 from source.module import logging
 from source.module import retry as re_download
@@ -132,19 +132,22 @@ class Download:
         try:
             length, suffix = await self.__head_file(url, headers, format_, )
         except HTTPError as error:
-            logging(log, str(error), ERROR)
             logging(
                 log,
                 self.message(
-                    "网络异常，{0} 请求失败").format(name),
+                    "网络异常，{0} 请求失败，错误信息: {1}").format(name, error),
                 ERROR,
+            )
+            logging(
+                log,
+                f"{url} Head Headers: {headers.get("Range")}",
+                WARNING,
             )
             return False
         temp = self.temp.joinpath(f"{name}.{suffix}")
         real = path.joinpath(f"{name}.{suffix}")
         self.__update_headers_range(headers, temp, )
         try:
-            # print(f"{url} Stream Headers:", headers.get("Range"))  # 调试代码
             async with self.client.stream("GET", url, headers=headers, ) as response:
                 response.raise_for_status()
                 # self.__create_progress(
@@ -162,14 +165,18 @@ class Download:
             logging(log, self.message("文件 {0} 下载成功").format(real.name))
             return True
         except HTTPError as error:
-            self.manager.delete(temp)
+            # self.manager.delete(temp)
             # self.__create_progress(bar, None)
-            logging(log, str(error), ERROR)
             logging(
                 log,
                 self.message(
-                    "网络异常，{0} 下载失败").format(name),
+                    "网络异常，{0} 下载失败，错误信息: {1}").format(name, error),
                 ERROR,
+            )
+            logging(
+                log,
+                f"{url} Stream Headers: {headers.get("Range")}",
+                WARNING,
             )
             return False
 
@@ -192,7 +199,6 @@ class Download:
                           headers: dict[str, str],
                           suffix: str,
                           ) -> [int, str]:
-        # print(f"{url} Head Headers:", headers.get("Range"))  # 调试代码
         response = await self.client.head(
             url,
             headers=headers,

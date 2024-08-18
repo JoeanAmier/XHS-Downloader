@@ -190,8 +190,11 @@ msgstr "{0} already exists, skipping download"
 msgid "文件 {0} 下载成功"
 msgstr "file {0} download successful"
 
-msgid "网络异常，{0} 下载失败"
-msgstr "Network error, {0} download failed"
+msgid "网络异常，{0} 请求失败，错误信息: {1}"
+msgstr "Network error, {0} request failed, error message: {1}"
+
+msgid "网络异常，{0} 下载失败，错误信息: {1}"
+msgstr "Network error, {0} download failed, error message: {1}"
 
 msgid "共 {0} 个小红书作品待处理..."
 msgstr "{0} works from Xiaohongshu are awaiting processing..."
