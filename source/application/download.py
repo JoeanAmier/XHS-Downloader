@@ -1,11 +1,11 @@
-from asyncio import gather
+# from asyncio import gather
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 from aiofiles import open
 from httpx import HTTPError
 
-from source.module import ERROR, WARNING
+from source.module import ERROR
 from source.module import Manager
 from source.module import logging
 from source.module import retry as re_download
@@ -52,7 +52,7 @@ class Download:
             type_: str,
             log,
             bar,
-    ) -> tuple[Path, tuple]:
+    ) -> tuple[Path, list]:
         path = self.__generate_path(name)
         match type_:
             case "视频":
@@ -62,17 +62,17 @@ class Download:
                     urls, lives, index, path, name, log)
             case _:
                 raise ValueError
-        tasks = [
-            self.__download(
+        result = [
+            await self.__download(
                 url,
                 path,
                 name,
                 format_,
                 log,
-                bar) for url,
-            name,
-            format_ in tasks]
-        result = await gather(*tasks)
+                bar,
+            ) for url, name, format_ in tasks
+        ]
+        # result = await gather(*tasks)
         return path, result
 
     def __generate_path(self, name: str):
@@ -127,7 +127,15 @@ class Download:
         return False
 
     @re_download
-    async def __download(self, url: str, path: Path, name: str, format_: str, log, bar):
+    async def __download(
+            self,
+            url: str,
+            path: Path,
+            name: str,
+            format_: str,
+            log,
+            bar,
+    ):
         headers = self.headers.copy()
         try:
             length, suffix = await self.__head_file(url, headers, format_, )
@@ -138,11 +146,11 @@ class Download:
                     "网络异常，{0} 请求失败，错误信息: {1}").format(name, repr(error)),
                 ERROR,
             )
-            logging(
-                log,
-                f"{url} Head Headers: {headers.get("Range")}",
-                WARNING,
-            )
+            # logging(
+            #     log,
+            #     f"{url} Head Headers: {headers.get("Range")}",
+            #     WARNING,
+            # )
             return False
         temp = self.temp.joinpath(f"{name}.{suffix}")
         real = path.joinpath(f"{name}.{suffix}")
@@ -173,11 +181,11 @@ class Download:
                     "网络异常，{0} 下载失败，错误信息: {1}").format(name, repr(error)),
                 ERROR,
             )
-            logging(
-                log,
-                f"{url} Stream Headers: {headers.get("Range")}",
-                WARNING,
-            )
+            # logging(
+            #     log,
+            #     f"{url} Stream Headers: {headers.get("Range")}",
+            #     WARNING,
+            # )
             return False
 
     @staticmethod
