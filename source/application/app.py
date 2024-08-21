@@ -150,7 +150,14 @@ class XHS:
         container["下载地址"] = self.video.get_video_link(data)
         container["动图地址"] = [None, ]
 
-    async def __download_files(self, container: dict, download: bool, index, log, bar):
+    async def __download_files(
+            self,
+            container: dict,
+            download: bool,
+            index,
+            log,
+            bar,
+    ):
         name = self.__naming_rules(container)
         if (u := container["下载地址"]) and download:
             if await self.skip_download(i := container["作品ID"]):
@@ -178,17 +185,19 @@ class XHS:
         data["动图地址"] = " ".join(i or "NaN" for i in data["动图地址"])
         await self.data_recorder.add(**data)
 
-    async def __add_record(self, id_: str, result: tuple) -> None:
+    async def __add_record(self, id_: str, result: list) -> None:
         if all(result):
             await self.id_recorder.add(id_)
 
-    async def extract(self,
-                      url: str,
-                      download=False,
-                      index: list | tuple = None,
-                      log=None,
-                      bar=None,
-                      data=True, ) -> list[dict]:
+    async def extract(
+            self,
+            url: str,
+            download=False,
+            index: list | tuple = None,
+            log=None,
+            bar=None,
+            data=True,
+    ) -> list[dict]:
         # return  # 调试代码
         urls = await self.__extract_links(url, log)
         if not urls:
@@ -199,13 +208,15 @@ class XHS:
         # return urls  # 调试代码
         return [await self.__deal_extract(i, download, index, log, bar, data, ) for i in urls]
 
-    async def extract_cli(self,
+    async def extract_cli(
+            self,
                           url: str,
                           download=True,
                           index: list | tuple = None,
                           log=None,
                           bar=None,
-                          data=False, ) -> None:
+            data=False,
+    ) -> None:
         url = await self.__extract_links(url, log)
         if not url:
             logging(log, self.message("提取小红书作品链接失败"), WARNING)
@@ -217,14 +228,25 @@ class XHS:
         for i in url.split():
             if u := self.SHORT.search(i):
                 i = await self.html.request_url(
-                    u.group(), False, log)
+                    u.group(),
+                    False,
+                    log,
+                )
             if u := self.SHARE.search(i):
                 urls.append(u.group())
             elif u := self.LINK.search(i):
                 urls.append(u.group())
         return urls
 
-    async def __deal_extract(self, url: str, download: bool, index: list | tuple | None, log, bar, data: bool, ):
+    async def __deal_extract(
+            self,
+            url: str,
+            download: bool,
+            index: list | tuple | None,
+            log,
+            bar,
+            data: bool,
+    ):
         if await self.skip_download(i := self.__extract_link_id(url)) and not data:
             msg = self.message("作品 {0} 存在下载记录，跳过处理").format(i)
             logging(log, msg)
@@ -294,7 +316,14 @@ class XHS:
             64,
         ) or data["作品ID"]
 
-    async def monitor(self, delay=1, download=False, log=None, bar=None, data=True, ) -> None:
+    async def monitor(
+            self,
+            delay=1,
+            download=False,
+            log=None,
+            bar=None,
+            data=True,
+    ) -> None:
         logging(
             None,
             self.message(

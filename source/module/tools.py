@@ -1,3 +1,6 @@
+from asyncio import sleep
+from random import uniform
+
 from rich import print
 from rich.text import Text
 
@@ -24,3 +27,10 @@ def logging(log, text, style=INFO):
         log.write(string)
     else:
         print(string)
+
+
+async def sleep_time(
+        min_time: int = 1,
+        max_time: int = 3,
+):
+    await sleep(uniform(min_time, max_time))

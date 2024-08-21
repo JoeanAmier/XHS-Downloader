@@ -32,5 +32,6 @@ from .static import (
 from .tools import (
     retry,
     logging,
+    sleep_time,
 )
 from .translator import Translate

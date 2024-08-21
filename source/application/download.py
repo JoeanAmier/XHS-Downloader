@@ -9,6 +9,7 @@ from source.module import ERROR
 from source.module import Manager
 from source.module import logging
 from source.module import retry as re_download
+from source.module import sleep_time
 
 if TYPE_CHECKING:
     from httpx import AsyncClient
@@ -157,6 +158,7 @@ class Download:
         self.__update_headers_range(headers, temp, )
         try:
             async with self.client.stream("GET", url, headers=headers, ) as response:
+                await sleep_time()
                 response.raise_for_status()
                 # self.__create_progress(
                 #     bar,
@@ -211,6 +213,7 @@ class Download:
             url,
             headers=headers,
         )
+        await sleep_time()
         response.raise_for_status()
         suffix = self.__extract_type(
             response.headers.get("Content-Type")) or suffix
