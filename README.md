@@ -55,6 +55,7 @@
 <h1>🔗 支持链接</h1>
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/作品ID</code></li>
+<li><code>https://www.xiaohongshu.com/explore/作品ID?xsec_token=XXX</code></li>
 <li><code>https://www.xiaohongshu.com/discovery/item/作品ID</code></li>
 <li><code>https://xhslink.com/分享码</code></li>
 <br/>
@@ -64,7 +65,7 @@
 <p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 默认终端）运行程序以便获得最佳显示效果！</p>
 <h1>🥣 使用方法</h1>
 <p>如果仅需下载无水印作品文件，建议选择 <b>程序运行</b> 或 <b>Docker 运行</b>；如果有其他需求，建议选择 <b>源码运行</b>！</p>
-<p>建议自行设置 <code>cookie</code> 参数，若不设置该参数，程序功能可能无法正常使用！</p>
+<p><del>建议自行设置 <code>cookie</code> 参数，若不设置该参数，程序功能可能无法正常使用！</del></p>
 <h2>🖱 程序运行</h2>
 <p>Mac OS、Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main</code> 即可使用。</p>
 <p><strong>注意：Mac OS 平台可执行文件 <code>main</code> 可能需要从终端命令行启动；受设备限制，Mac OS 平台可执行文件尚未经过测试，无法保证可用性！</strong></p>
@@ -93,7 +94,7 @@
 </ol>
 <h1>🛠 命令行模式</h1>
 <p>项目支持命令行运行模式，若想要下载图文作品的部分图片，可以使用此模式设置需要下载的图片序号！</p>
-<p>可以使用命令行<b>从浏览器读取 Cookie 并写入配置文件</b>！注意需要关闭浏览器才能读取数据！</p>
+<p>可以使用命令行 <b>从浏览器读取 Cookie 并写入配置文件！</b></p>
 <p>命令示例：<code>python .\main.py --browser_cookie Chrome --update_settings</code></p>
 <p><code>bool</code> 类型参数支持使用 <code>true</code>、<code>false</code>、<code>1</code>、<code>0</code>、<code>yes</code>、<code>no</code>、<code>on</code> 或 <code>off</code>（不区分大小写）来设置。</p>
 <hr>
@@ -180,10 +181,10 @@ async def example():
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
     name_format = "作品标题 作品描述"
-    sec_ch_ua = ""  # 请求头 Sec-Ch-Ua
-    sec_ch_ua_platform = ""  # 请求头 Sec-Ch-Ua-Platform
+    # sec_ch_ua = ""  # 请求头 Sec-Ch-Ua
+    # sec_ch_ua_platform = ""  # 请求头 Sec-Ch-Ua-Platform
     user_agent = ""  # User-Agent
-    cookie = ""  # 小红书网页版 Cookie，无需登录，必需参数，登录状态对数据采集有影响
+    cookie = ""  # 小红书网页版 Cookie，无需登录，可选参数，登录状态对数据采集有影响
     proxy = None  # 网络代理
     timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
     chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
@@ -193,26 +194,27 @@ async def example():
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
     # async with XHS() as xhs:
     #     pass  # 使用默认参数
-    async with XHS(work_path=work_path,
-                   folder_name=folder_name,
-                   name_format=name_format,
-                   sec_ch_ua=sec_ch_ua,
-                   sec_ch_ua_platform=sec_ch_ua_platform,
-                   user_agent=user_agent,
-                   cookie=cookie,
-                   proxy=proxy,
-                   timeout=timeout,
-                   chunk=chunk,
-                   max_retry=max_retry,
-                   record_data=record_data,
-                   image_format=image_format,
-                   folder_mode=folder_mode,
-                   ) as xhs:  # 使用自定义参数
+    async with XHS(
+            work_path=work_path,
+            folder_name=folder_name,
+            name_format=name_format,
+            # sec_ch_ua=sec_ch_ua,
+            # sec_ch_ua_platform=sec_ch_ua_platform,
+            user_agent=user_agent,
+            cookie=cookie,
+            proxy=proxy,
+            timeout=timeout,
+            chunk=chunk,
+            max_retry=max_retry,
+            record_data=record_data,
+            image_format=image_format,
+            folder_mode=folder_mode,
+    ) as xhs:  # 使用自定义参数
         download = True  # 是否下载作品文件，默认值：False
         # 返回作品详细信息，包括下载地址
         # 获取数据失败时返回空字典
         print(await xhs.extract(error_link, download, ))
-        print(await xhs.extract(demo_link, download, ))
+        print(await xhs.extract(demo_link, download, index=[1, 2]))
         # 支持传入多个作品链接
         print(await xhs.extract(multiple_links, download, ))
 </pre>
@@ -254,13 +256,13 @@ async def example():
 <td align="center"><code>发布时间 作者昵称 作品标题</code></td>
 </tr>
 <tr>
-<td align="center">sec_ch_ua</td>
+<td align="center"><del>sec_ch_ua</del>(已废弃)</td>
 <td align="center">str</td>
 <td align="center">浏览器请求头 Sec-Ch-Ua</td>
 <td align="center">内置 Chrome Sec-Ch-Ua</td>
 </tr>
 <tr>
-<td align="center">sec_ch_ua_platform</td>
+<td align="center"><del>sec_ch_ua_platform</del>(已废弃)</td>
 <td align="center">str</td>
 <td align="center">浏览器请求头 Sec-Ch-Ua-Platform</td>
 <td align="center">内置 Chrome Sec-Ch-Ua-Platform</td>
@@ -274,12 +276,12 @@ async def example():
 <tr>
 <td align="center">cookie</td>
 <td align="center">str</td>
-<td align="center">小红书网页版 Cookie，<b>无需登录</b></td>
+<td align="center">小红书网页版 Cookie，<b>无需登录，非必需参数！</b></td>
 <td align="center">无</td>
 </tr>
 <tr>
 <td align="center">proxy</td>
-<td align="center">str|dict</td>
+<td align="center">str | dict</td>
 <td align="center">设置程序代理</td>
 <td align="center">null</td>
 </tr>
@@ -351,9 +353,10 @@ async def example():
 </tr>
 </tbody>
 </table>
-<p><b>其他说明：<code>sec_ch_ua</code>、<code>sec_ch_ua_platform</code>、<code>user_agent</code>参数获取示例，仅当程序获取数据失败时需要自行设置！</b></p>
+<p><b>其他说明：<code>user_agent</code>参数获取示例；强烈建议根据实际浏览器信息进行设置！</b></p>
 <img src="static/screenshot/请求头示例图.png" alt="">
 <h1>🌐 Cookie</h1>
+<p><code>2.2</code> 版本开始，项目功能无异常的情况下，无需额外处理 Cookie！</p>
 <ol>
 <li>打开浏览器（可选无痕模式启动），访问 <code>https://www.xiaohongshu.com/explore</code></li>
 <li>登录小红书账号（可跳过）</li>

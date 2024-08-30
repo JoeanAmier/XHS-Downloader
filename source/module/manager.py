@@ -11,13 +11,13 @@ from httpx import RequestError
 from httpx import TimeoutException
 from httpx import get
 
+from source.expansion import remove_empty_directories
 from .static import HEADERS
-from .static import SEC_CH_UA
-from .static import SEC_CH_UA_PLATFORM
+# from .static import SEC_CH_UA
+# from .static import SEC_CH_UA_PLATFORM
 from .static import USERAGENT
 from .static import WARNING
 from .tools import logging
-from source.expansion import remove_empty_directories
 
 __all__ = ["Manager"]
 
@@ -54,8 +54,8 @@ class Manager:
             folder: str,
             name_format: str,
             chunk: int,
-            sec_ch_ua: str,
-            sec_ch_ua_platform: str,
+            # sec_ch_ua: str,
+            # sec_ch_ua_platform: str,
             user_agent: str,
             cookie: str,
             proxy: str | dict,
@@ -78,12 +78,12 @@ class Manager:
         self.folder = self.__check_folder(folder)
         self.message = transition
         self.blank_headers = HEADERS | {
-            "User-Agent": user_agent or USERAGENT,
-            "Sec-Ch-Ua": sec_ch_ua or SEC_CH_UA,
-            "Sec-Ch-Ua-Platform": sec_ch_ua_platform or SEC_CH_UA_PLATFORM,
+            'user-agent': user_agent or USERAGENT,
+            # 'sec-ch-ua': sec_ch_ua or SEC_CH_UA,
+            # 'sec-ch-ua-platform': sec_ch_ua_platform or SEC_CH_UA_PLATFORM,
         }
         self.headers = self.blank_headers | {
-            "Cookie": cookie,
+            'cookie': cookie,
         }
         self.retry = retry
         self.chunk = chunk
@@ -97,7 +97,8 @@ class Manager:
         self.print_proxy_tip(_print, )
         self.request_client = AsyncClient(
             headers=self.headers | {
-                "Referer": "https://www.xiaohongshu.com/explore", },
+                'referer': 'https://www.xiaohongshu.com/',
+            },
             timeout=timeout,
             verify=False,
             follow_redirects=True,

@@ -29,7 +29,7 @@ class Image:
 
     @staticmethod
     def __generate_png_link(token: str) -> str:
-        return f"https://ci.xiaohongshu.com/{token}?imageView2/2/w/format/png"
+        return f"https://ci.xiaohongshu.com/{token}?imageView2/format/png"
 
     @staticmethod
     def __extract_image_token(url: str) -> str:

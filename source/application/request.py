@@ -4,6 +4,7 @@ from source.module import ERROR
 from source.module import Manager
 from source.module import logging
 from source.module import retry
+from source.module import sleep_time
 
 __all__ = ["Html"]
 
@@ -29,10 +30,12 @@ class Html:
             match content:
                 case True:
                     response = await self.__request_url_get(url, headers, **kwargs, )
+                    await sleep_time()
                     response.raise_for_status()
                     return response.text
                 case False:
                     response = await self.__request_url_head(url, headers, **kwargs, )
+                    await sleep_time()
                     return str(response.url)
         except HTTPError as error:
             logging(

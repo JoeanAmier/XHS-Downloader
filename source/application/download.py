@@ -1,4 +1,5 @@
-# from asyncio import gather
+from asyncio import Semaphore
+from asyncio import gather
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -6,6 +7,7 @@ from aiofiles import open
 from httpx import HTTPError
 
 from source.module import ERROR
+# from source.module import WARNING
 from source.module import Manager
 from source.module import logging
 from source.module import retry as re_download
@@ -18,6 +20,7 @@ __all__ = ['Download']
 
 
 class Download:
+    SEMAPHORE = Semaphore(4)
     CONTENT_TYPE_MAP = {
         "image/png": "png",
         "image/jpeg": "jpg",
@@ -53,7 +56,7 @@ class Download:
             type_: str,
             log,
             bar,
-    ) -> tuple[Path, list]:
+    ) -> tuple[Path, tuple[bool, ...]]:
         path = self.__generate_path(name)
         match type_:
             case "视频":
@@ -63,8 +66,8 @@ class Download:
                     urls, lives, index, path, name, log)
             case _:
                 raise ValueError
-        result = [
-            await self.__download(
+        tasks = [
+            self.__download(
                 url,
                 path,
                 name,
@@ -73,8 +76,8 @@ class Download:
                 bar,
             ) for url, name, format_ in tasks
         ]
-        # result = await gather(*tasks)
-        return path, result
+        tasks = await gather(*tasks)
+        return path, tasks
 
     def __generate_path(self, name: str):
         path = self.manager.archive(self.folder, name, self.folder_mode)
@@ -137,58 +140,63 @@ class Download:
             log,
             bar,
     ):
-        headers = self.headers.copy()
-        try:
-            length, suffix = await self.__head_file(url, headers, format_, )
-        except HTTPError as error:
-            logging(
-                log,
-                self.message(
-                    "网络异常，{0} 请求失败，错误信息: {1}").format(name, repr(error)),
-                ERROR,
-            )
-            # logging(
-            #     log,
-            #     f"{url} Head Headers: {headers.get("Range")}",
-            #     WARNING,
-            # )
-            return False
-        temp = self.temp.joinpath(f"{name}.{suffix}")
-        real = path.joinpath(f"{name}.{suffix}")
-        self.__update_headers_range(headers, temp, )
-        try:
-            async with self.client.stream("GET", url, headers=headers, ) as response:
-                await sleep_time()
-                response.raise_for_status()
-                # self.__create_progress(
-                #     bar,
-                #     int(
-                #         response.headers.get(
-                #             'content-length', 0)) or None,
+        async with self.SEMAPHORE:
+            headers = self.headers.copy()
+            try:
+                length, suffix = await self.__head_file(
+                    url,
+                    headers,
+                    format_,
+                )
+            except HTTPError as error:
+                logging(
+                    log,
+                    self.message(
+                        "网络异常，{0} 请求失败，错误信息: {1}").format(name, repr(error)),
+                    ERROR,
+                )
+                # logging(
+                #     log,
+                #     f"{url} Head Headers: {headers.get("Range")}",
+                #     WARNING,
                 # )
-                async with open(temp, "ab") as f:
-                    async for chunk in response.aiter_bytes(self.chunk):
-                        await f.write(chunk)
-                        # self.__update_progress(bar, len(chunk))
-            self.manager.move(temp, real)
-            # self.__create_progress(bar, None)
-            logging(log, self.message("文件 {0} 下载成功").format(real.name))
-            return True
-        except HTTPError as error:
-            # self.manager.delete(temp)
-            # self.__create_progress(bar, None)
-            logging(
-                log,
-                self.message(
-                    "网络异常，{0} 下载失败，错误信息: {1}").format(name, repr(error)),
-                ERROR,
-            )
-            # logging(
-            #     log,
-            #     f"{url} Stream Headers: {headers.get("Range")}",
-            #     WARNING,
-            # )
-            return False
+                return False
+            temp = self.temp.joinpath(f"{name}.{suffix}")
+            real = path.joinpath(f"{name}.{suffix}")
+            self.__update_headers_range(headers, temp, )
+            try:
+                async with self.client.stream("GET", url, headers=headers, ) as response:
+                    await sleep_time()
+                    response.raise_for_status()
+                    # self.__create_progress(
+                    #     bar,
+                    #     int(
+                    #         response.headers.get(
+                    #             'content-length', 0)) or None,
+                    # )
+                    async with open(temp, "ab") as f:
+                        async for chunk in response.aiter_bytes(self.chunk):
+                            await f.write(chunk)
+                            # self.__update_progress(bar, len(chunk))
+                self.manager.move(temp, real)
+                # self.__create_progress(bar, None)
+                logging(log, self.message("文件 {0} 下载成功").format(real.name))
+                return True
+            except HTTPError as error:
+                # self.manager.delete(temp)
+                # self.__create_progress(bar, None)
+                logging(
+                    log,
+                    self.message(
+                        "网络异常，{0} 下载失败，错误信息: {1}").format(name, repr(error)),
+                    ERROR,
+                )
+                # logging(
+                #     log,
+                #     f"{url} Stream Headers: {headers.get("Range")}",
+                #     WARNING,
+                # )
+                return False
 
     @staticmethod
     def __create_progress(bar, total: int | None, completed=0, ):
@@ -204,11 +212,13 @@ class Download:
     def __extract_type(cls, content: str) -> str:
         return cls.CONTENT_TYPE_MAP.get(content, "")
 
-    async def __head_file(self,
-                          url: str,
-                          headers: dict[str, str],
-                          suffix: str,
-                          ) -> [int, str]:
+    async def __head_file(
+            self,
+            url: str,
+            headers: dict[str, str],
+            suffix: str,
+            # sleep_args: tuple[int, int],
+    ) -> [int, str]:
         response = await self.client.head(
             url,
             headers=headers,

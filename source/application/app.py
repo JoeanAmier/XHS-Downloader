@@ -38,6 +38,7 @@ from source.module import (
 )
 from source.module import Translate
 from source.module import logging
+from source.module import sleep_time
 from .download import Download
 from .explore import Explore
 from .image import Image
@@ -79,8 +80,8 @@ class XHS:
             work_path="",
             folder_name="Download",
             name_format="发布时间 作者昵称 作品标题",
-            sec_ch_ua: str = "",
-            sec_ch_ua_platform: str = "",
+            # sec_ch_ua: str = "",
+            # sec_ch_ua_platform: str = "",
             user_agent: str = None,
             cookie: str = None,
             proxy: str | dict = None,
@@ -109,8 +110,8 @@ class XHS:
             folder_name,
             name_format,
             chunk,
-            sec_ch_ua,
-            sec_ch_ua_platform,
+            # sec_ch_ua,
+            # sec_ch_ua_platform,
             user_agent,
             self.read_browser_cookie(read_cookie) or cookie,
             proxy,
@@ -210,11 +211,11 @@ class XHS:
 
     async def extract_cli(
             self,
-                          url: str,
-                          download=True,
-                          index: list | tuple = None,
-                          log=None,
-                          bar=None,
+            url: str,
+            download=True,
+            index: list | tuple = None,
+            log=None,
+            bar=None,
             data=False,
     ) -> None:
         url = await self.__extract_links(url, log)
@@ -271,6 +272,7 @@ class XHS:
                 data["下载地址"] = []
         await self.__download_files(data, download, index, log, bar)
         logging(log, self.message("作品处理完成：{0}").format(i))
+        await sleep_time()
         return data
 
     @staticmethod

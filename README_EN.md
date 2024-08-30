@@ -18,30 +18,31 @@
 <p>⭐ Due to the author's limited energy, I was unable to update the English document in a timely manner, and the content may have become outdated, partial translation is machine translation, the translation result may be incorrect, Suggest referring to Chinese documentation. If you want to contribute to translation, we warmly welcome you.</p>
 <h1>📑 Project Features</h1>
 <ul><b>Program Features</b>
-<li>✅ Collect Xiaohongshu content information</li>
-<li>✅ Extract Xiaohongshu content download addresses</li>
-<li>✅ Download Xiaohongshu watermark-free content files</li>
+<li>✅ Collect Xiaohongshu works information</li>
+<li>✅ Extract Xiaohongshu works download addresses</li>
+<li>✅ Download Xiaohongshu watermark-free works files</li>
 <li>✅ Download Xiaohongshu livePhoto files (non-watermark-free)</li>
-<li>✅ Automatically skip already downloaded content files</li>
-<li>✅ Content file integrity handling mechanism</li>
-<li>✅ Customizable text and image content file download format</li>
-<li>✅ Persistently store content information to files</li>
-<li>✅ Store content files to a separate folder</li>
-<li>✅ Background clipboard monitoring for content download</li>
-<li>✅ Record downloaded content IDs</li>
-<li>✅ Support command line for downloading content files</li>
+<li>✅ Automatically skip already downloaded works files</li>
+<li>✅ works file integrity handling mechanism</li>
+<li>✅ Customizable image works file download format</li>
+<li>✅ Persistently store works information to files</li>
+<li>✅ Store works files to a separate folder</li>
+<li>✅ Background clipboard monitoring for works download</li>
+<li>✅ Record downloaded works IDs</li>
+<li>✅ Support command line for downloading works files</li>
 <li>✅ Read cookies from browser</li>
 <li>✅ Customizable file name format</li>
 <li>✅ Support API call functionality</li>
 <li>✅ Support file breakpoint resume download</li>
 </ul>
 <ul><b>Script Features</b>
-<li>✅ Download Xiaohongshu watermark-free content files</li>
-<li>✅ Extract discovery page content links</li>
-<li>✅ Extract account-published content links</li>
-<li>✅ Extract account-favorited content links</li>
-<li>✅ Extract account-liked content links</li>
-<li>✅ Extract search result content links</li>
+<li>✅ Download Xiaohongshu watermark-free works files</li>
+<li>✅ Extract discovery page works links</li>
+<li>✅ Extract account-published works links</li>
+<li>✅ Extract account-favorited works links</li>
+<li>✅ Extract account-liked works links</li>
+<li>✅ Extract account-board works links</li>
+<li>✅ Extract search result works links</li>
 <li>✅ Extract search result user links</li>
 </ul>
 <p>⭐ The development plan and progress of XHS-Downloader can be found at <a href="https://github.com/users/JoeanAmier/projects/5">Projects</a></p>
@@ -55,6 +56,7 @@
 <h1>🔗 Supported Links</h1>
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/WorksID</code></li>
+<li><code>https://www.xiaohongshu.com/explore/WorksID?xsec_token=XXX</code></li>
 <li><code>https://www.xiaohongshu.com/discovery/item/WorksID</code></li>
 <li><code>https://xhslink.com/ShareCode</code></li>
 <br/>
@@ -64,7 +66,7 @@
 <p>⭐ It is recommended to use the <a href="https://learn.microsoft.com/en-us/windows/terminal/install">Windows Terminal</a> (default terminal for Windows 11) to run the program for the best display effect!</p>
 <h1>🥣 Usage</h1>
 <p>If you only need to download watermark-free content files, it is recommended to choose <b>Program Run</b>; if you have other needs, it is recommended to choose <b>Source Code Run</b>!</p>
-<p>It is recommended to set the <code>cookie</code> parameter manually; if this parameter is not set, the program functions may not work properly!</p>
+<p><del>It is recommended to set the <code>cookie</code> parameter manually; if this parameter is not set, the program functions may not work properly!</del></p>
 <h2>🖱 Program Run</h2>
 <p>Mac OS, Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
 <p><strong>Note: The executable file <code>main</code> for Mac OS may need to be launched from the terminal command line; Due to device limitations, the Mac OS executable file has not been tested and its availability cannot be guaranteed!</strong></p>
@@ -93,7 +95,7 @@
 </ol>
 <h1>🛠 Command Line Mode</h1>
 <p>The project supports command line mode. If you want to download specific images from a text and image work, you can use this mode to set the image sequence number you want to download!</p>
-<p>You can use the command line to <b>read cookies from the browser and write to the configuration file</b>! Note that you need to close the browser to read the data!</p>
+<p>You can use the command line to <b>read cookies from the browser and write to the configuration file!</b></p>
 <p>Command example: <code>python .\main.py --browser_cookie Chrome --update_settings</code></p>
 <p>The <code>bool</code> type parameters support setting with <code>true</code>, <code>false</code>, <code>1</code>, <code>0</code>, <code>yes</code>, <code>no</code>, <code>on</code> or <code>off</code> (case insensitive).</p>
 <hr>
@@ -183,10 +185,10 @@ async def example():
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
     name_format = "作品标题 作品描述"
-    sec_ch_ua = ""  # 请求头 Sec-Ch-Ua
-    sec_ch_ua_platform = ""  # 请求头 Sec-Ch-Ua-Platform
+    # sec_ch_ua = ""  # 请求头 Sec-Ch-Ua
+    # sec_ch_ua_platform = ""  # 请求头 Sec-Ch-Ua-Platform
     user_agent = ""  # User-Agent
-    cookie = ""  # 小红书网页版 Cookie，无需登录，必需参数，登录状态对数据采集有影响
+    cookie = ""  # 小红书网页版 Cookie，无需登录，可选参数，登录状态对数据采集有影响
     proxy = None  # 网络代理
     timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
     chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
@@ -196,26 +198,27 @@ async def example():
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
     # async with XHS() as xhs:
     #     pass  # 使用默认参数
-    async with XHS(work_path=work_path,
-                   folder_name=folder_name,
-                   name_format=name_format,
-                   sec_ch_ua=sec_ch_ua,
-                   sec_ch_ua_platform=sec_ch_ua_platform,
-                   user_agent=user_agent,
-                   cookie=cookie,
-                   proxy=proxy,
-                   timeout=timeout,
-                   chunk=chunk,
-                   max_retry=max_retry,
-                   record_data=record_data,
-                   image_format=image_format,
-                   folder_mode=folder_mode,
-                   ) as xhs:  # 使用自定义参数
+    async with XHS(
+            work_path=work_path,
+            folder_name=folder_name,
+            name_format=name_format,
+            # sec_ch_ua=sec_ch_ua,
+            # sec_ch_ua_platform=sec_ch_ua_platform,
+            user_agent=user_agent,
+            cookie=cookie,
+            proxy=proxy,
+            timeout=timeout,
+            chunk=chunk,
+            max_retry=max_retry,
+            record_data=record_data,
+            image_format=image_format,
+            folder_mode=folder_mode,
+    ) as xhs:  # 使用自定义参数
         download = True  # 是否下载作品文件，默认值：False
         # 返回作品详细信息，包括下载地址
         # 获取数据失败时返回空字典
         print(await xhs.extract(error_link, download, ))
-        print(await xhs.extract(demo_link, download, ))
+        print(await xhs.extract(demo_link, download, index=[1, 2]))
         # 支持传入多个作品链接
         print(await xhs.extract(multiple_links, download, ))
 </pre>
@@ -257,13 +260,13 @@ async def example():
 <td align="center"><code>publish_time author_nickname title</code></td>
 </tr>
 <tr>
-<td align="center">sec_ch_ua</td>
+<td align="center"><del>sec_ch_ua</del>(Deprecated)</td>
 <td align="center">str</td>
 <td align="center">Browser request header Sec-Ch-Ua</td>
 <td align="center">Built-in Chrome Sec-Ch-Ua</td>
 </tr>
 <tr>
-<td align="center">sec_ch_ua_platform</td>
+<td align="center"><del>sec_ch_ua_platform</del>(Deprecated)</td>
 <td align="center">str</td>
 <td align="center">Browser request header Sec-Ch-Ua-Platform</td>
 <td align="center">Built-in Chrome Sec-Ch-Ua-Platform</td>
@@ -277,12 +280,12 @@ async def example():
 <tr>
 <td align="center">cookie</td>
 <td align="center">str</td>
-<td align="center">Xiaohongshu web version cookie, <b>login not required</b></td>
+<td align="center">Xiaohongshu web version cookie, <b>No login required, non essential parameters!</b></td>
 <td align="center">None</td>
 </tr>
 <tr>
 <td align="center">proxy</td>
-<td align="center">str|dict</td>
+<td align="center">str | dict</td>
 <td align="center">Set program proxy</td>
 <td align="center">null</td>
 </tr>
@@ -354,9 +357,10 @@ async def example():
 </tr>
 </tbody>
 </table>
-<p><b>Additional Notes: The parameters <code>sec_ch_ua</code>, <code>sec_ch_ua_platform</code>, and <code>user_agent</code> examples are provided for reference, and need to be set manually only if the program fails to fetch data!</b></p>
+<p><b>Additional Notes: The parameters <code>user_agent</code> examples are provided for reference; Strongly recommend setting according to actual browser information!</b></p>
 <img src="static/screenshot/请求头示例图.png" alt="">
 <h1>🌐 Cookie</h1>
+<p>Starting from version <code>2.2</code>, if there are no abnormalities in project functionality, there is no need to handle cookies separately!</p>
 <ol>
 <li>Open the browser (optional: start in incognito mode) and visit <code>https://www.xiaohongshu.com/explore</code></li>
 <li>Log in to your Xiaohongshu account (can be skipped)</li>

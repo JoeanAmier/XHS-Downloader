@@ -6,8 +6,6 @@ from rich.text import Text
 
 from .static import INFO
 
-__all__ = ["retry", "logging", ]
-
 
 def retry(function):
     async def inner(self, *args, **kwargs):
@@ -30,7 +28,7 @@ def logging(log, text, style=INFO):
 
 
 async def sleep_time(
-        min_time: int = 1,
-        max_time: int = 3,
+        min_time: int | float = 1,
+        max_time: int | float = 3,
 ):
     await sleep(uniform(min_time, max_time))
