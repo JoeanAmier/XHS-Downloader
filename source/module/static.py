@@ -66,3 +66,14 @@ PROGRESS = "b bright_magenta"
 ERROR = "b bright_red"
 WARNING = "b bright_yellow"
 INFO = "b bright_green"
+
+MAGIC_DICT = {
+    # 分别为偏移量(字节)、魔数、后缀名
+    # 参考：https://en.wikipedia.org/wiki/List_of_file_signatures
+    (0, b"\xFF\xD8\xFF", "jpg"),
+    (0, b"\x89\x50\x4E\x47\x0D\x0A\x1A\x0A", "png"),
+    (0, b"\x00\x00\x00", "avif"),
+    (4, b"\x66\x74\x79\x70\x68\x65\x69\x63", "heic"),
+    (8, b"\x57\x45\x42\x50", "webp"),
+}
+FILE_HEADER_MAX_LENGTH = max(offset + len(magic) for offset, magic, _ in MAGIC_DICT)
