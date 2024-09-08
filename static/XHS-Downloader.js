@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.6.2
+// @version      1.6.3
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -342,7 +342,7 @@
         return notesRawValue.map(item => item.id);
     }
 
-    const generateNoteUrls = data => data.map(([id, token]) => `https://www.xiaohongshu.com/explore/${id}?xsec_token=${token}&xsec_source=pc_feed`).join(" ");
+    const generateNoteUrls = data => data.map(([id, token]) => `https://www.xiaohongshu.com/explore/${id}?xsec_token=${token}&xsec_source=pc_user`).join(" ");
 
     const generateUserUrls = data => data.map(id => `https://www.xiaohongshu.com/user/profile/${id}`).join(" ");
 
