@@ -66,7 +66,7 @@
 <p>⭐ It is recommended to use the <a href="https://learn.microsoft.com/en-us/windows/terminal/install">Windows Terminal</a> (default terminal for Windows 11) to run the program for the best display effect!</p>
 <h1>🥣 Usage</h1>
 <p>If you only need to download watermark-free content files, it is recommended to choose <b>Program Run</b>; if you have other needs, it is recommended to choose <b>Source Code Run</b>!</p>
-<p><del>It is recommended to set the <code>cookie</code> parameter manually; if this parameter is not set, the program functions may not work properly!</del></p>
+<p>Starting from version <code>2.2</code>, if there are no abnormalities in project functionality, there is no need to handle cookies separately!</p>
 <h2>🖱 Program Run</h2>
 <p>Mac OS, Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
 <p><strong>Note: The executable file <code>main</code> for Mac OS may need to be launched from the terminal command line; Due to device limitations, the Mac OS executable file has not been tested and its availability cannot be guaranteed!</strong></p>
@@ -185,8 +185,6 @@ async def example():
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
     name_format = "作品标题 作品描述"
-    # sec_ch_ua = ""  # 请求头 Sec-Ch-Ua
-    # sec_ch_ua_platform = ""  # 请求头 Sec-Ch-Ua-Platform
     user_agent = ""  # User-Agent
     cookie = ""  # 小红书网页版 Cookie，无需登录，可选参数，登录状态对数据采集有影响
     proxy = None  # 网络代理
@@ -202,8 +200,6 @@ async def example():
             work_path=work_path,
             folder_name=folder_name,
             name_format=name_format,
-            # sec_ch_ua=sec_ch_ua,
-            # sec_ch_ua_platform=sec_ch_ua_platform,
             user_agent=user_agent,
             cookie=cookie,
             proxy=proxy,
@@ -260,18 +256,6 @@ async def example():
 <td align="center"><code>publish_time author_nickname title</code></td>
 </tr>
 <tr>
-<td align="center"><del>sec_ch_ua</del>(Deprecated)</td>
-<td align="center">str</td>
-<td align="center">Browser request header Sec-Ch-Ua</td>
-<td align="center">Built-in Chrome Sec-Ch-Ua</td>
-</tr>
-<tr>
-<td align="center"><del>sec_ch_ua_platform</del>(Deprecated)</td>
-<td align="center">str</td>
-<td align="center">Browser request header Sec-Ch-Ua-Platform</td>
-<td align="center">Built-in Chrome Sec-Ch-Ua-Platform</td>
-</tr>
-<tr>
 <td align="center">user_agent</td>
 <td align="center">str</td>
 <td align="center">Browser User Agent</td>
@@ -316,7 +300,7 @@ async def example():
 <tr>
 <td align="center">image_format</td>
 <td align="center">str</td>
-<td align="center">Download format for text and image content files, supported formats: <code>PNG</code>, <code>WEBP</code></td>
+<td align="center">Download format for text and image content files, supported formats: <code>PNG</code>, <code>WEBP</code><br><strong>This parameter affects the API used when downloading images, not the fixed image format!</strong></td>
 <td align="center">PNG</td>
 </tr>
 <tr>

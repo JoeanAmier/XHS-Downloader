@@ -65,7 +65,7 @@
 <p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 默认终端）运行程序以便获得最佳显示效果！</p>
 <h1>🥣 使用方法</h1>
 <p>如果仅需下载无水印作品文件，建议选择 <b>程序运行</b> 或 <b>Docker 运行</b>；如果有其他需求，建议选择 <b>源码运行</b>！</p>
-<p><del>建议自行设置 <code>cookie</code> 参数，若不设置该参数，程序功能可能无法正常使用！</del></p>
+<p><code>2.2</code> 版本开始，项目功能无异常的情况下，无需额外处理 Cookie！</p>
 <h2>🖱 程序运行</h2>
 <p>Mac OS、Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main</code> 即可使用。</p>
 <p><strong>注意：Mac OS 平台可执行文件 <code>main</code> 可能需要从终端命令行启动；受设备限制，Mac OS 平台可执行文件尚未经过测试，无法保证可用性！</strong></p>
@@ -181,8 +181,6 @@ async def example():
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
     name_format = "作品标题 作品描述"
-    # sec_ch_ua = ""  # 请求头 Sec-Ch-Ua
-    # sec_ch_ua_platform = ""  # 请求头 Sec-Ch-Ua-Platform
     user_agent = ""  # User-Agent
     cookie = ""  # 小红书网页版 Cookie，无需登录，可选参数，登录状态对数据采集有影响
     proxy = None  # 网络代理
@@ -198,8 +196,6 @@ async def example():
             work_path=work_path,
             folder_name=folder_name,
             name_format=name_format,
-            # sec_ch_ua=sec_ch_ua,
-            # sec_ch_ua_platform=sec_ch_ua_platform,
             user_agent=user_agent,
             cookie=cookie,
             proxy=proxy,
@@ -256,18 +252,6 @@ async def example():
 <td align="center"><code>发布时间 作者昵称 作品标题</code></td>
 </tr>
 <tr>
-<td align="center"><del>sec_ch_ua</del>(已废弃)</td>
-<td align="center">str</td>
-<td align="center">浏览器请求头 Sec-Ch-Ua</td>
-<td align="center">内置 Chrome Sec-Ch-Ua</td>
-</tr>
-<tr>
-<td align="center"><del>sec_ch_ua_platform</del>(已废弃)</td>
-<td align="center">str</td>
-<td align="center">浏览器请求头 Sec-Ch-Ua-Platform</td>
-<td align="center">内置 Chrome Sec-Ch-Ua-Platform</td>
-</tr>
-<tr>
 <td align="center">user_agent</td>
 <td align="center">str</td>
 <td align="center">浏览器 User Agent</td>
@@ -312,7 +296,7 @@ async def example():
 <tr>
 <td align="center">image_format</td>
 <td align="center">str</td>
-<td align="center">图文作品文件下载格式，支持：<code>PNG</code>、<code>WEBP</code></td>
+<td align="center">图文作品文件下载格式，支持：<code>PNG</code>、<code>WEBP</code><br><strong>该参数影响下载图片时所用的接口，并非固定图片格式！</strong></td>
 <td align="center">PNG</td>
 </tr>
 <tr>
