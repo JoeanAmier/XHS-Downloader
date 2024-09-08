@@ -1,6 +1,5 @@
 from asyncio import Semaphore
 from asyncio import gather
-from os import path
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -8,12 +7,15 @@ from aiofiles import open
 from httpx import HTTPError
 
 from source.module import ERROR
+from source.module import (
+    FILE_SIGNATURES_LENGTH,
+    FILE_SIGNATURES,
+)
 # from source.module import WARNING
 from source.module import Manager
 from source.module import logging
 from source.module import retry as re_download
 from source.module import sleep_time
-from source.module.static import FILE_HEADER_MAX_LENGTH, MAGIC_DICT
 
 if TYPE_CHECKING:
     from httpx import AsyncClient
@@ -179,7 +181,13 @@ class Download:
                         async for chunk in response.aiter_bytes(self.chunk):
                             await f.write(chunk)
                             # self.__update_progress(bar, len(chunk))
-                real = await self.__fix_suffix(temp, path, name, suffix, log)
+                real = await self.__suffix_with_file(
+                    temp,
+                    path,
+                    name,
+                    suffix,
+                    log,
+                )
                 self.manager.move(temp, real)
                 # self.__create_progress(bar, None)
                 logging(log, self.message("文件 {0} 下载成功").format(real.name))
@@ -245,25 +253,24 @@ class Download:
         headers["Range"] = f"bytes={(p := self.__get_resume_byte_position(file))}-"
         return p
 
-    @staticmethod
-    async def __fix_suffix(
-        temp: Path,
-        path: Path,
-        name: str,
-        suffix: str,
-        log
+    async def __suffix_with_file(
+            self,
+            temp: Path,
+            path: Path,
+            name: str,
+            default_suffix: str,
+            log,
     ) -> Path:
         try:
             async with open(temp, "rb") as f:
-                file_start = await f.read(FILE_HEADER_MAX_LENGTH)
-            for offset, magic, suffix in MAGIC_DICT:
-                if file_start[offset:offset + len(magic)] == magic:
+                file_start = await f.read(FILE_SIGNATURES_LENGTH)
+            for offset, signature, suffix in FILE_SIGNATURES:
+                if file_start[offset:offset + len(signature)] == signature:
                     return path.joinpath(f"{name}.{suffix}")
-            return path.joinpath(f"{name}.{suffix}")
         except Exception as error:
             logging(
                 log,
-                f"文件 {temp.name} 后缀修复失败，错误信息: {repr(error)}",
+                self.message("文件 {0} 格式判断失败，错误信息：{1}").format(temp.name, repr(error)),
                 ERROR,
             )
-            return path.joinpath(f"{name}.{suffix}")
+        return path.joinpath(f"{name}.{default_suffix}")

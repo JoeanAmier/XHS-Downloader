@@ -297,3 +297,6 @@ msgstr "Browser name or serial number input error!"
 
 msgid "作品下载记录开关"
 msgstr "Works download record switch"
+
+msgid "文件 {0} 格式判断失败，错误信息：{1}"
+msgstr "Format recognition failed for file {0}, error message: {1}"

@@ -28,6 +28,8 @@ from .static import (
     USERAGENT,
     SEC_CH_UA,
     SEC_CH_UA_PLATFORM,
+    FILE_SIGNATURES,
+    FILE_SIGNATURES_LENGTH,
 )
 from .tools import (
     retry,
