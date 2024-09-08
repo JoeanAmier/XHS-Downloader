@@ -191,7 +191,7 @@ class Manager:
     def __check_proxy(
             self,
             proxy: str | dict,
-            url="https://www.baidu.com/",
+            url="https://www.xiaohongshu.com/explore",
     ) -> dict:
         if not proxy:
             return {"proxies": self.NO_PROXY}
