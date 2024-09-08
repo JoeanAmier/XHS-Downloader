@@ -372,7 +372,9 @@ class XHS:
     @staticmethod
     def read_browser_cookie(value: str | int) -> str:
         return BrowserCookie.get(
-            value, domains=["xiaohongshu.com", ]) if value else ""
+            value,
+            domains=["xiaohongshu.com", ],
+        ) if value else ""
 
     # @staticmethod
     # async def index(request):

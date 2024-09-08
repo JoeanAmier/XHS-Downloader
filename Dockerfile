@@ -1,6 +1,6 @@
 FROM python:3.12.4-slim
 
-LABEL name="XHS-Downloader" version="2.2" authors="JoeanAmier"
+LABEL name="XHS-Downloader" authors="JoeanAmier" repository="https://github.com/JoeanAmier/XHS-Downloader"
 
 COPY locale /locale
 COPY source /source

@@ -138,8 +138,12 @@ class CLI:
             ("--language", "-l", "choice", _("设置程序语言，目前支持：zh_CN、en_GB")),
             ("--settings", "-s", "str", _("读取指定配置文件")),
             ("--browser_cookie", "-bc", "choice",
-             fill(_("从指定的浏览器读取小红书网页版 Cookie，支持：1 Arc, 2 Brave, 3 Chrome, 4 Chromium, "
-                    "5 Edge, 6 Firefox, 7 LibreWolf, 8 Opera, 9 Vivaldi; 输入浏览器名称或序号"), width=40)),
+             fill(_("从指定的浏览器读取小红书网页版 Cookie，支持：{0}; 输入浏览器名称或序号").format(
+                 ", ".join(f"{i}: {j}" for i, j in enumerate(
+                     BrowserCookie.SUPPORT_BROWSER.keys(),
+                     start=1,
+                 ))
+             ), width=40)),
             ("--update_settings", "-us", "flag", _("是否更新配置文件")),
             ("--help", "-h", "flag", _("查看详细参数说明")),
             ("--version", "-v", "flag", _("查看 XHS-Downloader 版本")),
