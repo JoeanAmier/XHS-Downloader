@@ -297,12 +297,15 @@ class XHS:
                     values.append(self.__get_name_title(data))
                 case _:
                     values.append(data[key])
-        return self.CLEANER.filter_name(
-            self.manager.SEPARATE.join(values),
-            default=self.manager.SEPARATE.join((
-                data["作者ID"],
-                data["作品ID"],
-            )),
+        return beautify_string(
+            self.CLEANER.filter_name(
+                self.manager.SEPARATE.join(values),
+                default=self.manager.SEPARATE.join((
+                    data["作者ID"],
+                    data["作品ID"],
+                )),
+            ),
+            length=128,
         )
 
     @staticmethod
