@@ -1,7 +1,7 @@
 from asyncio import Semaphore
 from asyncio import gather
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from aiofiles import open
 from httpx import HTTPError
@@ -60,7 +60,7 @@ class Download:
             type_: str,
             log,
             bar,
-    ) -> tuple[Path, tuple[bool, ...]]:
+    ) -> tuple[Path, list[Any]]:
         path = self.__generate_path(name)
         match type_:
             case "视频":
