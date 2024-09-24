@@ -3,20 +3,20 @@ from typing import Callable
 from textual.app import App
 from textual.widgets import RichLog
 
-from source.application import XHS
-from source.module import (
-    ROOT,
-    ERROR,
-)
-from source.module import Settings
-from source.module import Translate
-from source.module import logging
 from .about import About
 from .index import Index
 from .loading import Loading
 from .record import Record
 from .setting import Setting
 from .update import Update
+from ..application import XHS
+from ..module import (
+    ROOT,
+    ERROR,
+)
+from ..module import Settings
+from ..module import Translate
+from ..module import logging
 
 __all__ = ["XHSDownloader"]
 

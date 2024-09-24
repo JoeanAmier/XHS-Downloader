@@ -12,8 +12,8 @@ from textual.widgets import Header
 from textual.widgets import Label
 from textual.widgets import RichLog
 
-from source.application import XHS
-from source.module import (
+from ..application import XHS
+from ..module import (
     PROJECT,
     MASTER,
     INFO,

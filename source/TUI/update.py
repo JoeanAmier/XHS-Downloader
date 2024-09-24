@@ -8,8 +8,8 @@ from textual.screen import ModalScreen
 from textual.widgets import Label
 from textual.widgets import LoadingIndicator
 
-from source.application import XHS
-from source.module import (
+from ..application import XHS
+from ..module import (
     ERROR,
     WARNING,
     INFO,

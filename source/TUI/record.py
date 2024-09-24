@@ -9,7 +9,7 @@ from textual.widgets import Button
 from textual.widgets import Input
 from textual.widgets import Label
 
-from source.application import XHS
+from ..application import XHS
 
 __all__ = ["Record"]
 

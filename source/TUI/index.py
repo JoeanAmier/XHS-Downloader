@@ -16,8 +16,9 @@ from textual.widgets import Input
 from textual.widgets import Label
 from textual.widgets import RichLog
 
-from source.application import XHS
-from source.module import (
+from .monitor import Monitor
+from ..application import XHS
+from ..module import (
     PROJECT,
     PROMPT,
     MASTER,
@@ -27,7 +28,6 @@ from source.module import (
     REPOSITORY,
     GENERAL,
 )
-from .monitor import Monitor
 
 __all__ = ["Index"]
 

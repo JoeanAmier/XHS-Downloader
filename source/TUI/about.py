@@ -8,7 +8,7 @@ from textual.widgets import Footer
 from textual.widgets import Header
 from textual.widgets import Label
 
-from source.module import (
+from ..module import (
     PROJECT,
     PROMPT,
     MASTER,
