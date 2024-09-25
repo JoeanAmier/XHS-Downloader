@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.7.0
+// @version      1.7.1
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -21,7 +21,7 @@
 // ==/UserScript==
 
 (function () {
-    let disclaimer = GM_getValue("disclaimer", null);
+    let disclaimer = GM_getValue("disclaimer", false);
 
     const readme = () => {
         const instructions = `
@@ -42,9 +42,9 @@
 
 1. 下载小红书无水印作品文件时，脚本需要花费时间处理文件，请等待片刻，切勿多次点击下载按钮
 2. 无水印图片文件为 PNG 格式；无水印视频文件较大，可能需要较长的时间处理，页面跳转可能会导致下载失败
-3. 提取账号发布、收藏、点赞、专辑作品链接时，脚本会尝试自动滚动屏幕直至加载全部作品，滚动检测间隔：2.5 秒
-4. 提取发现作品链接、搜索作品、用户链接时，脚本会自动滚动屏幕以尝试加载更多内容，滚动屏幕次数：10 次
-5. 可以修改滚动检测间隔、滚动屏幕次数，修改后立即生效；亦可关闭自动滚动屏幕功能，手动滚动屏幕加载内容
+3. (已禁用)提取账号发布、收藏、点赞、专辑作品链接时，脚本会尝试自动滚动屏幕直至加载全部作品，滚动检测间隔：2.5 秒
+4. (已禁用)提取发现作品链接、搜索作品、用户链接时，脚本会自动滚动屏幕以尝试加载更多内容，滚动屏幕次数：10 次
+5. (已禁用)可以修改滚动检测间隔、滚动屏幕次数，修改后立即生效；亦可关闭自动滚动屏幕功能，手动滚动屏幕加载内容
 6. 使用全局代理工具可能会导致脚本下载文件失败，如有异常，请尝试关闭代理工具，必要时向作者反馈
 7. XHS-Downloader 用户脚本仅实现可见即可得的数据采集功能，无任何收费功能和破解功能
 
@@ -79,7 +79,7 @@
         }
     };
 
-    if (disclaimer === null) {
+    if (!disclaimer) {
         readme();
     }
 
@@ -88,6 +88,7 @@
     });
 
     let scroll = GM_getValue("scroll", true);
+    scroll = false;
 
     GM_registerMenuCommand(`自动滚动屏幕功能 ${scroll ? '✔️' : '❌'}`, function () {
         scroll = !scroll;
