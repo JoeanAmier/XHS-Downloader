@@ -48,7 +48,7 @@ FILE_SIGNATURES: tuple[tuple[int, bytes, str,], ...] = (
     # 分别为偏移量(字节)、十六进制签名、后缀
     # 参考：https://en.wikipedia.org/wiki/List_of_file_signatures
     # 参考：https://www.garykessler.net/library/file_sigs.html
-    (0, b"\xFF\xD8\xFF", "jpg"),
+    (0, b"\xFF\xD8\xFF", "jpeg"),
     (0, b"\x89\x50\x4E\x47\x0D\x0A\x1A\x0A", "png"),
     (4, b"\x66\x74\x79\x70\x61\x76\x69\x66", "avif"),
     (4, b"\x66\x74\x79\x70\x68\x65\x69\x63", "heic"),
@@ -64,3 +64,5 @@ FILE_SIGNATURES: tuple[tuple[int, bytes, str,], ...] = (
     (8, b"\x41\x56\x49\x20", "avi"),
 )
 FILE_SIGNATURES_LENGTH = max(offset + len(signature) for offset, signature, _ in FILE_SIGNATURES)
+
+MAX_WORKERS: int = 3

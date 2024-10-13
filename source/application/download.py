@@ -6,16 +6,17 @@ from typing import TYPE_CHECKING, Any
 from aiofiles import open
 from httpx import HTTPError
 
-from source.module import ERROR
-from source.module import (
+from ..module import ERROR
+from ..module import (
     FILE_SIGNATURES_LENGTH,
     FILE_SIGNATURES,
 )
-# from source.module import WARNING
-from source.module import Manager
-from source.module import logging
-from source.module import retry as re_download
-from source.module import sleep_time
+from ..module import MAX_WORKERS
+# from ..module import WARNING
+from ..module import Manager
+from ..module import logging
+from ..module import retry as re_download
+from ..module import sleep_time
 
 if TYPE_CHECKING:
     from httpx import AsyncClient
@@ -24,10 +25,10 @@ __all__ = ['Download']
 
 
 class Download:
-    SEMAPHORE = Semaphore(4)
+    SEMAPHORE = Semaphore(MAX_WORKERS)
     CONTENT_TYPE_MAP = {
         "image/png": "png",
-        "image/jpeg": "jpg",
+        "image/jpeg": "jpeg",
         "image/webp": "webp",
         "application/octet-stream": "",
         "video/mp4": "mp4",
@@ -47,6 +48,13 @@ class Download:
         self.video_format = "mp4"
         self.live_format = "mp4"
         self.image_format = manager.image_format
+        self.image_format_list = (
+            "jpeg",
+            "png",
+            "webp",
+            "avif",
+            "heic",
+        )
         self.image_download = manager.image_download
         self.video_download = manager.video_download
         self.live_download = manager.live_download
@@ -97,7 +105,7 @@ class Download:
         if not self.video_download:
             logging(log, self.message("视频作品下载功能已关闭，跳过下载"))
             return []
-        if self.__check_exists(path, f"{name}.{self.video_format}", log):
+        if self.__check_exists_path(path, f"{name}.{self.video_format}", log):
             return []
         return [(urls[0], name, self.video_format)]
 
@@ -117,17 +125,34 @@ class Download:
             if index and i not in index:
                 continue
             file = f"{name}_{i}"
-            if not self.__check_exists(
-                    path, f"{file}.{self.image_format}", log):
+            if not any(
+                    self.__check_exists_path(
+                        path,
+                        f"{file}.{s}",
+                        log,
+                    )
+                    for s in self.image_format_list
+            ):
                 tasks.append([j[0], file, self.image_format])
-            if not self.live_download or not j[1] or self.__check_exists(
-                    path, f"{file}.{self.live_format}", log):
+            if not self.live_download or not j[1] or self.__check_exists_path(
+                    path,
+                    f"{file}.{self.live_format}",
+                    log,
+            ):
                 continue
             tasks.append([j[1], file, self.live_format])
         return tasks
 
-    def __check_exists(self, path: Path, name: str, log, ) -> bool:
+    def __check_exists_glob(self, path: Path, name: str, log, ) -> bool:
         if any(path.glob(name)):
+            logging(
+                log, self.message(
+                    "{0} 文件已存在，跳过下载").format(name))
+            return True
+        return False
+
+    def __check_exists_path(self, path: Path, name: str, log, ) -> bool:
+        if path.joinpath(name).exists():
             logging(
                 log, self.message(
                     "{0} 文件已存在，跳过下载").format(name))

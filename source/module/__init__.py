@@ -30,6 +30,7 @@ from .static import (
     SEC_CH_UA_PLATFORM,
     FILE_SIGNATURES,
     FILE_SIGNATURES_LENGTH,
+    MAX_WORKERS,
 )
 from .tools import (
     retry,

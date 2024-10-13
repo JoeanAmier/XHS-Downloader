@@ -15,6 +15,7 @@
 <br>
 <p>🔥 <b>Xiaohongshu Link Extraction/Content Collection Tool</b>：Extract account-published, favorited, and liked content links; extract search result content links and user links; collect Xiaohongshu content information; extract Xiaohongshu content download addresses; download Xiaohongshu watermark-free content files!</p>
 <p><strong>⚠️ 2024/9/24: Due to rule updates on Xiaohongshu, there is a risk of account suspension for user scripts with version numbers lower than <code>1.7.1</code> Please update the user scripts in a timely manner before using them!</strong></p>
+<p><strong>⚠️ 2024/10/13: Due to the date information carried in the links of Xiaohongshu works, using links obtained from previous dates may be subject to risk control. It is recommended to use the latest Xiaohongshu works links when downloading Xiaohongshu work files!</strong></p>
 <p>⭐ This project is completely free and open-source, with no paid features. Please do not be deceived!</p>
 <p>⭐ Due to the author's limited energy, I was unable to update the English document in a timely manner, and the content may have become outdated, partial translation is machine translation, the translation result may be incorrect, Suggest referring to Chinese documentation. If you want to contribute to translation, we warmly welcome you.</p>
 <h1>📑 Project Features</h1>
