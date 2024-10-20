@@ -171,26 +171,27 @@ class Download:
     ):
         async with self.SEMAPHORE:
             headers = self.headers.copy()
-            try:
-                length, suffix = await self.__head_file(
-                    url,
-                    headers,
-                    format_,
-                )
-            except HTTPError as error:
-                logging(
-                    log,
-                    self.message(
-                        "网络异常，{0} 请求失败，错误信息: {1}").format(name, repr(error)),
-                    ERROR,
-                )
-                # logging(
-                #     log,
-                #     f"{url} Head Headers: {headers.get("Range")}",
-                #     WARNING,
-                # )
-                return False
-            temp = self.temp.joinpath(f"{name}.{suffix}")
+            # try:
+            #     length, suffix = await self.__head_file(
+            #         url,
+            #         headers,
+            #         format_,
+            #     )
+            # except HTTPError as error:
+            #     logging(
+            #         log,
+            #         self.message(
+            #             "网络异常，{0} 请求失败，错误信息: {1}").format(name, repr(error)),
+            #         ERROR,
+            #     )
+            #     # logging(
+            #     #     log,
+            #     #     f"{url} Head Headers: {headers.get("Range")}",
+            #     #     WARNING,
+            #     # )
+            #     return False
+            # temp = self.temp.joinpath(f"{name}.{suffix}")
+            temp = self.temp.joinpath(f"{name}.{format_}")
             self.__update_headers_range(headers, temp, )
             try:
                 async with self.client.stream("GET", url, headers=headers, ) as response:
@@ -210,7 +211,8 @@ class Download:
                     temp,
                     path,
                     name,
-                    suffix,
+                    # suffix,
+                    format_,
                     log,
                 )
                 self.manager.move(temp, real)
