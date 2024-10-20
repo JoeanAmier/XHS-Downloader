@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.7.1
+// @version      1.7.2
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -305,7 +305,7 @@
 
     const extractNotesInfo = order => {
         const notesRawValue = unsafeWindow.__INITIAL_STATE__.user.notes._rawValue[order];
-        return notesRawValue.map(item => [item.id, item.xsecToken, "pc_user", "",]);
+        return notesRawValue.map(item => [item.id, item.xsecToken,]);
     };
 
     const extractBoardInfo = order => {
@@ -321,7 +321,7 @@
             const id = match[1]; // match[0] 是整个匹配的字符串，match[1] 是第一个括号内的匹配
 
             const notesRawValue = unsafeWindow.__INITIAL_STATE__.board.boardFeedsMap._rawValue[id].notes;
-            return notesRawValue.map(item => [item.noteId, item.xsecToken, "pc_user", "&source=web_user_page",]);
+            return notesRawValue.map(item => [item.noteId, item.xsecToken,]);
         } else {
             console.error("从链接提取专辑 ID 失败", currentUrl,);
             return [];
@@ -330,12 +330,12 @@
 
     const extractFeedInfo = () => {
         const notesRawValue = unsafeWindow.__INITIAL_STATE__.feed.feeds._rawValue;
-        return notesRawValue.map(item => [item.id, item.xsecToken, "pc_feed", "",]);
+        return notesRawValue.map(item => [item.id, item.xsecToken,]);
     };
 
     const extractSearchNotes = () => {
         const notesRawValue = unsafeWindow.__INITIAL_STATE__.search.feeds._rawValue;
-        return notesRawValue.map(item => [item.id, item.xsecToken, "pc_search", "&source=web_explore_feed",]);
+        return notesRawValue.map(item => [item.id, item.xsecToken,]);
     }
 
     const extractSearchUsers = () => {
@@ -343,7 +343,7 @@
         return notesRawValue.map(item => item.id);
     }
 
-    const generateNoteUrls = data => data.map(([id, token, source, other]) => `https://www.xiaohongshu.com/explore/${id}?xsec_token=${token}&xsec_source=${source}${other}`).join(" ");
+    const generateNoteUrls = data => data.map(([id, token,]) => `https://www.xiaohongshu.com/discovery/item/${id}?source=webshare&xhsshare=pc_web&xsec_token=${token}&xsec_source=pc_share`).join(" ");
 
     const generateUserUrls = data => data.map(id => `https://www.xiaohongshu.com/user/profile/${id}`).join(" ");
 
