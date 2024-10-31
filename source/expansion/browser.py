@@ -31,13 +31,14 @@ class BrowserCookie:
         "Firefox": (firefox, "Linux, macOS, Windows"),
         "LibreWolf": (librewolf, "Linux, macOS, Windows"),
     }
+    TIP = "Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie！"
 
     @classmethod
     def run(cls, domains: list[str], console: Console = None, ) -> str:
         console = console or Console()
         options = "\n".join(f"{i}. {k}: {v[1]}" for i, (k, v) in enumerate(cls.SUPPORT_BROWSER.items(), start=1))
         if browser := console.input(
-                f"读取指定浏览器的 Cookie 并写入配置文件\n{options}\n请输入浏览器名称或序号：", ):
+                f"读取指定浏览器的 Cookie 并写入配置文件；注意：{cls.TIP}\n{options}\n请输入浏览器名称或序号：", ):
             return cls.get(browser, domains, console, )
         console.print("未选择浏览器！")
 

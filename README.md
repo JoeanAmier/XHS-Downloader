@@ -15,7 +15,6 @@
 <br>
 <p>🔥 <b>小红书链接提取/作品采集工具</b>：提取账号发布、收藏、点赞、专辑作品链接；提取搜索结果作品链接、用户链接；采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
 <p><strong>⚠️ 2024/9/24: 由于小红书规则更新，使用版本号低于 <code>1.7.1</code> 的用户脚本有封号风险，请及时更新用户脚本后再使用！</strong></p>
-<p><strong>⚠️ 2024/10/13: 由于作品链接携带日期信息，使用先前日期获取的作品链接可能会被风控，建议下载作品文件时使用最新获取的作品链接！</strong></p>
 <p>⭐ 本项目完全免费开源，无任何收费功能，请勿上当受骗！</p>
 <h1>📑 项目功能</h1>
 <ul><b>程序功能</b>
@@ -162,6 +161,11 @@ def api_demo():
     response = requests.post(server, json=data)
     print(response.json())
 </pre>
+<h1>⚠️ 其他说明</h1>
+<ul>
+<li>由于作品链接携带日期信息，使用先前日期获取的作品链接可能会被风控，建议下载作品文件时使用最新获取的作品链接</li>
+<li>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie</li>
+</ul>
 <h1>🕹 用户脚本</h1>
 <p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以添加 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">用户脚本</a>，无需下载安装即可体验项目功能！</p>
 <img src="static/screenshot/脚本安装教程.png" alt="">

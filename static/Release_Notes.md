@@ -11,11 +11,16 @@
 
 <p><strong>旧版本升级后首次运行请删除配置文件 <code>settings.json</code>，删除后重新运行程序会自动生成新的默认配置文件！</strong></p>
 
+<p><strong>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie！</strong></p>
+
 <hr>
 
 **用户脚本更新内容：**
 
 1. 重构作品链接提取功能
+2. 禁用自动滚动屏幕功能
+
+<hr>
 
 <p><strong>⚠️ 由于小红书规则更新，使用版本号低于 <code>1.7.1</code> 的用户脚本有封号风险，请及时更新用户脚本后再使用！</strong></p>
 
