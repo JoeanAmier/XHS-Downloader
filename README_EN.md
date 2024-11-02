@@ -165,7 +165,7 @@ def api_demo():
     response = requests.post(server, json=data)
     print(response.json())
 </pre>
-<h1>⚠️ Others</h1>
+<h1>📜 Others</h1>
 <ul>
 <li>Due to the date information carried in the links of Xiaohongshu works, using links obtained from previous dates may be subject to risk control. It is recommended to use the latest Xiaohongshu works links when downloading Xiaohongshu work files</li>
 <li>Windows system requires running programs as an administrator to read Chromium, Chrome, Edge browser cookies</li>

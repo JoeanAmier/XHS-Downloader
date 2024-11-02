@@ -161,7 +161,7 @@ def api_demo():
     response = requests.post(server, json=data)
     print(response.json())
 </pre>
-<h1>⚠️ 其他说明</h1>
+<h1>📜 其他说明</h1>
 <ul>
 <li>由于作品链接携带日期信息，使用先前日期获取的作品链接可能会被风控，建议下载作品文件时使用最新获取的作品链接</li>
 <li>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie</li>
