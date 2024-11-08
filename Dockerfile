@@ -1,15 +1,19 @@
-FROM python:3.12.4-slim
+FROM python:3.12-slim
+
+WORKDIR /app
 
 LABEL name="XHS-Downloader" authors="JoeanAmier" repository="https://github.com/JoeanAmier/XHS-Downloader"
 
-COPY locale /locale
-COPY source /source
-COPY static /static
-COPY LICENSE /LICENSE
-COPY main.py /main.py
-COPY requirements.txt /requirements.txt
+COPY locale /app/locale
+COPY source /app/source
+COPY static /app/static
+COPY LICENSE /app/LICENSE
+COPY main.py /app/main.py
+COPY requirements.txt /app/requirements.txt
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+VOLUME /app
 
 EXPOSE 8000
 
