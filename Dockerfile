@@ -6,7 +6,7 @@ LABEL name="XHS-Downloader" authors="JoeanAmier" repository="https://github.com/
 
 COPY locale /app/locale
 COPY source /app/source
-COPY static /app/static
+COPY static/XHS-Downloader.tcss /app/static/XHS-Downloader.tcss
 COPY LICENSE /app/LICENSE
 COPY main.py /app/main.py
 COPY requirements.txt /app/requirements.txt

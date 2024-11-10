@@ -1,6 +1,6 @@
 from gettext import translation
 
-from source.module import ROOT
+from ..module import ROOT
 
 __all__ = ["Translate"]
 
