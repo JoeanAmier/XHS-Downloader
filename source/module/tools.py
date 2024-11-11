@@ -1,5 +1,5 @@
-from asyncio import sleep
-from random import uniform
+# from asyncio import sleep
+# from random import uniform
 
 from rich import print
 from rich.text import Text
@@ -31,4 +31,5 @@ async def sleep_time(
         min_time: int | float = 1,
         max_time: int | float = 3,
 ):
-    await sleep(uniform(min_time, max_time))
+    pass
+    # await sleep(uniform(min_time, max_time))

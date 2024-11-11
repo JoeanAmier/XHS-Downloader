@@ -1,10 +1,14 @@
 from platform import system
+from re import compile
 from string import whitespace
-from emoji import replace_emoji
 from warnings import warn
+
+from emoji import replace_emoji
 
 
 class Cleaner:
+    CONTROL_CHARACTERS = compile(r"[\x00-\x1F\x7F]")
+
     def __init__(self):
         """
         替换字符串中包含的非法字符，默认根据系统类型生成对应的非法字符字典，也可以自行设置非法字符字典
@@ -67,6 +71,8 @@ class Cleaner:
         """过滤文件夹名称中的非法字符"""
         text = text.replace(":", ".")
 
+        text = self.remove_control_characters(text)
+
         text = self.filter(text)
 
         text = replace_emoji(text, replace, )
@@ -82,8 +88,14 @@ class Cleaner:
         """将连续的空格转换为单个空格"""
         return " ".join(string.split())
 
+    @classmethod
+    def remove_control_characters(cls, text, replace="", ):
+        # 使用正则表达式匹配所有控制字符
+        return cls.CONTROL_CHARACTERS.sub(replace, text, )
+
 
 if __name__ == "__main__":
     demo = Cleaner()
     print(demo.rule)
     print(demo.filter_name(""))
+    print(demo.remove_control_characters("hello \x08world"))
