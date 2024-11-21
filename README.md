@@ -34,7 +34,7 @@
 <li>✅ 支持 API 调用功能</li>
 <li>✅ 支持文件断点续传下载</li>
 </ul>
-<ul><b>脚本功能</b>
+<ul><a href="#user-scripts"><b>脚本功能</b></a>
 <li>✅ 下载小红书无水印作品文件</li>
 <li>✅ 提取发现页面作品链接</li>
 <li>✅ 提取账号发布作品链接</li>
@@ -54,9 +54,8 @@
 <a href="https://www.bilibili.com/video/BV1KGWNeCEyM/"><img src="static/screenshot/程序运行截图CN3.png" alt=""></a>
 <h1>🔗 支持链接</h1>
 <ul>
-<li><code>https://www.xiaohongshu.com/explore/作品ID</code></li>
 <li><code>https://www.xiaohongshu.com/explore/作品ID?xsec_token=XXX</code></li>
-<li><code>https://www.xiaohongshu.com/discovery/item/作品ID</code></li>
+<li><code>https://www.xiaohongshu.com/discovery/item/作品ID?xsec_token=XXX</code></li>
 <li><code>https://xhslink.com/分享码</code></li>
 <br/>
 <p><b>支持单次输入多个作品链接，链接之间使用空格分隔；程序会自动提取有效链接，无需额外处理！</b></p>
@@ -171,7 +170,7 @@ def api_demo():
 <li>由于作品链接携带日期信息，使用先前日期获取的作品链接可能会被风控，建议下载作品文件时使用最新获取的作品链接</li>
 <li>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie</li>
 </ul>
-<h1>🕹 用户脚本</h1>
+<h1 id="user-scripts">🕹 用户脚本</h1>
 <p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以添加 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">用户脚本</a>，无需下载安装即可体验项目功能！</p>
 <img src="static/screenshot/脚本安装教程.png" alt="">
 <p>脚本安装成功后，打开小红书页面，查看脚本说明，并根据提示操作。</p>
@@ -179,6 +178,16 @@ def api_demo():
 <hr>
 <img src="static/screenshot/用户脚本截图2.png" alt="">
 <p>提示：使用 XHS-Downloader 用户脚本批量提取作品链接，搭配 XHS-Downloader 程序可以实现批量下载无水印作品文件！</p>
+<h2>📜 脚本说明</h2>
+<ul>
+<li>下载小红书无水印作品文件时，脚本需要花费时间处理文件，请等待片刻，切勿多次点击下载按钮</li>
+<li>无水印图片文件为 PNG 格式；无水印视频文件较大，可能需要较长的时间处理，页面跳转可能会导致下载失败</li>
+<li>(已禁用)<del>提取账号发布、收藏、点赞、专辑作品链接时，脚本会尝试自动滚动屏幕直至加载全部作品，滚动检测间隔：2.5 秒</del></li>
+<li>(已禁用)<del>提取发现作品链接、搜索作品、用户链接时，脚本会自动滚动屏幕以尝试加载更多内容，滚动屏幕次数：10 次</del></li>
+<li>(已禁用)<del>可以修改滚动检测间隔、滚动屏幕次数，修改后立即生效；亦可关闭自动滚动屏幕功能，手动滚动屏幕加载内容</del></li>
+<li>使用全局代理工具可能会导致脚本下载文件失败，如有异常，请尝试关闭代理工具，必要时向作者反馈</li>
+<li>XHS-Downloader 用户脚本仅实现可见即可得的数据采集功能，无任何收费功能和破解功能</li>
+</ul>
 <h1>💻 二次开发</h1>
 <p>如果有其他需求，可以根据 <code>main.py</code> 的注释提示进行代码调用或修改！</p>
 <pre>

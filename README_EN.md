@@ -35,7 +35,7 @@
 <li>✅ Support API call functionality</li>
 <li>✅ Support file breakpoint resume download</li>
 </ul>
-<ul><b>Script Features</b>
+<ul><a href="#user-scripts"><b>Script Features</b></a>
 <li>✅ Download Xiaohongshu watermark-free works files</li>
 <li>✅ Extract discovery page works links</li>
 <li>✅ Extract account-published works links</li>
@@ -55,9 +55,8 @@
 <a href="https://www.bilibili.com/video/BV1KGWNeCEyM/"><img src="static/screenshot/程序运行截图EN3.png" alt=""></a>
 <h1>🔗 Supported Links</h1>
 <ul>
-<li><code>https://www.xiaohongshu.com/explore/WorksID</code></li>
 <li><code>https://www.xiaohongshu.com/explore/WorksID?xsec_token=XXX</code></li>
-<li><code>https://www.xiaohongshu.com/discovery/item/WorksID</code></li>
+<li><code>https://www.xiaohongshu.com/discovery/item/WorksID?xsec_token=XXX</code></li>
 <li><code>https://xhslink.com/ShareCode</code></li>
 <br/>
 <p><b>Supports entering multiple content links at once, separated by spaces; the program will automatically extract valid links without additional processing!</b></p>
@@ -175,7 +174,7 @@ def api_demo():
 <li>Due to the date information carried in the links of Xiaohongshu works, using links obtained from previous dates may be subject to risk control. It is recommended to use the latest Xiaohongshu works links when downloading Xiaohongshu work files</li>
 <li>Windows system requires running programs as an administrator to read Chromium, Chrome, Edge browser cookies</li>
 </ul>
-<h1>🕹 User Script</h1>
+<h1 id="user-scripts">🕹 User Script</h1>
 <p>If your browser has the <a href="https://www.tampermonkey.net/">Tampermonkey</a> browser extension installed, you can add the <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">user script</a> to experience the project features without needing to download or install anything!</p>
 <img src="static/screenshot/脚本安装教程.png" alt="">
 <p>After successfully installing the script, open the Xiaohongshu page, check the script instructions, and follow the prompts to operate.</p>
@@ -183,6 +182,16 @@ def api_demo():
 <hr>
 <img src="static/screenshot/用户脚本截图2.png" alt="">
 <p>Note: Using the XHS-Downloader user script to batch extract content links, in combination with the XHS-Downloader program, can achieve batch downloading of watermark-free content files!</p>
+<h2>📜 Script Instructions</h2>
+<ul>
+<li>When downloading watermark-free Xiaohongshu作品 files, the script will take some time to process the files, please wait a moment and do not click the download button multiple times</li>
+<li>Watermark-free image files are in PNG format; watermark-free video files are larger and may take longer to process, page jumps may cause download failures</li>
+<li>(Disabled)<del>When extracting links of account posts, favorites, likes, and album作品, the script will attempt to automatically scroll the screen until all作品 are loaded, with a scroll detection interval of 2.5 seconds</del></li>
+<li>(Disabled)<del>When extracting discovery作品 links, search作品, and user links, the script will automatically scroll the screen to try to load more content, scrolling the screen up to 10 times</del></li>
+<li>(Disabled)<del>You can modify the scroll detection interval and the number of screen scrolls, changes will take effect immediately; you can also disable the automatic screen scrolling function and manually scroll to load content</del></li>
+<li>Using global proxy tools may cause the script to fail to download files, if there are issues, please try closing the proxy tool, and feedback to the author if necessary</li>
+<li>The XHS-Downloader user script only implements the data collection function that can be obtained visibly, with no paid features or cracking functions</li>
+</ul>
 <h1>💻 Secondary Development</h1>
 <p>If you have other needs, you can perform code calls or modifications based on the comments in <code>main.py</code>!</p>
 <pre>
