@@ -6,6 +6,7 @@ from shutil import rmtree
 from typing import Callable
 
 from httpx import AsyncClient
+from httpx import AsyncHTTPTransport
 from httpx import HTTPStatusError
 from httpx import RequestError
 from httpx import TimeoutException
@@ -102,14 +103,20 @@ class Manager:
             timeout=timeout,
             verify=False,
             follow_redirects=True,
-            **self.proxy,
+            mounts={
+                "http://": AsyncHTTPTransport(proxy=self.proxy),
+                "https://": AsyncHTTPTransport(proxy=self.proxy),
+            },
         )
         self.download_client = AsyncClient(
             headers=self.blank_headers,
             timeout=timeout,
             verify=False,
             follow_redirects=True,
-            **self.proxy,
+            mounts={
+                "http://": AsyncHTTPTransport(proxy=self.proxy),
+                "https://": AsyncHTTPTransport(proxy=self.proxy),
+            },
         )
         self.image_download = self.check_bool(image_download, True)
         self.video_download = self.check_bool(video_download, True)
@@ -190,37 +197,38 @@ class Manager:
 
     def __check_proxy(
             self,
-            proxy: str | dict,
+            proxy: str,
             url="https://www.xiaohongshu.com/explore",
-    ) -> dict:
-        if not proxy:
-            return {"proxies": self.NO_PROXY}
-        if isinstance(proxy, str):
-            kwarg = {"proxy": proxy}
-        elif isinstance(proxy, dict):
-            kwarg = {"proxies": proxy}
-        else:
-            self.proxy_tip = (
-                self.message("proxy 参数 {0} 设置错误，程序将不会使用代理").format(proxy), WARNING,)
-            return {"proxies": self.NO_PROXY}
-        try:
-            response = get(
-                url,
-                **kwarg, )
-            response.raise_for_status()
-            self.proxy_tip = (self.message("代理 {0} 测试成功").format(proxy),)
-            return kwarg
-        except TimeoutException:
-            self.proxy_tip = (
-                self.message("代理 {0} 测试超时").format(proxy), WARNING,)
-        except (
-                RequestError,
-                HTTPStatusError,
-        ) as e:
-            self.proxy_tip = (
-                self.message("代理 {0} 测试失败：{1}").format(
-                    proxy, e), WARNING,)
-        return {"proxies": self.NO_PROXY}
+    ) -> str | None:
+        if proxy:
+            try:
+                response = get(
+                    url,
+                    proxy=proxy,
+                    timeout=10,
+                    headers={
+                        "User-Agent": USERAGENT,
+                    }
+                )
+                response.raise_for_status()
+                self.proxy_tip = (self.message("代理 {0} 测试成功").format(proxy),)
+                return proxy
+            except TimeoutException:
+                self.proxy_tip = (
+                    self.message("代理 {0} 测试超时").format(proxy),
+                    WARNING,
+                )
+            except (
+                    RequestError,
+                    HTTPStatusError,
+            ) as e:
+                self.proxy_tip = (
+                    self.message("代理 {0} 测试失败：{1}").format(
+                        proxy,
+                        e,
+                    ),
+                    WARNING,
+                )
 
     def print_proxy_tip(self, _print: bool = True, log=None, ) -> None:
         if _print and self.proxy_tip:

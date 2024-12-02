@@ -285,7 +285,7 @@ async def example():
 </tr>
 <tr>
 <td align="center">proxy</td>
-<td align="center">str | dict</td>
+<td align="center">str</td>
 <td align="center">设置程序代理</td>
 <td align="center">null</td>
 </tr>

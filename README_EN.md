@@ -289,7 +289,7 @@ async def example():
 </tr>
 <tr>
 <td align="center">proxy</td>
-<td align="center">str | dict</td>
+<td align="center">str</td>
 <td align="center">Set program proxy</td>
 <td align="center">null</td>
 </tr>
