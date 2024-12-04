@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING, Any
 from aiofiles import open
 from httpx import HTTPError
 
+from ..expansion import CacheError
 from ..module import ERROR
 from ..module import (
     FILE_SIGNATURES_LENGTH,
@@ -196,6 +197,10 @@ class Download:
             try:
                 async with self.client.stream("GET", url, headers=headers, ) as response:
                     await sleep_time()
+                    if response.status_code == 416:
+                        raise CacheError(
+                            self.message("文件 {0} 缓存异常，重新下载").format(temp.name),
+                        )
                     response.raise_for_status()
                     # self.__create_progress(
                     #     bar,
@@ -220,7 +225,6 @@ class Download:
                 logging(log, self.message("文件 {0} 下载成功").format(real.name))
                 return True
             except HTTPError as error:
-                # self.manager.delete(temp)
                 # self.__create_progress(bar, None)
                 logging(
                     log,
@@ -234,6 +238,13 @@ class Download:
                 #     WARNING,
                 # )
                 return False
+            except CacheError as error:
+                self.manager.delete(temp)
+                logging(
+                    log,
+                    str(error),
+                    ERROR,
+                )
 
     @staticmethod
     def __create_progress(bar, total: int | None, completed=0, ):

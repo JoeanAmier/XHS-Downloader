@@ -300,3 +300,6 @@ msgstr ""
 
 msgid "文件 {0} 格式判断失败，错误信息：{1}"
 msgstr ""
+
+msgid "文件 {0} 缓存异常，重新下载"
+msgstr ""
