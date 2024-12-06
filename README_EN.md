@@ -34,6 +34,7 @@
 <li>✅ Customizable file name format</li>
 <li>✅ Support API call functionality</li>
 <li>✅ Support file breakpoint resume download</li>
+<li>✅ Intelligent recognition of works file types</li>
 </ul>
 <ul><a href="#user-scripts"><b>Script Features</b></a>
 <li>✅ Download Xiaohongshu watermark-free works files</li>

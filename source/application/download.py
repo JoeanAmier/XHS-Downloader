@@ -73,10 +73,21 @@ class Download:
         path = self.__generate_path(name)
         match type_:
             case "视频":
-                tasks = self.__ready_download_video(urls, path, name, log)
+                tasks = self.__ready_download_video(
+                    urls,
+                    path,
+                    name,
+                    log,
+                )
             case "图文":
                 tasks = self.__ready_download_image(
-                    urls, lives, index, path, name, log)
+                    urls,
+                    lives,
+                    index,
+                    path,
+                    name,
+                    log,
+                )
             case _:
                 raise ValueError
         tasks = [
@@ -185,11 +196,6 @@ class Download:
             #             "网络异常，{0} 请求失败，错误信息: {1}").format(name, repr(error)),
             #         ERROR,
             #     )
-            #     # logging(
-            #     #     log,
-            #     #     f"{url} Head Headers: {headers.get("Range")}",
-            #     #     WARNING,
-            #     # )
             #     return False
             # temp = self.temp.joinpath(f"{name}.{suffix}")
             temp = self.temp.joinpath(f"{name}.{format_}")
@@ -232,11 +238,6 @@ class Download:
                         "网络异常，{0} 下载失败，错误信息: {1}").format(name, repr(error)),
                     ERROR,
                 )
-                # logging(
-                #     log,
-                #     f"{url} Stream Headers: {headers.get("Range")}",
-                #     WARNING,
-                # )
                 return False
             except CacheError as error:
                 self.manager.delete(temp)
@@ -265,7 +266,6 @@ class Download:
             url: str,
             headers: dict[str, str],
             suffix: str,
-            # sleep_args: tuple[int, int],
     ) -> tuple[int, str]:
         response = await self.client.head(
             url,
