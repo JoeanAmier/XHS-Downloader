@@ -247,13 +247,14 @@ class XHS:
             log,
             bar,
             data: bool,
+            cookie: str = None,
     ):
         if await self.skip_download(i := self.__extract_link_id(url)) and not data:
             msg = self.message("作品 {0} 存在下载记录，跳过处理").format(i)
             logging(log, msg)
             return {"message": msg}
         logging(log, self.message("开始处理作品：{0}").format(i))
-        html = await self.html.request_url(url, log=log)
+        html = await self.html.request_url(url, log=log, cookie=cookie, )
         namespace = self.__generate_data_object(html)
         if not namespace:
             logging(log, self.message("{0} 获取数据失败").format(i), ERROR)
@@ -460,6 +461,7 @@ class XHS:
                         None,
                         None,
                         not extract.skip,
+                        extract.cookie,
                 ):
                     msg = self.message("获取小红书作品数据成功")
                 else:

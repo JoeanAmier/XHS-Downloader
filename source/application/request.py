@@ -23,9 +23,10 @@ class Html:
             url: str,
             content=True,
             log=None,
+            cookie: str = None,
             **kwargs,
     ) -> str:
-        headers = self.select_headers(url, )
+        headers = self.select_headers(url, cookie, )
         try:
             match content:
                 case True:
@@ -49,8 +50,10 @@ class Html:
     def format_url(url: str) -> str:
         return bytes(url, "utf-8").decode("unicode_escape")
 
-    def select_headers(self, url: str) -> dict:
-        return self.headers if "explore" in url else self.blank_headers
+    def select_headers(self, url: str, cookie: str = None, ) -> dict:
+        if "explore" not in url:
+            return self.blank_headers
+        return self.headers | {"Cookie": cookie} if cookie else self.headers
 
     async def __request_url_head(self, url: str, headers: dict, **kwargs, ):
         return await self.client.head(

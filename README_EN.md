@@ -131,25 +131,31 @@
 <tr>
 <td align="center">url</td>
 <td align="center">str</td>
-<td align="center">Xiaohongshu content link, auto-extraction, does not support multiple links</td>
+<td align="center">Xiaohongshu content link, auto-extraction, does not support multiple links; Required parameter</td>
 <td align="center">None</td>
 </tr>
 <tr>
 <td align="center">download</td>
 <td align="center">bool</td>
-<td align="center">Whether to download the content file; set to <code>true</code> will take more time</td>
+<td align="center">Whether to download the content file; set to <code>true</code> will take more time; Optional parameter</td>
 <td align="center">false</td>
 </tr>
 <tr>
 <td align="center">index</td>
 <td align="center">list[int]</td>
-<td align="center">Download specific image files by index, only effective for text and image works; not effective when the <code>download</code> parameter is set to <code>false</code></td>
+<td align="center">Download specific image files by index, only effective for text and image works; not effective when the <code>download</code> parameter is set to <code>false</code>; Optional parameter</td>
 <td align="center">null</td>
+</tr>
+<tr>
+<td align="center">cookie</td>
+<td align="center">str</td>
+<td align="center">Cookies used when requesting data; Optional parameter</td>
+<td align="center">Settings Cookie Value</td>
 </tr>
 <tr>
 <td align="center">skip</td>
 <td align="center">bool</td>
-<td align="center">Whether to skip content with download records; set to <code>true</code> will not return content data with download records</td>
+<td align="center">Whether to skip content with download records; set to <code>true</code> will not return content data with download records; Optional parameter</td>
 <td align="center">false</td>
 </tr>
 </tbody>

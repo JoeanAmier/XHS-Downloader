@@ -5,6 +5,7 @@ class ExtractParams(BaseModel):
     url: str
     download: bool = False
     index: list = None
+    cookie: str = None
     skip: bool = False
 
 

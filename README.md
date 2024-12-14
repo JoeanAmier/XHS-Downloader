@@ -127,25 +127,31 @@
 <tr>
 <td align="center">url</td>
 <td align="center">str</td>
-<td align="center">小红书作品链接，自动提取，不支持多链接</td>
+<td align="center">小红书作品链接，自动提取，不支持多链接；必需参数</td>
 <td align="center">无</td>
 </tr>
 <tr>
 <td align="center">download</td>
 <td align="center">bool</td>
-<td align="center">是否下载作品文件；设置为 <code>true</code> 将会耗费更多时间</td>
+<td align="center">是否下载作品文件；设置为 <code>true</code> 将会耗费更多时间；可选参数</td>
 <td align="center">false</td>
 </tr>
 <tr>
 <td align="center">index</td>
 <td align="center">list[int]</td>
-<td align="center">下载指定序号的图片文件，仅对图文作品生效；<code>download</code> 参数设置为 <code>false</code> 时不生效</td>
+<td align="center">下载指定序号的图片文件，仅对图文作品生效；<code>download</code> 参数设置为 <code>false</code> 时不生效；可选参数</td>
 <td align="center">null</td>
+</tr>
+<tr>
+<td align="center">cookie</td>
+<td align="center">str</td>
+<td align="center">请求数据时使用的 Cookie；可选参数</td>
+<td align="center">配置文件 Cookie 值</td>
 </tr>
 <tr>
 <td align="center">skip</td>
 <td align="center">bool</td>
-<td align="center">是否跳过存在下载记录的作品；设置为 <code>true</code> 将不会返回存在下载记录的作品数据</td>
+<td align="center">是否跳过存在下载记录的作品；设置为 <code>true</code> 将不会返回存在下载记录的作品数据；可选参数</td>
 <td align="center">false</td>
 </tr>
 </tbody>
