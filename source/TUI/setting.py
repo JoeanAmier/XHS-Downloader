@@ -84,7 +84,7 @@ class Setting(Screen):
                     allow_blank=False,
                     id="image_format"),
                 Select.from_values(
-                    ["zh_CN", "en_GB"],
+                    ["zh_CN", "en_US"],
                     value=self.data["language"],
                     allow_blank=False,
                     id="language", ),

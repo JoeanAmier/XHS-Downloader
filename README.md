@@ -170,6 +170,8 @@ def api_demo():
 <ul>
 <li>由于作品链接携带日期信息，使用先前日期获取的作品链接可能会被风控，建议下载作品文件时使用最新获取的作品链接</li>
 <li>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie</li>
+<li>如果开启保存作品数据至文件功能，作品数据默认储存至 <code>./Download/ExploreData.db</code> 文件</li>
+<li>程序下载记录数据储存至 <code>./ExploreID.db</code> 文件</li>
 </ul>
 <h1 id="user-scripts">🕹 用户脚本</h1>
 <p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以添加 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">用户脚本</a>，无需下载安装即可体验项目功能！</p>
@@ -353,7 +355,7 @@ async def example():
 <tr>
 <td align="center">language</td>
 <td align="center">str</td>
-<td align="center">设置程序语言，目前支持：<code>zh_CN</code>、<code>en_GB</code></td>
+<td align="center">设置程序语言，目前支持：<code>zh_CN</code>、<code>en_US</code></td>
 <td align="center">zh_CN</td>
 </tr>
 </tbody>

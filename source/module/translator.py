@@ -8,7 +8,7 @@ __all__ = ["Translate"]
 class Translate:
     SUPPORT = {
         "zh_CN",
-        "en_GB",
+        "en_US",
     }
 
     def __init__(self, language: str):

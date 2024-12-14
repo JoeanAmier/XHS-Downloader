@@ -174,6 +174,8 @@ def api_demo():
 <ul>
 <li>Due to the date information carried in the links of Xiaohongshu works, using links obtained from previous dates may be subject to risk control. It is recommended to use the latest Xiaohongshu works links when downloading Xiaohongshu work files</li>
 <li>Windows system requires running programs as an administrator to read Chromium, Chrome, Edge browser cookies</li>
+<li>If the function to save works data to a file is enabled, the works data will be stored by default in the <code>./Download/ExploreData.db</code> file</li>
+<li>The program's download records will be stored in the <code>./ExploreID.db</code> file</li>
 </ul>
 <h1 id="user-scripts">🕹 User Script</h1>
 <p>If your browser has the <a href="https://www.tampermonkey.net/">Tampermonkey</a> browser extension installed, you can add the <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">user script</a> to experience the project features without needing to download or install anything!</p>
@@ -357,7 +359,7 @@ async def example():
 <tr>
 <td align="center">language</td>
 <td align="center">str</td>
-<td align="center">Set program language. Currently supported: <code>zh_CN</code>, <code>en_GB</code></td>
+<td align="center">Set program language. Currently supported: <code>zh_CN</code>, <code>en_US</code></td>
 <td align="center">zh_CN</td>
 </tr>
 </tbody>
