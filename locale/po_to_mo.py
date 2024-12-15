@@ -19,7 +19,7 @@ def generate_map(files: list[Path]):
 
 def generate_mo(maps: list[tuple[Path, Path]]):
     for i, j in maps:
-        command = f"msgfmt \"{i}\" -o \"{j}\""
+        command = f"msgfmt --check -o \"{j}\" \"{i}\""
         print(run(command, shell=True, text=True))
 
 
