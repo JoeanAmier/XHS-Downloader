@@ -92,7 +92,9 @@
 <p>Docker 运行项目时不支持 <b>命令行调用模式</b>，无法使用 <b>读取剪贴板</b> 与 <b>监听剪贴板</b> 功能，可以正常粘贴内容，其他功能如有异常请反馈！</p>
 <h2>⌨️ 源码运行</h2>
 <ol>
-<li>安装版本号不低于 <code>3.12</code> 的 Python 解释器</li>
+
+[//]: # (<li>安装版本号不低于 <code>3.12</code> 的 Python 解释器</li>)
+<li>安装版本号为 <code>3.12</code> 的 Python 解释器</li>
 <li>下载本项目最新的源码或 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
 <li>打开终端，切换至项目根路径</li>
 <li>运行 <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> 命令安装程序所需模块</li>

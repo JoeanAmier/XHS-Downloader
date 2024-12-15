@@ -93,7 +93,9 @@
 <p>When running the project via Docker, the <b>command line call mode</b> is not supported. The <b>clipboard reading</b> and <b>clipboard monitoring</b> functions are unavailable, but pasting content works fine. Please provide feedback if other features are not functioning properly!</p>
 <h2>⌨️ Source Code Run</h2>
 <ol>
-<li>Install the Python interpreter with a version no lower than <code>3.12</code></li>
+
+[//]: # (<li>Install the Python interpreter with a version no lower than <code>3.12</code></li>)
+<li>Install Python interpreter with version <code>3.12</code></li>
 <li>Download the latest source code of this project or the source code released in <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to your local machine</li>
 <li>Open the terminal and switch to the root path of the project</li>
 <li>Run the command <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> to install the required modules</li>
