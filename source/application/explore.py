@@ -8,7 +8,9 @@ __all__ = ['Explore']
 
 class Explore:
     time_format = "%Y-%m-%d_%H:%M:%S"
-    explore_type = {"video": _("视频"), "normal": _("图文")}
+
+    def __init__(self):
+        self.explore_type = {"video": _("视频"), "normal": _("图文")}
 
     def run(self, data: Namespace) -> dict:
         return self.__extract_data(data)

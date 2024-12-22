@@ -71,25 +71,24 @@ class Download:
             bar,
     ) -> tuple[Path, list[Any]]:
         path = self.__generate_path(name)
-        match type_:
-            case _("视频"):
-                tasks = self.__ready_download_video(
-                    urls,
-                    path,
-                    name,
-                    log,
-                )
-            case _("图文"):
-                tasks = self.__ready_download_image(
-                    urls,
-                    lives,
-                    index,
-                    path,
-                    name,
-                    log,
-                )
-            case _:
-                raise ValueError
+        if type_ == _("视频"):
+            tasks = self.__ready_download_video(
+                urls,
+                path,
+                name,
+                log,
+            )
+        elif type_ == _("图文"):
+            tasks = self.__ready_download_image(
+                urls,
+                lives,
+                index,
+                path,
+                name,
+                log,
+            )
+        else:
+            raise ValueError
         tasks = [
             self.__download(
                 url,

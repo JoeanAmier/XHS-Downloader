@@ -255,13 +255,12 @@ class XHS:
         if not data:
             logging(log, _("{0} 提取数据失败").format(i), ERROR)
             return {}
-        match data["作品类型"]:
-            case _("视频"):
-                self.__extract_video(data, namespace)
-            case _("图文"):
-                self.__extract_image(data, namespace)
-            case _:
-                data["下载地址"] = []
+        if data["作品类型"] == _("视频"):
+            self.__extract_video(data, namespace)
+        elif data["作品类型"] == _("图文"):
+            self.__extract_image(data, namespace)
+        else:
+            data["下载地址"] = []
         await self.__download_files(data, download, index, log, bar)
         logging(log, _("作品处理完成：{0}").format(i))
         await sleep_time()

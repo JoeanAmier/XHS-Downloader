@@ -283,8 +283,8 @@ async def example():
 <tr>
 <td align="center">name_format</td>
 <td align="center">str</td>
-<td align="center">Format for content file names. Separate fields with spaces. Supported fields: <code>collects</code>, <code>comments</code>, <code>shares</code>, <code>likes</code>, <code>tags</code>, <code>ID</code>, <code>title</code>, <code>description</code>, <code>type</code>, <code>publish_time</code>, <code>last_update_time</code>, <code>author_nickname</code>, <code>author_id</code></td>
-<td align="center"><code>publish_time author_nickname title</code></td>
+<td align="center"><sup><a href="#fields">1</a></sup>Format of works file name, separated by spaces between fields, supports fields: <code>收藏数量</code>、<code>评论数量</code>、<code>分享数量</code>、<code>点赞数量</code>、<code>作品标签</code>、<code>作品ID</code>、<code>作品标题</code>、<code>作品描述</code>、<code>作品类型</code>、<code>发布时间</code>、<code>最后更新时间</code>、<code>作者昵称</code>、<code>作者ID</code></td>
+<td align="center"><code>发布时间 作者昵称 作品标题</code></td>
 </tr>
 <tr>
 <td align="center">user_agent</td>
@@ -372,6 +372,24 @@ async def example():
 </tr>
 </tbody>
 </table>
+<div id="fields">
+<p>name_format instructions (Currently only supports Chinese values) :</p>
+<ul>
+<li><code>收藏数量</code>: Number of Collections</li>
+<li><code>评论数量</code>: Number of Comments</li>
+<li><code>分享数量</code>: Number of Shares</li>
+<li><code>点赞数量</code>: Number of Likes</li>
+<li><code>作品标签</code>: Works Tags</li>
+<li><code>作品ID</code>: Works ID</li>
+<li><code>作品标题</code>: Works Title</li>
+<li><code>作品描述</code>: Works Description</li>
+<li><code>作品类型</code>: Works Type</li>
+<li><code>发布时间</code>: Publish Time</li>
+<li><code>最后更新时间</code>: Last Updated Time</li>
+<li><code>作者昵称</code>: Author Nickname</li>
+<li><code>作者ID</code>: Author ID</li>
+</ul>
+</div>
 <p><b>Additional Notes: The parameters <code>user_agent</code> examples are provided for reference; Strongly recommend setting according to actual browser information!</b></p>
 <img src="static/screenshot/请求头示例图.png" alt="">
 <h1>🌐 Cookie</h1>
