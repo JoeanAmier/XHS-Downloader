@@ -1,14 +1,320 @@
+# English translations for XHS-Downloader package.
+# Copyright (C) 2024 THE XHS-Downloader'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the XHS-Downloader package.
+# FIRST AUTHOR <yonglelolu@foxmail.com>, 2024.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: XHS-Downloader 2.4\n"
-"PO-Revision-Date: 2024-12-15 11:00+0800\n"
-"Last-Translator: JoeanAmier <yonglelolu@foxmail.com>\n"
-"Language-Team: English (US) <yonglelolu@foxmail.com>\n"
+"Report-Msgid-Bugs-To: <yonglelolu@foxmail.com>\n"
+"POT-Creation-Date: 2024-12-22 14:07+0800\n"
+"PO-Revision-Date: 2024-12-22 14:14+0800\n"
+"Last-Translator: <yonglelolu@foxmail.com>\n"
+"Language-Team: English\n"
+"Language: en_US\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: en_US\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:157
+#, python-brace-format
+msgid "作品 {0} 存在下载记录，跳过下载"
+msgstr "works {0} has a download record, skip download"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:170
+msgid "提取作品文件下载地址失败"
+msgstr "Failed to extract the download address for the Xiaohongshu works files"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:196
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:214
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:445
+msgid "提取小红书作品链接失败"
+msgstr "Failed to extract the links for Xiaohongshu works"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:199
+#, python-brace-format
+msgid "共 {0} 个小红书作品待处理..."
+msgstr "{0} works from Xiaohongshu are awaiting processing..."
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:244
+#, python-brace-format
+msgid "作品 {0} 存在下载记录，跳过处理"
+msgstr "Works {0} has a download record, skip processing"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:247
+#, python-brace-format
+msgid "开始处理作品：{0}"
+msgstr "Start processing the works: {0}"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:251
+#, python-brace-format
+msgid "{0} 获取数据失败"
+msgstr "{0} failed to retrieve data"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:256
+#, python-brace-format
+msgid "{0} 提取数据失败"
+msgstr "{0} failed to extract data"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:259
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:75
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:11
+msgid "视频"
+msgstr "video"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:261
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:82
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:11
+msgid "图文"
+msgstr "image"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:266
+#, python-brace-format
+msgid "作品处理完成：{0}"
+msgstr "works processing completed: {0}"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:327
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:54
+msgid ""
+"程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，"
+"如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"
+msgstr ""
+"The program will automatically read and extract the link to Xiaohongshu works from the clipboard, and automatically download the corresponding work file. "
+"If you want to close it, please click the close button or write the \"close\" text to the clipboard!"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:457
+msgid "获取小红书作品数据成功"
+msgstr "Successfully obtained data on Xiaohongshu works"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:459
+msgid "获取小红书作品数据失败"
+msgstr "Failed to obtain data on Xiaohongshu works"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:118
+msgid "视频作品下载功能已关闭，跳过下载"
+msgstr "The video download function has been turned off, skip download"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:134
+msgid "图文作品下载功能已关闭，跳过下载"
+msgstr "The image download function has been turned off, skip download"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:162
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:170
+#, python-brace-format
+msgid "{0} 文件已存在，跳过下载"
+msgstr "{0} already exists, skipping download"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:208
+#, python-brace-format
+msgid "文件 {0} 缓存异常，重新下载"
+msgstr "File {0} cache exception, download again"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:231
+#, python-brace-format
+msgid "文件 {0} 下载成功"
+msgstr "file {0} download successful"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:238
+#, python-brace-format
+msgid "网络异常，{0} 下载失败，错误信息: {1}"
+msgstr "Network error, {0} download failed, error message: {1}"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:311
+#, python-brace-format
+msgid "文件 {0} 格式判断失败，错误信息：{1}"
+msgstr "Format recognition failed for file {0}, error message: {1}"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:48
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:56
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:61
+msgid "未知"
+msgstr "unknown"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\request.py:44
+#, python-brace-format
+msgid "网络异常，{0} 请求失败: {1}"
+msgstr "Network error, {0} request failed: {1}"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:118
+msgid "小红书作品链接"
+msgstr "Link to Xiaohongshu works"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:119
+msgid "下载指定序号的图片文件，仅对图文作品生效；多个序号输入示例：\"1 3 5 7\""
+msgstr "Download image files with specified serial numbers, only effective for image works; Example of multiple serial numbers input: \"1 3 5 7\""
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:120
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:33
+msgid "作品数据 / 文件保存根路径"
+msgstr "Root path for saving works data / files"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:121
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:36
+msgid "作品文件储存文件夹名称"
+msgstr "Name of the folder for storing works files"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:122
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:38
+msgid "作品文件名称格式"
+msgstr "Format of works file name"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:126
+msgid "小红书网页版 Cookie，无需登录"
+msgstr "Xiaohongshu web version cookie, no need to log in"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:127
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:46
+msgid "网络代理"
+msgstr "Network proxy"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:128
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:48
+msgid "请求数据超时限制，单位：秒"
+msgstr "Network request timeout limit, in seconds"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:129
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:50
+msgid "下载文件时，每次从服务器获取的数据块大小，单位：字节"
+msgstr "When downloading a file, the size of the data block obtained from the server each time, in bytes"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:130
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:52
+msgid "请求数据失败时，重试的最大次数"
+msgstr "The maximum number of retries when data request fails"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:131
+msgid "是否记录作品数据至文件"
+msgstr "Record works data to file"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:132
+msgid "图文作品文件下载格式，支持：PNG、WEBP"
+msgstr "Image works file download format, supporting: PNG, WEBP"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:133
+msgid "动态图片下载开关"
+msgstr "Live photo download switch"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:134
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:64
+msgid "作品下载记录开关"
+msgstr "Works download record switch"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:135
+msgid "是否将每个作品的文件储存至单独的文件夹"
+msgstr "Do you need to store the files of each works in a separate folder"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:136
+msgid "设置程序语言，目前支持：zh_CN、en_US"
+msgstr "Set the programming language, currently supports: zh_CN、en_US"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:137
+msgid "读取指定配置文件"
+msgstr "Read specified configuration file"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:139
+#, python-brace-format
+msgid "从指定的浏览器读取小红书网页版 Cookie，支持：{0}; 输入浏览器名称或序号"
+msgstr "Read Xiaohongshu web version cookies from the specified browser, supporting: {0}; Enter browser name or serial number"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:145
+msgid "是否更新配置文件"
+msgstr "Do you need to update the configuration file"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:146
+msgid "查看详细参数说明"
+msgstr "View detailed parameter descriptions"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:147
+msgid "查看 XHS-Downloader 版本"
+msgstr "View XHS Downloader Version"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\expansion\browser.py:45
+#, python-brace-format
+msgid ""
+"读取指定浏览器的 Cookie 并写入配置文件\n"
+"Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 "
+"Cookie！\n"
+"{options}\n"
+"请输入浏览器名称或序号："
+msgstr ""
+"Read cookies from the specified browser and write them to the configuration file\n"
+"The Windows system requires running programs as an administrator to read Chromium, Chrome, Edge browser cookies!\n"
+"{options}\n"
+"Please enter your browser name or serial number:"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\expansion\browser.py:49
+msgid "未选择浏览器！"
+msgstr "Browser not selected!"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\expansion\browser.py:55
+msgid "浏览器名称或序号输入错误！"
+msgstr "Browser name or serial number input error!"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\expansion\browser.py:61
+msgid "获取 Cookie 失败，未找到 Cookie 数据！"
+msgstr "Failed to retrieve cookie, no cookie data found!"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\expansion\browser.py:99
+msgid "从浏览器读取 Cookie 功能不支持当前平台！"
+msgstr "The cookie reading function from the browser is not supported on the current platform!"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\expansion\cleaner.py:45
+msgid "不受支持的操作系统类型，可能无法正常去除非法字符！"
+msgstr "Unsupported operating system type, may not be able to remove illegal characters properly!"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\module\manager.py:204
+#, python-brace-format
+msgid "代理 {0} 测试成功"
+msgstr "Agent {0} tested successfully"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\module\manager.py:208
+#, python-brace-format
+msgid "代理 {0} 测试超时"
+msgstr "Agent {0} test timeout"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\module\manager.py:216
+#, python-brace-format
+msgid "代理 {0} 测试失败：{1}"
+msgstr "Agent {0} test failed: {1}"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:41
+msgid "如果 XHS-Downloader 对您有帮助，请考虑为它点个 Star，感谢您的支持！"
+msgstr "If XHS-Downloader is helpful to you, please consider giving it Star. Thank you for your support!"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:45
+msgid "作者的其他开源项目"
+msgstr "Other open-source projects of the author"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\app.py:61
+msgid ""
+"配置文件 settings.json 缺少必要的参数，请删除该文件，然后重新运行程序，自动生"
+"成默认配置文件！"
+msgstr ""
+"The configuration file settings.json is missing necessary parameters. "
+"Please delete the file and run the program again to automatically generate the default configuration file!"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:65
+msgid "请输入小红书图文/视频作品链接"
+msgstr "Please enter the link to the Xiaohongshu image or video works"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:68
+msgid "多个链接之间使用空格分隔"
+msgstr "Separate multiple links with spaces"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:70
+msgid "下载无水印作品文件"
+msgstr "Download images/video files"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:71
+msgid "读取剪贴板"
+msgstr "Read the clipboard"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:72
+msgid "清空输入框"
+msgstr "Clear the input box"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:84
 msgid "免责声明\n"
 msgstr "Disclaimer about XHS-Downloader:\n"
 "\n"
@@ -22,290 +328,120 @@ msgstr "Disclaimer about XHS-Downloader:\n"
 "\n"
 "Before using the code and features of this project, please carefully consider and accept the above disclaimers. If you have any questions or do not agree with the statements above, please refrain from using the code and features of this project. If you proceed to use the code and features of this project, it will be considered that you fully understand and accept the disclaimers mentioned above, and willingly assume all risks and consequences associated with using this project.\n"
 
-msgid "提取作品文件下载地址失败"
-msgstr "Failed to extract the download address for the Xiaohongshu works files"
-
-msgid "提取小红书作品链接失败"
-msgstr "Failed to extract the links for Xiaohongshu works"
-
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:97
 msgid "未输入任何小红书作品链接"
 msgstr "No Xiaohongshu works links provided"
 
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:114
 msgid "下载小红书作品文件失败"
 msgstr "Failed to download the Xiaohongshu works files"
 
-msgid "正在检查新版本，请稍等..."
-msgstr "Checking for new version, please wait..."
-
-msgid "当前版本为开发版, 可更新至正式版"
-msgstr "The current version is a development version, and can be updated to the official version"
-
-msgid "当前已是最新开发版"
-msgstr "You are already using the latest development version"
-
-msgid "当前已是最新正式版"
-msgstr "You are already using the latest official version"
-
-msgid "检测新版本失败"
-msgstr "Failed to check for a new version"
-
-msgid "开源协议"
-msgstr "Open Source License"
-
-msgid "项目地址"
-msgstr "Project Address"
-
-msgid "请输入小红书图文/视频作品链接"
-msgstr "Please enter the link to the Xiaohongshu image/text or video works"
-
-msgid "多个链接之间使用空格分隔"
-msgstr "Separate multiple links with spaces"
-
-msgid "下载无水印作品文件"
-msgstr "Download images/video files"
-
-msgid "读取剪贴板"
-msgstr "Read the clipboard"
-
-msgid "清空输入框"
-msgstr "Clear the input box"
-
-msgid "退出程序"
-msgstr "Exit the program"
-
-msgid "检查更新"
-msgstr "Check for updates"
-
-msgid "程序设置"
-msgstr "Settings"
-
-msgid "作品数据 / 文件保存根路径"
-msgstr "Root path for saving works data / files"
-
-msgid "作品文件储存文件夹名称"
-msgstr "Name of the folder for storing works files"
-
-msgid "小红书网页版 Cookie"
-msgstr "Xiaohongshu Web Cookie"
-
-msgid "网络代理"
-msgstr "Network proxy"
-
-msgid "记录作品详细数据"
-msgstr "Record works data"
-
-msgid "图片下载格式"
-msgstr "Image download format"
-
-msgid "作品文件夹归档模式"
-msgstr "Folder archiving mode"
-
-msgid "程序语言"
-msgstr "Program language"
-
-msgid "启动本地服务器"
-msgstr "Start local server"
-
-msgid "程序根路径"
-msgstr "Program root path"
-
-msgid "小红书网页版 Cookie，无需登录，参数已设置"
-msgstr "Xiaohongshu web version cookie, no login required, parameters have been set"
-
-msgid "小红书网页版 Cookie，无需登录，参数未设置"
-msgstr "Xiaohongshu web version cookie, no login required, parameters not set"
-
-msgid "不使用代理"
-msgstr "No proxy"
-
-msgid "保存配置"
-msgstr "Save configuration"
-
-msgid "放弃更改"
-msgstr "Discard changes"
-
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\loading.py:18
 msgid "程序处理中..."
 msgstr "Processing..."
 
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:36
 msgid "已启动监听剪贴板模式"
 msgstr "Currently in monitoring clipboard mode"
 
-msgid "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"
-msgstr "The program will automatically read and extract the link to Xiaohongshu's works from the clipboard, and automatically download the corresponding work file. If you want to close it, please click the close button or write the \"close\" text to the clipboard!"
-
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:38
 msgid "退出监听剪贴板模式"
 msgstr "Exit monitoring clipboard mode"
 
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\record.py:23
 msgid "请输入待删除的小红书作品链接或作品 ID"
 msgstr "Please enter the link or ID of the Xiaohongshu works to be deleted"
 
-msgid "支持输入作品 ID 或包含作品 ID 的作品链接，多个链接或 ID 之间使用空格分隔"
-msgstr "Support input of works ID or links containing works ID, with multiple links or IDs separated by spaces"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\record.py:24
+msgid ""
+"支持输入作品 ID 或包含作品 ID 的作品链接，多个链接或 ID 之间使用空格分隔"
+msgstr ""
+"Support input of works ID or links containing works ID, with multiple links or IDs separated by spaces"
 
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\record.py:27
 msgid "删除指定作品 ID"
 msgstr "Delete specified works ID"
 
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\record.py:28
 msgid "返回首页"
 msgstr "return"
 
-msgid "小红书作品链接"
-msgstr "Link to Xiaohongshu works"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:34
+msgid "程序根路径"
+msgstr "Program root path"
 
-msgid "下载指定序号的图片文件，仅对图文作品生效；多个序号输入示例：\"1 3 5 7\""
-msgstr "Download image files with specified serial numbers, only effective for image works; Example of multiple serial numbers input: \"1 3 5 7\""
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:42
+msgid "内置 Chrome User Agent"
+msgstr "Chrome User Agent"
 
-msgid "小红书网页版 Cookie，无需登录"
-msgstr "Xiaohongshu web version cookie, no need to log in"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:44
+msgid "小红书网页版 Cookie"
+msgstr "Xiaohongshu Web Cookie"
 
-msgid "请求数据超时限制，单位：秒"
-msgstr "Network request timeout limit, in seconds"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:47
+msgid "不使用代理"
+msgstr "No proxy"
 
-msgid "下载文件时，每次从服务器获取的数据块大小，单位：字节"
-msgstr "When downloading a file, the size of the data block obtained from the server each time, in bytes"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:56
+msgid "记录作品详细数据"
+msgstr "Record works data"
 
-msgid "请求数据失败时，重试的最大次数"
-msgstr "The maximum number of retries when data request fails"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:57
+msgid "作品文件夹归档模式"
+msgstr "Folder archiving mode"
 
-msgid "是否记录作品数据至文件"
-msgstr "Record works data to file"
-
-msgid "图文作品文件下载格式，支持：PNG、WEBP"
-msgstr "Image works file download format, supporting: PNG, WEBP"
-
-msgid "是否将每个作品的文件储存至单独的文件夹"
-msgstr "Do you need to store the files of each works in a separate folder"
-
-msgid "设置程序语言，目前支持：zh_CN、en_GB"
-msgstr "Set program language, currently supports: zh_CN, en_GB"
-
-msgid "读取指定配置文件"
-msgstr "Read specified configuration file"
-
-msgid "是否更新配置文件"
-msgstr "Do you need to update the configuration file"
-
-msgid "查看详细参数说明"
-msgstr "View detailed parameter descriptions"
-
-msgid "网络异常，{0} 请求失败: {1}"
-msgstr "Network error, {0} request failed: {1}"
-
-msgid "{0} 文件已存在，跳过下载"
-msgstr "{0} already exists, skipping download"
-
-msgid "文件 {0} 下载成功"
-msgstr "file {0} download successful"
-
-msgid "网络异常，{0} 请求失败，错误信息: {1}"
-msgstr "Network error, {0} request failed, error message: {1}"
-
-msgid "网络异常，{0} 下载失败，错误信息: {1}"
-msgstr "Network error, {0} download failed, error message: {1}"
-
-msgid "共 {0} 个小红书作品待处理..."
-msgstr "{0} works from Xiaohongshu are awaiting processing..."
-
-msgid "开始处理作品：{0}"
-msgstr "Start processing the works: {0}"
-
-msgid "{0} 获取数据失败"
-msgstr "{0} failed to retrieve data"
-
-msgid "{0} 提取数据失败"
-msgstr "{0} failed to extract data"
-
-msgid "作品处理完成：{0}"
-msgstr "works processing completed: {0}"
-
-msgid "检测到新版本：{0}.{1}"
-msgstr "New version detected: {0}.{1}"
-
-msgid "作品 {0} 存在下载记录，跳过下载"
-msgstr "works {0} has a download record, skip download"
-
-msgid "从指定的浏览器读取小红书网页版 Cookie，支持：{0}; 输入浏览器名称或序号"
-msgstr "Read Xiaohongshu web cookies from the specified browser, supporting: {0}; Enter browser name or serial number"
-
-msgid "查看 XHS-Downloader 版本"
-msgstr "View XHS Downloader Version"
-
-msgid "如果 XHS-Downloader 对您有帮助，请考虑为它点个 Star，感谢您的支持！"
-msgstr "If XHS-Downloader is helpful to you, please consider giving it Star. Thank you for your support!"
-
-msgid "作者的其他开源项目"
-msgstr "Other open-source projects of the author"
-
-msgid "视频作品下载功能已关闭，跳过下载"
-msgstr "The video download function has been turned off, skip download"
-
-msgid "图集作品下载功能已关闭，跳过下载"
-msgstr "The image download function has been turned off, skip download"
-
-msgid "作品 {0} 存在下载记录，跳过处理"
-msgstr "Works {0} has a download record, skip processing"
-
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:58
 msgid "视频作品下载开关"
 msgstr "Video works download switch"
 
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:59
 msgid "图文作品下载开关"
 msgstr "Image works download switch"
 
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:63
 msgid "动图文件下载开关"
 msgstr "Live photo download switch"
 
-msgid "配置文件 settings.json 缺少必要的参数，请删除该文件，然后重新运行程序，自动生成默认配置文件！"
-msgstr "The configuration file settings.json is missing necessary parameters. Please delete the file and run the program again to automatically generate the default configuration file!"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:67
+msgid "图片下载格式"
+msgstr "Image download format"
 
-msgid "作品文件名称格式"
-msgstr "Format of works file name"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:68
+msgid "程序语言"
+msgstr "Program language"
 
-msgid "邀请链接："
-msgstr "Invitation link: "
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:85
+msgid "保存配置"
+msgstr "Save configuration"
 
-msgid "获取小红书作品数据成功"
-msgstr "Successfully obtained data on Xiaohongshu's works"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:86
+msgid "放弃更改"
+msgstr "Discard changes"
 
-msgid "获取小红书作品数据失败"
-msgstr "Failed to obtain data on Xiaohongshu's works"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:93
+msgid "小红书网页版 Cookie，无需登录，参数已设置"
+msgstr "Xiaohongshu web version cookie, no login required, parameters have been set"
 
-msgid "Web API 服务器已启动！"
-msgstr "Web API server started!"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:94
+msgid "小红书网页版 Cookie，无需登录，参数未设置"
+msgstr "Xiaohongshu web version cookie, no login required, parameters not set"
 
-msgid "Web API 服务器已关闭！"
-msgstr "Web API server has been shut down!"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:97
+msgid "程序设置"
+msgstr "Settings"
 
-msgid "服务器主机及端口: {0}"
-msgstr "Server host and port: {0}"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\update.py:28
+msgid "正在检查新版本，请稍等..."
+msgstr "Checking for new version, please wait..."
 
-msgid "内置 Chrome Sec-Ch-Ua"
-msgstr "Built in Chrome Sec-Ch-Ua"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\update.py:48
+msgid "当前已是最新开发版"
+msgstr "You are already using the latest development version"
 
-msgid "内置 Chrome Sec-Ch-Ua-Platform"
-msgstr "Built in Chrome Sec-Ch-Ua-Platform"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\update.py:52
+msgid "当前已是最新正式版"
+msgstr "You are already using the latest official version"
 
-msgid "内置 Chrome User Agent"
-msgstr "Built in Chrome User Agent"
-
-msgid "proxy 参数 {0} 设置错误，程序将不会使用代理"
-msgstr "The proxy parameter {0} is set incorrectly, and the program will not use the proxy"
-
-msgid "代理 {0} 测试成功"
-msgstr "Agent {0} tested successfully"
-
-msgid "代理 {0} 测试超时"
-msgstr "Agent {0} test timeout"
-
-msgid "代理 {0} 测试失败：{1}"
-msgstr "Agent {0} test failed: {1}"
-
-msgid "浏览器名称或序号输入错误！"
-msgstr "Browser name or serial number input error!"
-
-msgid "作品下载记录开关"
-msgstr "Works download record switch"
-
-msgid "文件 {0} 格式判断失败，错误信息：{1}"
-msgstr "Format recognition failed for file {0}, error message: {1}"
-
-msgid "文件 {0} 缓存异常，重新下载"
-msgstr "File {0} cache exception, download again"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\update.py:57
+msgid "检测新版本失败"
+msgstr "Failed to check for a new version"
