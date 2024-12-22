@@ -1,10 +1,11 @@
 from httpx import HTTPError
 
-from source.module import ERROR
-from source.module import Manager
-from source.module import logging
-from source.module import retry
-from source.module import sleep_time
+from ..module import ERROR
+from ..module import Manager
+from ..module import logging
+from ..module import retry
+from ..module import sleep_time
+from ..translation import _
 
 __all__ = ["Html"]
 
@@ -12,7 +13,6 @@ __all__ = ["Html"]
 class Html:
     def __init__(self, manager: Manager, ):
         self.retry = manager.retry
-        self.message = manager.message
         self.client = manager.request_client
         self.headers = manager.headers
         self.blank_headers = manager.blank_headers
@@ -41,7 +41,7 @@ class Html:
         except HTTPError as error:
             logging(
                 log,
-                self.message("网络异常，{0} 请求失败: {1}").format(url, repr(error)),
+                _("网络异常，{0} 请求失败: {1}").format(url, repr(error)),
                 ERROR
             )
             return ""

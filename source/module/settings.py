@@ -4,8 +4,6 @@ from pathlib import Path
 from platform import system
 
 from .static import ROOT
-# from .static import SEC_CH_UA
-# from .static import SEC_CH_UA_PLATFORM
 from .static import USERAGENT
 
 __all__ = ['Settings']
@@ -16,8 +14,6 @@ class Settings:
         "work_path": "",
         "folder_name": "Download",
         "name_format": "发布时间 作者昵称 作品标题",
-        # "sec_ch_ua": SEC_CH_UA,
-        # "sec_ch_ua_platform": SEC_CH_UA_PLATFORM,
         "user_agent": USERAGENT,
         "cookie": "",
         "proxy": None,
@@ -32,7 +28,6 @@ class Settings:
         "folder_mode": False,
         "download_record": True,
         "language": "zh_CN",
-        # "server": False,
     }
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"
 

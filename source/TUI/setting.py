@@ -1,5 +1,3 @@
-from typing import Callable
-
 from textual import on
 from textual.app import ComposeResult
 from textual.binding import Binding
@@ -14,6 +12,8 @@ from textual.widgets import Input
 from textual.widgets import Label
 from textual.widgets import Select
 
+from ..translation import _
+
 __all__ = ["Setting"]
 
 
@@ -23,50 +23,49 @@ class Setting(Screen):
         Binding(key="B", action="index", description="返回首页/Back"),
     ]
 
-    def __init__(self, data: dict, message: Callable[[str], str]):
+    def __init__(self, data: dict, ):
         super().__init__()
         self.data = data
-        self.message = message
 
     def compose(self) -> ComposeResult:
         yield Header()
         yield ScrollableContainer(
-            Label(self.message("作品数据 / 文件保存根路径"), classes="params", ),
-            Input(self.data["work_path"], placeholder=self.message("程序根路径"), valid_empty=True,
+            Label(_("作品数据 / 文件保存根路径"), classes="params", ),
+            Input(self.data["work_path"], placeholder=_("程序根路径"), valid_empty=True,
                   id="work_path", ),
-            Label(self.message("作品文件储存文件夹名称"), classes="params", ),
+            Label(_("作品文件储存文件夹名称"), classes="params", ),
             Input(self.data["folder_name"], placeholder="Download", id="folder_name", ),
-            Label(self.message("作品文件名称格式"), classes="params", ),
-            Input(self.data["name_format"], placeholder=self.message("发布时间 作者昵称 作品标题"), valid_empty=True,
+            Label(_("作品文件名称格式"), classes="params", ),
+            Input(self.data["name_format"], placeholder=_("发布时间 作者昵称 作品标题"), valid_empty=True,
                   id="name_format", ),
-            Label(self.message("User-Agent"), classes="params", ),
-            Input(self.data["user_agent"], placeholder=self.message("内置 Chrome User Agent"), valid_empty=True,
+            Label(_("User-Agent"), classes="params", ),
+            Input(self.data["user_agent"], placeholder=_("内置 Chrome User Agent"), valid_empty=True,
                   id="user_agent", ),
-            Label(self.message("小红书网页版 Cookie"), classes="params", ),
+            Label(_("小红书网页版 Cookie"), classes="params", ),
             Input(placeholder=self.__check_cookie(), valid_empty=True, id="cookie", ),
-            Label(self.message("网络代理"), classes="params", ),
-            Input(self.data["proxy"], placeholder=self.message("不使用代理"), valid_empty=True, id="proxy", ),
-            Label(self.message("请求数据超时限制，单位：秒"), classes="params", ),
+            Label(_("网络代理"), classes="params", ),
+            Input(self.data["proxy"], placeholder=_("不使用代理"), valid_empty=True, id="proxy", ),
+            Label(_("请求数据超时限制，单位：秒"), classes="params", ),
             Input(str(self.data["timeout"]), placeholder="10", type="integer", id="timeout", ),
-            Label(self.message("下载文件时，每次从服务器获取的数据块大小，单位：字节"), classes="params", ),
+            Label(_("下载文件时，每次从服务器获取的数据块大小，单位：字节"), classes="params", ),
             Input(str(self.data["chunk"]), placeholder="1048576", type="integer", id="chunk", ),
-            Label(self.message("请求数据失败时，重试的最大次数"), classes="params", ),
+            Label(_("请求数据失败时，重试的最大次数"), classes="params", ),
             Input(str(self.data["max_retry"]), placeholder="5", type="integer", id="max_retry", ),
             Label(),
             Container(
-                Checkbox(self.message("记录作品详细数据"), id="record_data", value=self.data["record_data"], ),
-                Checkbox(self.message("作品文件夹归档模式"), id="folder_mode", value=self.data["folder_mode"], ),
-                Checkbox(self.message("视频作品下载开关"), id="video_download", value=self.data["video_download"], ),
-                Checkbox(self.message("图文作品下载开关"), id="image_download", value=self.data["image_download"], ),
+                Checkbox(_("记录作品详细数据"), id="record_data", value=self.data["record_data"], ),
+                Checkbox(_("作品文件夹归档模式"), id="folder_mode", value=self.data["folder_mode"], ),
+                Checkbox(_("视频作品下载开关"), id="video_download", value=self.data["video_download"], ),
+                Checkbox(_("图文作品下载开关"), id="image_download", value=self.data["image_download"], ),
                 classes="horizontal-layout"),
             Label(),
             Container(
-                Checkbox(self.message("动图文件下载开关"), id="live_download", value=self.data["live_download"], ),
-                Checkbox(self.message("作品下载记录开关"), id="download_record", value=self.data["download_record"], ),
+                Checkbox(_("动图文件下载开关"), id="live_download", value=self.data["live_download"], ),
+                Checkbox(_("作品下载记录开关"), id="download_record", value=self.data["download_record"], ),
                 classes="horizontal-layout"),
             Container(
-                Label(self.message("图片下载格式"), classes="params", ),
-                Label(self.message("程序语言"), classes="params", ),
+                Label(_("图片下载格式"), classes="params", ),
+                Label(_("程序语言"), classes="params", ),
                 classes="horizontal-layout",
             ),
             Label(),
@@ -83,19 +82,19 @@ class Setting(Screen):
                     id="language", ),
                 classes="horizontal-layout"),
             Container(
-                Button(self.message("保存配置"), id="save", ),
-                Button(self.message("放弃更改"), id="abandon", ),
+                Button(_("保存配置"), id="save", ),
+                Button(_("放弃更改"), id="abandon", ),
                 classes="settings_button", ),
         )
         yield Footer()
 
     def __check_cookie(self) -> str:
         if self.data["cookie"]:
-            return self.message("小红书网页版 Cookie，无需登录，参数已设置")
-        return self.message("小红书网页版 Cookie，无需登录，参数未设置")
+            return _("小红书网页版 Cookie，无需登录，参数已设置")
+        return _("小红书网页版 Cookie，无需登录，参数未设置")
 
     def on_mount(self) -> None:
-        self.title = self.message("程序设置")
+        self.title = _("程序设置")
 
     @on(Button.Pressed, "#save")
     def save_settings(self):
@@ -117,7 +116,6 @@ class Setting(Screen):
             "video_download": self.query_one("#video_download").value,
             "live_download": self.query_one("#live_download").value,
             "download_record": self.query_one("#download_record").value,
-            # "server": False,
         })
 
     @on(Button.Pressed, "#abandon")

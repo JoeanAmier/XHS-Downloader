@@ -5,6 +5,11 @@ from warnings import warn
 
 from emoji import replace_emoji
 
+try:
+    from source.translation import _
+except ImportError:
+    _ = lambda s: s
+
 
 class Cleaner:
     CONTROL_CHARACTERS = compile(r"[\x00-\x1F\x7F]")
@@ -37,7 +42,7 @@ class Cleaner:
                 "\x00": "",
             }  # Linux 系统
         else:
-            warn("不受支持的操作系统类型，可能无法正常去除非法字符！")
+            warn(_("不受支持的操作系统类型，可能无法正常去除非法字符！"))
             rule = {}
         cache = {i: "" for i in whitespace[1:]}  # 补充换行符等非法字符
         return rule | cache

@@ -26,8 +26,6 @@ from .static import (
     HEADERS,
     PROJECT,
     USERAGENT,
-    SEC_CH_UA,
-    SEC_CH_UA_PLATFORM,
     FILE_SIGNATURES,
     FILE_SIGNATURES_LENGTH,
     MAX_WORKERS,
@@ -37,4 +35,3 @@ from .tools import (
     logging,
     sleep_time,
 )
-from .translator import Translate

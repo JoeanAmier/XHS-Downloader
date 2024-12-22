@@ -4,7 +4,7 @@ from re import compile
 
 from aiosqlite import connect
 
-from source.module import Manager
+from ..module import Manager
 
 __all__ = ["IDRecorder", "DataRecorder", ]
 

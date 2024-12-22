@@ -1,5 +1,3 @@
-from typing import Callable
-
 from rich.text import Text
 from textual import on
 from textual import work
@@ -18,6 +16,7 @@ from ..module import (
     MASTER,
     INFO,
 )
+from ..translation import _
 
 __all__ = ["Monitor"]
 
@@ -28,16 +27,15 @@ class Monitor(Screen):
         Binding(key="C", action="close", description="关闭监听/Close"),
     ]
 
-    def __init__(self, app: XHS, message: Callable[[str], str]):
+    def __init__(self, app: XHS, ):
         super().__init__()
         self.xhs = app
-        self.message = message
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Label(Text(self.message("已启动监听剪贴板模式"), style=INFO), classes="prompt")
+        yield Label(Text(_("已启动监听剪贴板模式"), style=INFO), classes="prompt")
         yield RichLog(markup=True, wrap=True)
-        yield Button(self.message("退出监听剪贴板模式"), id="close")
+        yield Button(_("退出监听剪贴板模式"), id="close")
         yield Footer()
 
     @on(Button.Pressed, "#close")
@@ -52,7 +50,7 @@ class Monitor(Screen):
     def on_mount(self) -> None:
         self.title = PROJECT
         self.query_one(RichLog).write(
-            Text(self.message(
+            Text(_(
                 "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"),
                 style=MASTER))
         self.run_monitor()

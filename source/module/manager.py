@@ -3,7 +3,6 @@ from re import compile
 from re import sub
 from shutil import move
 from shutil import rmtree
-from typing import Callable
 
 from httpx import AsyncClient
 from httpx import AsyncHTTPTransport
@@ -14,11 +13,10 @@ from httpx import get
 
 from source.expansion import remove_empty_directories
 from .static import HEADERS
-# from .static import SEC_CH_UA
-# from .static import SEC_CH_UA_PLATFORM
 from .static import USERAGENT
 from .static import WARNING
 from .tools import logging
+from ..translation import _
 
 __all__ = ["Manager"]
 
@@ -26,19 +24,19 @@ __all__ = ["Manager"]
 class Manager:
     NAME = compile(r"[^\u4e00-\u9fffa-zA-Z0-9-_！？，。；：“”（）《》]")
     NAME_KEYS = (
-        '收藏数量',
-        '评论数量',
-        '分享数量',
-        '点赞数量',
-        '作品标签',
-        '作品ID',
-        '作品标题',
-        '作品描述',
-        '作品类型',
-        '发布时间',
-        '最后更新时间',
-        '作者昵称',
-        '作者ID',
+        "收藏数量",
+        "评论数量",
+        "分享数量",
+        "点赞数量",
+        "作品标签",
+        "作品ID",
+        "作品标题",
+        "作品描述",
+        "作品类型",
+        "发布时间",
+        "最后更新时间",
+        "作者昵称",
+        "作者ID",
     )
     NO_PROXY = {
         "http://": None,
@@ -55,8 +53,6 @@ class Manager:
             folder: str,
             name_format: str,
             chunk: int,
-            # sec_ch_ua: str,
-            # sec_ch_ua_platform: str,
             user_agent: str,
             cookie: str,
             proxy: str | dict,
@@ -69,19 +65,14 @@ class Manager:
             live_download: bool,
             download_record: bool,
             folder_mode: bool,
-            # server: bool,
-            transition: Callable[[str], str],
             _print: bool,
     ):
         self.root = root
         self.temp = root.joinpath("./temp")
         self.path = self.__check_path(path)
         self.folder = self.__check_folder(folder)
-        self.message = transition
         self.blank_headers = HEADERS | {
             'user-agent': user_agent or USERAGENT,
-            # 'sec-ch-ua': sec_ch_ua or SEC_CH_UA,
-            # 'sec-ch-ua-platform': sec_ch_ua_platform or SEC_CH_UA_PLATFORM,
         }
         self.headers = self.blank_headers | {
             'cookie': cookie,
@@ -121,7 +112,6 @@ class Manager:
         self.image_download = self.check_bool(image_download, True)
         self.video_download = self.check_bool(video_download, True)
         self.live_download = self.check_bool(live_download, True)
-        # self.server = self.check_bool(server, False)
 
     def __check_path(self, path: str) -> Path:
         if not path:
@@ -211,11 +201,11 @@ class Manager:
                     }
                 )
                 response.raise_for_status()
-                self.proxy_tip = (self.message("代理 {0} 测试成功").format(proxy),)
+                self.proxy_tip = (_("代理 {0} 测试成功").format(proxy),)
                 return proxy
             except TimeoutException:
                 self.proxy_tip = (
-                    self.message("代理 {0} 测试超时").format(proxy),
+                    _("代理 {0} 测试超时").format(proxy),
                     WARNING,
                 )
             except (
@@ -223,7 +213,7 @@ class Manager:
                     HTTPStatusError,
             ) as e:
                 self.proxy_tip = (
-                    self.message("代理 {0} 测试失败：{1}").format(
+                    _("代理 {0} 测试失败：{1}").format(
                         proxy,
                         e,
                     ),

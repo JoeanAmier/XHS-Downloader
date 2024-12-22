@@ -1,5 +1,3 @@
-from typing import Callable
-
 from rich.text import Text
 from textual import work
 from textual.app import ComposeResult
@@ -15,19 +13,19 @@ from ..module import (
     INFO,
     RELEASES,
 )
+from ..translation import _
 
 __all__ = ["Update"]
 
 
 class Update(ModalScreen):
-    def __init__(self, app: XHS, message: Callable[[str], str]):
+    def __init__(self, app: XHS, ):
         super().__init__()
         self.xhs = app
-        self.message = message
 
     def compose(self) -> ComposeResult:
         yield Grid(
-            Label(self.message("正在检查新版本，请稍等...")),
+            Label(_("正在检查新版本，请稍等...")),
             LoadingIndicator(),
             classes="loading",
         )
@@ -39,24 +37,24 @@ class Update(ModalScreen):
             version = url.split("/")[-1]
             match self.compare_versions(f"{XHS.VERSION_MAJOR}.{XHS.VERSION_MINOR}", version, XHS.VERSION_BETA):
                 case 4:
-                    tip = Text(f"{self.message("检测到新版本：{0}.{1}").format(
+                    tip = Text(f"{_("检测到新版本：{0}.{1}").format(
                         XHS.VERSION_MAJOR, XHS.VERSION_MINOR)}\n{RELEASES}", style=WARNING)
                 case 3:
                     tip = Text(
-                        f"{self.message("当前版本为开发版, 可更新至正式版")}\n{RELEASES}",
+                        f"{_("当前版本为开发版, 可更新至正式版")}\n{RELEASES}",
                         style=WARNING)
                 case 2:
                     tip = Text(
-                        self.message("当前已是最新开发版"),
+                        _("当前已是最新开发版"),
                         style=WARNING)
                 case 1:
                     tip = Text(
-                        self.message("当前已是最新正式版"),
+                        _("当前已是最新正式版"),
                         style=INFO)
                 case _:
                     raise ValueError
         except ValueError:
-            tip = Text(self.message("检测新版本失败"), style=ERROR)
+            tip = Text(_("检测新版本失败"), style=ERROR)
         self.dismiss(tip)
 
     def on_mount(self) -> None:

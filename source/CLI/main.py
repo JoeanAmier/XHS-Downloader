@@ -23,7 +23,7 @@ from source.module import (
     PROJECT,
 )
 from source.module import Settings
-from source.module import Translate
+from source.translation import switch_language, _
 
 __all__ = ["cli"]
 
@@ -106,7 +106,6 @@ class CLI:
     @staticmethod
     @check_value
     def help_(ctx: Context, param, value) -> None:
-        _ = Translate("").message()
         table = Table(highlight=True, box=None, show_header=True)
 
         # 添加表格的列名
@@ -115,7 +114,6 @@ class CLI:
         table.add_column("type", no_wrap=True, style="bold")
         table.add_column("description", no_wrap=True, )
 
-        # TODO: 语言设置未生效
         options = (
             ("--url", "-u", "str", _("小红书作品链接")),
             ("--index", "-i", "str", _("下载指定序号的图片文件，仅对图文作品生效；多个序号输入示例：\"1 3 5 7\"")),
@@ -158,7 +156,6 @@ class CLI:
                 border_style="bold",
                 title="XHS-Downloader CLI Parameters",
                 title_align="left"))
-        ctx.exit()
 
 
 @command(name="XHS-Downloader", help=PROJECT)
@@ -170,8 +167,6 @@ class CLI:
         )
 @option("--folder_name", "-fn", )
 @option("--name_format", "-nf", )
-# @option("--sec_ch_ua", "-su", )
-# @option("--sec_ch_ua_platform", "-sp", )
 @option("--user_agent", "-ua", )
 @option("--cookie", "-ck", )
 @option("--proxy", "-p", )
@@ -192,19 +187,35 @@ class CLI:
 @option("--update_settings", "-us", type=bool,
         is_flag=True, )
 @option("-h",
-        is_flag=True,
-        is_eager=True,
-        expose_value=False,
-        callback=CLI.help_, )
+        "--help",
+        is_flag=True, )
 @option("--version", "-v",
         is_flag=True,
         is_eager=True,
         expose_value=False,
         callback=CLI.version, )
 @pass_context
-def cli(ctx, **kwargs):
+def cli(ctx, help, language, **kwargs):
+    # Step 1: 切换语言
+    if language:
+        switch_language(language)
+
+    # Step 2: 如果请求了帮助信息，则显示帮助并退出
+    if help:
+        ctx.obj = kwargs  # 保留当前上下文的参数
+        CLI.help_(ctx, None, help)
+        return
+
+    # Step 3: 主逻辑
     async def main():
         async with CLI(ctx, **kwargs) as xhs:
             await xhs.run()
 
     run(main())
+
+
+if __name__ == "__main__":
+    from click.testing import CliRunner
+
+    runner = CliRunner()
+    result = runner.invoke(cli, ['-l', 'en_US', '-h'])

@@ -18,6 +18,7 @@ from ..module import Manager
 from ..module import logging
 from ..module import retry as re_download
 from ..module import sleep_time
+from ..translation import _
 
 if TYPE_CHECKING:
     from httpx import AsyncClient
@@ -44,7 +45,6 @@ class Download:
         self.client: "AsyncClient" = manager.download_client
         self.headers = manager.blank_headers
         self.retry = manager.retry
-        self.message = manager.message
         self.folder_mode = manager.folder_mode
         self.video_format = "mp4"
         self.live_format = "mp4"
@@ -72,14 +72,14 @@ class Download:
     ) -> tuple[Path, list[Any]]:
         path = self.__generate_path(name)
         match type_:
-            case "视频":
+            case _("视频"):
                 tasks = self.__ready_download_video(
                     urls,
                     path,
                     name,
                     log,
                 )
-            case "图文":
+            case _("图文"):
                 tasks = self.__ready_download_image(
                     urls,
                     lives,
@@ -115,7 +115,7 @@ class Download:
             name: str,
             log) -> list:
         if not self.video_download:
-            logging(log, self.message("视频作品下载功能已关闭，跳过下载"))
+            logging(log, _("视频作品下载功能已关闭，跳过下载"))
             return []
         if self.__check_exists_path(path, f"{name}.{self.video_format}", log):
             return []
@@ -131,7 +131,7 @@ class Download:
             log) -> list:
         tasks = []
         if not self.image_download:
-            logging(log, self.message("图文作品下载功能已关闭，跳过下载"))
+            logging(log, _("图文作品下载功能已关闭，跳过下载"))
             return tasks
         for i, j in enumerate(zip(urls, lives), start=1):
             if index and i not in index:
@@ -158,7 +158,7 @@ class Download:
     def __check_exists_glob(self, path: Path, name: str, log, ) -> bool:
         if any(path.glob(name)):
             logging(
-                log, self.message(
+                log, _(
                     "{0} 文件已存在，跳过下载").format(name))
             return True
         return False
@@ -166,7 +166,7 @@ class Download:
     def __check_exists_path(self, path: Path, name: str, log, ) -> bool:
         if path.joinpath(name).exists():
             logging(
-                log, self.message(
+                log, _(
                     "{0} 文件已存在，跳过下载").format(name))
             return True
         return False
@@ -192,7 +192,7 @@ class Download:
             # except HTTPError as error:
             #     logging(
             #         log,
-            #         self.message(
+            #         _(
             #             "网络异常，{0} 请求失败，错误信息: {1}").format(name, repr(error)),
             #         ERROR,
             #     )
@@ -205,7 +205,7 @@ class Download:
                     await sleep_time()
                     if response.status_code == 416:
                         raise CacheError(
-                            self.message("文件 {0} 缓存异常，重新下载").format(temp.name),
+                            _("文件 {0} 缓存异常，重新下载").format(temp.name),
                         )
                     response.raise_for_status()
                     # self.__create_progress(
@@ -228,13 +228,13 @@ class Download:
                 )
                 self.manager.move(temp, real)
                 # self.__create_progress(bar, None)
-                logging(log, self.message("文件 {0} 下载成功").format(real.name))
+                logging(log, _("文件 {0} 下载成功").format(real.name))
                 return True
             except HTTPError as error:
                 # self.__create_progress(bar, None)
                 logging(
                     log,
-                    self.message(
+                    _(
                         "网络异常，{0} 下载失败，错误信息: {1}").format(name, repr(error)),
                     ERROR,
                 )
@@ -308,7 +308,7 @@ class Download:
         except Exception as error:
             logging(
                 log,
-                self.message("文件 {0} 格式判断失败，错误信息：{1}").format(temp.name, repr(error)),
+                _("文件 {0} 格式判断失败，错误信息：{1}").format(temp.name, repr(error)),
                 ERROR,
             )
         return path.joinpath(f"{name}.{default_suffix}")

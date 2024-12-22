@@ -6,7 +6,6 @@ from asyncio import sleep
 from contextlib import suppress
 from datetime import datetime
 from re import compile
-from typing import Callable
 from urllib.parse import urlparse
 
 from fastapi import FastAPI
@@ -36,9 +35,9 @@ from source.module import (
     VERSION_MINOR,
     VERSION_BETA,
 )
-from source.module import Translate
 from source.module import logging
 from source.module import sleep_time
+from source.translation import switch_language, _
 from .download import Download
 from .explore import Explore
 from .image import Image
@@ -80,8 +79,6 @@ class XHS:
             work_path="",
             folder_name="Download",
             name_format="发布时间 作者昵称 作品标题",
-            # sec_ch_ua: str = "",
-            # sec_ch_ua_platform: str = "",
             user_agent: str = None,
             cookie: str = None,
             proxy: str | dict = None,
@@ -96,22 +93,18 @@ class XHS:
             folder_mode=False,
             download_record=True,
             language="zh_CN",
-            # server=False,
-            transition: Callable[[str], str] = None,
             read_cookie: int | str = None,
             _print: bool = True,
             *args,
             **kwargs,
     ):
-        self.message = transition or Translate(language).message()
+        switch_language(language)
         self.manager = Manager(
             ROOT,
             work_path,
             folder_name,
             name_format,
             chunk,
-            # sec_ch_ua,
-            # sec_ch_ua_platform,
             user_agent,
             self.read_browser_cookie(read_cookie) or cookie,
             proxy,
@@ -124,8 +117,6 @@ class XHS:
             live_download,
             download_record,
             folder_mode,
-            # server,
-            self.message,
             _print,
         )
         self.html = Html(self.manager)
@@ -163,7 +154,7 @@ class XHS:
         if (u := container["下载地址"]) and download:
             if await self.skip_download(i := container["作品ID"]):
                 logging(
-                    log, self.message("作品 {0} 存在下载记录，跳过下载").format(i))
+                    log, _("作品 {0} 存在下载记录，跳过下载").format(i))
             else:
                 path, result = await self.download.run(
                     u,
@@ -176,7 +167,7 @@ class XHS:
                 )
                 await self.__add_record(i, result)
         elif not u:
-            logging(log, self.message("提取作品文件下载地址失败"), ERROR)
+            logging(log, _("提取作品文件下载地址失败"), ERROR)
         await self.save_data(container)
 
     @_data_cache
@@ -202,10 +193,10 @@ class XHS:
         # return  # 调试代码
         urls = await self.__extract_links(url, log)
         if not urls:
-            logging(log, self.message("提取小红书作品链接失败"), WARNING)
+            logging(log, _("提取小红书作品链接失败"), WARNING)
         else:
             logging(
-                log, self.message("共 {0} 个小红书作品待处理...").format(len(urls)))
+                log, _("共 {0} 个小红书作品待处理...").format(len(urls)))
         # return urls  # 调试代码
         return [await self.__deal_extract(i, download, index, log, bar, data, ) for i in urls]
 
@@ -220,7 +211,7 @@ class XHS:
     ) -> None:
         url = await self.__extract_links(url, log)
         if not url:
-            logging(log, self.message("提取小红书作品链接失败"), WARNING)
+            logging(log, _("提取小红书作品链接失败"), WARNING)
         else:
             await self.__deal_extract(url[0], download, index, log, bar, data, )
 
@@ -250,29 +241,29 @@ class XHS:
             cookie: str = None,
     ):
         if await self.skip_download(i := self.__extract_link_id(url)) and not data:
-            msg = self.message("作品 {0} 存在下载记录，跳过处理").format(i)
+            msg = _("作品 {0} 存在下载记录，跳过处理").format(i)
             logging(log, msg)
             return {"message": msg}
-        logging(log, self.message("开始处理作品：{0}").format(i))
+        logging(log, _("开始处理作品：{0}").format(i))
         html = await self.html.request_url(url, log=log, cookie=cookie, )
         namespace = self.__generate_data_object(html)
         if not namespace:
-            logging(log, self.message("{0} 获取数据失败").format(i), ERROR)
+            logging(log, _("{0} 获取数据失败").format(i), ERROR)
             return {}
         data = self.explore.run(namespace)
         # logging(log, data)  # 调试代码
         if not data:
-            logging(log, self.message("{0} 提取数据失败").format(i), ERROR)
+            logging(log, _("{0} 提取数据失败").format(i), ERROR)
             return {}
         match data["作品类型"]:
-            case "视频":
+            case _("视频"):
                 self.__extract_video(data, namespace)
-            case "图文":
+            case _("图文"):
                 self.__extract_image(data, namespace)
             case _:
                 data["下载地址"] = []
         await self.__download_files(data, download, index, log, bar)
-        logging(log, self.message("作品处理完成：{0}").format(i))
+        logging(log, _("作品处理完成：{0}").format(i))
         await sleep_time()
         return data
 
@@ -332,7 +323,7 @@ class XHS:
     ) -> None:
         logging(
             None,
-            self.message(
+            _(
                 "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"),
             style=MASTER,
         )
@@ -392,13 +383,13 @@ class XHS:
     #     skip = data.get("skip", False)
     #     url = await self.__extract_links(url, None)
     #     if not url:
-    #         msg = self.message("提取小红书作品链接失败")
+    #         msg = _("提取小红书作品链接失败")
     #         data = None
     #     else:
     #         if data := await self.__deal_extract(url[0], download, index, None, None, not skip, ):
-    #             msg = self.message("获取小红书作品数据成功")
+    #             msg = _("获取小红书作品数据成功")
     #         else:
-    #             msg = self.message("获取小红书作品数据失败")
+    #             msg = _("获取小红书作品数据失败")
     #             data = None
     #     return web.json_response(dict(message=msg, url=url[0], data=data))
 
@@ -420,12 +411,12 @@ class XHS:
     #     await self.runner.setup()
     #     self.site = web.TCPSite(self.runner, "0.0.0.0")
     #     await self.site.start()
-    #     logging(log, self.message("Web API 服务器已启动！"))
-    #     logging(log, self.message("服务器主机及端口: {0}".format(self.site.name, )))
+    #     logging(log, _("Web API 服务器已启动！"))
+    #     logging(log, _("服务器主机及端口: {0}".format(self.site.name, )))
 
     # async def close_server(self, log=None, ):
     #     await self.runner.cleanup()
-    #     logging(log, self.message("Web API 服务器已关闭！"))
+    #     logging(log, _("Web API 服务器已关闭！"))
 
     async def run_server(self, host="0.0.0.0", port=8000, log_level="info", ):
         self.server = FastAPI(
@@ -451,7 +442,7 @@ class XHS:
         async def handle(extract: ExtractParams):
             url = await self.__extract_links(extract.url, None)
             if not url:
-                msg = self.message("提取小红书作品链接失败")
+                msg = _("提取小红书作品链接失败")
                 data = None
             else:
                 if data := await self.__deal_extract(
@@ -463,9 +454,9 @@ class XHS:
                         not extract.skip,
                         extract.cookie,
                 ):
-                    msg = self.message("获取小红书作品数据成功")
+                    msg = _("获取小红书作品数据成功")
                 else:
-                    msg = self.message("获取小红书作品数据失败")
+                    msg = _("获取小红书作品数据失败")
                     data = None
             return ExtractData(
                 message=msg,

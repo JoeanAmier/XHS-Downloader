@@ -1,5 +1,3 @@
-from typing import Callable
-
 from textual.app import App
 from textual.widgets import RichLog
 
@@ -15,8 +13,8 @@ from ..module import (
     ERROR,
 )
 from ..module import Settings
-from ..module import Translate
 from ..module import logging
+from ..translation import _
 
 __all__ = ["XHSDownloader"]
 
@@ -28,7 +26,6 @@ class XHSDownloader(App):
     def __init__(self):
         super().__init__()
         self.parameter: dict
-        self.message: Callable[[str], str]
         self.APP: XHS
         self.__initialization()
 
@@ -41,10 +38,8 @@ class XHSDownloader(App):
 
     def __initialization(self) -> None:
         self.parameter = self.SETTINGS.run()
-        self.message = Translate(self.parameter["language"]).message()
         self.APP = XHS(
             **self.parameter,
-            transition=self.message,
             _print=False,
         )
 
@@ -52,18 +47,18 @@ class XHSDownloader(App):
         self.install_screen(
             Setting(
                 self.parameter,
-                self.message),
+            ),
             name="setting")
-        self.install_screen(Index(self.APP, self.message), name="index")
-        self.install_screen(Loading(self.message), name="loading")
-        self.install_screen(About(self.message), name="about")
-        self.install_screen(Record(self.APP, self.message), name="record")
+        self.install_screen(Index(self.APP, ), name="index")
+        self.install_screen(Loading(), name="loading")
+        self.install_screen(About(), name="about")
+        self.install_screen(Record(self.APP, ), name="record")
         await self.push_screen("index")
         self.SETTINGS.check_keys(
             self.parameter,
             logging,
             self.query_one(RichLog),
-            self.message("配置文件 settings.json 缺少必要的参数，请删除该文件，然后重新运行程序，自动生成默认配置文件！") +
+            _("配置文件 settings.json 缺少必要的参数，请删除该文件，然后重新运行程序，自动生成默认配置文件！") +
             f"\n{
             ">" *
             50}",
@@ -88,15 +83,15 @@ class XHSDownloader(App):
         self.uninstall_screen("loading")
         self.uninstall_screen("about")
         self.uninstall_screen("record")
-        self.install_screen(Index(self.APP, self.message), name="index")
+        self.install_screen(Index(self.APP, ), name="index")
         self.install_screen(
             Setting(
                 self.parameter,
-                self.message),
+            ),
             name="setting")
-        self.install_screen(Loading(self.message), name="loading")
-        self.install_screen(About(self.message), name="about")
-        self.install_screen(Record(self.APP, self.message), name="record")
+        self.install_screen(Loading(), name="loading")
+        self.install_screen(About(), name="about")
+        self.install_screen(Record(self.APP, ), name="record")
         await self.push_screen("index")
 
     def update_result(self, tip: str) -> None:
@@ -105,7 +100,7 @@ class XHSDownloader(App):
         log.write(">" * 50)
 
     async def action_check_update(self):
-        await self.push_screen(Update(self.APP, self.message), callback=self.update_result)
+        await self.push_screen(Update(self.APP, ), callback=self.update_result)
 
     async def action_update_and_return(self):
         await self.push_screen("index")

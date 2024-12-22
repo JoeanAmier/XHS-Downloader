@@ -1,5 +1,3 @@
-from typing import Callable
-
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Grid
@@ -10,24 +8,24 @@ from textual.widgets import Input
 from textual.widgets import Label
 
 from ..application import XHS
+from ..translation import _
 
 __all__ = ["Record"]
 
 
 class Record(ModalScreen):
-    def __init__(self, app: XHS, message: Callable[[str], str]):
+    def __init__(self, app: XHS, ):
         super().__init__()
         self.xhs = app
-        self.message = message
 
     def compose(self) -> ComposeResult:
         yield Grid(
-            Label(self.message("请输入待删除的小红书作品链接或作品 ID"), classes="prompt"),
-            Input(placeholder=self.message("支持输入作品 ID 或包含作品 ID 的作品链接，多个链接或 ID 之间使用空格分隔"),
+            Label(_("请输入待删除的小红书作品链接或作品 ID"), classes="prompt"),
+            Input(placeholder=_("支持输入作品 ID 或包含作品 ID 的作品链接，多个链接或 ID 之间使用空格分隔"),
                   id="id", ),
             HorizontalScroll(
-                Button(self.message("删除指定作品 ID"), id="enter", ),
-                Button(self.message("返回首页"), id="close"), ),
+                Button(_("删除指定作品 ID"), id="enter", ),
+                Button(_("返回首页"), id="close"), ),
             id="record",
         )
 
