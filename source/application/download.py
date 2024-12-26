@@ -32,9 +32,10 @@ class Download:
         "image/png": "png",
         "image/jpeg": "jpeg",
         "image/webp": "webp",
-        "application/octet-stream": "",
         "video/mp4": "mp4",
         "video/quicktime": "mov",
+        "audio/mp4": "m4a",
+        "audio/mpeg": "mp3",
     }
 
     def __init__(self, manager: Manager, ):
