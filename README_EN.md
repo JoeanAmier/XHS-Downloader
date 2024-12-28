@@ -195,14 +195,16 @@ def api_demo():
 <p>Note: Using the XHS-Downloader user script to batch extract content links, in combination with the XHS-Downloader program, can achieve batch downloading of watermark-free content files!</p>
 <h2>📜 Script Instructions</h2>
 <ul>
-<li>When downloading watermark-free Xiaohongshu作品 files, the script will take some time to process the files, please wait a moment and do not click the download button multiple times</li>
-<li>Watermark-free image files are in PNG format; watermark-free video files are larger and may take longer to process, page jumps may cause download failures</li>
-<li>(Disabled)<del>When extracting links of account posts, favorites, likes, and album作品, the script will attempt to automatically scroll the screen until all作品 are loaded, with a scroll detection interval of 2.5 seconds</del></li>
-<li>(Disabled)<del>When extracting discovery作品 links, search作品, and user links, the script will automatically scroll the screen to try to load more content, scrolling the screen up to 10 times</del></li>
-<li>(Disabled)<del>You can modify the scroll detection interval and the number of screen scrolls, changes will take effect immediately; you can also disable the automatic screen scrolling function and manually scroll to load content</del></li>
-<li>Using global proxy tools may cause the script to fail to download files, if there are issues, please try closing the proxy tool, and feedback to the author if necessary</li>
-<li>The XHS-Downloader user script only implements the data collection function that can be obtained visibly, with no paid features or cracking functions</li>
+<li>When downloading watermark-free works from Xiaohongshu, the script requires time to process the files. Please wait for a moment and do not click the download button multiple times.</li>
+<li>Watermark-free image files are in PNG format; watermark-free video files are larger and may take longer to process. Page redirects may cause download failures.</li>
+<li>When extracting links for posts, collects, likes, and board from an account, the script can automatically scroll the page until all works are loaded. The default scroll detection interval is 2.5 seconds.</li>
+<li>When extracting links to explore works, searching for works, and user links, the script can automatically scroll the page to load more content. The default number of page scrolls is 10.</li>
+<li>The automatic page scroll feature is turned off by default. Users can enable it and modify the scroll detection interval and the number of scrolls, with changes taking effect immediately.</li>
+<li>If the automatic page scroll feature is not enabled, users need to manually scroll the page to load more content before performing other actions.</li>
+<li>Using global proxy tools may cause script download failures. If there are issues, please try disabling the proxy tool. If necessary, contact the author for feedback.</li>
+<li>XHS-Downloader userscript only implements the data collection functionality for visible content and does not include any paid or cracked features.</li>
 </ul>
+<p><strong>The automatic page scroll feature has been refactored and is turned off by default! Enabling this feature may be detected as automated behavior by Xiaohongshu, potentially resulting in account risk control or banning.</strong></p>
 <h1>💻 Secondary Development</h1>
 <p>If you have other needs, you can perform code calls or modifications based on the comments in <code>main.py</code>!</p>
 <pre>
