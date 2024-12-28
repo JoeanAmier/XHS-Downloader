@@ -39,11 +39,16 @@ class About(Screen):
 
     def compose(self) -> ComposeResult:
         yield Header()
-        yield Label(Text(_("如果 XHS-Downloader 对您有帮助，请考虑为它点个 Star，感谢您的支持！"), style=INFO),
-                    classes="prompt", )
+        yield Label(
+            Text(
+                _("如果 XHS-Downloader 对您有帮助，请考虑为它点个 Star，感谢您的支持！"),
+                style=INFO,
+            ),
+            classes="prompt",
+        )
         yield Label(Text(_("Discord 社区"), style=PROMPT), classes="prompt", )
         yield Link(
-            f"{_("邀请链接：")}https://discord.com/invite/ZYtmgKud9Y",
+            _("邀请链接：") + "https://discord.com/invite/ZYtmgKud9Y",
             url="https://discord.com/invite/ZYtmgKud9Y",
             tooltip=_("点击访问"),
         )

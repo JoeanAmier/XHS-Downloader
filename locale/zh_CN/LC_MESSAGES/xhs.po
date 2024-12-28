@@ -290,22 +290,26 @@ msgstr ""
 msgid "返回首页"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:42
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:44
 msgid "如果 XHS-Downloader 对您有帮助，请考虑为它点个 Star，感谢您的支持！"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:44
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:49
 msgid "Discord 社区"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:48
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:55
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:61
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:51
+msgid "邀请链接："
+msgstr ""
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:53
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:60
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:66
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:65
 msgid "点击访问"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:50
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:55
 msgid "作者的其他开源项目"
 msgstr ""
 
@@ -330,6 +334,14 @@ msgstr ""
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:42
 msgid "关于项目"
+msgstr ""
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:56
+msgid "开源协议: "
+msgstr ""
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:61
+msgid "项目地址: "
 msgstr ""
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:69

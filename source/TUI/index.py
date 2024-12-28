@@ -53,12 +53,12 @@ class Index(Screen):
         yield ScrollableContainer(
             Label(
                 Text(
-                    f"{_("开源协议")}: {LICENCE}",
+                    _("开源协议: ") + LICENCE,
                     style=MASTER)
             ),
             Link(
                 Text(
-                    f"{_("项目地址")}{REPOSITORY}",
+                    _("项目地址: ") + REPOSITORY,
                     style=MASTER,
                 ),
                 url=REPOSITORY,
@@ -130,7 +130,7 @@ class Index(Screen):
             Text(">" * 50, style=GENERAL),
             animate=True,
         )
-        self.app.pop_screen()
+        await self.app.pop_screen()
 
     async def action_quit(self) -> None:
         await self.app.action_quit()

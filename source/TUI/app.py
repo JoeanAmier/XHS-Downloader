@@ -74,7 +74,7 @@ class XHSDownloader(App):
         await self.push_screen("setting", save_settings)
 
     async def refresh_screen(self):
-        self.pop_screen()
+        await self.pop_screen()
         await self.close_database()
         await self.APP.close()
         self.__initialization()
