@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.8.0
+// @version      1.8.1
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -216,38 +216,39 @@ XHS-Downloader 用户脚本 详细说明：
     const downloadFile = async (link, filename) => {
         try {
             // 使用 fetch 获取文件数据
-            let response = await fetch(link, {
-                method: "GET",
-            });
+            const response = await fetch(link, {method: "GET"});
 
             // 检查响应状态码
             if (!response.ok) {
-                console.error(`请求失败，状态码: ${response.status}`, response.status);
-                return false
+                console.error(`下载失败，状态码: ${response.status}，URL: ${link}`);
+                return false;
             }
 
-            let blob = await response.blob();
+            const blob = await response.blob();
 
             // 创建 Blob 对象的 URL
-            let blobUrl = window.URL.createObjectURL(blob);
+            const blobUrl = URL.createObjectURL(blob);
 
             // 创建一个临时链接元素
-            let tempLink = document.createElement('a');
+            const tempLink = document.createElement("a");
             tempLink.href = blobUrl;
             tempLink.download = filename;
 
-            // 模拟点击链接
+            // 将链接添加到 DOM 并模拟点击
+            document.body.appendChild(tempLink); // 避免某些浏览器安全限制
             tempLink.click();
 
             // 清理临时链接元素
-            window.URL.revokeObjectURL(blobUrl);
+            document.body.removeChild(tempLink); // 从 DOM 中移除临时链接
+            URL.revokeObjectURL(blobUrl); // 释放 URL
 
-            return true
+            console.info(`文件已成功下载: ${filename}`);
+            return true;
         } catch (error) {
-            console.error(`下载失败 (${filename}):`, error);
-            return false
+            console.error(`下载失败 (${filename})，错误信息:`, error);
+            return false;
         }
-    }
+    };
 
     const extractName = () => {
         let name = document.title.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "");
