@@ -22,7 +22,7 @@ def retry(function):
 def logging(log, text, style=INFO):
     string = Text(text, style=style)
     if log:
-        log.write(string)
+        log.write(string, animate=True, )
     else:
         print(string)
 

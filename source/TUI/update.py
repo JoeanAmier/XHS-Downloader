@@ -30,7 +30,7 @@ class Update(ModalScreen):
             classes="loading",
         )
 
-    @work()
+    @work(exclusive=True)
     async def check_update(self) -> None:
         try:
             url = await self.xhs.html.request_url(RELEASES, False, None, timeout=5, )

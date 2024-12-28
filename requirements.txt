@@ -1,4 +1,4 @@
-textual<=0.63.0
+textual>=1.0.0
 pyperclip>=1.9.0
 lxml>=5.3.0
 PyYAML>=6.0.2

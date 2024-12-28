@@ -23,8 +23,8 @@ __all__ = ["Monitor"]
 
 class Monitor(Screen):
     BINDINGS = [
-        Binding(key="Q", action="quit", description="退出程序/Quit"),
-        Binding(key="C", action="close", description="关闭监听/Close"),
+        Binding(key="Q", action="quit", description=_("退出程序")),
+        Binding(key="C", action="close", description=_("关闭监听")),
     ]
 
     def __init__(self, app: XHS, ):
@@ -42,7 +42,7 @@ class Monitor(Screen):
     def close_button(self):
         self.action_close()
 
-    @work()
+    @work(exclusive=True)
     async def run_monitor(self):
         await self.xhs.monitor(download=True, log=self.query_one(RichLog), data=False, )
         self.action_close()

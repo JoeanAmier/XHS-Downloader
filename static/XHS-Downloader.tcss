@@ -1,10 +1,6 @@
-ScrollableContainer, RichLog, Monitor, About {
-    background: #2f3542;
-}
 Button {
     width: 1fr;
     margin: 1 1;
-    text-style: bold;
 }
 .vertical-layout {
     layout: vertical;
@@ -18,46 +14,38 @@ Button {
     width: 25vw;
 }
 Button#deal, Button#paste, Button#save, Button#enter {
-    tint: #27ae60 60%;
+    color: $success;
 }
 Button#reset, Button#abandon, Button#close {
-    tint: #c0392b 60%;
+    color: $error;
 }
-Label {
+Label, Link {
     width: 100%;
     content-align-horizontal: center;
     content-align-vertical: middle;
-    text-style: bold;
+}
+Link {
+    color: $accent;
 }
 Label.params {
     margin: 1 0 0 0;
+    color: $primary;
 }
 Label.prompt {
     padding: 1;
-}
-Bar {
-    width: 33vw;
-}
-Bar > .bar--indeterminate {
-    color: #7bed9f;
-}
-Bar > .bar--complete {
-    color: #ff7f50;
 }
 .loading {
     grid-size: 1 2;
     grid-gutter: 1;
     width: 40vw;
     height: 5;
-    background: #353b48;
-    border: double #747d8c;
+    border: double $primary;
 }
 #record {
     grid-size: 1 3;
     width: 80vw;
     height: 12;
-    background: #353b48;
-    border: double #747d8c;
+    border: double $primary;
 }
 ModalScreen {
     align: center middle;

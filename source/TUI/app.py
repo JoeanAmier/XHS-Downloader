@@ -44,6 +44,7 @@ class XHSDownloader(App):
         )
 
     async def on_mount(self) -> None:
+        self.theme = "nord"
         self.install_screen(
             Setting(
                 self.parameter,

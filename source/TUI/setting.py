@@ -19,8 +19,8 @@ __all__ = ["Setting"]
 
 class Setting(Screen):
     BINDINGS = [
-        Binding(key="Q", action="quit", description="退出程序/Quit"),
-        Binding(key="B", action="index", description="返回首页/Back"),
+        Binding(key="Q", action="quit", description=_("退出程序")),
+        Binding(key="B", action="index", description=_("返回首页")),
     ]
 
     def __init__(self, data: dict, ):

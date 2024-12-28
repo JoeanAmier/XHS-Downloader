@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: XHS-Downloader 2.4\n"
 "Report-Msgid-Bugs-To: <yonglelolu@foxmail.com>\n"
-"POT-Creation-Date: 2024-12-22 14:07+0800\n"
+"POT-Creation-Date: 2024-12-28 16:54+0800\n"
 "PO-Revision-Date: 2024-12-22 14:14+0800\n"
 "Last-Translator: <yonglelolu@foxmail.com>\n"
 "Language-Team: English\n"
@@ -28,7 +28,7 @@ msgstr "Failed to extract the download address for the Xiaohongshu works files"
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:196
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:214
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:445
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:444
 msgid "提取小红书作品链接失败"
 msgstr "Failed to extract the links for Xiaohongshu works"
 
@@ -57,37 +57,39 @@ msgstr "{0} failed to retrieve data"
 msgid "{0} 提取数据失败"
 msgstr "{0} failed to extract data"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:259
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:258
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:75
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:11
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:13
 msgid "视频"
 msgstr "video"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:261
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:260
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:82
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:11
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:13
 msgid "图文"
 msgstr "image"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:266
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:265
 #, python-brace-format
 msgid "作品处理完成：{0}"
 msgstr "works processing completed: {0}"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:327
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:326
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:54
 msgid ""
 "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，"
 "如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"
 msgstr ""
-"The program will automatically read and extract the link to Xiaohongshu works from the clipboard, and automatically download the corresponding work file. "
-"If you want to close it, please click the close button or write the \"close\" text to the clipboard!"
+"The program will automatically read and extract the link to Xiaohongshu "
+"works from the clipboard, and automatically download the corresponding work "
+"file. If you want to close it, please click the close button or write the "
+"\"close\" text to the clipboard!"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:457
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:456
 msgid "获取小红书作品数据成功"
 msgstr "Successfully obtained data on Xiaohongshu works"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:459
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:458
 msgid "获取小红书作品数据失败"
 msgstr "Failed to obtain data on Xiaohongshu works"
 
@@ -125,9 +127,9 @@ msgstr "Network error, {0} download failed, error message: {1}"
 msgid "文件 {0} 格式判断失败，错误信息：{1}"
 msgstr "Format recognition failed for file {0}, error message: {1}"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:48
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:56
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:61
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:50
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:58
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:63
 msgid "未知"
 msgstr "unknown"
 
@@ -142,7 +144,9 @@ msgstr "Link to Xiaohongshu works"
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:119
 msgid "下载指定序号的图片文件，仅对图文作品生效；多个序号输入示例：\"1 3 5 7\""
-msgstr "Download image files with specified serial numbers, only effective for image works; Example of multiple serial numbers input: \"1 3 5 7\""
+msgstr ""
+"Download image files with specified serial numbers, only effective for image "
+"works; Example of multiple serial numbers input: \"1 3 5 7\""
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:120
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:33
@@ -176,7 +180,9 @@ msgstr "Network request timeout limit, in seconds"
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:129
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:50
 msgid "下载文件时，每次从服务器获取的数据块大小，单位：字节"
-msgstr "When downloading a file, the size of the data block obtained from the server each time, in bytes"
+msgstr ""
+"When downloading a file, the size of the data block obtained from the server "
+"each time, in bytes"
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:130
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:52
@@ -215,7 +221,9 @@ msgstr "Read specified configuration file"
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:139
 #, python-brace-format
 msgid "从指定的浏览器读取小红书网页版 Cookie，支持：{0}; 输入浏览器名称或序号"
-msgstr "Read Xiaohongshu web version cookies from the specified browser, supporting: {0}; Enter browser name or serial number"
+msgstr ""
+"Read Xiaohongshu web version cookies from the specified browser, supporting: "
+"{0}; Enter browser name or serial number"
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:145
 msgid "是否更新配置文件"
@@ -238,8 +246,10 @@ msgid ""
 "{options}\n"
 "请输入浏览器名称或序号："
 msgstr ""
-"Read cookies from the specified browser and write them to the configuration file\n"
-"The Windows system requires running programs as an administrator to read Chromium, Chrome, Edge browser cookies!\n"
+"Read cookies from the specified browser and write them to the configuration "
+"file\n"
+"The Windows system requires running programs as an administrator to read "
+"Chromium, Chrome, Edge browser cookies!\n"
 "{options}\n"
 "Please enter your browser name or serial number:"
 
@@ -257,11 +267,15 @@ msgstr "Failed to retrieve cookie, no cookie data found!"
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\expansion\browser.py:99
 msgid "从浏览器读取 Cookie 功能不支持当前平台！"
-msgstr "The cookie reading function from the browser is not supported on the current platform!"
+msgstr ""
+"The cookie reading function from the browser is not supported on the current "
+"platform!"
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\expansion\cleaner.py:45
 msgid "不受支持的操作系统类型，可能无法正常去除非法字符！"
-msgstr "Unsupported operating system type, may not be able to remove illegal characters properly!"
+msgstr ""
+"Unsupported operating system type, may not be able to remove illegal "
+"characters properly!"
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\module\manager.py:204
 #, python-brace-format
@@ -278,67 +292,146 @@ msgstr "Agent {0} test timeout"
 msgid "代理 {0} 测试失败：{1}"
 msgstr "Agent {0} test failed: {1}"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:41
-msgid "如果 XHS-Downloader 对您有帮助，请考虑为它点个 Star，感谢您的支持！"
-msgstr "If XHS-Downloader is helpful to you, please consider giving it Star. Thank you for your support!"
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:26
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:37
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:26
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:22
+msgid "退出程序"
+msgstr "Quit"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:45
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:30
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:38
+msgid "检查更新"
+msgstr "Update"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:34
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\record.py:28
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:23
+msgid "返回首页"
+msgstr "Return"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:42
+msgid "如果 XHS-Downloader 对您有帮助，请考虑为它点个 Star，感谢您的支持！"
+msgstr ""
+"If XHS-Downloader is helpful to you, please consider giving it Star. Thank "
+"you for your support!"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:44
+msgid "Discord 社区"
+msgstr "Discord Community"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:48
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:55
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:61
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:65
+msgid "点击访问"
+msgstr "Click to visit"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:50
 msgid "作者的其他开源项目"
 msgstr "Other open-source projects of the author"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\app.py:61
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\app.py:62
 msgid ""
 "配置文件 settings.json 缺少必要的参数，请删除该文件，然后重新运行程序，自动生"
 "成默认配置文件！"
 msgstr ""
-"The configuration file settings.json is missing necessary parameters. "
-"Please delete the file and run the program again to automatically generate the default configuration file!"
+"The configuration file settings.json is missing necessary parameters. Please "
+"delete the file and run the program again to automatically generate the "
+"default configuration file!"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:65
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:39
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:97
+msgid "程序设置"
+msgstr "Settings"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:40
+msgid "下载记录"
+msgstr "Record"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:41
+msgid "开启监听"
+msgstr "Monitor"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:42
+msgid "关于项目"
+msgstr "About"
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:69
 msgid "请输入小红书图文/视频作品链接"
 msgstr "Please enter the link to the Xiaohongshu image or video works"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:68
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:72
 msgid "多个链接之间使用空格分隔"
 msgstr "Separate multiple links with spaces"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:70
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:74
 msgid "下载无水印作品文件"
 msgstr "Download images/video files"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:71
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:75
 msgid "读取剪贴板"
 msgstr "Read the clipboard"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:72
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:76
 msgid "清空输入框"
 msgstr "Clear the input box"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:84
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:88
 msgid "免责声明\n"
-msgstr "Disclaimer about XHS-Downloader:\n"
+msgstr ""
+"Disclaimer about XHS-Downloader:\n"
 "\n"
-"1. The user decides on their own use of this project and assumes all risks. The author is not responsible for any losses, liabilities, or risks incurred by the user in using this project.\n"
-"2. The code and features provided by the author of this project are developed based on existing knowledge and technology. The author strives to ensure the correctness and security of the code but does not guarantee that the code is entirely free of errors or defects.\n"
-"3. The user must strictly adhere to the requirements of the GNU General Public License v3.0 when using this project and appropriately acknowledge the use of code licensed under the GNU General Public License v3.0.\n"
-"4. Under no circumstances may the user associate the author, contributors, or other relevant parties of this project with the user's actions, nor demand them to be held responsible for any losses or damages incurred by the user in using this project.\n"
-"5. The user must independently research relevant laws and regulations when using the code and features of this project, ensuring that their use is legal and compliant. Any legal responsibilities and risks arising from violations of laws and regulations are the sole responsibility of the user.\n"
-"6. The author of this project will not offer a paid version of the XHS-Downloader project and will not provide any commercial services related to the XHS-Downloader project.\n"
-"7. Any secondary development, modification, or compilation of programs based on this project is not associated with the original author. The original author is not responsible for any consequences related to secondary development actions or their results. The user is solely responsible for all situations that may arise from secondary development.\n"
+"1. The user decides on their own use of this project and assumes all risks. "
+"The author is not responsible for any losses, liabilities, or risks incurred "
+"by the user in using this project.\n"
+"2. The code and features provided by the author of this project are "
+"developed based on existing knowledge and technology. The author strives to "
+"ensure the correctness and security of the code but does not guarantee that "
+"the code is entirely free of errors or defects.\n"
+"3. The user must strictly adhere to the requirements of the GNU General "
+"Public License v3.0 when using this project and appropriately acknowledge "
+"the use of code licensed under the GNU General Public License v3.0.\n"
+"4. Under no circumstances may the user associate the author, contributors, "
+"or other relevant parties of this project with the user's actions, nor "
+"demand them to be held responsible for any losses or damages incurred by the "
+"user in using this project.\n"
+"5. The user must independently research relevant laws and regulations when "
+"using the code and features of this project, ensuring that their use is "
+"legal and compliant. Any legal responsibilities and risks arising from "
+"violations of laws and regulations are the sole responsibility of the user.\n"
+"6. The author of this project will not offer a paid version of the XHS-"
+"Downloader project and will not provide any commercial services related to "
+"the XHS-Downloader project.\n"
+"7. Any secondary development, modification, or compilation of programs based "
+"on this project is not associated with the original author. The original "
+"author is not responsible for any consequences related to secondary "
+"development actions or their results. The user is solely responsible for all "
+"situations that may arise from secondary development.\n"
 "\n"
-"Before using the code and features of this project, please carefully consider and accept the above disclaimers. If you have any questions or do not agree with the statements above, please refrain from using the code and features of this project. If you proceed to use the code and features of this project, it will be considered that you fully understand and accept the disclaimers mentioned above, and willingly assume all risks and consequences associated with using this project.\n"
+"Before using the code and features of this project, please carefully "
+"consider and accept the above disclaimers. If you have any questions or do "
+"not agree with the statements above, please refrain from using the code and "
+"features of this project. If you proceed to use the code and features of "
+"this project, it will be considered that you fully understand and accept the "
+"disclaimers mentioned above, and willingly assume all risks and consequences "
+"associated with using this project.\n"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:97
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:103
 msgid "未输入任何小红书作品链接"
 msgstr "No Xiaohongshu works links provided"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:114
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:126
 msgid "下载小红书作品文件失败"
 msgstr "Failed to download the Xiaohongshu works files"
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\loading.py:18
 msgid "程序处理中..."
 msgstr "Processing..."
+
+#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:27
+msgid "关闭监听"
+msgstr "Close"
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:36
 msgid "已启动监听剪贴板模式"
@@ -356,15 +449,12 @@ msgstr "Please enter the link or ID of the Xiaohongshu works to be deleted"
 msgid ""
 "支持输入作品 ID 或包含作品 ID 的作品链接，多个链接或 ID 之间使用空格分隔"
 msgstr ""
-"Support input of works ID or links containing works ID, with multiple links or IDs separated by spaces"
+"Support input of works ID or links containing works ID, with multiple links "
+"or IDs separated by spaces"
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\record.py:27
 msgid "删除指定作品 ID"
 msgstr "Delete specified works ID"
-
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\record.py:28
-msgid "返回首页"
-msgstr "return"
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:34
 msgid "程序根路径"
@@ -420,15 +510,12 @@ msgstr "Discard changes"
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:93
 msgid "小红书网页版 Cookie，无需登录，参数已设置"
-msgstr "Xiaohongshu web version cookie, no login required, parameters have been set"
+msgstr ""
+"Xiaohongshu web version cookie, no login required, parameters have been set"
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:94
 msgid "小红书网页版 Cookie，无需登录，参数未设置"
 msgstr "Xiaohongshu web version cookie, no login required, parameters not set"
-
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:97
-msgid "程序设置"
-msgstr "Settings"
 
 #: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\update.py:28
 msgid "正在检查新版本，请稍等..."
