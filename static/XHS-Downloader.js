@@ -19,6 +19,8 @@
 // @run-at       document-end
 // @updateURL    https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js
 // @downloadURL  https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js
 // ==/UserScript==
 
 (function () {
@@ -213,7 +215,7 @@ XHS-Downloader 用户脚本 详细说明：
         }
     };
 
-    const downloadFile = async (link, filename) => {
+    const downloadFile = async (link, name) => {
         try {
             // 使用 fetch 获取文件数据
             const response = await fetch(link, {method: "GET"});
@@ -232,7 +234,7 @@ XHS-Downloader 用户脚本 详细说明：
             // 创建一个临时链接元素
             const tempLink = document.createElement("a");
             tempLink.href = blobUrl;
-            tempLink.download = filename;
+            tempLink.download = name;
 
             // 将链接添加到 DOM 并模拟点击
             document.body.appendChild(tempLink); // 避免某些浏览器安全限制
@@ -242,12 +244,50 @@ XHS-Downloader 用户脚本 详细说明：
             document.body.removeChild(tempLink); // 从 DOM 中移除临时链接
             URL.revokeObjectURL(blobUrl); // 释放 URL
 
-            console.info(`文件已成功下载: ${filename}`);
+            console.info(`文件已成功下载: ${name}`);
             return true;
         } catch (error) {
-            console.error(`下载失败 (${filename})，错误信息:`, error);
+            console.error(`下载失败 (${name})，错误信息:`, error);
             return false;
         }
+    };
+
+    const downloadFiles = async (urls, name) => {
+        // TODO: 功能异常
+        // 创建一个 JSZip 实例
+        const zip = new JSZip();
+
+        // 用于存储是否有错误发生的标志
+        let hasError = false;
+
+        // 获取每个图片并添加到 ZIP
+        await Promise.all(urls.map(async (url, index) => {
+            try {
+                const response = await fetch(url, {method: "GET"});
+                if (!response.ok) {
+                    console.error(`下载失败: ${url}，状态码: ${response.status}`);
+                    hasError = true; // 标记为有错误发生
+                    return;
+                }
+                const blob = await response.blob();
+                zip.file(`${name}_${index + 1}.png`, blob);
+            } catch (err) {
+                console.error('下载图片失败:', err);
+                hasError = true; // 标记为有错误发生
+            }
+        }));
+
+        // 生成 ZIP 文件
+        await zip.generateAsync({type: "blob"})
+            .then(content => {
+                saveAs(content, `${name}.zip`); // 下载 ZIP 文件
+            })
+            .catch(err => {
+                console.error('生成 ZIP 文件失败:', err);
+                hasError = true; // 标记为有错误发生
+            });
+
+        return !hasError; // 如果没有错误返回 true，有错误则返回 false
     };
 
     const extractName = () => {
@@ -271,6 +311,17 @@ XHS-Downloader 用户脚本 详细说明：
         if (!result.every(item => item === true)) {
             abnormal();
         }
+
+        // TODO: 未生效
+        // let success;
+        // if (urls.length > 1) {
+        //     success = await downloadFiles(urls, name,);
+        // } else {
+        //     success = await downloadFile(urls[0], `${name}.png`);
+        // }
+        // if (!success) {
+        //     abnormal();
+        // }
     };
 
     const window_scrollBy = (x, y,) => {
@@ -345,7 +396,7 @@ XHS-Downloader 用户脚本 详细说明：
         return notesRawValue.map(item => [item.id, item.xsecToken,]);
     };
 
-    const extractBoardInfo = order => {
+    const extractBoardInfo = () => {
         // 定义正则表达式来匹配 URL 中的 ID
         const regex = /\/board\/([a-z0-9]+)\?/;
 
@@ -571,4 +622,11 @@ XHS-Downloader 用户脚本 详细说明：
     style.type = 'text/css';
     style.appendChild(document.createTextNode(buttonStyle));
     console.info("用户接受 XHS-Downloader 免责声明", disclaimer)
+
+    if (typeof JSZip === 'undefined') {
+        alert("XHS-Downloader 用户脚本依赖库 JSZip 加载失败，下载功能可能无法使用！");
+    }
+    if (typeof saveAs === 'undefined') {
+        alert("XHS-Downloader 用户脚本依赖库 FileSaver 加载失败，下载功能可能无法使用！");
+    }
 })();

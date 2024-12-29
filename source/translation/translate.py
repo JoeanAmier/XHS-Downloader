@@ -1,9 +1,8 @@
 from gettext import translation
+from locale import getlocale
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
-
-from locale import getlocale
 
 
 class TranslationManager:
@@ -21,7 +20,9 @@ class TranslationManager:
         if not localedir:
             localedir = ROOT.joinpath('locale')
         self.localedir = Path(localedir)
-        self.current_translator = self.setup_translation(self.get_language_code())
+        self.current_translator = self.setup_translation(
+            self.get_language_code(),
+        )
 
     @staticmethod
     def get_language_code() -> str:
@@ -39,7 +40,8 @@ class TranslationManager:
                 fallback=True,
             )
         except FileNotFoundError as e:
-            print(f"Warning: Translation files for '{self.domain}' not found. Error: {e}")
+            print(
+                f"Warning: Translation files for '{self.domain}' not found. Error: {e}")
             return translation(self.domain, fallback=True)
 
     def switch_language(self, language: str = "en_US"):
