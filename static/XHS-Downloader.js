@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.8.1
+// @version      1.8.2
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -290,8 +290,17 @@ XHS-Downloader 用户脚本 详细说明：
         return !hasError; // 如果没有错误返回 true，有错误则返回 false
     };
 
+    const truncateString = (str, maxLength) => {
+        if (str.length > maxLength) {
+            const halfLength = Math.floor(maxLength / 2) - 1; // 减去 1 留出省略号的空间
+            return str.slice(0, halfLength) + '...' + str.slice(-halfLength);
+        }
+        return str;
+    };
+
     const extractName = () => {
-        let name = document.title.replace(/[^\u4e00-\u9fa5a-zA-Z0-9]/g, "");
+        let name = document.title.replace(/[^\u4e00-\u9fa5a-zA-Z0-9 ~!@#$%&()_\-+=\[\];"',.！（）【】：“”《》？]/g, "");
+        name = truncateString(name, 128,);
         let match = currentUrl.match(/\/([^\/]+)$/);
         let id = match ? match[1] : null;
         return name === "" ? id : name
