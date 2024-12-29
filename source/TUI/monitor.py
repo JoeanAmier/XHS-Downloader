@@ -39,13 +39,13 @@ class Monitor(Screen):
         yield Footer()
 
     @on(Button.Pressed, "#close")
-    def close_button(self):
-        self.action_close()
+    async def close_button(self):
+        await self.action_close()
 
     @work(exclusive=True)
     async def run_monitor(self):
         await self.xhs.monitor(download=True, log=self.query_one(RichLog), data=False, )
-        self.action_close()
+        await self.action_close()
 
     def on_mount(self) -> None:
         self.title = PROJECT
@@ -55,10 +55,10 @@ class Monitor(Screen):
                 style=MASTER))
         self.run_monitor()
 
-    def action_close(self):
+    async def action_close(self):
         self.xhs.stop_monitor()
-        self.app.pop_screen()
+        await self.app.action_back()
 
     async def action_quit(self) -> None:
-        self.action_close()
+        await self.action_close()
         await self.app.action_quit()

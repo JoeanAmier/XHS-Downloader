@@ -74,7 +74,7 @@ class XHSDownloader(App):
         await self.push_screen("setting", save_settings)
 
     async def refresh_screen(self):
-        await self.pop_screen()
+        await self.action_back()
         await self.close_database()
         await self.APP.close()
         self.__initialization()
@@ -100,12 +100,12 @@ class XHSDownloader(App):
         log.write(tip)
         log.write(">" * 50)
 
-    async def action_check_update(self):
+    async def action_update(self):
         await self.push_screen(Update(self.APP, ), callback=self.update_result)
 
     async def action_update_and_return(self):
-        await self.push_screen("index")
-        await self.action_check_update()
+        await self.action_back()
+        await self.action_update()
 
     async def close_database(self):
         await self.APP.id_recorder.cursor.close()

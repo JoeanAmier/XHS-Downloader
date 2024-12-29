@@ -30,7 +30,7 @@ class About(Screen):
             description=_("检查更新")),
         Binding(
             key="B",
-            action="index",
+            action="back",
             description=_("返回首页")),
     ]
 
@@ -73,8 +73,8 @@ class About(Screen):
     async def action_quit(self) -> None:
         await self.app.action_quit()
 
-    async def action_index(self):
-        await self.app.push_screen("index")
+    async def action_back(self) -> None:
+        await self.app.action_back()
 
     async def action_check_update(self):
         await self.app.run_action("update_and_return")

@@ -126,4 +126,4 @@ class Setting(Screen):
         await self.app.action_quit()
 
     async def action_index(self):
-        await self.app.push_screen("index")
+        await self.app.action_back()
