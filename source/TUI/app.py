@@ -95,17 +95,11 @@ class XHSDownloader(App):
         self.install_screen(Record(self.APP, ), name="record")
         await self.push_screen("index")
 
-    def update_result(self, tip: str) -> None:
-        log = self.query_one(RichLog)
-        log.write(tip)
-        log.write(">" * 50)
+    def update_result(self, args: tuple[str, str]) -> None:
+        self.notify(args[0], severity=args[1], )
 
     async def action_update(self):
         await self.push_screen(Update(self.APP, ), callback=self.update_result)
-
-    async def action_update_and_return(self):
-        await self.action_back()
-        await self.action_update()
 
     async def close_database(self):
         await self.APP.id_recorder.cursor.close()

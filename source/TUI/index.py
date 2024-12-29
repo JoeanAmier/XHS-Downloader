@@ -76,7 +76,7 @@ class Index(Screen):
                 Button(_("清空输入框"), id="reset"),
             ),
         )
-        yield RichLog(markup=True, wrap=True, )
+        yield RichLog(markup=True, wrap=True, auto_scroll=True, )
         yield Footer()
 
     def on_mount(self) -> None:
@@ -91,6 +91,7 @@ class Index(Screen):
                 50}",
                 style=MASTER),
             animate=True,
+            scroll_end=True,
         )
         self.xhs.manager.print_proxy_tip(log=self.tip, )
 
@@ -102,10 +103,12 @@ class Index(Screen):
             self.tip.write(
                 Text(_("未输入任何小红书作品链接"), style=WARNING),
                 animate=True,
+                scroll_end=True,
             )
             self.tip.write(
                 Text(">" * 50, style=GENERAL),
                 animate=True,
+                scroll_end=True,
             )
 
     @on(Button.Pressed, "#reset")
@@ -125,10 +128,12 @@ class Index(Screen):
             self.tip.write(
                 Text(_("下载小红书作品文件失败"), style=ERROR),
                 animate=True,
+                scroll_end=True,
             )
         self.tip.write(
             Text(">" * 50, style=GENERAL),
             animate=True,
+            scroll_end=True,
         )
         await self.app.action_back()
 

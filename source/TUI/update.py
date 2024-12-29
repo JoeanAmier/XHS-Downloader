@@ -1,4 +1,3 @@
-from rich.text import Text
 from textual import work
 from textual.app import ComposeResult
 from textual.containers import Grid
@@ -8,9 +7,6 @@ from textual.widgets import LoadingIndicator
 
 from ..application import XHS
 from ..module import (
-    ERROR,
-    WARNING,
-    INFO,
     RELEASES,
 )
 from ..translation import _
@@ -37,25 +33,33 @@ class Update(ModalScreen):
             version = url.split("/")[-1]
             match self.compare_versions(f"{XHS.VERSION_MAJOR}.{XHS.VERSION_MINOR}", version, XHS.VERSION_BETA):
                 case 4:
-                    tip = Text(f"{_("检测到新版本：{0}.{1}").format(
-                        XHS.VERSION_MAJOR, XHS.VERSION_MINOR)}\n{RELEASES}", style=WARNING)
+                    args = (
+                        _("检测到新版本：{0}.{1}").format(
+                            XHS.VERSION_MAJOR,
+                            XHS.VERSION_MINOR,
+                        ),
+                        "warning",
+                    )
                 case 3:
-                    tip = Text(
-                        f"{_("当前版本为开发版, 可更新至正式版")}\n{RELEASES}",
-                        style=WARNING)
+                    args = (
+                        _("当前版本为开发版, 可更新至正式版"),
+                        "warning",
+                    )
                 case 2:
-                    tip = Text(
+                    args = (
                         _("当前已是最新开发版"),
-                        style=WARNING)
+                        "warning",
+                    )
                 case 1:
-                    tip = Text(
+                    args = (
                         _("当前已是最新正式版"),
-                        style=INFO)
+                        "information",
+                    )
                 case _:
                     raise ValueError
         except ValueError:
-            tip = Text(_("检测新版本失败"), style=ERROR)
-        self.dismiss(tip)
+            args = (_("检测新版本失败"), "error",)
+        self.dismiss(args)
 
     def on_mount(self) -> None:
         self.check_update()

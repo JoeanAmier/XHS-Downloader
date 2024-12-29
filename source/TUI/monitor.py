@@ -52,7 +52,10 @@ class Monitor(Screen):
         self.query_one(RichLog).write(
             Text(_(
                 "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"),
-                style=MASTER))
+                style=MASTER),
+            animate=True,
+            scroll_end=True,
+        )
         self.run_monitor()
 
     async def action_close(self):

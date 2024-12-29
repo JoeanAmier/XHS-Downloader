@@ -26,7 +26,7 @@ class About(Screen):
             description=_("退出程序")),
         Binding(
             key="U",
-            action="check_update",
+            action="update",
             description=_("检查更新")),
         Binding(
             key="B",
@@ -76,5 +76,5 @@ class About(Screen):
     async def action_back(self) -> None:
         await self.app.action_back()
 
-    async def action_check_update(self):
-        await self.app.run_action("update_and_return")
+    async def action_update(self):
+        await self.app.run_action("update")
