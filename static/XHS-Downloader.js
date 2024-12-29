@@ -253,41 +253,42 @@ XHS-Downloader 用户脚本 详细说明：
     };
 
     const downloadFiles = async (urls, name) => {
-        // TODO: 功能异常
-        // 创建一个 JSZip 实例
+        // TODO: 打包下载功能异常
         const zip = new JSZip();
-
-        // 用于存储是否有错误发生的标志
-        let hasError = false;
-
-        // 获取每个图片并添加到 ZIP
-        await Promise.all(urls.map(async (url, index) => {
+        const results = await Promise.all(urls.map(async (link, index) => {
             try {
-                const response = await fetch(url, {method: "GET"});
+                const response = await fetch(link, {method: "GET"});
+
                 if (!response.ok) {
-                    console.error(`下载失败: ${url}，状态码: ${response.status}`);
-                    hasError = true; // 标记为有错误发生
-                    return;
+                    console.error(`下载失败，状态码: ${response.status}，URL: ${link}`);
+                    return false; // 这里返回 false
                 }
+
                 const blob = await response.blob();
                 zip.file(`${name}_${index + 1}.png`, blob);
-            } catch (err) {
-                console.error('下载图片失败:', err);
-                hasError = true; // 标记为有错误发生
+                return true; // 成功时返回 true
+            } catch (error) {
+                console.error(`下载失败 (${name})，错误信息:`, error);
+                return false; // 这里返回 false
             }
         }));
 
-        // 生成 ZIP 文件
-        await zip.generateAsync({type: "blob"})
-            .then(content => {
-                saveAs(content, `${name}.zip`); // 下载 ZIP 文件
-            })
-            .catch(err => {
-                console.error('生成 ZIP 文件失败:', err);
-                hasError = true; // 标记为有错误发生
-            });
+        // 检查结果，是否有任何一个失败
+        const allDownloadedSuccessfully = results.every(result => result === true);
 
-        return !hasError; // 如果没有错误返回 true，有错误则返回 false
+        if (!allDownloadedSuccessfully) {
+            return false; // 如果有任何失败，返回 false
+        }
+
+        // 生成 ZIP 文件
+        try {
+            const content = await zip.generateAsync({type: "blob"});
+            saveAs(content, `${name}.zip`);
+            return true; // 如果 ZIP 文件生成成功，返回 true
+        } catch (err) {
+            console.error('生成 ZIP 文件失败:', err);
+            return false; // 生成 ZIP 文件失败，返回 false
+        }
     };
 
     const truncateString = (str, maxLength) => {
@@ -321,7 +322,7 @@ XHS-Downloader 用户脚本 详细说明：
             abnormal();
         }
 
-        // TODO: 未生效
+        // TODO: 打包下载功能未实现
         // let success;
         // if (urls.length > 1) {
         //     success = await downloadFiles(urls, name,);
