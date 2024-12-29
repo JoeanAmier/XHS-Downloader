@@ -3,6 +3,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent.parent
 
+from locale import getlocale
+
 
 class TranslationManager:
     """管理gettext翻译的类"""
@@ -19,7 +21,13 @@ class TranslationManager:
         if not localedir:
             localedir = ROOT.joinpath('locale')
         self.localedir = Path(localedir)
-        self.current_translator = self.setup_translation()
+        self.current_translator = self.setup_translation(self.get_language_code())
+
+    @staticmethod
+    def get_language_code() -> str:
+        # 获取当前系统的语言和区域设置
+        language_code, __ = getlocale()
+        return "zh_CN" if "Chinese" in language_code else "en_US"
 
     def setup_translation(self, language: str = "zh_CN"):
         """设置gettext翻译环境"""
