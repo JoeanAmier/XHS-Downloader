@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.8.2
+// @version      1.8.3
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -19,7 +19,7 @@
 // @run-at       document-end
 // @updateURL    https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js
 // @downloadURL  https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js
-// @require      https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/jszip/3.9.1/jszip.min.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js
 // ==/UserScript==
 
@@ -165,7 +165,7 @@ XHS-Downloader 用户脚本 详细说明：
 
     const download = async (urls, type_) => {
         const name = extractName();
-        console.info(`基础文件名称 ${name}`);
+        console.info(`文件名称 ${name}`);
         if (type_ === "video") {
             await downloadVideo(urls[0], name);
         } else {
@@ -182,7 +182,7 @@ XHS-Downloader 用户脚本 详细说明：
                 links = generateVideoUrl(note);
             }
             if (links.length > 0) {
-                console.info("无水印文件下载链接", links);
+                console.info("文件下载链接", links);
                 await download(links, note.type);
             } else {
                 abnormal()
@@ -197,7 +197,6 @@ XHS-Downloader 用户脚本 详细说明：
         const regex = /\/explore\/([^?]+)/;
         const match = currentUrl.match(regex);
         if (match) {
-            // let note = Object.values(unsafeWindow.__INITIAL_STATE__.note.noteDetailMap);
             return unsafeWindow.__INITIAL_STATE__.note.noteDetailMap[match[1]]
         } else {
             console.error("从链接提取作品 ID 失败", currentUrl,);
@@ -215,7 +214,27 @@ XHS-Downloader 用户脚本 详细说明：
         }
     };
 
-    const downloadFile = async (link, name) => {
+    const triggerDownload = (name, blob) => {
+        // 创建 Blob 对象的 URL
+        const blobUrl = URL.createObjectURL(blob);
+
+        // 创建一个临时链接元素
+        const tempLink = document.createElement("a");
+        tempLink.href = blobUrl;
+        tempLink.download = name;
+
+        // 将链接添加到 DOM 并模拟点击
+        document.body.appendChild(tempLink); // 避免某些浏览器安全限制
+        tempLink.click();
+
+        // 清理临时链接元素
+        document.body.removeChild(tempLink); // 从 DOM 中移除临时链接
+        URL.revokeObjectURL(blobUrl); // 释放 URL
+
+        console.info(`文件已成功下载: ${name}`);
+    }
+
+    const downloadFile = async (link, name, trigger = true,) => {
         try {
             // 使用 fetch 获取文件数据
             const response = await fetch(link, {method: "GET"});
@@ -228,66 +247,52 @@ XHS-Downloader 用户脚本 详细说明：
 
             const blob = await response.blob();
 
-            // 创建 Blob 对象的 URL
-            const blobUrl = URL.createObjectURL(blob);
-
-            // 创建一个临时链接元素
-            const tempLink = document.createElement("a");
-            tempLink.href = blobUrl;
-            tempLink.download = name;
-
-            // 将链接添加到 DOM 并模拟点击
-            document.body.appendChild(tempLink); // 避免某些浏览器安全限制
-            tempLink.click();
-
-            // 清理临时链接元素
-            document.body.removeChild(tempLink); // 从 DOM 中移除临时链接
-            URL.revokeObjectURL(blobUrl); // 释放 URL
-
-            console.info(`文件已成功下载: ${name}`);
-            return true;
+            if (trigger) {
+                triggerDownload(name, blob);
+                return true;
+            } else {
+                return blob;
+            }
         } catch (error) {
             console.error(`下载失败 (${name})，错误信息:`, error);
             return false;
         }
     };
 
-    const downloadFiles = async (urls, name) => {
-        // TODO: 打包下载功能异常
-        const zip = new JSZip();
-        const results = await Promise.all(urls.map(async (link, index) => {
-            try {
-                const response = await fetch(link, {method: "GET"});
+    const downloadFiles = async (urls, name,) => {
+        const downloadResults = []; // 用于存储下载结果
 
-                if (!response.ok) {
-                    console.error(`下载失败，状态码: ${response.status}，URL: ${link}`);
-                    return false; // 这里返回 false
-                }
-
-                const blob = await response.blob();
-                zip.file(`${name}_${index + 1}.png`, blob);
-                return true; // 成功时返回 true
-            } catch (error) {
-                console.error(`下载失败 (${name})，错误信息:`, error);
-                return false; // 这里返回 false
+        const downloadPromises = urls.map(async (url, index) => {
+            const fileName = `${name}_${index + 1}.png`; // 根据索引生成文件名
+            const result = await downloadFile(url, fileName, false); // 调用单个文件下载方法
+            if (result) {
+                downloadResults.push({name: fileName, file: result});
+                return true; // 成功
+            } else {
+                return false; // 失败
             }
-        }));
+        });
 
-        // 检查结果，是否有任何一个失败
-        const allDownloadedSuccessfully = results.every(result => result === true);
+        // 等待所有下载操作完成
+        const results = await Promise.all(downloadPromises);
 
-        if (!allDownloadedSuccessfully) {
-            return false; // 如果有任何失败，返回 false
-        }
+        if (results.every(result => result === true)) {
+            try {
+                const zip = new JSZip();
+                downloadResults.forEach((item) => {
+                    zip.file(item.name, item.file);
+                });
 
-        // 生成 ZIP 文件
-        try {
-            const content = await zip.generateAsync({type: "blob"});
-            saveAs(content, `${name}.zip`);
-            return true; // 如果 ZIP 文件生成成功，返回 true
-        } catch (err) {
-            console.error('生成 ZIP 文件失败:', err);
-            return false; // 生成 ZIP 文件失败，返回 false
+                const content = await zip.generateAsync({type: "blob", compression: "STORE"});
+                saveAs(content, `${name}.zip`);
+                console.info(`文件已成功保存为: ${name}.zip`);
+                return true;
+            } catch (error) {
+                console.error('生成 ZIP 文件或保存失败，错误信息:', error);
+                return false;
+            }
+        } else {
+            return false;
         }
     };
 
@@ -300,8 +305,8 @@ XHS-Downloader 用户脚本 详细说明：
     };
 
     const extractName = () => {
-        let name = document.title.replace(/[^\u4e00-\u9fa5a-zA-Z0-9 ~!@#$%&()_\-+=\[\];"',.！（）【】：“”《》？]/g, "");
-        name = truncateString(name, 128,);
+        let name = document.title.replace(/ - 小红书$/, "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9 ~!@#$%&()_\-+=\[\];"',.！（）【】：“”《》？]/g, "");
+        name = truncateString(name, 64,);
         let match = currentUrl.match(/\/([^\/]+)$/);
         let id = match ? match[1] : null;
         return name === "" ? id : name
@@ -314,24 +319,15 @@ XHS-Downloader 用户脚本 详细说明：
     };
 
     const downloadImage = async (urls, name) => {
-        let result = [];
-        for (const [index, url] of urls.entries()) {
-            result.push(await downloadFile(url, `${name}_${index + 1}.png`));
+        let success;
+        if (urls.length > 1) {
+            success = await downloadFiles(urls, name,);
+        } else {
+            success = await downloadFile(urls[0], `${name}.png`);
         }
-        if (!result.every(item => item === true)) {
+        if (!success) {
             abnormal();
         }
-
-        // TODO: 打包下载功能未实现
-        // let success;
-        // if (urls.length > 1) {
-        //     success = await downloadFiles(urls, name,);
-        // } else {
-        //     success = await downloadFile(urls[0], `${name}.png`);
-        // }
-        // if (!success) {
-        //     abnormal();
-        // }
     };
 
     const window_scrollBy = (x, y,) => {
@@ -637,6 +633,6 @@ XHS-Downloader 用户脚本 详细说明：
         alert("XHS-Downloader 用户脚本依赖库 JSZip 加载失败，下载功能可能无法使用！");
     }
     if (typeof saveAs === 'undefined') {
-        alert("XHS-Downloader 用户脚本依赖库 FileSaver 加载失败，下载功能可能无法使用！");
+        alert("XHS-Downloader 用户脚本依赖库 FileSaver 加载失败，作品文件打包下载功能无法使用！");
     }
 })();
