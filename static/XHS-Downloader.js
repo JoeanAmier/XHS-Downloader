@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.8.3
+// @version      1.8.4
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -20,7 +20,6 @@
 // @updateURL    https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js
 // @downloadURL  https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jszip/3.9.1/jszip.min.js
-// @require      https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js
 // ==/UserScript==
 
 (function () {
@@ -182,13 +181,13 @@ XHS-Downloader 用户脚本 详细说明：
                 links = generateVideoUrl(note);
             }
             if (links.length > 0) {
-                console.info("文件下载链接", links);
+                console.info("下载链接", links);
                 await download(links, note.type);
             } else {
                 abnormal()
             }
         } catch (error) {
-            console.error("Error in deal function:", error);
+            console.error("Error in exploreDeal function:", error);
             abnormal();
         }
     };
@@ -284,8 +283,7 @@ XHS-Downloader 用户脚本 详细说明：
                 });
 
                 const content = await zip.generateAsync({type: "blob", compression: "STORE"});
-                saveAs(content, `${name}.zip`);
-                console.info(`文件已成功保存为: ${name}.zip`);
+                triggerDownload(`${name}.zip`, content,)
                 return true;
             } catch (error) {
                 console.error('生成 ZIP 文件或保存失败，错误信息:', error);
@@ -305,7 +303,7 @@ XHS-Downloader 用户脚本 详细说明：
     };
 
     const extractName = () => {
-        let name = document.title.replace(/ - 小红书$/, "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9 ~!@#$%&()_\-+=\[\];"',.！（）【】：“”《》？]/g, "");
+        let name = document.title.replace(/ - 小红书$/, "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9 ~!@#$%&()_\-+=\[\];"',.！（）【】：“”，。《》？]/g, "");
         name = truncateString(name, 64,);
         let match = currentUrl.match(/\/([^\/]+)$/);
         let id = match ? match[1] : null;
@@ -630,9 +628,6 @@ XHS-Downloader 用户脚本 详细说明：
     console.info("用户接受 XHS-Downloader 免责声明", disclaimer)
 
     if (typeof JSZip === 'undefined') {
-        alert("XHS-Downloader 用户脚本依赖库 JSZip 加载失败，下载功能可能无法使用！");
-    }
-    if (typeof saveAs === 'undefined') {
-        alert("XHS-Downloader 用户脚本依赖库 FileSaver 加载失败，作品文件打包下载功能无法使用！");
+        alert("XHS-Downloader 用户脚本依赖库 JSZip 加载失败，作品文件打包下载功能无法使用，请尝试刷新网页或者向作者反馈！");
     }
 })();
