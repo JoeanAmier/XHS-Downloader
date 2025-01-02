@@ -1,6 +1,5 @@
 from asyncio import CancelledError
 from contextlib import suppress
-from re import compile
 
 from aiosqlite import connect
 
@@ -10,8 +9,6 @@ __all__ = ["IDRecorder", "DataRecorder", ]
 
 
 class IDRecorder:
-    URL = compile(r"\S*?https://www\.xiaohongshu\.com/explore/(\S+)")
-
     def __init__(self, manager: Manager):
         self.file = manager.root.joinpath("ExploreID.db")
         self.switch = manager.download_record
@@ -39,9 +36,8 @@ class IDRecorder:
             await self.database.execute("DELETE FROM explore_id WHERE ID=?", (id_,))
             await self.database.commit()
 
-    async def delete(self, ids: str):
+    async def delete(self, ids: list[str]):
         if self.switch:
-            ids = [i.group(1) for i in self.URL.finditer(ids)]
             [await self.__delete(i) for i in ids]
 
     async def all(self):
