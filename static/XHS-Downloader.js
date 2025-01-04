@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.8.4
+// @version      1.8.5
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -39,13 +39,12 @@ XHS-Downloader 用户脚本 功能清单：
 
 XHS-Downloader 用户脚本 详细说明：
 1. 下载小红书无水印作品文件时，脚本需要花费时间处理文件，请等待片刻，切勿多次点击下载按钮
-2. 无水印图片文件为 PNG 格式；无水印视频文件较大，可能需要较长的时间处理，页面跳转可能会导致下载失败
+2. 无水印作品文件较大，可能需要较长的时间处理，页面跳转可能会导致下载失败
 3. 提取账号发布、收藏、点赞、专辑作品链接时，脚本可以自动滚动页面直至加载全部作品，默认滚动检测间隔：2.5 秒
 4. 提取发现作品链接、搜索作品、用户链接时，脚本可以自动滚动页面加载更多内容，默认滚动页面次数：10 次
 5. 自动滚动页面功能默认关闭；用户可以自由开启，并修改滚动检测间隔、滚动页面次数，修改后立即生效
 6. 如果未开启自动滚动页面功能，用户需要手动滚动页面以便加载更多内容后再进行其他操作
-7. 使用全局代理工具可能会导致脚本下载文件失败，如有异常，请尝试关闭代理工具，必要时向作者反馈
-8. XHS-Downloader 用户脚本仅实现可见即可得的数据采集功能，无任何收费功能和破解功能
+7. 支持作品文件打包下载；该功能默认开启，多个文件的作品将会以压缩包格式下载
 
 项目开源地址：https://github.com/JoeanAmier/XHS-Downloader
 `
@@ -88,6 +87,14 @@ XHS-Downloader 用户脚本 详细说明：
 
     GM_registerMenuCommand("关于 XHS-Downloader", function () {
         readme();
+    });
+
+    let packageDownloadFiles = GM_getValue("packageDownloadFiles", true);
+
+    GM_registerMenuCommand(`文件打包下载功能 ${packageDownloadFiles ? '✔️' : '❌'}`, function () {
+        packageDownloadFiles = !packageDownloadFiles;
+        GM_setValue("packageDownloadFiles", packageDownloadFiles);
+        alert('修改文件打包下载功能成功！');
     });
 
     let autoScrollSwitch = GM_getValue("autoScrollSwitch", false);
@@ -318,7 +325,13 @@ XHS-Downloader 用户脚本 详细说明：
 
     const downloadImage = async (urls, name) => {
         let success;
-        if (urls.length > 1) {
+        if (!packageDownloadFiles) {
+            let result = [];
+            for (const [index, url] of urls.entries()) {
+                result.push(await downloadFile(url, `${name}_${index + 1}.png`));
+            }
+            success = result.every(item => item === true);
+        } else if (urls.length > 1) {
             success = await downloadFiles(urls, name,);
         } else {
             success = await downloadFile(urls[0], `${name}.png`);
