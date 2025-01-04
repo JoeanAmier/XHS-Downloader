@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.8.5
+// @version      1.8.6
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -240,29 +240,34 @@ XHS-Downloader 用户脚本 详细说明：
         console.info(`文件已成功下载: ${name}`);
     }
 
-    const downloadFile = async (link, name, trigger = true,) => {
-        try {
-            // 使用 fetch 获取文件数据
-            const response = await fetch(link, {method: "GET"});
+    const downloadFile = async (link, name, trigger = true, retries = 5) => {
+        for (let attempt = 1; attempt <= retries; attempt++) {
+            try {
+                // 使用 fetch 获取文件数据
+                const response = await fetch(link, {method: "GET"});
 
-            // 检查响应状态码
-            if (!response.ok) {
-                console.error(`下载失败，状态码: ${response.status}，URL: ${link}`);
-                return false;
+                // 检查响应状态码
+                if (!response.ok) {
+                    console.error(`下载失败，状态码: ${response.status}，URL: ${link}，尝试次数: ${attempt}`);
+                    continue; // 继续下一次尝试
+                }
+
+                const blob = await response.blob();
+
+                if (trigger) {
+                    triggerDownload(name, blob);
+                    return true;
+                } else {
+                    return blob;
+                }
+            } catch (error) {
+                console.error(`下载失败 (${name})，错误信息:`, error, `尝试次数: ${attempt}`);
+                if (attempt === retries) {
+                    return false; // 如果达到最大重试次数，返回失败
+                }
             }
-
-            const blob = await response.blob();
-
-            if (trigger) {
-                triggerDownload(name, blob);
-                return true;
-            } else {
-                return blob;
-            }
-        } catch (error) {
-            console.error(`下载失败 (${name})，错误信息:`, error);
-            return false;
         }
+        return false; // 如果所有尝试都失败，返回失败
     };
 
     const downloadFiles = async (urls, name,) => {
