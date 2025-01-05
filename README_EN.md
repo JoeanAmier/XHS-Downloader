@@ -49,11 +49,11 @@
 <p>⭐ The development plan and progress of XHS-Downloader can be found at <a href="https://github.com/users/JoeanAmier/projects/5">Projects</a></p>
 <h1>📸 Program Screenshots</h1>
 <p><b>🎥 Click the images to watch the demo video</b></p>
-<a href="https://www.bilibili.com/video/BV1KGWNeCEyM/"><img src="static/screenshot/程序运行截图EN1.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1c56BYJEFm/"><img src="static/screenshot/程序运行截图EN1.png" alt=""></a>
 <hr>
-<a href="https://www.bilibili.com/video/BV1KGWNeCEyM/"><img src="static/screenshot/程序运行截图EN2.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1c56BYJEFm/"><img src="static/screenshot/程序运行截图EN2.png" alt=""></a>
 <hr>
-<a href="https://www.bilibili.com/video/BV1KGWNeCEyM/"><img src="static/screenshot/程序运行截图EN3.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1c56BYJEFm/"><img src="static/screenshot/程序运行截图EN3.png" alt=""></a>
 <h1>🔗 Supported Links</h1>
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/WorksID?xsec_token=XXX</code></li>
@@ -107,9 +107,9 @@
 <p>Command example: <code>python .\main.py --browser_cookie Chrome --update_settings</code></p>
 <p>The <code>bool</code> type parameters support setting with <code>true</code>, <code>false</code>, <code>1</code>, <code>0</code>, <code>yes</code>, <code>no</code>, <code>on</code> or <code>off</code> (case insensitive).</p>
 <hr>
-<img src="static/screenshot/命令行模式截图1.png" alt="">
+<img src="static/screenshot/命令行模式截图EN1.png" alt="">
 <hr>
-<img src="static/screenshot/命令行模式截图2.png" alt="">
+<img src="static/screenshot/命令行模式截图EN2.png" alt="">
 <h1>🖥 Server Mode</h1>
 <p><b>Start:</b> Run the command: <code>python .\main.py server</code></p>
 <p><b>Stop:</b> Press <code>Ctrl</code> + <code>C</code> to stop the server</p>
@@ -201,6 +201,7 @@ def api_demo():
 <li>When extracting links to explore works, searching for works, and user links, the script can automatically scroll the page to load more content. The default number of page scrolls is 10.</li>
 <li>The automatic page scroll feature is turned off by default. Users can enable it and modify the scroll detection interval and the number of scrolls, with changes taking effect immediately.</li>
 <li>If the automatic page scroll feature is not enabled, users need to manually scroll the page to load more content before performing other actions.</li>
+<li>Support packaging and downloading of work files; This feature is enabled by default, and works from multiple files will be downloaded in compressed file format</li>
 <li>Using global proxy tools may cause script download failures. If there are issues, please try disabling the proxy tool. If necessary, contact the author for feedback.</li>
 <li>XHS-Downloader userscript only implements the data collection functionality for visible content and does not include any paid or cracked features.</li>
 </ul>
@@ -285,7 +286,7 @@ async def example():
 <tr>
 <td align="center">name_format</td>
 <td align="center">str</td>
-<td align="center"><sup><a href="#fields">1</a></sup>Format of works file name, separated by spaces between fields, supports fields: <code>收藏数量</code>、<code>评论数量</code>、<code>分享数量</code>、<code>点赞数量</code>、<code>作品标签</code>、<code>作品ID</code>、<code>作品标题</code>、<code>作品描述</code>、<code>作品类型</code>、<code>发布时间</code>、<code>最后更新时间</code>、<code>作者昵称</code>、<code>作者ID</code></td>
+<td align="center"><sup><a href="#fields">#</a></sup>Format of works file name, separated by spaces between fields, supports fields: <code>收藏数量</code>、<code>评论数量</code>、<code>分享数量</code>、<code>点赞数量</code>、<code>作品标签</code>、<code>作品ID</code>、<code>作品标题</code>、<code>作品描述</code>、<code>作品类型</code>、<code>发布时间</code>、<code>最后更新时间</code>、<code>作者昵称</code>、<code>作者ID</code></td>
 <td align="center"><code>发布时间 作者昵称 作品标题</code></td>
 </tr>
 <tr>

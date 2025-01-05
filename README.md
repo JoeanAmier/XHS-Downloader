@@ -48,11 +48,11 @@
 <p>⭐ XHS-Downloader 开发计划及进度可前往 <a href="https://github.com/users/JoeanAmier/projects/5">Projects</a> 查阅</p>
 <h1>📸 程序截图</h1>
 <p><b>🎥 点击图片观看演示视频</b></p>
-<a href="https://www.bilibili.com/video/BV1KGWNeCEyM/"><img src="static/screenshot/程序运行截图CN1.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1c56BYJEFm/"><img src="static/screenshot/程序运行截图CN1.png" alt=""></a>
 <hr>
-<a href="https://www.bilibili.com/video/BV1KGWNeCEyM/"><img src="static/screenshot/程序运行截图CN2.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1c56BYJEFm/"><img src="static/screenshot/程序运行截图CN2.png" alt=""></a>
 <hr>
-<a href="https://www.bilibili.com/video/BV1KGWNeCEyM/"><img src="static/screenshot/程序运行截图CN3.png" alt=""></a>
+<a href="https://www.bilibili.com/video/BV1c56BYJEFm/"><img src="static/screenshot/程序运行截图CN3.png" alt=""></a>
 <h1>🔗 支持链接</h1>
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/作品ID?xsec_token=XXX</code></li>
@@ -106,9 +106,9 @@
 <p>命令示例：<code>python .\main.py --browser_cookie Chrome --update_settings</code></p>
 <p><code>bool</code> 类型参数支持使用 <code>true</code>、<code>false</code>、<code>1</code>、<code>0</code>、<code>yes</code>、<code>no</code>、<code>on</code> 或 <code>off</code>（不区分大小写）来设置。</p>
 <hr>
-<img src="static/screenshot/命令行模式截图1.png" alt="">
+<img src="static/screenshot/命令行模式截图CN1.png" alt="">
 <hr>
-<img src="static/screenshot/命令行模式截图2.png" alt="">
+<img src="static/screenshot/命令行模式截图CN2.png" alt="">
 <h1>🖥 服务器模式</h1>
 <p><b>启动：</b>运行命令：<code>python .\main.py server</code></p>
 <p><b>关闭：</b>按下 <code>Ctrl</code> + <code>C</code> 关闭服务器</p>
@@ -197,6 +197,7 @@ def api_demo():
 <li>提取发现作品链接、搜索作品、用户链接时，脚本可以自动滚动页面加载更多内容，默认滚动页面次数：10 次</li>
 <li>自动滚动页面功能默认关闭；用户可以自由开启，并修改滚动检测间隔、滚动页面次数，修改后立即生效</li>
 <li>如果未开启自动滚动页面功能，用户需要手动滚动页面以便加载更多内容后再进行其他操作</li>
+<li>支持作品文件打包下载；该功能默认开启，多个文件的作品将会以压缩包格式下载</li>
 <li>使用全局代理工具可能会导致脚本下载文件失败，如有异常，请尝试关闭代理工具，必要时向作者反馈</li>
 <li>XHS-Downloader 用户脚本仅实现可见即可得的数据采集功能，无任何收费功能和破解功能</li>
 </ul>

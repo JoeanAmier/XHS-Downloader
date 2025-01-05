@@ -39,15 +39,13 @@ def check_value(function):
 
 class CLI:
     def __init__(self, ctx: Context, **kwargs):
-        # print(kwargs)
         self.ctx = ctx
-        self.url = kwargs.pop("url")
-        self.index = self.__format_index(kwargs.pop("index"))
-        self.path = kwargs.pop("settings")
-        self.update = kwargs.pop("update_settings")
-        # print(kwargs)
+        self.url = ctx.params.pop("url")
+        self.index = self.__format_index(ctx.params.pop("index"))
+        self.path = ctx.params.pop("settings")
+        self.update = ctx.params.pop("update_settings")
         self.settings = Settings(self.__check_settings_path())
-        self.parameter = self.settings.run() | self.__clean_params(kwargs)
+        self.parameter = self.settings.run() | self.__clean_params(ctx.params)
         self.APP = XHS(**self.parameter)
 
     async def __aenter__(self):
@@ -116,7 +114,8 @@ class CLI:
 
         options = (
             ("--url", "-u", "str", _("小红书作品链接")),
-            ("--index", "-i", "str", _("下载指定序号的图片文件，仅对图文作品生效；多个序号输入示例：\"1 3 5 7\"")),
+            ("--index", "-i", "str",
+             fill(_("下载指定序号的图片文件，仅对图文作品生效；多个序号输入示例：\"1 3 5 7\""), width=55),),
             ("--work_path", "-wp", "str", _("作品数据 / 文件保存根路径")),
             ("--folder_name", "-fn", "str", _("作品文件储存文件夹名称")),
             ("--name_format", "-nf", "str", _("作品文件名称格式")),
@@ -126,7 +125,7 @@ class CLI:
             ("--cookie", "-ck", "str", _("小红书网页版 Cookie，无需登录")),
             ("--proxy", "-p", "str", _("网络代理")),
             ("--timeout", "-t", "int", _("请求数据超时限制，单位：秒")),
-            ("--chunk", "-c", "int", _("下载文件时，每次从服务器获取的数据块大小，单位：字节")),
+            ("--chunk", "-c", "int", fill(_("下载文件时，每次从服务器获取的数据块大小，单位：字节"), width=55),),
             ("--max_retry", "-mr", "int", _("请求数据失败时，重试的最大次数")),
             ("--record_data", "-rd", "bool", _("是否记录作品数据至文件")),
             ("--image_format", "-if", "choice", _("图文作品文件下载格式，支持：PNG、WEBP")),
@@ -141,7 +140,7 @@ class CLI:
                      BrowserCookie.SUPPORT_BROWSER.keys(),
                      start=1,
                  ))
-             ), width=40)),
+             ), width=55)),
             ("--update_settings", "-us", "flag", _("是否更新配置文件")),
             ("--help", "-h", "flag", _("查看详细参数说明")),
             ("--version", "-v", "flag", _("查看 XHS-Downloader 版本")),
@@ -218,4 +217,4 @@ if __name__ == "__main__":
     from click.testing import CliRunner
 
     runner = CliRunner()
-    result = runner.invoke(cli, ['-l', 'en_US', '-h'])
+    result = runner.invoke(cli, ['-l', 'en_US', '-u', ''])

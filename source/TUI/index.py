@@ -90,7 +90,6 @@ class Index(Screen):
                 ">" *
                 50}",
                 style=MASTER),
-            animate=True,
             scroll_end=True,
         )
         self.xhs.manager.print_proxy_tip(log=self.tip, )
@@ -102,12 +101,10 @@ class Index(Screen):
         else:
             self.tip.write(
                 Text(_("未输入任何小红书作品链接"), style=WARNING),
-                animate=True,
                 scroll_end=True,
             )
             self.tip.write(
                 Text(">" * 50, style=GENERAL),
-                animate=True,
                 scroll_end=True,
             )
 
@@ -132,7 +129,6 @@ class Index(Screen):
             )
         self.tip.write(
             Text(">" * 50, style=GENERAL),
-            animate=True,
             scroll_end=True,
         )
         await self.app.action_back()
