@@ -41,5 +41,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/xhs-downloader:${{ github.event.release.tag_name }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/xhs-downloader:${{ env.LATEST_TAG }}
             ${{ secrets.DOCKERHUB_USERNAME }}/xhs-downloader:latest

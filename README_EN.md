@@ -432,6 +432,16 @@ async def example():
 </tbody>
 </table>
 <p>If you are willing, you may consider making a donation to provide additional support for <b>XHS-Downloader</b>!</p>
+<h1 id="contribute">🌟 Contributing Guide</h1>
+<p><strong>Thank you so much for your interest in this project! Below are some guidelines to help you contribute more effectively to the project.</strong></p>
+<ul>
+<li>Please ensure that the relevant code and files are kept up-to-date when modifying the code.</li>
+<li>If you have multiple independent changes, it is recommended to submit them as separate pull requests to facilitate better review and management.</li>
+<li>Ensure your code adheres to the project's style guidelines to maintain consistency and readability.</li>
+<li>Commit messages should be clear and concise, following the project's commit message guidelines. Good commit messages help team members understand the purpose and context of changes.</li>
+<li>Pull requests should be prioritized to merge into the <code>develop</code> branch rather than the main branch.</li>
+</ul>
+<p>Reference: <a href="https://opensource.guide/zh-hans/how-to-contribute/">How to Contribute to Open Source</a></p>
 <h1>✉️ Contact the Author</h1>
 <ul>
 <li>Author's Email：yonglelolu@foxmail.com</li>
