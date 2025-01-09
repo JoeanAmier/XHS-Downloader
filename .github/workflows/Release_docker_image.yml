@@ -3,7 +3,6 @@ name: 自动构建并发布 Docker 镜像
 on:
   release:
     types: [published]
-  workflow_dispatch:
 
 jobs:
   publish-docker:
