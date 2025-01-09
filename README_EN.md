@@ -432,16 +432,22 @@ async def example():
 </tbody>
 </table>
 <p>If you are willing, you may consider making a donation to provide additional support for <b>XHS-Downloader</b>!</p>
-<h1 id="contribute">🌟 Contributing Guide</h1>
-<p><strong>Thank you so much for your interest in this project! Below are some guidelines to help you contribute more effectively to the project.</strong></p>
+<h1>🌟 Contribution Guidelines</h1>
+<p><strong>Welcome to contributing to this project! To keep the codebase clean, efficient, and easy to maintain, please read the following guidelines carefully to ensure that your contributions can be accepted and integrated smoothly.</strong></p>
 <ul>
-<li>Please ensure that the relevant code and files are kept up-to-date when modifying the code.</li>
-<li>If you have multiple independent changes, it is recommended to submit them as separate pull requests to facilitate better review and management.</li>
-<li>Ensure your code adheres to the project's style guidelines to maintain consistency and readability.</li>
-<li>Commit messages should be clear and concise, following the project's commit message guidelines. Good commit messages help team members understand the purpose and context of changes.</li>
-<li>Pull requests should be prioritized to merge into the <code>develop</code> branch rather than the main branch.</li>
+<li>Before starting development, please pull the latest code from the <code>develop</code> branch as the basis for your modifications; this helps avoid merge conflicts and ensures your changes are based on the latest state of the project.</li>
+<li>If your changes involve multiple unrelated features or issues, please split them into several independent commits or pull requests.</li>
+<li>Each pull request should focus on a single feature or fix as much as possible, to facilitate code review and testing.</li>
+<li>Follow the existing coding style; make sure your code is consistent with the style already present in the project.</li>
+<li>Write code that is easy to read; add appropriate annotation to help others understand your intentions.</li>
+<li>Each commit should include a clear and concise commit message describing the changes made. The commit message should follow this format: <code>&lt;type&gt;: &lt;short description&gt;</code></li>
+<li>When you are ready to submit a pull request, please prioritize submitting them to the <code>develop</code> branch; this provides maintainers with a buffer zone for additional testing and review before final merging into the <code>master</code> branch.</li>
 </ul>
-<p>Reference: <a href="https://opensource.guide/zh-hans/how-to-contribute/">How to Contribute to Open Source</a></p>
+<p><strong>Reference materials:</strong></p>
+<ul>
+<li><a href="https://www.contributor-covenant.org/version/2/1/code_of_conduct/">Contributor Covenant</a></li>
+<li><a href="https://opensource.guide/how-to-contribute/">How to Contribute to Open Source</a></li>
+</ul>
 <h1>✉️ Contact the Author</h1>
 <ul>
 <li>Author's Email：yonglelolu@foxmail.com</li>

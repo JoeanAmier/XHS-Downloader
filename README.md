@@ -410,16 +410,23 @@ async def example():
 </tbody>
 </table>
 <p>如果您愿意，可以考虑提供资助为 <b>XHS-Downloader</b> 提供额外的支持！</p>
-<h1 id="contribute">🌟 贡献指南(Contribute)</h1>
-<p><strong>非常感谢您对本项目的兴趣！以下是一些指南，帮助您更好地为本项目做出贡献！</strong></p>
+<h1>🌟 贡献指南</h1>
+<p><strong>欢迎对本项目做出贡献！为了保持代码库的整洁、高效和易于维护，请仔细阅读以下指南，以确保您的贡献能够顺利被接受和整合。</strong></p>
 <ul>
-<li>请在修改代码时，确保相关代码和文件保持最新。</li>
-<li>如果您有多个不相互依赖的更改，建议将它们分开提交为独立的拉取请求，以便更好地审查和管理。</li>
-<li>请确保您的代码符合项目的风格规范，以保持代码的一致性和可读性。</li>
-<li>提交信息应简洁明了，并遵循项目的提交规范。良好的提交信息有助于团队成员理解更改的目的和背景。</li>
-<li>拉取请求应该优先考虑合并到 <code>develop</code> 分支，而不是主分支。</li>
+<li>在开始开发前，请从 <code>develop</code> 分支拉取最新的代码，以此为基础进行修改；这有助于避免合并冲突并保证您的改动基于最新的项目状态。</li>
+<li>如果您的更改涉及多个不相关的功能或问题，请将它们分成多个独立的提交或拉取请求。</li>
+<li>每个拉取请求应尽可能专注于单一功能或修复，以便于代码审查和测试。</li>
+<li>遵循现有的代码风格；请确保您的代码与项目中已有的代码风格保持一致。</li>
+<li>编写可读性强的代码；添加适当的注释帮助他人理解您的意图。</li>
+<li>每个提交都应该包含一个清晰、简洁的提交信息，以描述所做的更改。提交信息应遵循以下格式：<code>&lt;类型&gt;: &lt;简短描述&gt;</code></li>
+<li>当您准备提交拉取请求时，请优先将它们提交到 <code>develop</code> 分支；这是为了给维护者一个缓冲区，在最终合并到 <code>master</code>
+分支之前进行额外的测试和审查。</li>
 </ul>
-<p>参考资料：<a href="https://opensource.guide/zh-hans/how-to-contribute/">如何为开源做贡献</a></p>
+<p><strong>参考资料：</strong></p>
+<ul>
+<li><a href="https://www.contributor-covenant.org/zh-cn/version/2/1/code_of_conduct/">贡献者公约</a></li>
+<li><a href="https://opensource.guide/zh-hans/how-to-contribute/">如何为开源做贡献</a></li>
+</ul>
 <h1>✉️ 联系作者</h1>
 <ul>
 <li>作者邮箱：yonglelolu@foxmail.com</li>
