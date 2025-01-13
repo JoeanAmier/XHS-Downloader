@@ -70,7 +70,8 @@
 <p>If you only need to download watermark-free content files, it is recommended to choose <b>Program Run</b>; if you have other needs, it is recommended to choose <b>Source Code Run</b>!</p>
 <p>Starting from version <code>2.2</code>, if there are no abnormalities in project functionality, there is no need to handle cookies separately!</p>
 <h2>🖱 Program Run</h2>
-<p>Mac OS, Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
+<p>⭐ Mac OS, Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
+<p>⭐ This project includes GitHub Actions for manually building executable files. Users can use GitHub Actions to build the latest source code into executable files at any time!</p>
 <p><strong>Note: The executable file <code>main</code> for Mac OS may need to be launched from the terminal command line; Due to device limitations, the Mac OS executable file has not been tested and its availability cannot be guaranteed!</strong></p>
 <p>If you use the program in this way, the default download path for files is: <code>.\_internal\Download</code>; the configuration file path is: <code>.\_internal\settings.json</code></p>
 <h2>⌨️ Docker Run</h2>
@@ -416,6 +417,95 @@ async def example():
 <h1>🗳 Download Records</h1>
 <p>XHS-Downloader will store the IDs of downloaded content in a database. When downloading the same content again, XHS-Downloader will automatically skip the file download (even if the content file does not exist). If you want to re-download the content file, please delete the corresponding content ID from the database and then use XHS-Downloader to download the content file again!</p>
 <p>This feature is enabled by default. If it is turned off, XHS-Downloader will check if the file exists. If the file exists, it will skip the download!</p>
+
+# 📦 Manual Build of Executable File Guide
+
+This guide will walk you through forking this repository and executing GitHub Actions to automatically build and package
+the program based on the latest source code!
+
+---
+
+## Steps to Use
+
+### 1. Fork the Repository
+
+1. Click the **Fork** button at the top right of the project repository to fork it to your personal GitHub account
+2. Your forked repository address will look like this: `https://github.com/your-username/this-repo`
+
+---
+
+### 2. Enable GitHub Actions
+
+1. Go to the page of your forked repository
+2. Click the **Settings** tab at the top
+3. Click the **Actions** tab on the right
+4. Click the **General** option
+5. Under **Actions permissions**, select **Allow all actions and reusable workflows** and click the **Save** button
+
+---
+
+### 3. Manually Trigger the Build Process
+
+1. In your forked repository, click the **Actions** tab at the top
+2. Find the workflow named **Manual Build of Executable File**
+3. Click the **Run workflow** button on the right:
+    - Select the **master** or **develop** branch
+    - Click **Run workflow**
+
+---
+
+### 4. Check the Build Progress
+
+1. On the **Actions** page, you can see the execution records of the triggered workflow
+2. Click on the run record to view detailed logs to check the build progress and status
+
+---
+
+### 5. Download the Build Result
+
+1. Once the build is complete, go to the corresponding run record page
+2. In the **Artifacts** section at the bottom of the page, you will see the built result file
+3. Click to download and save it to your local machine to get the built program
+
+---
+
+## Notes
+
+1. **Resource Usage**:
+    - GitHub provides free build environments for Actions, with a monthly usage limit (2000 minutes) for free-tier
+      users
+
+2. **Code Modifications**:
+    - You are free to modify the code in your forked repository to customize the build process
+    - After making changes, you can trigger the build process again to get your customized version
+
+3. **Stay in Sync with the Main Repository**:
+    - If the main repository is updated with new code or workflows, it is recommended that you periodically sync your
+      forked repository to get the latest features and fixes
+
+---
+
+## Frequently Asked Questions
+
+### Q1: Why can't I trigger the workflow?
+
+A: Please ensure that you have followed the steps to **Enable Actions**. Otherwise, GitHub will prevent the workflow
+from running
+
+### Q2: What should I do if the build process fails?
+
+A:
+
+- Check the run logs to understand the cause of the failure
+- Ensure there are no syntax errors or dependency issues in the code
+- If the problem persists, please open an issue on
+  the [Issues page](https://github.com/JoeanAmier/XHS-Downloader/issues)
+
+### Q3: Can I directly use the Actions from the main repository?
+
+A: Due to permission restrictions, you cannot directly trigger Actions from the main repository. Please use the forked
+repository to execute the build process
+
 <h1>♥️ Support the Project</h1>
 <p>If <b>XHS-Downloader</b> has been helpful to you, please consider giving it a <b>Star</b> ⭐. Thank you for your support!</p>
 <table>
