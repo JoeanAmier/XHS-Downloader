@@ -15,15 +15,16 @@
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/XHS-Downloader/total?style=for-the-badge&color=f759ab">
 </div>
 <br>
-<p>🔥 <b>Xiaohongshu Link Extraction/Content Collection Tool</b>：Extract account-published, favorited, and liked content links; extract search result content links and user links; collect Xiaohongshu content information; extract Xiaohongshu content download addresses; download Xiaohongshu watermark-free content files!</p>
+<p>🔥 <b>RedNote Link Extraction/Content Collection Tool</b>：Extract account-published, favorites, and liked works links; extract search result works links and user links; collect RedNote works information; extract RedNote works download addresses; download RedNote watermark-free works files!</p>
+<p>🔥 "RedNote", "XiaoHongShu" and "小红书" have the same meaning, and this project is collectively referred to as "RedNote".</p>
 <p>⭐ This project is completely free and open-source, with no paid features. Please do not be deceived!</p>
 <p>⭐ Due to the author's limited energy, I was unable to update the English document in a timely manner, and the content may have become outdated, partial translation is machine translation, the translation result may be incorrect, Suggest referring to Chinese documentation. If you want to contribute to translation, we warmly welcome you.</p>
 <h1>📑 Project Features</h1>
 <ul><b>Program Features</b>
-<li>✅ Collect Xiaohongshu works information</li>
-<li>✅ Extract Xiaohongshu works download addresses</li>
-<li>✅ Download Xiaohongshu watermark-free works files</li>
-<li>✅ Download Xiaohongshu livePhoto files (non-watermark-free)</li>
+<li>✅ Collect RedNote works information</li>
+<li>✅ Extract RedNote works download addresses</li>
+<li>✅ Download RedNote watermark-free works files</li>
+<li>✅ Download RedNote livePhoto files (non-watermark-free)</li>
 <li>✅ Automatically skip already downloaded works files</li>
 <li>✅ works file integrity handling mechanism</li>
 <li>✅ Customizable image works file download format</li>
@@ -39,7 +40,7 @@
 <li>✅ Intelligent recognition of works file types</li>
 </ul>
 <ul><a href="#user-scripts"><b>Script Features</b></a>
-<li>✅ Download Xiaohongshu watermark-free works files</li>
+<li>✅ Download RedNote watermark-free works files</li>
 <li>✅ Extract discovery page works links</li>
 <li>✅ Extract account-published works links</li>
 <li>✅ Extract account-favorited works links</li>
@@ -62,12 +63,12 @@
 <li><code>https://www.xiaohongshu.com/discovery/item/WorksID?xsec_token=XXX</code></li>
 <li><code>https://xhslink.com/ShareCode</code></li>
 <br/>
-<p><b>Supports entering multiple content links at once, separated by spaces; the program will automatically extract valid links without additional processing!</b></p>
+<p><b>Supports entering multiple works links at once, separated by spaces; the program will automatically extract valid links without additional processing!</b></p>
 </ul>
 <h1>🪟 About the Terminal</h1>
 <p>⭐ It is recommended to use the <a href="https://learn.microsoft.com/en-us/windows/terminal/install">Windows Terminal</a> (default terminal for Windows 11) to run the program for the best display effect!</p>
 <h1>🥣 Usage</h1>
-<p>If you only need to download watermark-free content files, it is recommended to choose <b>Program Run</b>; if you have other needs, it is recommended to choose <b>Source Code Run</b>!</p>
+<p>If you only need to download watermark-free works files, it is recommended to choose <b>Program Run</b>; if you have other needs, it is recommended to choose <b>Source Code Run</b>!</p>
 <p>Starting from version <code>2.2</code>, if there are no abnormalities in project functionality, there is no need to handle cookies separately!</p>
 <h2>🖱 Program Run</h2>
 <p>⭐ Mac OS, Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
@@ -136,13 +137,13 @@
 <tr>
 <td align="center">url</td>
 <td align="center">str</td>
-<td align="center">Xiaohongshu content link, auto-extraction, does not support multiple links; Required parameter</td>
+<td align="center">RedNote works link, auto-extraction, does not support multiple links; Required parameter</td>
 <td align="center">None</td>
 </tr>
 <tr>
 <td align="center">download</td>
 <td align="center">bool</td>
-<td align="center">Whether to download the content file; set to <code>true</code> will take more time; Optional parameter</td>
+<td align="center">Whether to download the works file; set to <code>true</code> will take more time; Optional parameter</td>
 <td align="center">false</td>
 </tr>
 <tr>
@@ -160,7 +161,7 @@
 <tr>
 <td align="center">skip</td>
 <td align="center">bool</td>
-<td align="center">Whether to skip content with download records; set to <code>true</code> will not return content data with download records; Optional parameter</td>
+<td align="center">Whether to skip works with download records; set to <code>true</code> will not return works data with download records; Optional parameter</td>
 <td align="center">false</td>
 </tr>
 </tbody>
@@ -183,7 +184,7 @@ def api_demo():
 </pre>
 <h1>📜 Others</h1>
 <ul>
-<li>Due to the date information carried in the links of Xiaohongshu works, using links obtained from previous dates may be subject to risk control. It is recommended to use the latest Xiaohongshu works links when downloading Xiaohongshu work files</li>
+<li>Due to the date information carried in the links of RedNote works, using links obtained from previous dates may be subject to risk control. It is recommended to use the latest RedNote works links when downloading RedNote work files</li>
 <li>Windows system requires running programs as an administrator to read Chromium, Chrome, Edge browser cookies</li>
 <li>If the function to save works data to a file is enabled, the works data will be stored by default in the <code>./Download/ExploreData.db</code> file</li>
 <li>The program's download records will be stored in the <code>./ExploreID.db</code> file</li>
@@ -191,11 +192,11 @@ def api_demo():
 <h1 id="user-scripts">🕹 User Script</h1>
 <p>If your browser has the <a href="https://www.tampermonkey.net/">Tampermonkey</a> browser extension installed, you can add the <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">user script</a> to experience the project features without needing to download or install anything!</p>
 <img src="static/screenshot/脚本安装教程.png" alt="">
-<p>After successfully installing the script, open the Xiaohongshu page, check the script instructions, and follow the prompts to operate.</p>
+<p>After successfully installing the script, open the RedNote page, check the script instructions, and follow the prompts to operate.</p>
 <img src="static/screenshot/用户脚本截图1.png" alt="">
 <hr>
 <img src="static/screenshot/用户脚本截图2.png" alt="">
-<p>Note: Using the XHS-Downloader user script to batch extract content links, in combination with the XHS-Downloader program, can achieve batch downloading of watermark-free content files!</p>
+<p>Note: Using the XHS-Downloader user script to batch extract works links, in combination with the XHS-Downloader program, can achieve batch downloading of watermark-free works files!</p>
 <h2>📜 Script Instructions</h2>
 <ul>
 <li>When downloading watermark-free works from Xiaohongshu, the script requires time to process the files. Please wait for a moment and do not click the download button multiple times.</li>
@@ -277,13 +278,13 @@ async def example():
 <tr>
 <td align="center">work_path</td>
 <td align="center">str</td>
-<td align="center">Root path for saving content data/files</td>
+<td align="center">Root path for saving works data/files</td>
 <td align="center">Project root path</td>
 </tr>
 <tr>
 <td align="center">folder_name</td>
 <td align="center">str</td>
-<td align="center">Name of the folder for storing content files</td>
+<td align="center">Name of the folder for storing works files</td>
 <td align="center">Download</td>
 </tr>
 <tr>
@@ -301,7 +302,7 @@ async def example():
 <tr>
 <td align="center">cookie</td>
 <td align="center">str</td>
-<td align="center">Xiaohongshu web version cookie, <b>No login required, non essential parameters!</b></td>
+<td align="center">RedNote web version cookie, <b>No login required, non essential parameters!</b></td>
 <td align="center">None</td>
 </tr>
 <tr>
@@ -331,25 +332,25 @@ async def example():
 <tr>
 <td align="center">record_data</td>
 <td align="center">bool</td>
-<td align="center">Whether to save content data to a file, saved in <code>SQLite</code> format</td>
+<td align="center">Whether to save works data to a file, saved in <code>SQLite</code> format</td>
 <td align="center">false</td>
 </tr>
 <tr>
 <td align="center">image_format</td>
 <td align="center">str</td>
-<td align="center">Download format for text and image content files, supported formats: <code>PNG</code>, <code>WEBP</code><br><strong>This parameter affects the API used when downloading images, not the fixed image format!</strong></td>
+<td align="center">Download format for text and image works files, supported formats: <code>PNG</code>, <code>WEBP</code><br><strong>This parameter affects the API used when downloading images, not the fixed image format!</strong></td>
 <td align="center">PNG</td>
 </tr>
 <tr>
 <td align="center">image_download</td>
 <td align="center">bool</td>
-<td align="center">Switch for downloading text and image content files</td>
+<td align="center">Switch for downloading text and image works files</td>
 <td align="center">true</td>
 </tr>
 <tr>
 <td align="center">video_download</td>
 <td align="center">bool</td>
-<td align="center">Switch for downloading video content files</td>
+<td align="center">Switch for downloading video works files</td>
 <td align="center">true</td>
 </tr>
 <tr>
@@ -361,7 +362,7 @@ async def example():
 <tr>
 <td align="center">folder_mode</td>
 <td align="center">bool</td>
-<td align="center">Whether to store each content's files in a separate folder; the folder name matches the file name</td>
+<td align="center">Whether to store each works files in a separate folder; the folder name matches the file name</td>
 <td align="center">false</td>
 </tr>
 <tr>
@@ -402,23 +403,23 @@ async def example():
 <p>Starting from version <code>2.2</code>, if there are no abnormalities in project functionality, there is no need to handle cookies separately!</p>
 <ol>
 <li>Open the browser (optional: start in incognito mode) and visit <code>https://www.xiaohongshu.com/explore</code></li>
-<li>Log in to your Xiaohongshu account (can be skipped)</li>
+<li>Log in to your RedNote account (can be skipped)</li>
 <li>Press <code>F12</code> to open the developer tools</li>
 <li>Select the <code>Network</code> tab</li>
 <li>Check <code>Preserve log</code></li>
 <li>In the <code>Filter</code> input box, enter <code>cookie-name:web_session</code></li>
 <li>Select the <code>Fetch/XHR</code> filter</li>
-<li>Click on any piece of content on the Xiaohongshu page</li>
+<li>Click on any piece of works on the RedNote page</li>
 <li>In the <code>Network</code> tab, select any data packet (if no packets appear, repeat step 7)</li>
 <li>Copy and paste the entire Cookie into the program or configuration file</li>
 </ol>
 <br>
 <img src="static/screenshot/获取Cookie示意图.png" alt="">
 <h1>🗳 Download Records</h1>
-<p>XHS-Downloader will store the IDs of downloaded content in a database. When downloading the same content again, XHS-Downloader will automatically skip the file download (even if the content file does not exist). If you want to re-download the content file, please delete the corresponding content ID from the database and then use XHS-Downloader to download the content file again!</p>
+<p>XHS-Downloader will store the IDs of downloaded works in a database. When downloading the same works again, XHS-Downloader will automatically skip the file download (even if the works file does not exist). If you want to re-download the works file, please delete the corresponding works ID from the database and then use XHS-Downloader to download the works file again!</p>
 <p>This feature is enabled by default. If it is turned off, XHS-Downloader will check if the file exists. If the file exists, it will skip the download!</p>
 
-# 📦 Manual Build of Executable File Guide
+# 📦 Build of Executable File Guide
 
 This guide will walk you through forking this repository and executing GitHub Actions to automatically build and package
 the program based on the latest source code!
