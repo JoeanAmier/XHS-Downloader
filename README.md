@@ -83,8 +83,8 @@
 </ul>
 <li>创建容器</li>
 <ul>
-<li>TUI 模式：<code>docker run -it joeanamier/xhs-downloader</code></li>
-<li>API 模式：<code>docker run -it joeanamier/xhs-downloader python main.py server</code></li>
+<li>TUI 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:8000 -it joeanamier/xhs-downloader</code></li>
+<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:8000 -it joeanamier/xhs-downloader python main.py server</code></li>
 </ul>
 <li>运行容器
 <ul>
