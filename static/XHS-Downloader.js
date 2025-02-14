@@ -27,16 +27,12 @@
     let config = {
         disclaimer: GM_getValue("disclaimer", false),
         packageDownloadFiles: GM_getValue("packageDownloadFiles", true),
-        autoScrollSwitch: GM_getValue("autoScrollSwitch", false),
-        // scrollCheckTime: GM_getValue("scrollCheckTime", 2500),
+        autoScrollSwitch: GM_getValue("autoScrollSwitch", false), // scrollCheckTime: GM_getValue("scrollCheckTime", 2500),
         maxScrollCount: GM_getValue("maxScrollCount", 10),
     };
 
     let menu = {
-        disclaimer: undefined,
-        packageDownloadFiles: undefined,
-        autoScrollSwitch: undefined,
-        // scrollCheckTime: undefined,
+        disclaimer: undefined, packageDownloadFiles: undefined, autoScrollSwitch: undefined, // scrollCheckTime: undefined,
         maxScrollCount: undefined,
     };
 
@@ -124,7 +120,7 @@ XHS-Downloader 用户脚本 详细说明：
         }, {title: "单击切换功能状态",});
     };
 
-    autoScrollSwitchMenu()
+    autoScrollSwitchMenu();
 
     // menu.scrollCheckTime = GM_registerMenuCommand("修改滚动检测间隔", function () {
     //     let data;
@@ -565,7 +561,7 @@ XHS-Downloader 用户脚本 详细说明：
 
     const run = url => {
         setTimeout(function () {
-            if (!disclaimer) {
+            if (!config.disclaimer) {
             } else if (url === "https://www.xiaohongshu.com/explore" || url.includes("https://www.xiaohongshu.com/explore?")) {
                 updateContainer(buttons.slice(4, 5));
             } else if (url.includes("https://www.xiaohongshu.com/explore/")) {
@@ -589,7 +585,7 @@ XHS-Downloader 用户脚本 详细说明：
 
     // 设置 MutationObserver 来监听 URL 变化
     let observer
-    if (disclaimer) {
+    if (config.disclaimer) {
         observer = new MutationObserver(function () {
             if (currentUrl !== window.location.href) {
                 currentUrl = window.location.href;
@@ -660,7 +656,7 @@ XHS-Downloader 用户脚本 详细说明：
 
     style.type = 'text/css';
     style.appendChild(document.createTextNode(buttonStyle));
-    console.info("用户接受 XHS-Downloader 免责声明", disclaimer)
+    console.info("用户接受 XHS-Downloader 免责声明", config.disclaimer)
 
     if (typeof JSZip === 'undefined') {
         alert("XHS-Downloader 用户脚本依赖库 JSZip 加载失败，作品文件打包下载功能无法使用，请尝试刷新网页或者向作者反馈！");
