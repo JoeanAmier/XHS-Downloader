@@ -201,9 +201,9 @@ def api_demo():
 <ul>
 <li>When downloading watermark-free works from Xiaohongshu, the script requires time to process the files. Please wait for a moment and do not click the download button multiple times.</li>
 <li>Watermark-free image files are in PNG format; watermark-free video files are larger and may take longer to process. Page redirects may cause download failures.</li>
-<li>When extracting links for posts, collects, likes, and board from an account, the script can automatically scroll the page until all works are loaded. The default scroll detection interval is 2.5 seconds.</li>
-<li>When extracting links to explore works, searching for works, and user links, the script can automatically scroll the page to load more content. The default number of page scrolls is 10.</li>
-<li>The automatic page scroll feature is turned off by default. Users can enable it and modify the scroll detection interval and the number of scrolls, with changes taking effect immediately.</li>
+<li>When extracting links for posts, collects, likes, and board from an account, the script can automatically scroll the page until all works are loaded.</li>
+<li>When extracting recommended works links, search works, and user links, the script can automatically scroll a specified number of times to load more content. The default number of page scrolls is 10.</li>
+<li>The automatic scrolling page function is turned off by default; Users can freely open and modify the number of times the page is scrolled, and the modification will take effect immediately.</li>
 <li>If the automatic page scroll feature is not enabled, users need to manually scroll the page to load more content before performing other actions.</li>
 <li>Support packaging and downloading of work files; This feature is enabled by default, and works from multiple files will be downloaded in compressed file format</li>
 <li>Using global proxy tools may cause script download failures. If there are issues, please try disabling the proxy tool. If necessary, contact the author for feedback.</li>

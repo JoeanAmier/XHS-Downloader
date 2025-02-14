@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      1.8.7
+// @version      1.8.8
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -15,6 +15,7 @@
 // @grant        unsafeWindow
 // @grant        GM_setClipboard
 // @grant        GM_registerMenuCommand
+// @grant        GM_unregisterMenuCommand
 // @license      GNU General Public License v3.0
 // @run-at       document-end
 // @updateURL    https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js
@@ -23,13 +24,27 @@
 // ==/UserScript==
 
 (function () {
-    let disclaimer = GM_getValue("disclaimer", false);
+    let config = {
+        disclaimer: GM_getValue("disclaimer", false),
+        packageDownloadFiles: GM_getValue("packageDownloadFiles", true),
+        autoScrollSwitch: GM_getValue("autoScrollSwitch", false),
+        // scrollCheckTime: GM_getValue("scrollCheckTime", 2500),
+        maxScrollCount: GM_getValue("maxScrollCount", 10),
+    };
+
+    let menu = {
+        disclaimer: undefined,
+        packageDownloadFiles: undefined,
+        autoScrollSwitch: undefined,
+        // scrollCheckTime: undefined,
+        maxScrollCount: undefined,
+    };
 
     const readme = () => {
         const instructions = `
 XHS-Downloader 用户脚本 功能清单：
 1. 下载小红书无水印作品文件
-2. 提取发现页面作品链接
+2. 提取推荐页面作品链接
 3. 提取账号发布作品链接
 4. 提取账号收藏作品链接
 5. 提取账号专辑作品链接
@@ -38,11 +53,11 @@ XHS-Downloader 用户脚本 功能清单：
 8. 提取搜索结果用户链接
 
 XHS-Downloader 用户脚本 详细说明：
-1. 下载小红书无水印作品文件时，脚本需要花费时间处理文件，请等待片刻，切勿多次点击下载按钮
+1. 下载小红书无水印作品文件时，脚本需要花费时间处理文件，请等待片刻，请勿多次点击下载按钮
 2. 无水印作品文件较大，可能需要较长的时间处理，页面跳转可能会导致下载失败
-3. 提取账号发布、收藏、点赞、专辑作品链接时，脚本可以自动滚动页面直至加载全部作品，默认滚动检测间隔：2.5 秒
-4. 提取发现作品链接、搜索作品、用户链接时，脚本可以自动滚动页面加载更多内容，默认滚动页面次数：10 次
-5. 自动滚动页面功能默认关闭；用户可以自由开启，并修改滚动检测间隔、滚动页面次数，修改后立即生效
+3. 提取账号发布、收藏、点赞、专辑作品链接时，脚本可以自动滚动页面直至加载全部作品
+4. 提取推荐作品链接、搜索作品、用户链接时，脚本可以自动滚动指定次数加载更多内容，默认滚动次数：10 次
+5. 自动滚动页面功能默认关闭；用户可以自由开启，并修改滚动页面次数，修改后立即生效
 6. 如果未开启自动滚动页面功能，用户需要手动滚动页面以便加载更多内容后再进行其他操作
 7. 支持作品文件打包下载；该功能默认开启，多个文件的作品将会以压缩包格式下载
 
@@ -68,68 +83,70 @@ XHS-Downloader 用户脚本 详细说明：
 启用该功能可能会被小红书检测为自动化操作，从而导致账号受到风控或封禁！
 该功能在使用过程中遇到任何问题请及时向开发者反馈！
 `);
-        if (!disclaimer) {
+        if (!config.disclaimer) {
             const answer = prompt(disclaimer_content, "");
             if (answer === null) {
                 GM_setValue("disclaimer", false);
-                disclaimer = false;
+                config.disclaimer = false;
             } else {
-                GM_setValue("disclaimer", answer.toUpperCase() === "YES");
-                disclaimer = GM_getValue("disclaimer");
+                GM_setValue("disclaimer", answer.toUpperCase() === "YES" || answer.toUpperCase() === "Y");
+                config.disclaimer = GM_getValue("disclaimer");
                 location.reload();
             }
         }
     };
 
-    if (!disclaimer) {
+    if (!config.disclaimer) {
         readme();
     }
 
-    GM_registerMenuCommand("关于 XHS-Downloader", function () {
+    menu.disclaimer = GM_registerMenuCommand("关于 XHS-Downloader", function () {
         readme();
     });
 
-    let packageDownloadFiles = GM_getValue("packageDownloadFiles", true);
+    const packageDownloadFilesMenu = () => {
+        menu.packageDownloadFiles = GM_registerMenuCommand(`文件打包下载功能 ${config.packageDownloadFiles ? '✔️' : '❌'}`, function () {
+            config.packageDownloadFiles = !config.packageDownloadFiles;
+            GM_setValue("packageDownloadFiles", config.packageDownloadFiles);
+            GM_unregisterMenuCommand(menu.packageDownloadFiles);
+            packageDownloadFilesMenu();
+        }, {title: "单击切换功能状态",});
+    };
 
-    GM_registerMenuCommand(`文件打包下载功能 ${packageDownloadFiles ? '✔️' : '❌'}`, function () {
-        packageDownloadFiles = !packageDownloadFiles;
-        GM_setValue("packageDownloadFiles", packageDownloadFiles);
-        alert('修改文件打包下载功能成功！');
-    });
+    packageDownloadFilesMenu();
 
-    let autoScrollSwitch = GM_getValue("autoScrollSwitch", false);
+    const autoScrollSwitchMenu = () => {
+        menu.autoScrollSwitch = GM_registerMenuCommand(`自动滚动页面功能 ${config.autoScrollSwitch ? '✔️' : '❌'}`, function () {
+            config.autoScrollSwitch = !config.autoScrollSwitch;
+            GM_setValue("autoScrollSwitch", config.autoScrollSwitch);
+            GM_unregisterMenuCommand(menu.autoScrollSwitch);
+            autoScrollSwitchMenu();
+        }, {title: "单击切换功能状态",});
+    };
 
-    GM_registerMenuCommand(`自动滚动页面功能 ${autoScrollSwitch ? '✔️' : '❌'}`, function () {
-        autoScrollSwitch = !autoScrollSwitch;
-        GM_setValue("autoScrollSwitch", autoScrollSwitch);
-        alert('修改自动滚动页面功能成功！');
-    });
+    autoScrollSwitchMenu()
 
-    let scrollCheckTime = GM_getValue("scrollCheckTime", 2500);
+    // menu.scrollCheckTime = GM_registerMenuCommand("修改滚动检测间隔", function () {
+    //     let data;
+    //     data = prompt("请输入自动滚动页面检测间隔：\n如果网络环境不佳导致脚本未能加载全部作品，可以设置较大的检测间隔！", config.scrollCheckTime / 1000);
+    //     if (data === null) {
+    //         return
+    //     }
+    //     data = parseFloat(data) || 2.5
+    //     config.scrollCheckTime = data * 1000;
+    //     GM_setValue("scrollCheckTime", config.scrollCheckTime);
+    //     alert(`修改自动滚动页面检测间隔成功，当前值：${data} 秒`);
+    // });
 
-    GM_registerMenuCommand("修改滚动检测间隔", function () {
+    menu.maxScrollCount = GM_registerMenuCommand("修改滚动页面次数", function () {
         let data;
-        data = prompt("请输入自动滚动页面检测间隔：\n如果网络环境不佳导致脚本未能加载全部作品，可以设置较大的检测间隔！", scrollCheckTime / 1000);
+        data = prompt("请输入自动滚动页面次数：\n仅对提取推荐作品、搜索作品、搜索用户链接功能生效！", config.maxScrollCount);
         if (data === null) {
             return
         }
-        data = parseFloat(data) || 2.5
-        scrollCheckTime = data * 1000;
-        GM_setValue("scrollCheckTime", scrollCheckTime);
-        alert(`修改自动滚动页面检测间隔成功，当前值：${data} 秒`);
-    });
-
-    let maxScrollCount = GM_getValue("maxScrollCount", 10);
-
-    GM_registerMenuCommand("修改滚动页面次数", function () {
-        let data;
-        data = prompt("请输入自动滚动页面次数：\n仅对提取发现作品、搜索作品、搜索用户链接生效！", maxScrollCount);
-        if (data === null) {
-            return
-        }
-        maxScrollCount = parseInt(data) || 10;
-        GM_setValue("maxScrollCount", maxScrollCount);
-        alert(`修改自动滚动页面次数成功，当前值：${maxScrollCount} 次`);
+        config.maxScrollCount = parseInt(data) || 10;
+        GM_setValue("maxScrollCount", config.maxScrollCount);
+        alert(`修改自动滚动页面次数成功，当前值：${config.maxScrollCount} 次`);
     });
 
     const icon = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMjAwMTA5MDQvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvVFIvMjAwMS9SRUMtU1ZHLTIwMDEwOTA0L0RURC9zdmcxMC5kdGQiPjxzdmcgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYuMDAwMDAwcHQiIGhlaWdodD0iMjU2LjAwMDAwMHB0IiB2aWV3Qm94PSIwIDAgMjU2LjAwMDAwMCAyNTYuMDAwMDAwIiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCBtZWV0Ij48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLjAwMDAwMCwyNTYuMDAwMDAwKSBzY2FsZSgwLjEwMDAwMCwtMC4xMDAwMDApIiBmaWxsPSIjZTgzYjM1IiBzdHJva2U9Im5vbmUiPjxwYXRoIGQ9Ik0xMTI1IDI1NDMgYy02MyAtNyAtMjIxIC00NiAtMjgyIC02OSAtMTc3IC02NyAtMzIxIC0xNjAgLTQ1OSAtMjk4IC0xOTQgLTE5NCAtMzEzIC00MjIgLTM1OSAtNjgzIC0xOSAtMTExIC0xOSAtMzI2IDAgLTQzOSA3NCAtNDIzIDM3OCAtNzk4IDc3NiAtOTU4IDQ4OSAtMTk3IDEwMzUgLTgwIDEzOTkgMzAwIDEzOCAxNDUgMjM2IDMwNyAyOTQgNDg3IDg1IDI2MCA4MSA1NjYgLTEwIDgxOSAtMTU2IDQzNCAtNTM4IDc1NCAtOTkzIDgzMiAtODYgMTQgLTI4MiAyMCAtMzY2IDl6IG01MCAtODEwIGw4MCAtMzAgMyAtMzg5IDIgLTM5MCAtODcgMjkgYy0xMzIgNDQgLTMwMiA0OCAtNDQwIDExIGwtMjMgLTYgMCAzOTEgYzAgMjE1IDMgMzkxIDggMzkxIDQgMSAzMCA3IDU3IDE1IDM2IDExIDg5IDE0IDE4NSAxMSAxMjEgLTIgMTQzIC02IDIxNSAtMzN6IG02MzggMTggbDM3IC0xMiAwIC0zODkgYzAgLTIxNSAtMiAtMzkwIC00IC0zOTAgLTMgMCAtMzUgNyAtNzMgMTYgLTEwOCAyNSAtMjc0IDE1IC0zODUgLTIzIGwtODggLTMxIDAgMzg4IDAgMzg3IDM5IDE4IGMxMDAgNDQgMTYwIDU1IDMwMSA1MSA3NCAtMiAxNTIgLTkgMTczIC0xNXogbS0xMTQzIC00NTggYzAgLTE5NyA0IC0zNjQgOCAtMzcxIDcgLTkgMjUgLTggODcgOCAxNDUgMzcgMzE1IDI0IDQ1NiAtMzUgbDYxIC0yNiA3MSAzMCBjNDAgMTYgMTAwIDM1IDEzNSA0MSA4MSAxNiAyNzEgOCAzMzIgLTE0IDI0IC05IDUwIC0xNCA1NyAtMTIgMTAgNCAxMyA4MSAxMyAzNzEgbDAgMzY1IDQ1IDAgNDUgMCAwIC00MjkgYzAgLTIzNyAtMyAtNDMyIC04IC00MzUgLTQgLTIgLTU5IDExIC0xMjEgMzAgLTYzIDE5IC0xNDYgMzcgLTE4NSA0MCAtODcgOCAtMjE0IC0xNCAtMjkzIC01MSAtNzEgLTMyIC0xMDUgLTMyIC0xOTYgNSAtMTUzIDYxIC0yODEgNjMgLTQ3MCA1IC02MCAtMTkgLTExNCAtMzIgLTExOSAtMjkgLTQgMyAtOCAxOTggLTggNDM1IGwwIDQyOSA0NSAwIDQ1IDAgMCAtMzU3eiIvPjxwYXRoIGQ9Ik04NTcgMTYwMyBjLTI0IC0yMyAtMSAtMzEgMTA2IC0zNiA2MSAtNCAxMjMgLTggMTM3IC05IDQ1IC01IDI5IDI2IC0yMCAzOSAtNDkgMTIgLTIxMiAxNyAtMjIzIDZ6Ii8+PHBhdGggZD0iTTg1NyAxNDYzIGMtMjQgLTIzIC0yIC0zMSAxMDEgLTM3IDU5IC0zIDEyMSAtNyAxMzcgLTggMjEgLTIgMzAgMSAzMCAxMiAwIDEwIC0xOCAxOSAtNTAgMjYgLTU1IDEzIC0yMDggMTggLTIxOCA3eiIvPjxwYXRoIGQ9Ik04NjMgMTMyNCBjLTcgLTMgLTEzIC0xMSAtMTMgLTE5IDAgLTkgMzAgLTE0IDEwOCAtMTkgNTkgLTMgMTE4IC03IDEzMiAtOSAzNiAtMyAzOSAxNiA2IDMxIC0yOCAxNCAtMjExIDI2IC0yMzMgMTZ6Ii8+PHBhdGggZD0iTTg2OCAxMTgzIGMtMTAgLTIgLTE4IC0xMSAtMTggLTE5IDAgLTExIDE3IC0xNCA4MSAtMTQgNDQgMCAxMDAgLTUgMTI0IC0xMSA1MiAtMTMgODMgLTYgNjYgMTUgLTIyIDI2IC0xOTEgNDYgLTI1MyAyOXoiLz48cGF0aCBkPSJNMTQ4OCAxNTk4IGMtMzggLTggLTQ4IC0xNCAtNDggLTMwIDAgLTE3IDQgLTE5IDI4IC0xMyAxNSAzIDc2IDkgMTM1IDEyIDkzIDUgMTA4IDggMTA1IDIyIC0zIDEzIC0xOCAxNiAtODggMTcgLTQ3IDEgLTEwNiAtMyAtMTMyIC04eiIvPjxwYXRoIGQ9Ik0xNDkwIDE0NTcgYy0zMCAtOCAtNDYgLTE4IC00OCAtMzEgLTMgLTE2IDAgLTE4IDI1IC0xMiAxNSA0IDc3IDEwIDEzNiAxMyA5MyA1IDEwOCA4IDEwNSAyMiAtMyAxMyAtMTggMTYgLTg4IDE4IC00NyAxIC0xMDUgLTQgLTEzMCAtMTB6Ii8+PHBhdGggZD0iTTE0OTUgMTMxNiBjLTM1IC04IC01MSAtMTcgLTUzIC0zMCAtMyAtMTYgMCAtMTggMjUgLTEyIDE1IDQgNzYgMTAgMTM2IDEzIDc2IDQgMTA3IDkgMTA3IDE4IDAgNyAtNyAxNiAtMTYgMTkgLTI1IDEwIC0xNDQgNSAtMTk5IC04eiIvPjxwYXRoIGQ9Ik0xNTAwIDExNzcgYy00MCAtOSAtNTYgLTE3IC01OCAtMzEgLTMgLTE2IDAgLTE4IDMwIC0xMiAxOCAzIDc2IDkgMTI4IDEyIDExOSA3IDEzMiAxMCAxMDYgMzAgLTI0IDE3IC0xMjYgMTcgLTIwNiAxeiIvPjwvZz48L3N2Zz4=";
@@ -330,7 +347,7 @@ XHS-Downloader 用户脚本 详细说明：
 
     const downloadImage = async (urls, name) => {
         let success;
-        if (!packageDownloadFiles) {
+        if (!config.packageDownloadFiles) {
             let result = [];
             for (const [index, url] of urls.entries()) {
                 result.push(await downloadFile(url, `${name}_${index + 1}.png`));
@@ -394,7 +411,7 @@ XHS-Downloader 用户脚本 详细说明：
                     clearInterval(scrollInterval);
                     callback();  // 调用回调函数
                 }
-            } else if (scrollCount < maxScrollCount && !isAtBottom()) {
+            } else if (scrollCount < config.maxScrollCount && !isAtBottom()) {
                 scrollOnce();  // 执行一次滚动
                 scrollCount++;
             } else {
@@ -406,7 +423,7 @@ XHS-Downloader 用户脚本 详细说明：
     };
 
     const scrollScreenEvent = (callback, endless = false) => {
-        if (autoScrollSwitch) {
+        if (config.autoScrollSwitch) {
             scrollScreen(callback, endless,);
         } else {
             callback();
@@ -544,7 +561,7 @@ XHS-Downloader 用户脚本 详细说明：
         });
     };
 
-    const buttons = [createButton("Download", "下载无水印作品文件", extractDownloadLinks), createButton("Post", "提取发布作品链接", extractAllLinksEvent, 0), createButton("Collection", "提取收藏作品链接", extractAllLinksEvent, 1), createButton("Favorite", "提取点赞作品链接", extractAllLinksEvent, 2), createButton("Feed", "提取发现作品链接", extractAllLinksEvent, -1), createButton("Search", "提取搜索作品链接", extractAllLinksEvent, 3), createButton("User", "提取搜索用户链接", extractAllLinksEvent, 4), createButton("Board", "提取专辑作品链接", extractAllLinksEvent, 5), createButton("Disclaimer", "脚本说明及免责声明", readme,), createButton("About", "关于 XHS-Downloader", about,),];
+    const buttons = [createButton("Download", "下载无水印作品文件", extractDownloadLinks), createButton("Post", "提取发布作品链接", extractAllLinksEvent, 0), createButton("Collection", "提取收藏作品链接", extractAllLinksEvent, 1), createButton("Favorite", "提取点赞作品链接", extractAllLinksEvent, 2), createButton("Feed", "提取推荐作品链接", extractAllLinksEvent, -1), createButton("Search", "提取搜索作品链接", extractAllLinksEvent, 3), createButton("User", "提取搜索用户链接", extractAllLinksEvent, 4), createButton("Board", "提取专辑作品链接", extractAllLinksEvent, 5), createButton("Disclaimer", "脚本说明及免责声明", readme,), createButton("About", "关于 XHS-Downloader", about,),];
 
     const run = url => {
         setTimeout(function () {
