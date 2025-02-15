@@ -3,6 +3,7 @@ from pathlib import Path
 VERSION_MAJOR = 2
 VERSION_MINOR = 5
 VERSION_BETA = True
+__version__ = f"{VERSION_MAJOR}.{VERSION_MINOR}.{"beta" if VERSION_BETA else "stable"}"
 ROOT = Path(__file__).resolve().parent.parent.parent
 PROJECT = f"XHS-Downloader V{VERSION_MAJOR}.{
 VERSION_MINOR} {"Beta" if VERSION_BETA else "Stable"}"
@@ -53,3 +54,6 @@ FILE_SIGNATURES: tuple[tuple[int, bytes, str,], ...] = (
 FILE_SIGNATURES_LENGTH = max(offset + len(signature) for offset, signature, _ in FILE_SIGNATURES)
 
 MAX_WORKERS: int = 4
+
+if __name__ == "__main__":
+    print(__version__)

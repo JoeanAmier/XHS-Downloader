@@ -60,7 +60,7 @@ async def example():
 async def test():
     url = ""
     async with XHS() as xhs:
-        print(await xhs.extract(url))
+        print(await xhs.extract(url, download=True, ))
 
 
 if __name__ == "__main__":
