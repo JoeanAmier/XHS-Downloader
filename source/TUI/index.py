@@ -42,7 +42,10 @@ class Index(Screen):
         Binding(key="A", action="about", description=_("关于项目")),
     ]
 
-    def __init__(self, app: XHS, ):
+    def __init__(
+            self,
+            app: XHS,
+    ):
         super().__init__()
         self.xhs = app
         self.url = None
@@ -51,11 +54,7 @@ class Index(Screen):
     def compose(self) -> ComposeResult:
         yield Header()
         yield ScrollableContainer(
-            Label(
-                Text(
-                    _("开源协议: ") + LICENCE,
-                    style=MASTER)
-            ),
+            Label(Text(_("开源协议: ") + LICENCE, style=MASTER)),
             Link(
                 Text(
                     _("项目地址: ") + REPOSITORY,
@@ -65,9 +64,8 @@ class Index(Screen):
                 tooltip=_("点击访问"),
             ),
             Label(
-                Text(
-                    _("请输入小红书图文/视频作品链接"),
-                    style=PROMPT), classes="prompt",
+                Text(_("请输入小红书图文/视频作品链接"), style=PROMPT),
+                classes="prompt",
             ),
             Input(placeholder=_("多个链接之间使用空格分隔")),
             HorizontalScroll(
@@ -76,7 +74,11 @@ class Index(Screen):
                 Button(_("清空输入框"), id="reset"),
             ),
         )
-        yield RichLog(markup=True, wrap=True, auto_scroll=True, )
+        yield RichLog(
+            markup=True,
+            wrap=True,
+            auto_scroll=True,
+        )
         yield Footer()
 
     def on_mount(self) -> None:
@@ -84,15 +86,12 @@ class Index(Screen):
         self.url = self.query_one(Input)
         self.tip = self.query_one(RichLog)
         self.tip.write(
-            Text(
-                _("免责声明\n") +
-                f"\n{
-                ">" *
-                50}",
-                style=MASTER),
+            Text(_("免责声明\n") + f"\n{'>' * 50}", style=MASTER),
             scroll_end=True,
         )
-        self.xhs.manager.print_proxy_tip(log=self.tip, )
+        self.xhs.manager.print_proxy_tip(
+            log=self.tip,
+        )
 
     @on(Button.Pressed, "#deal")
     async def deal_button(self):
@@ -119,7 +118,14 @@ class Index(Screen):
     @work(exclusive=True)
     async def deal(self):
         await self.app.push_screen("loading")
-        if any(await self.xhs.extract(self.url.value, True, log=self.tip, data=False, )):
+        if any(
+                await self.xhs.extract(
+                    self.url.value,
+                    True,
+                    log=self.tip,
+                    data=False,
+                )
+        ):
             self.url.value = ""
         else:
             self.tip.write(
@@ -143,7 +149,11 @@ class Index(Screen):
         await self.app.run_action("settings")
 
     async def action_monitor(self):
-        await self.app.push_screen(Monitor(self.xhs, ))
+        await self.app.push_screen(
+            Monitor(
+                self.xhs,
+            )
+        )
 
     async def action_about(self):
         await self.app.push_screen("about")

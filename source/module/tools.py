@@ -22,7 +22,10 @@ def retry(function):
 def logging(log, text, style=INFO):
     string = Text(text, style=style)
     if log:
-        log.write(string, scroll_end=True, )
+        log.write(
+            string,
+            scroll_end=True,
+        )
     else:
         print(string)
 

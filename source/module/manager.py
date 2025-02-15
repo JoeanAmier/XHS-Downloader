@@ -72,10 +72,10 @@ class Manager:
         self.path = self.__check_path(path)
         self.folder = self.__check_folder(folder)
         self.blank_headers = HEADERS | {
-            'user-agent': user_agent or USERAGENT,
+            "user-agent": user_agent or USERAGENT,
         }
         self.headers = self.blank_headers | {
-            'cookie': cookie,
+            "cookie": cookie,
         }
         self.retry = retry
         self.chunk = chunk
@@ -86,10 +86,13 @@ class Manager:
         self.download_record = self.check_bool(download_record, True)
         self.proxy_tip = None
         self.proxy = self.__check_proxy(proxy)
-        self.print_proxy_tip(_print, )
+        self.print_proxy_tip(
+            _print,
+        )
         self.request_client = AsyncClient(
-            headers=self.headers | {
-                'referer': 'https://www.xiaohongshu.com/',
+            headers=self.headers
+                    | {
+                        "referer": "https://www.xiaohongshu.com/",
             },
             timeout=timeout,
             verify=False,
@@ -177,11 +180,7 @@ class Manager:
     def __check_name_format(self, format_: str) -> str:
         keys = format_.split()
         return next(
-            (
-                "发布时间 作者昵称 作品标题"
-                for key in keys
-                if key not in self.NAME_KEYS
-            ),
+            ("发布时间 作者昵称 作品标题" for key in keys if key not in self.NAME_KEYS),
             format_,
         )
 
@@ -198,7 +197,7 @@ class Manager:
                     timeout=10,
                     headers={
                         "User-Agent": USERAGENT,
-                    }
+                    },
                 )
                 response.raise_for_status()
                 self.proxy_tip = (_("代理 {0} 测试成功").format(proxy),)
@@ -220,7 +219,11 @@ class Manager:
                     WARNING,
                 )
 
-    def print_proxy_tip(self, _print: bool = True, log=None, ) -> None:
+    def print_proxy_tip(
+            self,
+            _print: bool = True,
+            log=None,
+    ) -> None:
         if _print and self.proxy_tip:
             logging(log, *self.proxy_tip)
 
@@ -240,6 +243,6 @@ class Manager:
             # 使用空字符串替换匹配到的部分
             cookie_string = sub(pattern, "", cookie_string)
         # 去除多余的分号和空格
-        cookie_string = sub(r';\s*$', "", cookie_string)  # 删除末尾的分号和空格
-        cookie_string = sub(r';\s*;', ";", cookie_string)  # 删除中间多余分号后的空格
-        return cookie_string.strip('; ')
+        cookie_string = sub(r";\s*$", "", cookie_string)  # 删除末尾的分号和空格
+        cookie_string = sub(r";\s*;", ";", cookie_string)  # 删除中间多余分号后的空格
+        return cookie_string.strip("; ")

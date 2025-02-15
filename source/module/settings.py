@@ -6,7 +6,7 @@ from platform import system
 from .static import ROOT
 from .static import USERAGENT
 
-__all__ = ['Settings']
+__all__ = ["Settings"]
 
 
 class Settings:

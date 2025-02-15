@@ -1,3 +1,3 @@
 from .app import XHSDownloader
 
-__all__ = ['XHSDownloader']
+__all__ = ["XHSDownloader"]

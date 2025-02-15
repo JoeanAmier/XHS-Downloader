@@ -38,25 +38,44 @@ class BrowserCookie:
     }
 
     @classmethod
-    def run(cls, domains: list[str], console: Console = None, ) -> str:
+    def run(
+            cls,
+            domains: list[str],
+            console: Console = None,
+    ) -> str:
         console = console or Console()
-        options = "\n".join(f"{i}. {k}: {v[1]}" for i, (k, v) in enumerate(cls.SUPPORT_BROWSER.items(), start=1))
+        options = "\n".join(
+            f"{i}. {k}: {v[1]}"
+            for i, (k, v) in enumerate(cls.SUPPORT_BROWSER.items(), start=1)
+        )
         if browser := console.input(
-                _("读取指定浏览器的 Cookie 并写入配置文件\n"
-                  "Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie！\n"
-                  "{options}\n请输入浏览器名称或序号：").format(options=options), ):
-            return cls.get(browser, domains, console, )
+                _(
+                    "读取指定浏览器的 Cookie 并写入配置文件\n"
+                    "Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie！\n"
+                    "{options}\n请输入浏览器名称或序号："
+                ).format(options=options),
+        ):
+            return cls.get(
+                browser,
+                domains,
+                console,
+            )
         console.print(_("未选择浏览器！"))
 
     @classmethod
-    def get(cls, browser: str | int, domains: list[str], console: Console = None, ) -> str:
+    def get(
+            cls,
+            browser: str | int,
+            domains: list[str],
+            console: Console = None,
+    ) -> str:
         console = console or Console()
         if not (browser := cls.__browser_object(browser)):
             console.print(_("浏览器名称或序号输入错误！"))
             return ""
         try:
             cookies = browser(domains=domains)
-            return "; ".join(f"{i["name"]}={i["value"]}" for i in cookies)
+            return "; ".join(f"{i['name']}={i['value']}" for i in cookies)
         except RuntimeError:
             console.print(_("获取 Cookie 失败，未找到 Cookie 数据！"))
         return ""

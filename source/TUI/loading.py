@@ -10,7 +10,9 @@ __all__ = ["Loading"]
 
 
 class Loading(ModalScreen):
-    def __init__(self, ):
+    def __init__(
+            self,
+    ):
         super().__init__()
 
     def compose(self) -> ComposeResult:

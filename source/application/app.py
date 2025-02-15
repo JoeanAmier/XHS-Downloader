@@ -48,11 +48,17 @@ __all__ = ["XHS"]
 
 
 def _data_cache(function):
-    async def inner(self, data: dict, ):
+    async def inner(
+            self,
+            data: dict,
+    ):
         if self.manager.record_data:
             download = data["下载地址"]
             lives = data["动图地址"]
-            await function(self, data, )
+            await function(
+                self,
+                data,
+            )
             data["下载地址"] = download
             data["动图地址"] = lives
 
@@ -137,11 +143,14 @@ class XHS:
 
     def __extract_image(self, container: dict, data: Namespace):
         container["下载地址"], container["动图地址"] = self.image.get_image_link(
-            data, self.manager.image_format)
+            data, self.manager.image_format
+        )
 
     def __extract_video(self, container: dict, data: Namespace):
         container["下载地址"] = self.video.get_video_link(data)
-        container["动图地址"] = [None, ]
+        container["动图地址"] = [
+            None,
+        ]
 
     async def __download_files(
             self,
@@ -154,8 +163,7 @@ class XHS:
         name = self.__naming_rules(container)
         if (u := container["下载地址"]) and download:
             if await self.skip_download(i := container["作品ID"]):
-                logging(
-                    log, _("作品 {0} 存在下载记录，跳过下载").format(i))
+                logging(log, _("作品 {0} 存在下载记录，跳过下载").format(i))
             else:
                 path, result = await self.download.run(
                     u,
@@ -172,7 +180,10 @@ class XHS:
         await self.save_data(container)
 
     @_data_cache
-    async def save_data(self, data: dict, ):
+    async def save_data(
+            self,
+            data: dict,
+    ):
         data["采集时间"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         data["下载地址"] = " ".join(data["下载地址"])
         data["动图地址"] = " ".join(i or "NaN" for i in data["动图地址"])
@@ -196,10 +207,19 @@ class XHS:
         if not urls:
             logging(log, _("提取小红书作品链接失败"), WARNING)
         else:
-            logging(
-                log, _("共 {0} 个小红书作品待处理...").format(len(urls)))
+            logging(log, _("共 {0} 个小红书作品待处理...").format(len(urls)))
         # return urls  # 调试代码
-        return [await self.__deal_extract(i, download, index, log, bar, data, ) for i in urls]
+        return [
+            await self.__deal_extract(
+                i,
+                download,
+                index,
+                log,
+                bar,
+                data,
+            )
+            for i in urls
+        ]
 
     async def extract_cli(
             self,
@@ -214,7 +234,14 @@ class XHS:
         if not url:
             logging(log, _("提取小红书作品链接失败"), WARNING)
         else:
-            await self.__deal_extract(url[0], download, index, log, bar, data, )
+            await self.__deal_extract(
+                url[0],
+                download,
+                index,
+                log,
+                bar,
+                data,
+            )
 
     async def extract_links(self, url: str, log) -> list:
         urls = []
@@ -253,7 +280,11 @@ class XHS:
             logging(log, msg)
             return {"message": msg}
         logging(log, _("开始处理作品：{0}").format(i))
-        html = await self.html.request_url(url, log=log, cookie=cookie, )
+        html = await self.html.request_url(
+            url,
+            log=log,
+            cookie=cookie,
+        )
         namespace = self.__generate_data_object(html)
         if not namespace:
             logging(log, _("{0} 获取数据失败").format(i), ERROR)
@@ -299,10 +330,12 @@ class XHS:
         return beautify_string(
             self.CLEANER.filter_name(
                 self.manager.SEPARATE.join(values),
-                default=self.manager.SEPARATE.join((
-                    data["作者ID"],
-                    data["作品ID"],
-                )),
+                default=self.manager.SEPARATE.join(
+                    (
+                        data["作者ID"],
+                        data["作品ID"],
+                    )
+                ),
             ),
             length=128,
         )
@@ -315,10 +348,13 @@ class XHS:
         return self.manager.filter_name(data["作者昵称"]) or data["作者ID"]
 
     def __get_name_title(self, data: dict) -> str:
-        return beautify_string(
-            self.manager.filter_name(data["作品标题"]),
-            64,
-        ) or data["作品ID"]
+        return (
+                beautify_string(
+                    self.manager.filter_name(data["作品标题"]),
+                    64,
+                )
+                or data["作品ID"]
+        )
 
     async def monitor(
             self,
@@ -331,11 +367,15 @@ class XHS:
         logging(
             None,
             _(
-                "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"),
+                "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"
+            ),
             style=MASTER,
         )
         self.event.clear()
-        await gather(self.__push_link(delay), self.__receive_link(delay, download, None, log, bar, data))
+        await gather(
+            self.__push_link(delay),
+            self.__receive_link(delay, download, None, log, bar, data),
+        )
 
     async def __push_link(self, delay: int):
         while not self.event.is_set():
@@ -373,10 +413,16 @@ class XHS:
 
     @staticmethod
     def read_browser_cookie(value: str | int) -> str:
-        return BrowserCookie.get(
-            value,
-            domains=["xiaohongshu.com", ],
-        ) if value else ""
+        return (
+            BrowserCookie.get(
+                value,
+                domains=[
+                    "xiaohongshu.com",
+                ],
+            )
+            if value
+            else ""
+        )
 
     # @staticmethod
     # async def index(request):
@@ -425,11 +471,17 @@ class XHS:
     #     await self.runner.cleanup()
     #     logging(log, _("Web API 服务器已关闭！"))
 
-    async def run_server(self, host="0.0.0.0", port=8000, log_level="info", ):
+    async def run_server(
+            self,
+            host="0.0.0.0",
+            port=8000,
+            log_level="info",
+    ):
         self.server = FastAPI(
             debug=self.VERSION_BETA,
             title="XHS-Downloader",
-            version=f"{self.VERSION_MAJOR}.{self.VERSION_MINOR}")
+            version=f"{self.VERSION_MAJOR}.{self.VERSION_MINOR}",
+        )
         self.setup_routes()
         config = Config(
             self.server,
@@ -445,7 +497,10 @@ class XHS:
         async def index():
             return RedirectResponse(url=REPOSITORY)
 
-        @self.server.post("/xhs/", response_model=ExtractData, )
+        @self.server.post(
+            "/xhs/",
+            response_model=ExtractData,
+        )
         async def handle(extract: ExtractParams):
             url = await self.extract_links(extract.url, None)
             if not url:
@@ -466,6 +521,5 @@ class XHS:
                     msg = _("获取小红书作品数据失败")
                     data = None
             return ExtractData(
-                message=msg,
-                url=url[0] if url else extract.url,
-                data=data)
+                message=msg, url=url[0] if url else extract.url, data=data
+            )

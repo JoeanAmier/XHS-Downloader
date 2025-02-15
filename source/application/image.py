@@ -1,7 +1,7 @@
 from source.expansion import Namespace
 from .request import Html
 
-__all__ = ['Image']
+__all__ = ["Image"]
 
 
 class Image:
@@ -10,16 +10,18 @@ class Image:
         images = data.safe_extract("imageList", [])
         live_link = cls.__get_live_link(images)
         token_list = [
-            cls.__extract_image_token(
-                Namespace.object_extract(
-                    i, "urlDefault")) for i in images]
+            cls.__extract_image_token(Namespace.object_extract(i, "urlDefault"))
+            for i in images
+        ]
         match format_:
             case "png":
-                return [Html.format_url(cls.__generate_png_link(i))
-                        for i in token_list], live_link
+                return [
+                    Html.format_url(cls.__generate_png_link(i)) for i in token_list
+                ], live_link
             case "webp":
-                return [Html.format_url(cls.__generate_webp_link(i))
-                        for i in token_list], live_link
+                return [
+                    Html.format_url(cls.__generate_webp_link(i)) for i in token_list
+                ], live_link
             case _:
                 raise ValueError
 

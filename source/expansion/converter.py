@@ -16,9 +16,7 @@ class Converter:
     )
 
     def run(self, content: str) -> dict:
-        return self._filter_object(
-            self._convert_object(
-                self._extract_object(content)))
+        return self._filter_object(self._convert_object(self._extract_object(content)))
 
     def _extract_object(self, html: str) -> str:
         if not html:

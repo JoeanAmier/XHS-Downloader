@@ -15,7 +15,10 @@ __all__ = ["Update"]
 
 
 class Update(ModalScreen):
-    def __init__(self, app: XHS, ):
+    def __init__(
+            self,
+            app: XHS,
+    ):
         super().__init__()
         self.xhs = app
 
@@ -29,9 +32,16 @@ class Update(ModalScreen):
     @work(exclusive=True)
     async def check_update(self) -> None:
         try:
-            url = await self.xhs.html.request_url(RELEASES, False, None, timeout=5, )
+            url = await self.xhs.html.request_url(
+                RELEASES,
+                False,
+                None,
+                timeout=5,
+            )
             version = url.split("/")[-1]
-            match self.compare_versions(f"{XHS.VERSION_MAJOR}.{XHS.VERSION_MINOR}", version, XHS.VERSION_BETA):
+            match self.compare_versions(
+                f"{XHS.VERSION_MAJOR}.{XHS.VERSION_MINOR}", version, XHS.VERSION_BETA
+            ):
                 case 4:
                     args = (
                         _("检测到新版本：{0}.{1}").format(
@@ -58,7 +68,10 @@ class Update(ModalScreen):
                 case _:
                     raise ValueError
         except ValueError:
-            args = (_("检测新版本失败"), "error",)
+            args = (
+                _("检测新版本失败"),
+                "error",
+            )
         self.dismiss(args)
 
     def on_mount(self) -> None:
@@ -66,11 +79,10 @@ class Update(ModalScreen):
 
     @staticmethod
     def compare_versions(
-            current_version: str,
-            target_version: str,
-            is_development: bool) -> int:
-        current_major, current_minor = map(int, current_version.split('.'))
-        target_major, target_minor = map(int, target_version.split('.'))
+            current_version: str, target_version: str, is_development: bool
+    ) -> int:
+        current_major, current_minor = map(int, current_version.split("."))
+        target_major, target_minor = map(int, target_version.split("."))
 
         if target_major > current_major:
             return 4

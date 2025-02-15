@@ -5,7 +5,10 @@ from aiosqlite import connect
 
 from ..module import Manager
 
-__all__ = ["IDRecorder", "DataRecorder", ]
+__all__ = [
+    "IDRecorder",
+    "DataRecorder",
+]
 
 
 class IDRecorder:
@@ -18,7 +21,9 @@ class IDRecorder:
     async def _connect_database(self):
         self.database = await connect(self.file)
         self.cursor = await self.database.cursor()
-        await self.database.execute("CREATE TABLE IF NOT EXISTS explore_id (ID TEXT PRIMARY KEY);")
+        await self.database.execute(
+            "CREATE TABLE IF NOT EXISTS explore_id (ID TEXT PRIMARY KEY);"
+        )
         await self.database.commit()
 
     async def select(self, id_: str):
@@ -95,11 +100,14 @@ class DataRecorder(IDRecorder):
 
     async def add(self, **kwargs) -> None:
         if self.switch:
-            await self.database.execute(f"""REPLACE INTO explore_data (
+            await self.database.execute(
+                f"""REPLACE INTO explore_data (
         {", ".join(i[0] for i in self.DATA_TABLE)}
         ) VALUES (
         {", ".join("?" for _ in kwargs)}
-        );""", self.__generate_values(kwargs))
+        );""",
+                self.__generate_values(kwargs),
+            )
             await self.database.commit()
 
     async def __delete(self, id_: str) -> None:

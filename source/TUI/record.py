@@ -14,23 +14,37 @@ __all__ = ["Record"]
 
 
 class Record(ModalScreen):
-    def __init__(self, app: XHS, ):
+    def __init__(
+            self,
+            app: XHS,
+    ):
         super().__init__()
         self.xhs = app
 
     def compose(self) -> ComposeResult:
         yield Grid(
             Label(_("请输入待删除的小红书作品链接或作品 ID"), classes="prompt"),
-            Input(placeholder=_("支持输入作品 ID 或包含作品 ID 的作品链接，多个链接或 ID 之间使用空格分隔"),
-                  id="id", ),
+            Input(
+                placeholder=_(
+                    "支持输入作品 ID 或包含作品 ID 的作品链接，多个链接或 ID 之间使用空格分隔"
+                ),
+                id="id",
+            ),
             HorizontalScroll(
-                Button(_("删除指定作品 ID"), id="enter", ),
-                Button(_("返回首页"), id="close"), ),
+                Button(
+                    _("删除指定作品 ID"),
+                    id="enter",
+                ),
+                Button(_("返回首页"), id="close"),
+            ),
             id="record",
         )
 
     async def delete(self, text: str):
-        text = await self.xhs.extract_links(text, None, )
+        text = await self.xhs.extract_links(
+            text,
+            None,
+        )
         text = self.xhs.extract_id(text)
         await self.xhs.id_recorder.delete(text)
         self.app.notify(_("删除下载记录成功"))

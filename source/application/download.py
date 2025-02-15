@@ -23,7 +23,7 @@ from ..translation import _
 if TYPE_CHECKING:
     from httpx import AsyncClient
 
-__all__ = ['Download']
+__all__ = ["Download"]
 
 
 class Download:
@@ -38,7 +38,10 @@ class Download:
         "audio/mpeg": "mp3",
     }
 
-    def __init__(self, manager: Manager, ):
+    def __init__(
+            self,
+            manager: Manager,
+    ):
         self.manager = manager
         self.folder = manager.folder
         self.temp = manager.temp
@@ -98,7 +101,8 @@ class Download:
                 format_,
                 log,
                 bar,
-            ) for url, name, format_ in tasks
+            )
+            for url, name, format_ in tasks
         ]
         tasks = await gather(*tasks)
         return path, tasks
@@ -109,11 +113,8 @@ class Download:
         return path
 
     def __ready_download_video(
-            self,
-            urls: list[str],
-            path: Path,
-            name: str,
-            log) -> list:
+            self, urls: list[str], path: Path, name: str, log
+    ) -> list:
         if not self.video_download:
             logging(log, _("视频作品下载功能已关闭，跳过下载"))
             return []
@@ -128,7 +129,8 @@ class Download:
             index: list | tuple | None,
             path: Path,
             name: str,
-            log) -> list:
+            log,
+    ) -> list:
         tasks = []
         if not self.image_download:
             logging(log, _("图文作品下载功能已关闭，跳过下载"))
@@ -146,28 +148,38 @@ class Download:
                     for s in self.image_format_list
             ):
                 tasks.append([j[0], file, self.image_format])
-            if not self.live_download or not j[1] or self.__check_exists_path(
+            if (
+                    not self.live_download
+                    or not j[1]
+                    or self.__check_exists_path(
                     path,
                     f"{file}.{self.live_format}",
                     log,
+            )
             ):
                 continue
             tasks.append([j[1], file, self.live_format])
         return tasks
 
-    def __check_exists_glob(self, path: Path, name: str, log, ) -> bool:
+    def __check_exists_glob(
+            self,
+            path: Path,
+            name: str,
+            log,
+    ) -> bool:
         if any(path.glob(name)):
-            logging(
-                log, _(
-                    "{0} 文件已存在，跳过下载").format(name))
+            logging(log, _("{0} 文件已存在，跳过下载").format(name))
             return True
         return False
 
-    def __check_exists_path(self, path: Path, name: str, log, ) -> bool:
+    def __check_exists_path(
+            self,
+            path: Path,
+            name: str,
+            log,
+    ) -> bool:
         if path.joinpath(name).exists():
-            logging(
-                log, _(
-                    "{0} 文件已存在，跳过下载").format(name))
+            logging(log, _("{0} 文件已存在，跳过下载").format(name))
             return True
         return False
 
@@ -199,9 +211,16 @@ class Download:
             #     return False
             # temp = self.temp.joinpath(f"{name}.{suffix}")
             temp = self.temp.joinpath(f"{name}.{format_}")
-            self.__update_headers_range(headers, temp, )
+            self.__update_headers_range(
+                headers,
+                temp,
+            )
             try:
-                async with self.client.stream("GET", url, headers=headers, ) as response:
+                async with self.client.stream(
+                        "GET",
+                        url,
+                        headers=headers,
+                ) as response:
                     await sleep_time()
                     if response.status_code == 416:
                         raise CacheError(
@@ -234,8 +253,9 @@ class Download:
                 # self.__create_progress(bar, None)
                 logging(
                     log,
-                    _(
-                        "网络异常，{0} 下载失败，错误信息: {1}").format(name, repr(error)),
+                    _("网络异常，{0} 下载失败，错误信息: {1}").format(
+                        name, repr(error)
+                    ),
                     ERROR,
                 )
                 return False
@@ -248,7 +268,11 @@ class Download:
                 )
 
     @staticmethod
-    def __create_progress(bar, total: int | None, completed=0, ):
+    def __create_progress(
+            bar,
+            total: int | None,
+            completed=0,
+    ):
         if bar:
             bar.update(total=total, completed=completed)
 
@@ -273,10 +297,8 @@ class Download:
         )
         await sleep_time()
         response.raise_for_status()
-        suffix = self.__extract_type(
-            response.headers.get("Content-Type")) or suffix
-        length = response.headers.get(
-            "Content-Length", 0)
+        suffix = self.__extract_type(response.headers.get("Content-Type")) or suffix
+        length = response.headers.get("Content-Length", 0)
         return int(length), suffix
 
     @staticmethod
@@ -303,12 +325,14 @@ class Download:
             async with open(temp, "rb") as f:
                 file_start = await f.read(FILE_SIGNATURES_LENGTH)
             for offset, signature, suffix in FILE_SIGNATURES:
-                if file_start[offset:offset + len(signature)] == signature:
+                if file_start[offset: offset + len(signature)] == signature:
                     return path.joinpath(f"{name}.{suffix}")
         except Exception as error:
             logging(
                 log,
-                _("文件 {0} 格式判断失败，错误信息：{1}").format(temp.name, repr(error)),
+                _("文件 {0} 格式判断失败，错误信息：{1}").format(
+                    temp.name, repr(error)
+                ),
                 ERROR,
             )
         return path.joinpath(f"{name}.{default_suffix}")
