@@ -207,14 +207,12 @@ def api_demo():
 </ul>
 <p><strong>自动滚动页面功能代码已重构，该功能默认关闭！启用该功能可能会被小红书检测为自动化操作，从而导致账号受到风控或封禁风险！</strong></p>
 <h1>💻 二次开发</h1>
-<p>如果有其他需求，可以根据 <code>main.py</code> 的注释提示进行代码调用或修改！</p>
+<p>如果有其他需求，可以根据 <code>example.py</code> 的注释提示进行代码调用或修改！</p>
 <pre>
 async def example():
     """通过代码设置参数，适合二次开发"""
     # 示例链接
-    error_link = "https://github.com/JoeanAmier/XHS_Downloader"
-    demo_link = "https://www.xiaohongshu.com/explore/xxxxxxxxxx"
-    multiple_links = f"{demo_link} {demo_link} {demo_link}"
+    demo_link = "https://www.xiaohongshu.com/explore/XXX?xsec_token=XXX"
     # 实例对象
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
@@ -228,29 +226,38 @@ async def example():
     record_data = False  # 是否保存作品数据至文件
     image_format = "WEBP"  # 图文作品文件下载格式，支持：PNG、WEBP
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
+    image_download = True  # 图文作品文件下载开关
+    video_download = True  # 视频作品文件下载开关
+    live_download = False  # 图文动图文件下载开关
+    download_record = True  # 是否记录下载成功的作品 ID
+    language = "zh_CN"  # 设置程序提示语言
+    read_cookie = None  # 读取浏览器 Cookie，支持设置浏览器名称（字符串）或者浏览器序号（整数），设置为 None 代表不读取
     # async with XHS() as xhs:
     #     pass  # 使用默认参数
     async with XHS(
-            work_path=work_path,
-            folder_name=folder_name,
-            name_format=name_format,
-            user_agent=user_agent,
-            cookie=cookie,
-            proxy=proxy,
-            timeout=timeout,
-            chunk=chunk,
-            max_retry=max_retry,
-            record_data=record_data,
-            image_format=image_format,
-            folder_mode=folder_mode,
+        work_path=work_path,
+        folder_name=folder_name,
+        name_format=name_format,
+        user_agent=user_agent,
+        cookie=cookie,
+        proxy=proxy,
+        timeout=timeout,
+        chunk=chunk,
+        max_retry=max_retry,
+        record_data=record_data,
+        image_format=image_format,
+        folder_mode=folder_mode,
+        image_download=image_download,
+        video_download=video_download,
+        live_download=live_download,
+        download_record=download_record,
+        language=language,
+        read_cookie=read_cookie,
     ) as xhs:  # 使用自定义参数
         download = True  # 是否下载作品文件，默认值：False
         # 返回作品详细信息，包括下载地址
         # 获取数据失败时返回空字典
-        print(await xhs.extract(error_link, download, ))
         print(await xhs.extract(demo_link, download, index=[1, 2]))
-        # 支持传入多个作品链接
-        print(await xhs.extract(multiple_links, download, ))
 </pre>
 <h1>📋 读取剪贴板</h1>
 <p>项目使用 <code>pyperclip</code> 实现读取剪贴板功能，该模块在不同的系统上会有差异。</p>

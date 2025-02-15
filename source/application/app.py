@@ -81,7 +81,7 @@ class XHS:
             folder_name="Download",
             name_format="发布时间 作者昵称 作品标题",
             user_agent: str = None,
-            cookie: str = None,
+            cookie: str = "",
             proxy: str | dict = None,
             timeout=10,
             chunk=1024 * 1024,
