@@ -16,7 +16,13 @@ class Image:
         match format_:
             case "png" | "webp" | "jpeg" | "heic" | "avif":
                 return [
-                    Html.format_url(cls.__generate_fixed_link(i, format_, )) for i in token_list
+                    Html.format_url(
+                        cls.__generate_fixed_link(
+                            i,
+                            format_,
+                        )
+                    )
+                    for i in token_list
                 ], live_link
             case "auto":
                 return [
@@ -30,7 +36,10 @@ class Image:
         return f"https://sns-img-bd.xhscdn.com/{token}"
 
     @staticmethod
-    def __generate_fixed_link(token: str, format_: str, ) -> str:
+    def __generate_fixed_link(
+            token: str,
+            format_: str,
+    ) -> str:
         return f"https://ci.xiaohongshu.com/{token}?imageView2/format/{format_}"
 
     @staticmethod

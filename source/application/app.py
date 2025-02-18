@@ -34,7 +34,7 @@ from source.module import (
     VERSION_MAJOR,
     VERSION_MINOR,
     VERSION_BETA,
-    __VERSION__
+    __VERSION__,
 )
 from source.module import logging
 from source.module import sleep_time

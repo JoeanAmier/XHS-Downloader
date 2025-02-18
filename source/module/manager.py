@@ -138,7 +138,14 @@ class Manager:
 
     @staticmethod
     def __check_image_format(image_format) -> str:
-        if (i := image_format.lower()) in {"auto", "png", "webp", "jpeg", "heic", "avif", }:
+        if (i := image_format.lower()) in {
+            "auto",
+            "png",
+            "webp",
+            "jpeg",
+            "heic",
+            "avif",
+        }:
             return i
         return "png"
 
