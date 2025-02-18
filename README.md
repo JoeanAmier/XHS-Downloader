@@ -116,6 +116,7 @@
 <h1>🖥 服务器模式</h1>
 <p><b>启动：</b>运行命令：<code>python .\main.py server</code></p>
 <p><b>关闭：</b>按下 <code>Ctrl</code> + <code>C</code> 关闭服务器</p>
+<p>访问 <code>http://127.0.0.1:8000/docs</code>；你会看到自动生成的交互式 API 文档！</p>
 <p><b>请求接口：</b><code>/xhs/</code></p>
 <p><b>请求方法：</b><code>POST</code></p>
 <p><b>请求格式：</b><code>JSON</code></p>
@@ -224,7 +225,7 @@ async def example():
     chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
     max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，默认值：5
     record_data = False  # 是否保存作品数据至文件
-    image_format = "WEBP"  # 图文作品文件下载格式，支持：PNG、WEBP
+    image_format = "WEBP"  # 图文作品文件下载格式，支持：AUTO、PNG、WEBP、JPEG、HEIC
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
     image_download = True  # 图文作品文件下载开关
     video_download = True  # 视频作品文件下载开关
@@ -341,7 +342,7 @@ async def example():
 <tr>
 <td align="center">image_format</td>
 <td align="center">str</td>
-<td align="center">图文作品文件下载格式，支持：<code>PNG</code>、<code>WEBP</code><br><strong>该参数影响下载图片时所用的接口，并非固定图片格式！</strong></td>
+<td align="center">图文作品文件下载格式，支持：<code>AUTO</code>、<code>PNG</code>、<code>WEBP</code>、<code>JPEG</code>、<code>HEIC</code><br><strong>部分作品没有 <code>HEIC</code> 格式的文件，此时下载的文件可能为 <code>WEBP</code> 格式！</strong><br><strong>设置为 <code>AUTO</code> 时表示动态格式，实际格式取决于服务器响应数据！</strong></td>
 <td align="center">PNG</td>
 </tr>
 <tr>

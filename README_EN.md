@@ -117,6 +117,7 @@
 <h1>🖥 Server Mode</h1>
 <p><b>Start:</b> Run the command: <code>python .\main.py server</code></p>
 <p><b>Stop:</b> Press <code>Ctrl</code> + <code>C</code> to stop the server</p>
+<p>Open <code>http://127.0.0.1:8000/docs</code>; you will see automatically generated interactive API documentation!</p>
 <p><b>Request endpoint:</b>
 <code>/xhs/</code></p>
 <p><b>Request method:</b>
@@ -228,7 +229,7 @@ async def example():
     chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
     max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，默认值：5
     record_data = False  # 是否保存作品数据至文件
-    image_format = "WEBP"  # 图文作品文件下载格式，支持：PNG、WEBP
+    image_format = "WEBP"  # 图文作品文件下载格式，支持：AUTO、PNG、WEBP、JPEG、HEIC
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
     image_download = True  # 图文作品文件下载开关
     video_download = True  # 视频作品文件下载开关
@@ -345,13 +346,13 @@ async def example():
 <tr>
 <td align="center">image_format</td>
 <td align="center">str</td>
-<td align="center">Download format for text and image works files, supported formats: <code>PNG</code>, <code>WEBP</code><br><strong>This parameter affects the API used when downloading images, not the fixed image format!</strong></td>
+<td align="center">Download format for image works files, supported: <code>AUTO</code>、<code>PNG</code>、<code>WEBP</code>、<code>JPEG</code>、<code>HEIC</code><br><strong>Some works do not have files in HEIC format, and the downloaded files may be in WEBP format</strong><br><strong>When set to<code>AUTO</code>, it represents dynamic format, and the actual format depends on the server's response data</strong></td>
 <td align="center">PNG</td>
 </tr>
 <tr>
 <td align="center">image_download</td>
 <td align="center">bool</td>
-<td align="center">Switch for downloading text and image works files</td>
+<td align="center">Switch for downloading image works files</td>
 <td align="center">true</td>
 </tr>
 <tr>

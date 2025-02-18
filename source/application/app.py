@@ -34,6 +34,7 @@ from source.module import (
     VERSION_MAJOR,
     VERSION_MINOR,
     VERSION_BETA,
+    __VERSION__
 )
 from source.module import logging
 from source.module import sleep_time
@@ -47,7 +48,7 @@ from .video import Video
 __all__ = ["XHS"]
 
 
-def _data_cache(function):
+def data_cache(function):
     async def inner(
             self,
             data: dict,
@@ -179,7 +180,7 @@ class XHS:
             logging(log, _("提取作品文件下载地址失败"), ERROR)
         await self.save_data(container)
 
-    @_data_cache
+    @data_cache
     async def save_data(
             self,
             data: dict,
@@ -480,7 +481,7 @@ class XHS:
         self.server = FastAPI(
             debug=self.VERSION_BETA,
             title="XHS-Downloader",
-            version=f"{self.VERSION_MAJOR}.{self.VERSION_MINOR}",
+            version=__VERSION__,
         )
         self.setup_routes()
         config = Config(

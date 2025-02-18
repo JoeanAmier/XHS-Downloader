@@ -29,6 +29,7 @@ from .static import (
     FILE_SIGNATURES,
     FILE_SIGNATURES_LENGTH,
     MAX_WORKERS,
+    __VERSION__,
 )
 from .tools import (
     retry,

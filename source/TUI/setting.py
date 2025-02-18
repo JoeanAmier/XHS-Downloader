@@ -173,7 +173,7 @@ class Setting(Screen):
             Label(),
             Container(
                 Select.from_values(
-                    ("PNG", "WEBP"),
+                    ("AUTO", "PNG", "WEBP", "JPEG", "HEIC"),
                     value=self.data["image_format"].upper(),
                     allow_blank=False,
                     id="image_format",

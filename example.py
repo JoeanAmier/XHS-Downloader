@@ -1,5 +1,7 @@
 from asyncio import run
 
+from rich import print
+
 from source import XHS
 
 
@@ -19,7 +21,7 @@ async def example():
     chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
     max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，默认值：5
     record_data = False  # 是否保存作品数据至文件
-    image_format = "WEBP"  # 图文作品文件下载格式，支持：PNG、WEBP
+    image_format = "WEBP"  # 图文作品文件下载格式，支持：AUTO、PNG、WEBP、JPEG、HEIC
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
     image_download = True  # 图文作品文件下载开关
     video_download = True  # 视频作品文件下载开关
@@ -59,11 +61,19 @@ async def example():
 
 async def test():
     url = ""
-    async with XHS() as xhs:
+    async with XHS(
+            download_record=False,
+            # image_format="PNG",
+            # image_format="WEBP",
+            # image_format="JPEG",
+            # image_format="HEIC",
+            # image_format="AVIF",
+            # image_format="AUTO",
+    ) as xhs:
         print(
             await xhs.extract(
                 url,
-                download=True,
+                # download=True,
             )
         )
 

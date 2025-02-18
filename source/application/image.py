@@ -14,24 +14,24 @@ class Image:
             for i in images
         ]
         match format_:
-            case "png":
+            case "png" | "webp" | "jpeg" | "heic" | "avif":
                 return [
-                    Html.format_url(cls.__generate_png_link(i)) for i in token_list
+                    Html.format_url(cls.__generate_fixed_link(i, format_, )) for i in token_list
                 ], live_link
-            case "webp":
+            case "auto":
                 return [
-                    Html.format_url(cls.__generate_webp_link(i)) for i in token_list
+                    Html.format_url(cls.__generate_auto_link(i)) for i in token_list
                 ], live_link
             case _:
                 raise ValueError
 
     @staticmethod
-    def __generate_webp_link(token: str) -> str:
+    def __generate_auto_link(token: str) -> str:
         return f"https://sns-img-bd.xhscdn.com/{token}"
 
     @staticmethod
-    def __generate_png_link(token: str) -> str:
-        return f"https://ci.xiaohongshu.com/{token}?imageView2/format/png"
+    def __generate_fixed_link(token: str, format_: str, ) -> str:
+        return f"https://ci.xiaohongshu.com/{token}?imageView2/format/{format_}"
 
     @staticmethod
     def __extract_image_token(url: str) -> str:
