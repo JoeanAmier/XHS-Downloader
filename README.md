@@ -83,8 +83,8 @@
 </ul>
 <li>创建容器</li>
 <ul>
-<li>TUI 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:8000 -it joeanamier/xhs-downloader</code></li>
-<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:8000 -it joeanamier/xhs-downloader python main.py server</code></li>
+<li>TUI 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:6666 -it joeanamier/xhs-downloader</code></li>
+<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:6666 -it joeanamier/xhs-downloader python main.py server</code></li>
 </ul>
 <li>运行容器
 <ul>
@@ -116,7 +116,7 @@
 <h1>🖥 服务器模式</h1>
 <p><b>启动：</b>运行命令：<code>python .\main.py server</code></p>
 <p><b>关闭：</b>按下 <code>Ctrl</code> + <code>C</code> 关闭服务器</p>
-<p>访问 <code>http://127.0.0.1:8000/docs</code>；你会看到自动生成的交互式 API 文档！</p>
+<p>访问 <code>http://127.0.0.1:6666/docs</code> 或者 <code>http://127.0.0.1:6666/redoc</code>；你会看到自动生成的交互式 API 文档！</p>
 <p><b>请求接口：</b><code>/xhs/</code></p>
 <p><b>请求方法：</b><code>POST</code></p>
 <p><b>请求格式：</b><code>JSON</code></p>
@@ -166,7 +166,7 @@
 <p><b>代码示例：</b></p>
 <pre>
 def api_demo():
-    server = "http://127.0.0.1:8000/xhs/"
+    server = "http://127.0.0.1:6666/xhs/"
     data = {
         "url": "https://www.xiaohongshu.com/explore/123456789",
         "download": True,

@@ -84,8 +84,8 @@
 </ul>
 <li>Create Container</li>
 <ul>
-<li>TUI Mode: <code>docker run --name ContainerName(optional) -p HostPort:8000 -it joeanamier/xhs-downloader</code></li>
-<li>API Mode: <code>docker run --name ContainerName(optional) -p HostPort:8000 -it joeanamier/xhs-downloader python main.py server</code></li>
+<li>TUI Mode: <code>docker run --name ContainerName(optional) -p HostPort:6666 -it joeanamier/xhs-downloader</code></li>
+<li>API Mode: <code>docker run --name ContainerName(optional) -p HostPort:6666 -it joeanamier/xhs-downloader python main.py server</code></li>
 </ul>
 <li>Run Container
 <ul>
@@ -117,7 +117,7 @@
 <h1>🖥 Server Mode</h1>
 <p><b>Start:</b> Run the command: <code>python .\main.py server</code></p>
 <p><b>Stop:</b> Press <code>Ctrl</code> + <code>C</code> to stop the server</p>
-<p>Open <code>http://127.0.0.1:8000/docs</code>; you will see automatically generated interactive API documentation!</p>
+<p>Open <code>http://127.0.0.1:6666/docs</code> or <code>http://127.0.0.1:6666/redoc</code>; you will see automatically generated interactive API documentation!</p>
 <p><b>Request endpoint:</b>
 <code>/xhs/</code></p>
 <p><b>Request method:</b>
@@ -170,7 +170,7 @@
 <p><b>Code example:</b></p>
 <pre>
 def api_demo():
-    server = "http://127.0.0.1:8000/xhs/"
+    server = "http://127.0.0.1:6666/xhs/"
     data = {
         "url": "https://www.xiaohongshu.com/explore/123456789",
         "download": True,
