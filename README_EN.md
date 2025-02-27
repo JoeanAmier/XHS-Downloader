@@ -71,8 +71,8 @@
 <p>If you only need to download watermark-free works files, it is recommended to choose <b>Program Run</b>; if you have other needs, it is recommended to choose <b>Source Code Run</b>!</p>
 <p>Starting from version <code>2.2</code>, if there are no abnormalities in project functionality, there is no need to handle cookies separately!</p>
 <h2>🖱 Program Run</h2>
-<p>⭐ Mac OS, Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
-<p>⭐ This project includes GitHub Actions for manually building executable files. Users can use GitHub Actions to build the latest source code into executable files at any time!</p>
+<p>⭐ Mac OS, Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> or <a href="https://github.com/JoeanAmier/XHS-Downloader/actions">Actions</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
+<p>⭐ This project includes GitHub Actions for automatic building executable files. Users can use GitHub Actions to build the latest source code into executable files at any time!</p>
 <p><strong>Note: The executable file <code>main</code> for Mac OS may need to be launched from the terminal command line; Due to device limitations, the Mac OS executable file has not been tested and its availability cannot be guaranteed!</strong></p>
 <p>If you use the program in this way, the default download path for files is: <code>.\_internal\Download</code>; the configuration file path is: <code>.\_internal\settings.json</code></p>
 <h2>⌨️ Docker Run</h2>
@@ -456,7 +456,7 @@ the program based on the latest source code!
 ### 3. Manually Trigger the Build Process
 
 1. In your forked repository, click the **Actions** tab at the top
-2. Find the workflow named **Manual Build of Executable File**
+2. Find the workflow named **构建可执行文件**
 3. Click the **Run workflow** button on the right:
     - Select the **master** or **develop** branch
     - Click **Run workflow**
