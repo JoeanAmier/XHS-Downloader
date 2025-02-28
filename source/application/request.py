@@ -18,7 +18,6 @@ class Html:
         self.retry = manager.retry
         self.client = manager.request_client
         self.headers = manager.headers
-        self.blank_headers = manager.blank_headers
 
     @retry
     async def request_url(
@@ -29,8 +28,7 @@ class Html:
             cookie: str = None,
             **kwargs,
     ) -> str:
-        headers = self.select_headers(
-            url,
+        headers = self.update_cookie(
             cookie,
         )
         try:
@@ -52,6 +50,8 @@ class Html:
                     )
                     await sleep_time()
                     return str(response.url)
+                case _:
+                    raise ValueError
         except HTTPError as error:
             logging(
                 log, _("网络异常，{0} 请求失败: {1}").format(url, repr(error)), ERROR
@@ -62,14 +62,11 @@ class Html:
     def format_url(url: str) -> str:
         return bytes(url, "utf-8").decode("unicode_escape")
 
-    def select_headers(
+    def update_cookie(
             self,
-            url: str,
             cookie: str = None,
     ) -> dict:
-        if "explore" not in url:
-            return self.blank_headers
-        return self.headers | {"Cookie": cookie} if cookie else self.headers
+        return self.headers | {"Cookie": cookie} if cookie else self.headers.copy()
 
     async def __request_url_head(
             self,
