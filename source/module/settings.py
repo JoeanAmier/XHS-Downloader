@@ -27,6 +27,7 @@ class Settings:
         "live_download": False,
         "folder_mode": False,
         "download_record": True,
+        "account_archive": False,
         "language": "zh_CN",
     }
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"

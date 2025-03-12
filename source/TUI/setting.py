@@ -24,8 +24,8 @@ class Setting(Screen):
     ]
 
     def __init__(
-            self,
-            data: dict,
+        self,
+        data: dict,
     ):
         super().__init__()
         self.data = data
@@ -129,7 +129,7 @@ class Setting(Screen):
                     value=self.data["record_data"],
                 ),
                 Checkbox(
-                    _("作品文件夹归档模式"),
+                    _("作品归档保存模式"),
                     id="folder_mode",
                     value=self.data["folder_mode"],
                 ),
@@ -156,6 +156,11 @@ class Setting(Screen):
                     _("作品下载记录开关"),
                     id="download_record",
                     value=self.data["download_record"],
+                ),
+                Checkbox(
+                    _("作者归档保存模式"),
+                    id="account_archive",
+                    value=self.data["account_archive"],
                 ),
                 classes="horizontal-layout",
             ),
@@ -229,6 +234,7 @@ class Setting(Screen):
                 "video_download": self.query_one("#video_download").value,
                 "live_download": self.query_one("#live_download").value,
                 "download_record": self.query_one("#download_record").value,
+                "account_archive": self.query_one("#account_archive").value,
             }
         )
 

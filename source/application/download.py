@@ -63,23 +63,25 @@ class Download:
         self.image_download = manager.image_download
         self.video_download = manager.video_download
         self.live_download = manager.live_download
+        self.account_archive = manager.account_archive
 
     async def run(
             self,
             urls: list,
             lives: list,
             index: list | tuple | None,
-            name: str,
+            nickname: str,
+            filename: str,
             type_: str,
             log,
             bar,
     ) -> tuple[Path, list[Any]]:
-        path = self.__generate_path(name)
+        path = self.__generate_path(nickname, filename)
         if type_ == _("视频"):
             tasks = self.__ready_download_video(
                 urls,
                 path,
-                name,
+                filename,
                 log,
             )
         elif type_ == _("图文"):
@@ -88,7 +90,7 @@ class Download:
                 lives,
                 index,
                 path,
-                name,
+                filename,
                 log,
             )
         else:
@@ -107,8 +109,13 @@ class Download:
         tasks = await gather(*tasks)
         return path, tasks
 
-    def __generate_path(self, name: str):
-        path = self.manager.archive(self.folder, name, self.folder_mode)
+    def __generate_path(self, nickname:str, filename: str):
+        if self.account_archive:
+            folder = self.folder.joinpath(nickname)
+            folder.mkdir(exist_ok=True)
+        else:
+            folder = self.folder
+        path = self.manager.archive(folder, filename, self.folder_mode)
         path.mkdir(exist_ok=True)
         return path
 

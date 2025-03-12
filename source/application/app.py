@@ -100,6 +100,7 @@ class XHS:
             live_download=False,
             folder_mode=False,
             download_record=True,
+            account_archive=False,
             language="zh_CN",
             read_cookie: int | str = None,
             _print: bool = True,
@@ -125,6 +126,7 @@ class XHS:
             live_download,
             download_record,
             folder_mode,
+            account_archive,
             _print,
         )
         self.html = Html(self.manager)
@@ -170,6 +172,7 @@ class XHS:
                     u,
                     container["动图地址"],
                     index,
+                    self.CLEANER.filter_name(container["作者昵称"]) or container["作者ID"],
                     name,
                     container["作品类型"],
                     log,

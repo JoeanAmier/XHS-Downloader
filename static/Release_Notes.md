@@ -1,8 +1,13 @@
 **项目更新内容：**
 
 1. 增加对 `JPEG` 和 `HEIC` 图片格式的支持
-2. 优化 `headers` 处理逻辑
-3. 支持 `SOCKS` 代理
+2. 支持按作者归档保存作品文件
+3. 优化 `headers` 处理逻辑
+4. 支持 `SOCKS` 代理
+
+**注意：**
+
+<p><strong>配置文件新增参数 <code>account_archive</code>，旧版本更新需要手动添加配置内容：<code>"account_archive": false</code>；或者直接删除旧版配置文件后再运行程序！</strong></p>
 
 *****
 
