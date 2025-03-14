@@ -1,6 +1,7 @@
 from asyncio import Event
 from asyncio import Queue
 from asyncio import QueueEmpty
+from asyncio import create_task
 from asyncio import gather
 from asyncio import sleep
 from contextlib import suppress
@@ -10,6 +11,7 @@ from urllib.parse import urlparse
 
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
+from pyperclip import copy
 # from aiohttp import web
 from pyperclip import paste
 from uvicorn import Config
@@ -50,8 +52,8 @@ __all__ = ["XHS"]
 
 def data_cache(function):
     async def inner(
-            self,
-            data: dict,
+        self,
+        data: dict,
     ):
         if self.manager.record_data:
             download = data["下载地址"]
@@ -83,29 +85,29 @@ class XHS:
         return cls.__INSTANCE
 
     def __init__(
-            self,
-            work_path="",
-            folder_name="Download",
-            name_format="发布时间 作者昵称 作品标题",
-            user_agent: str = None,
-            cookie: str = "",
-            proxy: str | dict = None,
-            timeout=10,
-            chunk=1024 * 1024,
-            max_retry=5,
-            record_data=False,
-            image_format="PNG",
-            image_download=True,
-            video_download=True,
-            live_download=False,
-            folder_mode=False,
-            download_record=True,
-            account_archive=False,
-            language="zh_CN",
-            read_cookie: int | str = None,
-            _print: bool = True,
-            *args,
-            **kwargs,
+        self,
+        work_path="",
+        folder_name="Download",
+        name_format="发布时间 作者昵称 作品标题",
+        user_agent: str = None,
+        cookie: str = "",
+        proxy: str | dict = None,
+        timeout=10,
+        chunk=1024 * 1024,
+        max_retry=5,
+        record_data=False,
+        image_format="PNG",
+        image_download=True,
+        video_download=True,
+        live_download=False,
+        folder_mode=False,
+        download_record=True,
+        account_archive=False,
+        language="zh_CN",
+        read_cookie: int | str = None,
+        _print: bool = True,
+        *args,
+        **kwargs,
     ):
         switch_language(language)
         self.manager = Manager(
@@ -156,12 +158,12 @@ class XHS:
         ]
 
     async def __download_files(
-            self,
-            container: dict,
-            download: bool,
-            index,
-            log,
-            bar,
+        self,
+        container: dict,
+        download: bool,
+        index,
+        log,
+        bar,
     ):
         name = self.__naming_rules(container)
         if (u := container["下载地址"]) and download:
@@ -172,7 +174,8 @@ class XHS:
                     u,
                     container["动图地址"],
                     index,
-                    self.CLEANER.filter_name(container["作者昵称"]) or container["作者ID"],
+                    self.CLEANER.filter_name(container["作者昵称"])
+                    or container["作者ID"],
                     name,
                     container["作品类型"],
                     log,
@@ -185,8 +188,8 @@ class XHS:
 
     @data_cache
     async def save_data(
-            self,
-            data: dict,
+        self,
+        data: dict,
     ):
         data["采集时间"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         data["下载地址"] = " ".join(data["下载地址"])
@@ -198,13 +201,13 @@ class XHS:
             await self.id_recorder.add(id_)
 
     async def extract(
-            self,
-            url: str,
-            download=False,
-            index: list | tuple = None,
-            log=None,
-            bar=None,
-            data=True,
+        self,
+        url: str,
+        download=False,
+        index: list | tuple = None,
+        log=None,
+        bar=None,
+        data=True,
     ) -> list[dict]:
         # return  # 调试代码
         urls = await self.extract_links(url, log)
@@ -226,13 +229,13 @@ class XHS:
         ]
 
     async def extract_cli(
-            self,
-            url: str,
-            download=True,
-            index: list | tuple = None,
-            log=None,
-            bar=None,
-            data=False,
+        self,
+        url: str,
+        download=True,
+        index: list | tuple = None,
+        log=None,
+        bar=None,
+        data=False,
     ) -> None:
         url = await self.extract_links(url, log)
         if not url:
@@ -270,14 +273,14 @@ class XHS:
         return ids
 
     async def __deal_extract(
-            self,
-            url: str,
-            download: bool,
-            index: list | tuple | None,
-            log,
-            bar,
-            data: bool,
-            cookie: str = None,
+        self,
+        url: str,
+        download: bool,
+        index: list | tuple | None,
+        log,
+        bar,
+        data: bool,
+        cookie: str = None,
     ):
         if await self.skip_download(i := self.__extract_link_id(url)) and not data:
             msg = _("作品 {0} 存在下载记录，跳过处理").format(i)
@@ -353,20 +356,20 @@ class XHS:
 
     def __get_name_title(self, data: dict) -> str:
         return (
-                beautify_string(
-                    self.manager.filter_name(data["作品标题"]),
-                    64,
-                )
-                or data["作品ID"]
+            beautify_string(
+                self.manager.filter_name(data["作品标题"]),
+                64,
+            )
+            or data["作品ID"]
         )
 
     async def monitor(
-            self,
-            delay=1,
-            download=False,
-            log=None,
-            bar=None,
-            data=True,
+        self,
+        delay=1,
+        download=False,
+        log=None,
+        bar=None,
+        data=True,
     ) -> None:
         logging(
             None,
@@ -376,19 +379,28 @@ class XHS:
             style=MASTER,
         )
         self.event.clear()
+        copy("")
         await gather(
-            self.__push_link(delay),
+            self.__get_link(delay),
             self.__receive_link(delay, download, None, log, bar, data),
         )
 
-    async def __push_link(self, delay: int):
+    async def __get_link(self, delay: int):
         while not self.event.is_set():
             if (t := paste()).lower() == "close":
                 self.stop_monitor()
             elif t != self.clipboard_cache:
                 self.clipboard_cache = t
-                [await self.queue.put(i) for i in await self.extract_links(t, None)]
+                create_task(self.__push_link(t))
             await sleep(delay)
+
+    async def __push_link(
+        self,
+        content: str,
+    ):
+        await gather(
+            *[self.queue.put(i) for i in await self.extract_links(content, None)]
+        )
 
     async def __receive_link(self, delay: int, *args, **kwargs):
         while not self.event.is_set() or self.queue.qsize() > 0:
@@ -476,10 +488,10 @@ class XHS:
     #     logging(log, _("Web API 服务器已关闭！"))
 
     async def run_server(
-            self,
-            host="0.0.0.0",
-            port=6666,
-            log_level="info",
+        self,
+        host="0.0.0.0",
+        port=6666,
+        log_level="info",
     ):
         self.server = FastAPI(
             debug=self.VERSION_BETA,
@@ -512,13 +524,13 @@ class XHS:
                 data = None
             else:
                 if data := await self.__deal_extract(
-                        url[0],
-                        extract.download,
-                        extract.index,
-                        None,
-                        None,
-                        not extract.skip,
-                        extract.cookie,
+                    url[0],
+                    extract.download,
+                    extract.index,
+                    None,
+                    None,
+                    not extract.skip,
+                    extract.cookie,
                 ):
                     msg = _("获取小红书作品数据成功")
                 else:
