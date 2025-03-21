@@ -63,7 +63,7 @@ class Download:
         self.image_download = manager.image_download
         self.video_download = manager.video_download
         self.live_download = manager.live_download
-        self.account_archive = manager.account_archive
+        self.author_archive = manager.author_archive
 
     async def run(
             self,
@@ -110,7 +110,7 @@ class Download:
         return path, tasks
 
     def __generate_path(self, nickname:str, filename: str):
-        if self.account_archive:
+        if self.author_archive:
             folder = self.folder.joinpath(nickname)
             folder.mkdir(exist_ok=True)
         else:

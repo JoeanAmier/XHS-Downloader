@@ -9,7 +9,7 @@
 
 **注意：**
 
-<p><strong>配置文件新增参数 <code>account_archive</code>，旧版本更新需要手动添加配置内容：<code>"account_archive": false</code>；或者直接删除旧版配置文件后再运行程序！</strong></p>
+<p><strong>配置文件新增参数 <code>author_archive</code>，旧版本更新需要手动添加配置内容：<code>"author_archive": false</code>；或者直接删除旧版配置文件后再运行程序！</strong></p>
 
 *****
 

@@ -166,6 +166,12 @@ class CLI:
                 "bool",
                 _("是否将每个作品的文件储存至单独的文件夹"),
             ),
+            (
+                "--author_archive",
+                "-aa",
+                "bool",
+                _("是否将每个作者的作品储存至单独的文件夹"),
+            ),
             ("--language", "-l", "choice", _("设置程序语言，目前支持：zh_CN、en_US")),
             ("--settings", "-s", "str", _("读取指定配置文件")),
             (
@@ -277,6 +283,11 @@ class CLI:
 @option(
     "--folder_mode",
     "-fm",
+    type=bool,
+)
+@option(
+    "--author_archive",
+    "-aa",
     type=bool,
 )
 @option(

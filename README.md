@@ -233,7 +233,7 @@ async def example():
     live_download = False  # 图文动图文件下载开关
     download_record = True  # 是否记录下载成功的作品 ID
     language = "zh_CN"  # 设置程序提示语言
-    account_archive = True  # 是否将每个作者的作品存至单独的文件夹
+    author_archive = True  # 是否将每个作者的作品存至单独的文件夹
     read_cookie = None  # 读取浏览器 Cookie，支持设置浏览器名称（字符串）或者浏览器序号（整数），设置为 None 代表不读取
 
     # async with XHS() as xhs:
@@ -258,7 +258,7 @@ async def example():
         download_record=download_record,
         language=language,
         read_cookie=read_cookie,
-        account_archive=account_archive,
+        author_archive=author_archive,
     ) as xhs:  # 使用自定义参数
         download = True  # 是否下载作品文件，默认值：False
         # 返回作品详细信息，包括下载地址
@@ -382,7 +382,7 @@ async def example():
 <td align="center">true</td>
 </tr>
 <tr>
-<td align="center">account_archive</td>
+<td align="center">author_archive</td>
 <td align="center">bool</td>
 <td align="center">是否将每个作者的作品储存至单独的文件夹；文件夹名称为 <code>作者ID_作者昵称</code></td>
 <td align="center">false</td>

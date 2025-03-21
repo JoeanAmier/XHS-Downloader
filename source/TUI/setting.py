@@ -159,8 +159,8 @@ class Setting(Screen):
                 ),
                 Checkbox(
                     _("作者归档保存模式"),
-                    id="account_archive",
-                    value=self.data["account_archive"],
+                    id="author_archive",
+                    value=self.data["author_archive"],
                 ),
                 classes="horizontal-layout",
             ),
@@ -234,7 +234,7 @@ class Setting(Screen):
                 "video_download": self.query_one("#video_download").value,
                 "live_download": self.query_one("#live_download").value,
                 "download_record": self.query_one("#download_record").value,
-                "account_archive": self.query_one("#account_archive").value,
+                "author_archive": self.query_one("#author_archive").value,
             }
         )
 

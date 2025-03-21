@@ -103,7 +103,7 @@ class XHS:
         live_download=False,
         folder_mode=False,
         download_record=True,
-        account_archive=False,
+        author_archive=False,
         language="zh_CN",
         read_cookie: int | str = None,
         _print: bool = True,
@@ -129,7 +129,7 @@ class XHS:
             live_download,
             download_record,
             folder_mode,
-            account_archive,
+            author_archive,
             _print,
         )
         self.html = Html(self.manager)
