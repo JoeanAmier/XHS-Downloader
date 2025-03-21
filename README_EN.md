@@ -268,6 +268,7 @@ async def example():
         # 返回作品详细信息，包括下载地址
         # 获取数据失败时返回空字典
         print(await xhs.extract(demo_link, download, index=[1, 2]))
+
 </pre>
 <h1>📋 Read Clipboard</h1>
 <p>The project uses <code>pyperclip</code> to implement clipboard reading functionality, which varies across different systems.</p>
@@ -387,7 +388,7 @@ async def example():
 <tr>
 <td align="center">account_archive</td>
 <td align="center">bool</td>
-<td align="center">Whether to save each author's works into a separate folder; the folder name will be the author's nickname or author ID</td>
+<td align="center">Whether to save each author's works into a separate folder; The folder name is <code>authorID_nickname</code></td>
 <td align="center">false</td>
 </tr>
 <tr>

@@ -264,6 +264,7 @@ async def example():
         # 返回作品详细信息，包括下载地址
         # 获取数据失败时返回空字典
         print(await xhs.extract(demo_link, download, index=[1, 2]))
+
 </pre>
 <h1>📋 读取剪贴板</h1>
 <p>项目使用 <code>pyperclip</code> 实现读取剪贴板功能，该模块在不同的系统上会有差异。</p>
@@ -383,7 +384,7 @@ async def example():
 <tr>
 <td align="center">account_archive</td>
 <td align="center">bool</td>
-<td align="center">是否将每个作者的作品储存至单独的文件夹；文件夹名称为作者昵称或者作者 ID</td>
+<td align="center">是否将每个作者的作品储存至单独的文件夹；文件夹名称为 <code>作者ID_作者昵称</code></td>
 <td align="center">false</td>
 </tr>
 <tr>

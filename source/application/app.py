@@ -12,6 +12,7 @@ from urllib.parse import urlparse
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from pyperclip import copy
+
 # from aiohttp import web
 from pyperclip import paste
 from uvicorn import Config
@@ -174,8 +175,9 @@ class XHS:
                     u,
                     container["动图地址"],
                     index,
-                    self.CLEANER.filter_name(container["作者昵称"])
-                    or container["作者ID"],
+                    container["作者ID"]
+                    + "_"
+                    + self.CLEANER.filter_name(container["作者昵称"]),
                     name,
                     container["作品类型"],
                     log,
