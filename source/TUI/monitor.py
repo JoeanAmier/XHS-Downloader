@@ -1,20 +1,15 @@
 from rich.text import Text
-from textual import on
-from textual import work
+from textual import on, work
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.screen import Screen
-from textual.widgets import Button
-from textual.widgets import Footer
-from textual.widgets import Header
-from textual.widgets import Label
-from textual.widgets import RichLog
+from textual.widgets import Button, Footer, Header, Label, RichLog
 
 from ..application import XHS
 from ..module import (
-    PROJECT,
-    MASTER,
     INFO,
+    MASTER,
+    PROJECT,
 )
 from ..translation import _
 
@@ -28,8 +23,8 @@ class Monitor(Screen):
     ]
 
     def __init__(
-            self,
-            app: XHS,
+        self,
+        app: XHS,
     ):
         super().__init__()
         self.xhs = app

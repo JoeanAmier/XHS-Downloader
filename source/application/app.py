@@ -1,9 +1,4 @@
-from asyncio import Event
-from asyncio import Queue
-from asyncio import QueueEmpty
-from asyncio import create_task
-from asyncio import gather
-from asyncio import sleep
+from asyncio import Event, Queue, QueueEmpty, create_task, gather, sleep
 from contextlib import suppress
 from datetime import datetime
 from re import compile
@@ -11,37 +6,40 @@ from urllib.parse import urlparse
 
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
-from pyperclip import copy
 
 # from aiohttp import web
-from pyperclip import paste
-from uvicorn import Config
-from uvicorn import Server
+from pyperclip import copy, paste
+from uvicorn import Config, Server
 
-from source.expansion import BrowserCookie
-from source.expansion import Cleaner
-from source.expansion import Converter
-from source.expansion import Namespace
-from source.expansion import beautify_string
-from source.module import DataRecorder
-from source.module import ExtractData
-from source.module import ExtractParams
-from source.module import IDRecorder
-from source.module import Manager
+from source.expansion import (
+    BrowserCookie,
+    Cleaner,
+    Converter,
+    Namespace,
+    beautify_string,
+)
 from source.module import (
-    ROOT,
+    __VERSION__,
     ERROR,
-    WARNING,
     MASTER,
     REPOSITORY,
+    ROOT,
+    VERSION_BETA,
     VERSION_MAJOR,
     VERSION_MINOR,
-    VERSION_BETA,
-    __VERSION__,
+    WARNING,
+    DataRecorder,
+    ExtractData,
+    ExtractParams,
+    IDRecorder,
+    Manager,
+    MapRecorder,
+    logging,
+    sleep_time,
 )
-from source.module import logging
-from source.module import sleep_time
-from source.translation import switch_language, _
+from source.translation import _, switch_language
+
+from ..module import Mapping
 from .download import Download
 from .explore import Explore
 from .image import Image
@@ -87,6 +85,7 @@ class XHS:
 
     def __init__(
         self,
+        mapping_data: dict = None,
         work_path="",
         folder_name="Download",
         name_format="发布时间 作者昵称 作品标题",
@@ -132,6 +131,11 @@ class XHS:
             author_archive,
             _print,
         )
+        self.mapping_data = mapping_data or {}
+        self.map_recorder = MapRecorder(
+            self.manager,
+        )
+        self.mapping = Mapping(self.manager, self.map_recorder)
         self.html = Html(self.manager)
         self.image = Image()
         self.video = Video()
@@ -309,10 +313,28 @@ class XHS:
             self.__extract_image(data, namespace)
         else:
             data["下载地址"] = []
+        await self.update_author_nickname(data, log)
         await self.__download_files(data, download, index, log, bar)
         logging(log, _("作品处理完成：{0}").format(i))
         await sleep_time()
         return data
+
+    async def update_author_nickname(
+        self,
+        container: dict,
+        log,
+    ):
+        if a := self.CLEANER.filter_name(
+            self.mapping_data.get(i := container["作者ID"], "")
+        ):
+            container["作者昵称"] = a
+        else:
+            container["作者昵称"] = self.manager.filter_name(container["作者昵称"]) or i
+        await self.mapping.update_cache(
+            i,
+            container["作者昵称"],
+            log,
+        )
 
     @staticmethod
     def __extract_link_id(url: str) -> str:
@@ -330,8 +352,6 @@ class XHS:
             match key:
                 case "发布时间":
                     values.append(self.__get_name_time(data))
-                case "作者昵称":
-                    values.append(self.__get_name_author(data))
                 case "作品标题":
                     values.append(self.__get_name_title(data))
                 case _:
@@ -352,9 +372,6 @@ class XHS:
     @staticmethod
     def __get_name_time(data: dict) -> str:
         return data["发布时间"].replace(":", ".")
-
-    def __get_name_author(self, data: dict) -> str:
-        return self.manager.filter_name(data["作者昵称"]) or data["作者ID"]
 
     def __get_name_title(self, data: dict) -> str:
         return (
@@ -419,11 +436,13 @@ class XHS:
     async def __aenter__(self):
         await self.id_recorder.__aenter__()
         await self.data_recorder.__aenter__()
+        await self.map_recorder.__aenter__()
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
         await self.id_recorder.__aexit__(exc_type, exc_value, traceback)
         await self.data_recorder.__aexit__(exc_type, exc_value, traceback)
+        await self.map_recorder.__aexit__(exc_type, exc_value, traceback)
         await self.close()
 
     async def close(self):

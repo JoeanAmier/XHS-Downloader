@@ -1,22 +1,21 @@
 from pathlib import Path
-from re import compile
-from re import sub
-from shutil import move
-from shutil import rmtree
+from re import compile, sub
+from shutil import move, rmtree
 
-from httpx import AsyncClient
-from httpx import AsyncHTTPTransport
-from httpx import HTTPStatusError
-from httpx import RequestError
-from httpx import TimeoutException
-from httpx import get
+from httpx import (
+    AsyncClient,
+    AsyncHTTPTransport,
+    HTTPStatusError,
+    RequestError,
+    TimeoutException,
+    get,
+)
 
 from source.expansion import remove_empty_directories
-from .static import HEADERS
-from .static import USERAGENT
-from .static import WARNING
-from .tools import logging
+
 from ..translation import _
+from .static import HEADERS, USERAGENT, WARNING
+from .tools import logging
 
 __all__ = ["Manager"]
 
@@ -47,26 +46,26 @@ class Manager:
     WEB_SESSION = r"(?:^|; )web_session=[^;]+"
 
     def __init__(
-            self,
-            root: Path,
-            path: str,
-            folder: str,
-            name_format: str,
-            chunk: int,
-            user_agent: str,
-            cookie: str,
-            proxy: str | dict,
-            timeout: int,
-            retry: int,
-            record_data: bool,
-            image_format: str,
-            image_download: bool,
-            video_download: bool,
-            live_download: bool,
-            download_record: bool,
-            folder_mode: bool,
-            author_archive:bool,
-            _print: bool,
+        self,
+        root: Path,
+        path: str,
+        folder: str,
+        name_format: str,
+        chunk: int,
+        user_agent: str,
+        cookie: str,
+        proxy: str | dict,
+        timeout: int,
+        retry: int,
+        record_data: bool,
+        image_format: str,
+        image_download: bool,
+        video_download: bool,
+        live_download: bool,
+        download_record: bool,
+        folder_mode: bool,
+        author_archive: bool,
+        _print: bool,
     ):
         self.root = root
         self.temp = root.joinpath("./temp")
@@ -92,8 +91,8 @@ class Manager:
         )
         self.request_client = AsyncClient(
             headers=self.headers
-                    | {
-                        "referer": "https://www.xiaohongshu.com/",
+            | {
+                "referer": "https://www.xiaohongshu.com/",
             },
             timeout=timeout,
             verify=False,
@@ -194,9 +193,9 @@ class Manager:
         )
 
     def __check_proxy(
-            self,
-            proxy: str,
-            url="https://www.xiaohongshu.com/explore",
+        self,
+        proxy: str,
+        url="https://www.xiaohongshu.com/explore",
     ) -> str | None:
         if proxy:
             try:
@@ -217,8 +216,8 @@ class Manager:
                     WARNING,
                 )
             except (
-                    RequestError,
-                    HTTPStatusError,
+                RequestError,
+                HTTPStatusError,
             ) as e:
                 self.proxy_tip = (
                     _("代理 {0} 测试失败：{1}").format(
@@ -229,9 +228,9 @@ class Manager:
                 )
 
     def print_proxy_tip(
-            self,
-            _print: bool = True,
-            log=None,
+        self,
+        _print: bool = True,
+        log=None,
     ) -> None:
         if _print and self.proxy_tip:
             logging(log, *self.proxy_tip)

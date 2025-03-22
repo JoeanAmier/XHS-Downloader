@@ -6,6 +6,8 @@ from .model import (
 )
 from .recorder import DataRecorder
 from .recorder import IDRecorder
+from .recorder import MapRecorder
+from .mapping import Mapping
 from .settings import Settings
 from .static import (
     VERSION_MAJOR,
@@ -35,4 +37,5 @@ from .tools import (
     retry,
     logging,
     sleep_time,
+    retry_limited,
 )

@@ -1,4 +1,5 @@
 from source.expansion import Namespace
+
 from .request import Html
 
 __all__ = ["Image"]
@@ -37,8 +38,8 @@ class Image:
 
     @staticmethod
     def __generate_fixed_link(
-            token: str,
-            format_: str,
+        token: str,
+        format_: str,
     ) -> str:
         return f"https://ci.xiaohongshu.com/{token}?imageView2/format/{format_}"
 
@@ -50,10 +51,10 @@ class Image:
     def __get_live_link(items: list) -> list:
         return [
             (
-                    Html.format_url(
-                        Namespace.object_extract(item, "stream.h264[0].masterUrl")
-                    )
-                    or None
+                Html.format_url(
+                    Namespace.object_extract(item, "stream.h264[0].masterUrl")
+                )
+                or None
             )
             for item in items
         ]

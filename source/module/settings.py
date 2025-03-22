@@ -1,16 +1,15 @@
-from json import dump
-from json import load
+from json import dump, load
 from pathlib import Path
 from platform import system
 
-from .static import ROOT
-from .static import USERAGENT
+from .static import ROOT, USERAGENT
 
 __all__ = ["Settings"]
 
 
 class Settings:
     default = {
+        "mapping_data": {},
         "work_path": "",
         "folder_name": "Download",
         "name_format": "发布时间 作者昵称 作品标题",
@@ -53,11 +52,11 @@ class Settings:
 
     @classmethod
     def check_keys(
-            cls,
-            data: dict,
-            callback: callable,
-            *args,
-            **kwargs,
+        cls,
+        data: dict,
+        callback: callable,
+        *args,
+        **kwargs,
     ) -> dict:
         needful_keys = set(cls.default.keys())
         given_keys = set(data.keys())

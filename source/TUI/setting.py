@@ -1,16 +1,9 @@
 from textual import on
 from textual.app import ComposeResult
 from textual.binding import Binding
-from textual.containers import Container
-from textual.containers import ScrollableContainer
+from textual.containers import Container, ScrollableContainer
 from textual.screen import Screen
-from textual.widgets import Button
-from textual.widgets import Checkbox
-from textual.widgets import Footer
-from textual.widgets import Header
-from textual.widgets import Input
-from textual.widgets import Label
-from textual.widgets import Select
+from textual.widgets import Button, Checkbox, Footer, Header, Input, Label, Select
 
 from ..translation import _
 
@@ -217,6 +210,7 @@ class Setting(Screen):
     def save_settings(self):
         self.dismiss(
             {
+                "mapping_data": self.data.get("mapping_data", {}),
                 "work_path": self.query_one("#work_path").value,
                 "folder_name": self.query_one("#folder_name").value,
                 "name_format": self.query_one("#name_format").value,

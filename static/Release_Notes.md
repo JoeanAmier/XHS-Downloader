@@ -4,12 +4,14 @@
 2. 新增启动 `监听剪贴板` 模式时清空剪贴板内容
 3. 修复 `监听剪贴板` 模式可能丢失链接的问题
 4. 支持按作者归档保存作品文件
-5. 优化 `headers` 处理逻辑
-6. 支持 `SOCKS` 代理
+5. 新增自动更新作者昵称功能
+6. 优化 `headers` 处理逻辑
+7. 支持 `SOCKS` 代理
+8. 支持设置作者别名
 
 **注意：**
 
-<p><strong>配置文件新增参数 <code>author_archive</code>，旧版本更新需要手动添加配置内容：<code>"author_archive": false</code>；或者直接删除旧版配置文件后再运行程序！</strong></p>
+<p><strong>配置文件新增参数 <code>mapping_data</code>、<code>author_archive</code>，旧版本更新需要手动添加配置内容：<code>"mapping_data": {}, "author_archive": false</code>；或者直接删除旧版配置文件后再运行程序！</strong></p>
 
 *****
 

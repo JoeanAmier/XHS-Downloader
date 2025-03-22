@@ -1,5 +1,4 @@
-from asyncio import Semaphore
-from asyncio import gather
+from asyncio import Semaphore, gather
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -7,21 +6,23 @@ from aiofiles import open
 from httpx import HTTPError
 
 from ..expansion import CacheError
-from ..module import ERROR
-from ..module import (
-    FILE_SIGNATURES_LENGTH,
-    FILE_SIGNATURES,
-)
-from ..module import MAX_WORKERS
+
 # from ..module import WARNING
-from ..module import Manager
-from ..module import logging
+from ..module import (
+    ERROR,
+    FILE_SIGNATURES,
+    FILE_SIGNATURES_LENGTH,
+    MAX_WORKERS,
+    logging,
+    sleep_time,
+)
 from ..module import retry as re_download
-from ..module import sleep_time
 from ..translation import _
 
 if TYPE_CHECKING:
     from httpx import AsyncClient
+
+    from ..module import Manager
 
 __all__ = ["Download"]
 
@@ -39,8 +40,8 @@ class Download:
     }
 
     def __init__(
-            self,
-            manager: Manager,
+        self,
+        manager: "Manager",
     ):
         self.manager = manager
         self.folder = manager.folder
@@ -66,15 +67,15 @@ class Download:
         self.author_archive = manager.author_archive
 
     async def run(
-            self,
-            urls: list,
-            lives: list,
-            index: list | tuple | None,
-            nickname: str,
-            filename: str,
-            type_: str,
-            log,
-            bar,
+        self,
+        urls: list,
+        lives: list,
+        index: list | tuple | None,
+        nickname: str,
+        filename: str,
+        type_: str,
+        log,
+        bar,
     ) -> tuple[Path, list[Any]]:
         path = self.__generate_path(nickname, filename)
         if type_ == _("视频"):
@@ -109,7 +110,7 @@ class Download:
         tasks = await gather(*tasks)
         return path, tasks
 
-    def __generate_path(self, nickname:str, filename: str):
+    def __generate_path(self, nickname: str, filename: str):
         if self.author_archive:
             folder = self.folder.joinpath(nickname)
             folder.mkdir(exist_ok=True)
@@ -120,7 +121,7 @@ class Download:
         return path
 
     def __ready_download_video(
-            self, urls: list[str], path: Path, name: str, log
+        self, urls: list[str], path: Path, name: str, log
     ) -> list:
         if not self.video_download:
             logging(log, _("视频作品下载功能已关闭，跳过下载"))
@@ -130,13 +131,13 @@ class Download:
         return [(urls[0], name, self.video_format)]
 
     def __ready_download_image(
-            self,
-            urls: list[str],
-            lives: list[str],
-            index: list | tuple | None,
-            path: Path,
-            name: str,
-            log,
+        self,
+        urls: list[str],
+        lives: list[str],
+        index: list | tuple | None,
+        path: Path,
+        name: str,
+        log,
     ) -> list:
         tasks = []
         if not self.image_download:
@@ -147,32 +148,32 @@ class Download:
                 continue
             file = f"{name}_{i}"
             if not any(
-                    self.__check_exists_path(
-                        path,
-                        f"{file}.{s}",
-                        log,
-                    )
-                    for s in self.image_format_list
+                self.__check_exists_path(
+                    path,
+                    f"{file}.{s}",
+                    log,
+                )
+                for s in self.image_format_list
             ):
                 tasks.append([j[0], file, self.image_format])
             if (
-                    not self.live_download
-                    or not j[1]
-                    or self.__check_exists_path(
+                not self.live_download
+                or not j[1]
+                or self.__check_exists_path(
                     path,
                     f"{file}.{self.live_format}",
                     log,
-            )
+                )
             ):
                 continue
             tasks.append([j[1], file, self.live_format])
         return tasks
 
     def __check_exists_glob(
-            self,
-            path: Path,
-            name: str,
-            log,
+        self,
+        path: Path,
+        name: str,
+        log,
     ) -> bool:
         if any(path.glob(name)):
             logging(log, _("{0} 文件已存在，跳过下载").format(name))
@@ -180,10 +181,10 @@ class Download:
         return False
 
     def __check_exists_path(
-            self,
-            path: Path,
-            name: str,
-            log,
+        self,
+        path: Path,
+        name: str,
+        log,
     ) -> bool:
         if path.joinpath(name).exists():
             logging(log, _("{0} 文件已存在，跳过下载").format(name))
@@ -192,13 +193,13 @@ class Download:
 
     @re_download
     async def __download(
-            self,
-            url: str,
-            path: Path,
-            name: str,
-            format_: str,
-            log,
-            bar,
+        self,
+        url: str,
+        path: Path,
+        name: str,
+        format_: str,
+        log,
+        bar,
     ):
         async with self.SEMAPHORE:
             headers = self.headers.copy()
@@ -224,9 +225,9 @@ class Download:
             )
             try:
                 async with self.client.stream(
-                        "GET",
-                        url,
-                        headers=headers,
+                    "GET",
+                    url,
+                    headers=headers,
                 ) as response:
                     await sleep_time()
                     if response.status_code == 416:
@@ -276,9 +277,9 @@ class Download:
 
     @staticmethod
     def __create_progress(
-            bar,
-            total: int | None,
-            completed=0,
+        bar,
+        total: int | None,
+        completed=0,
     ):
         if bar:
             bar.update(total=total, completed=completed)
@@ -293,10 +294,10 @@ class Download:
         return cls.CONTENT_TYPE_MAP.get(content, "")
 
     async def __head_file(
-            self,
-            url: str,
-            headers: dict[str, str],
-            suffix: str,
+        self,
+        url: str,
+        headers: dict[str, str],
+        suffix: str,
     ) -> tuple[int, str]:
         response = await self.client.head(
             url,
@@ -313,26 +314,26 @@ class Download:
         return file.stat().st_size if file.is_file() else 0
 
     def __update_headers_range(
-            self,
-            headers: dict[str, str],
-            file: Path,
+        self,
+        headers: dict[str, str],
+        file: Path,
     ) -> int:
         headers["Range"] = f"bytes={(p := self.__get_resume_byte_position(file))}-"
         return p
 
     async def __suffix_with_file(
-            self,
-            temp: Path,
-            path: Path,
-            name: str,
-            default_suffix: str,
-            log,
+        self,
+        temp: Path,
+        path: Path,
+        name: str,
+        default_suffix: str,
+        log,
     ) -> Path:
         try:
             async with open(temp, "rb") as f:
                 file_start = await f.read(FILE_SIGNATURES_LENGTH)
             for offset, signature, suffix in FILE_SIGNATURES:
-                if file_start[offset: offset + len(signature)] == signature:
+                if file_start[offset : offset + len(signature)] == signature:
                     return path.joinpath(f"{name}.{suffix}")
         except Exception as error:
             logging(

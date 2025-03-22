@@ -39,9 +39,9 @@ class BrowserCookie:
 
     @classmethod
     def run(
-            cls,
-            domains: list[str],
-            console: Console = None,
+        cls,
+        domains: list[str],
+        console: Console = None,
     ) -> str:
         console = console or Console()
         options = "\n".join(
@@ -49,11 +49,11 @@ class BrowserCookie:
             for i, (k, v) in enumerate(cls.SUPPORT_BROWSER.items(), start=1)
         )
         if browser := console.input(
-                _(
-                    "读取指定浏览器的 Cookie 并写入配置文件\n"
-                    "Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie！\n"
-                    "{options}\n请输入浏览器名称或序号："
-                ).format(options=options),
+            _(
+                "读取指定浏览器的 Cookie 并写入配置文件\n"
+                "Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie！\n"
+                "{options}\n请输入浏览器名称或序号："
+            ).format(options=options),
         ):
             return cls.get(
                 browser,
@@ -64,10 +64,10 @@ class BrowserCookie:
 
     @classmethod
     def get(
-            cls,
-            browser: str | int,
-            domains: list[str],
-            console: Console = None,
+        cls,
+        browser: str | int,
+        domains: list[str],
+        console: Console = None,
     ) -> str:
         console = console or Console()
         if not (browser := cls.__browser_object(browser)):

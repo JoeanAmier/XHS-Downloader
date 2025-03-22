@@ -37,6 +37,8 @@
 <li>✅ 支持 API 调用功能</li>
 <li>✅ 支持文件断点续传下载</li>
 <li>✅ 智能识别作品文件类型</li>
+<li>✅ 支持设置作者备注</li>
+<li>✅ 自动更新作者昵称</li>
 </ul>
 <ul><a href="#user-scripts"><b>脚本功能</b></a>
 <li>✅ 下载小红书无水印作品文件</li>
@@ -543,8 +545,8 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 <p><b>说明：</b>QQ 群聊仅限于讨论项目使用问题，严禁发布任何广告，严禁讨论任何账号交易、账号流量、流量变现、灰色产业等相关的内容！</p>
 <p>✨ <b>作者的其他开源项目：</b></p>
 <ul>
-<li><b>TikTokDownloader（抖音 / TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
-<li><b>KS-Downloader（快手）</b>：<a href="https://github.com/JoeanAmier/KS-Downloader">https://github.com/JoeanAmier/KS-Downloader</a></li>
+<li><b>TikTokDownloader（抖音、TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
+<li><b>KS-Downloader（快手、KuaiShou）</b>：<a href="https://github.com/JoeanAmier/KS-Downloader">https://github.com/JoeanAmier/KS-Downloader</a></li>
 </ul>
 <h1>💰 项目赞助</h1>
 <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg" alt="PyCharm logo">

@@ -38,6 +38,8 @@
 <li>✅ Support API call functionality</li>
 <li>✅ Support file breakpoint resume download</li>
 <li>✅ Intelligent recognition of works file types</li>
+<li>✅ Supports author alias configuration</li>
+<li>✅ Automatic author nickname updates</li>
 </ul>
 <ul><a href="#user-scripts"><b>Script Features</b></a>
 <li>✅ Download RedNote watermark-free works files</li>
@@ -567,8 +569,8 @@ repository to execute the build process
 </ul>
 <p>✨ <b>Other Open Source Projects by the Author:</b></p>
 <ul>
-<li><b>TikTokDownloader（抖音 / TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
-<li><b>KS-Downloader（快手）</b>：<a href="https://github.com/JoeanAmier/KS-Downloader">https://github.com/JoeanAmier/KS-Downloader</a></li>
+<li><b>TikTokDownloader（抖音、TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
+<li><b>KS-Downloader（快手、KuaiShou）</b>：<a href="https://github.com/JoeanAmier/KS-Downloader">https://github.com/JoeanAmier/KS-Downloader</a></li>
 </ul>
 <h1>💰 Sponsor</h1>
 <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg" alt="PyCharm logo">

@@ -1,18 +1,17 @@
 from asyncio import CancelledError
 from contextlib import suppress
+from typing import TYPE_CHECKING
 
 from aiosqlite import connect
 
-from ..module import Manager
+if TYPE_CHECKING:
+    from ..module import Manager
 
-__all__ = [
-    "IDRecorder",
-    "DataRecorder",
-]
+__all__ = ["IDRecorder", "DataRecorder", "MapRecorder"]
 
 
 class IDRecorder:
-    def __init__(self, manager: Manager):
+    def __init__(self, manager: "Manager"):
         self.file = manager.root.joinpath("ExploreID.db")
         self.switch = manager.download_record
         self.database = None
@@ -31,7 +30,12 @@ class IDRecorder:
             await self.cursor.execute("SELECT ID FROM explore_id WHERE ID=?", (id_,))
             return await self.cursor.fetchone()
 
-    async def add(self, id_: str) -> None:
+    async def add(
+        self,
+        id_: str,
+        *args,
+        **kwargs,
+    ) -> None:
         if self.switch:
             await self.database.execute("REPLACE INTO explore_id VALUES (?);", (id_,))
             await self.database.commit()
@@ -82,7 +86,7 @@ class DataRecorder(IDRecorder):
         ("动图地址", "TEXT"),
     )
 
-    def __init__(self, manager: Manager):
+    def __init__(self, manager: "Manager"):
         super().__init__(manager)
         self.file = manager.folder.joinpath("ExploreData.db")
         self.switch = manager.record_data
@@ -121,3 +125,54 @@ class DataRecorder(IDRecorder):
 
     def __generate_values(self, data: dict) -> tuple:
         return tuple(data[i] for i, _ in self.DATA_TABLE)
+
+
+class MapRecorder(IDRecorder):
+    def __init__(self, manager: "Manager"):
+        super().__init__(manager)
+        self.file = manager.root.joinpath("MappingData.db")
+        self.switch = manager.author_archive
+
+    async def _connect_database(self):
+        self.database = await connect(self.file)
+        self.cursor = await self.database.cursor()
+        await self.database.execute(
+            "CREATE TABLE IF NOT EXISTS mapping_data ("
+            "ID TEXT PRIMARY KEY,"
+            "NAME TEXT NOT NULL"
+            ");"
+        )
+        await self.database.commit()
+
+    async def select(self, id_: str):
+        if self.switch:
+            await self.cursor.execute(
+                "SELECT NAME FROM mapping_data WHERE ID=?", (id_,)
+            )
+            return await self.cursor.fetchone()
+
+    async def add(
+        self,
+        id_: str,
+        name: str,
+    ) -> None:
+        if self.switch:
+            await self.database.execute(
+                "REPLACE INTO mapping_data VALUES (?, ?);",
+                (
+                    id_,
+                    name,
+                ),
+            )
+            await self.database.commit()
+
+    async def __delete(self, id_: str) -> None:
+        pass
+
+    async def delete(self, ids: list[str]):
+        pass
+
+    async def all(self):
+        if self.switch:
+            await self.cursor.execute("SELECT ID, NAME FROM mapping_data")
+            return [i[0] for i in await self.cursor.fetchmany()]

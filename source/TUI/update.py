@@ -2,8 +2,7 @@ from textual import work
 from textual.app import ComposeResult
 from textual.containers import Grid
 from textual.screen import ModalScreen
-from textual.widgets import Label
-from textual.widgets import LoadingIndicator
+from textual.widgets import Label, LoadingIndicator
 
 from ..application import XHS
 from ..module import (
@@ -16,8 +15,8 @@ __all__ = ["Update"]
 
 class Update(ModalScreen):
     def __init__(
-            self,
-            app: XHS,
+        self,
+        app: XHS,
     ):
         super().__init__()
         self.xhs = app
@@ -79,7 +78,7 @@ class Update(ModalScreen):
 
     @staticmethod
     def compare_versions(
-            current_version: str, target_version: str, is_development: bool
+        current_version: str, target_version: str, is_development: bool
     ) -> int:
         current_major, current_minor = map(int, current_version.split("."))
         target_major, target_minor = map(int, target_version.split("."))

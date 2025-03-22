@@ -1,33 +1,25 @@
 from pyperclip import paste
 from rich.text import Text
-from textual import on
-from textual import work
+from textual import on, work
 from textual.app import ComposeResult
 from textual.binding import Binding
-from textual.containers import HorizontalScroll
-from textual.containers import ScrollableContainer
+from textual.containers import HorizontalScroll, ScrollableContainer
 from textual.screen import Screen
-from textual.widgets import Button
-from textual.widgets import Footer
-from textual.widgets import Header
-from textual.widgets import Input
-from textual.widgets import Label
-from textual.widgets import Link
-from textual.widgets import RichLog
+from textual.widgets import Button, Footer, Header, Input, Label, Link, RichLog
 
-from .monitor import Monitor
 from ..application import XHS
 from ..module import (
+    ERROR,
+    GENERAL,
+    LICENCE,
+    MASTER,
     PROJECT,
     PROMPT,
-    MASTER,
-    ERROR,
-    WARNING,
-    LICENCE,
     REPOSITORY,
-    GENERAL,
+    WARNING,
 )
 from ..translation import _
+from .monitor import Monitor
 
 __all__ = ["Index"]
 
@@ -43,8 +35,8 @@ class Index(Screen):
     ]
 
     def __init__(
-            self,
-            app: XHS,
+        self,
+        app: XHS,
     ):
         super().__init__()
         self.xhs = app
@@ -119,12 +111,12 @@ class Index(Screen):
     async def deal(self):
         await self.app.push_screen("loading")
         if any(
-                await self.xhs.extract(
-                    self.url.value,
-                    True,
-                    log=self.tip,
-                    data=False,
-                )
+            await self.xhs.extract(
+                self.url.value,
+                True,
+                log=self.tip,
+                data=False,
+            )
         ):
             self.url.value = ""
         else:

@@ -2,16 +2,13 @@ from rich.text import Text
 from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.screen import Screen
-from textual.widgets import Footer
-from textual.widgets import Header
-from textual.widgets import Label
-from textual.widgets import Link
+from textual.widgets import Footer, Header, Label, Link
 
 from ..module import (
+    INFO,
+    MASTER,
     PROJECT,
     PROMPT,
-    MASTER,
-    INFO,
 )
 from ..translation import _
 
@@ -26,7 +23,7 @@ class About(Screen):
     ]
 
     def __init__(
-            self,
+        self,
     ):
         super().__init__()
 

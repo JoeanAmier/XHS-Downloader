@@ -24,17 +24,17 @@ class Namespace:
         return depth_conversion(data)
 
     def safe_extract(
-            self,
-            attribute_chain: str,
-            default: Union[str, int, list, dict, SimpleNamespace] = "",
+        self,
+        attribute_chain: str,
+        default: Union[str, int, list, dict, SimpleNamespace] = "",
     ):
         return self.__safe_extract(self.data, attribute_chain, default)
 
     @staticmethod
     def __safe_extract(
-            data_object: SimpleNamespace,
-            attribute_chain: str,
-            default: Union[str, int, list, dict, SimpleNamespace] = "",
+        data_object: SimpleNamespace,
+        attribute_chain: str,
+        default: Union[str, int, list, dict, SimpleNamespace] = "",
     ):
         data = deepcopy(data_object)
         attributes = attribute_chain.split(".")
@@ -56,10 +56,10 @@ class Namespace:
 
     @classmethod
     def object_extract(
-            cls,
-            data_object: SimpleNamespace,
-            attribute_chain: str,
-            default: Union[str, int, list, dict, SimpleNamespace] = "",
+        cls,
+        data_object: SimpleNamespace,
+        attribute_chain: str,
+        default: Union[str, int, list, dict, SimpleNamespace] = "",
     ):
         return cls.__safe_extract(
             data_object,

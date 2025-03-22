@@ -6,7 +6,7 @@ VERSION_BETA = True
 __VERSION__ = f"{VERSION_MAJOR}.{VERSION_MINOR}.{'beta' if VERSION_BETA else 'stable'}"
 ROOT = Path(__file__).resolve().parent.parent.parent
 PROJECT = f"XHS-Downloader V{VERSION_MAJOR}.{VERSION_MINOR} {
-'Beta' if VERSION_BETA else 'Stable'
+    'Beta' if VERSION_BETA else 'Stable'
 }"
 
 REPOSITORY = "https://github.com/JoeanAmier/XHS-Downloader"
@@ -22,7 +22,7 @@ USERAGENT = (
 
 HEADERS = {
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,"
-              "application/signed-exchange;v=b3;q=0.7",
+    "application/signed-exchange;v=b3;q=0.7",
     "referer": "https://www.xiaohongshu.com/explore",
     "user-agent": USERAGENT,
 }

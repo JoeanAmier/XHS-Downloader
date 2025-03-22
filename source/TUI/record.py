@@ -1,11 +1,8 @@
 from textual import on
 from textual.app import ComposeResult
-from textual.containers import Grid
-from textual.containers import HorizontalScroll
+from textual.containers import Grid, HorizontalScroll
 from textual.screen import ModalScreen
-from textual.widgets import Button
-from textual.widgets import Input
-from textual.widgets import Label
+from textual.widgets import Button, Input, Label
 
 from ..application import XHS
 from ..translation import _
@@ -15,8 +12,8 @@ __all__ = ["Record"]
 
 class Record(ModalScreen):
     def __init__(
-            self,
-            app: XHS,
+        self,
+        app: XHS,
     ):
         super().__init__()
         self.xhs = app

@@ -1,19 +1,20 @@
+from typing import TYPE_CHECKING
+
 from httpx import HTTPError
 
-from ..module import ERROR
-from ..module import Manager
-from ..module import logging
-from ..module import retry
-from ..module import sleep_time
+from ..module import ERROR, Manager, logging, retry, sleep_time
 from ..translation import _
+
+if TYPE_CHECKING:
+    from ..module import Manager
 
 __all__ = ["Html"]
 
 
 class Html:
     def __init__(
-            self,
-            manager: Manager,
+        self,
+        manager: "Manager",
     ):
         self.retry = manager.retry
         self.client = manager.request_client
@@ -21,12 +22,12 @@ class Html:
 
     @retry
     async def request_url(
-            self,
-            url: str,
-            content=True,
-            log=None,
-            cookie: str = None,
-            **kwargs,
+        self,
+        url: str,
+        content=True,
+        log=None,
+        cookie: str = None,
+        **kwargs,
     ) -> str:
         headers = self.update_cookie(
             cookie,
@@ -63,16 +64,16 @@ class Html:
         return bytes(url, "utf-8").decode("unicode_escape")
 
     def update_cookie(
-            self,
-            cookie: str = None,
+        self,
+        cookie: str = None,
     ) -> dict:
         return self.headers | {"Cookie": cookie} if cookie else self.headers.copy()
 
     async def __request_url_head(
-            self,
-            url: str,
-            headers: dict,
-            **kwargs,
+        self,
+        url: str,
+        headers: dict,
+        **kwargs,
     ):
         return await self.client.head(
             url,
@@ -81,10 +82,10 @@ class Html:
         )
 
     async def __request_url_get(
-            self,
-            url: str,
-            headers: dict,
-            **kwargs,
+        self,
+        url: str,
+        headers: dict,
+        **kwargs,
     ):
         return await self.client.get(
             url,
