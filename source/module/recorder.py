@@ -33,7 +33,7 @@ class IDRecorder:
     async def add(
         self,
         id_: str,
-        name: str,
+        name: str = None,
         *args,
         **kwargs,
     ) -> None:
