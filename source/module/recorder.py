@@ -33,6 +33,7 @@ class IDRecorder:
     async def add(
         self,
         id_: str,
+        name: str,
         *args,
         **kwargs,
     ) -> None:
@@ -151,11 +152,7 @@ class MapRecorder(IDRecorder):
             )
             return await self.cursor.fetchone()
 
-    async def add(
-        self,
-        id_: str,
-        name: str,
-    ) -> None:
+    async def add(self, id_: str, name: str, *args, **kwargs) -> None:
         if self.switch:
             await self.database.execute(
                 "REPLACE INTO mapping_data VALUES (?, ?);",

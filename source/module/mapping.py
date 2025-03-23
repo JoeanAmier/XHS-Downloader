@@ -39,10 +39,7 @@ class Mapping:
                 a,
                 log,
             )
-        await self.database.add(
-            id_,
-            alias,
-        )
+        await self.database.add(id_, alias)
 
     async def has_mapping(self, id_: str) -> str:
         return d[0] if (d := await self.database.select(id_)) else ""

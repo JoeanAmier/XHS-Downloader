@@ -288,6 +288,12 @@ async def example():
 </thead>
 <tbody>
 <tr>
+<td align="center">mapping_data</td>
+<td align="center">str: str</td>
+<td align="center"><sup><a href="#author_archive">#</a></sup>作者别名映射表，格式：<code>作者ID: 作者别名</code></td>
+<td align="center">无</td>
+</tr>
+<tr>
 <td align="center">work_path</td>
 <td align="center">str</td>
 <td align="center">作品数据 / 文件保存根路径</td>
@@ -386,7 +392,7 @@ async def example():
 <tr>
 <td align="center">author_archive</td>
 <td align="center">bool</td>
-<td align="center">是否将每个作者的作品储存至单独的文件夹；文件夹名称为 <code>作者ID_作者昵称</code></td>
+<td align="center"><sup><a href="#author_archive">#</a></sup>是否将每个作者的作品储存至单独的文件夹；文件夹名称为 <code>作者ID_作者昵称</code></td>
 <td align="center">false</td>
 </tr>
 <tr>
@@ -397,6 +403,12 @@ async def example():
 </tr>
 </tbody>
 </table>
+<hr>
+<div id="author_archive">
+<p>如果 <code>author_archive</code> 参数设置为 <code>true</code>，程序会把每个作者的作品储存至单独的文件夹；当作者的昵称发生变化时，程序会自动更新已下载作品文件名称中的作者昵称部分！</p>
+<p>除此之外，你还可以通过设置 <code>mapping_data</code> 参数为某个作者设置别名；如果对某个作者设置了别名，程序会使用你设置的作者别名去替代作者昵称！</p>
+</div>
+<hr>
 <p><b>其他说明：<code>user_agent</code>参数获取示例；强烈建议根据实际浏览器信息进行设置！</b></p>
 <img src="static/screenshot/请求头示例图.png" alt="">
 <h1>🌐 Cookie</h1>
