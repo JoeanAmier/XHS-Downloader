@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+/Download/
+/.venv/
+/.ruff_cache/
+*.db
+*.json
+/.idea/
