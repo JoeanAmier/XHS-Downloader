@@ -54,6 +54,12 @@ class XHSDownloader(App):
         self.install_screen(Loading(), name="loading")
         self.install_screen(About(), name="about")
         self.install_screen(Record(self.APP, ), name="record")
+        
+        # 1. first add RichLog component
+        rich_log = RichLog()
+        await self.mount(rich_log)
+        
+        # 2. then use query_one
         await self.push_screen("index")
         self.SETTINGS.check_keys(
             self.parameter,
