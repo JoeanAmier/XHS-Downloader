@@ -89,6 +89,7 @@ class Manager:
         self.print_proxy_tip(
             _print,
         )
+        self.timeout = timeout
         self.request_client = AsyncClient(
             headers=self.headers
             | {

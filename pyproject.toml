@@ -19,7 +19,7 @@ dependencies = [
     "pyperclip>=1.9.0",
     "pyyaml>=6.0.2",
     "rookiepy>=0.5.6",
-    "textual>=2.1.2",
+    "textual>=3.0.0",
     "uvicorn>=0.34.0",
 ]
 

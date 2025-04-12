@@ -287,6 +287,7 @@ class XHS:
         bar,
         data: bool,
         cookie: str = None,
+        proxy: str = None,
     ):
         if await self.skip_download(i := self.__extract_link_id(url)) and not data:
             msg = _("作品 {0} 存在下载记录，跳过处理").format(i)
@@ -297,6 +298,7 @@ class XHS:
             url,
             log=log,
             cookie=cookie,
+            proxy=proxy,
         )
         namespace = self.__generate_data_object(html)
         if not namespace:
@@ -552,11 +554,10 @@ class XHS:
                     None,
                     not extract.skip,
                     extract.cookie,
+                    extract.proxy,
                 ):
                     msg = _("获取小红书作品数据成功")
                 else:
                     msg = _("获取小红书作品数据失败")
                     data = None
-            return ExtractData(
-                message=msg, url=url[0] if url else extract.url, data=data
-            )
+            return ExtractData(message=msg, params=extract, data=data)

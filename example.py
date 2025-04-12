@@ -1,5 +1,6 @@
 from asyncio import run
 
+from httpx import post
 from rich import print
 
 from source import XHS
@@ -61,6 +62,23 @@ async def example():
         print(await xhs.extract(demo_link, download, index=[1, 2]))
 
 
+async def example_api():
+    """通过 API 设置参数，适合二次开发"""
+    server = "http://127.0.0.1:6666/xhs/"
+    data = {
+        "url": "",  # 必需参数
+        "download": True,
+        "index": [
+            3,
+            6,
+            9,
+        ],
+        "proxy": "http://127.0.0.1:10808",
+    }
+    response = post(server, json=data, timeout=10)
+    print(response.json())
+
+
 async def test():
     url = ""
     async with XHS(
@@ -82,4 +100,5 @@ async def test():
 
 if __name__ == "__main__":
     # run(example())
+    # run(example_api())
     run(test())

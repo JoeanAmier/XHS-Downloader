@@ -1,5 +1,5 @@
 <div align="center">
-<img src="static/XHS-Downloader.png" alt="" height="256" width="256"><br>
+<img src="static/XHS-Downloader.png" alt="XHS-Downloader" height="256" width="256"><br>
 <h1>XHS-Downloader</h1>
 <p>简体中文 | <a href="README_EN.md">English</a></p>
 <a href="https://trendshift.io/repositories/5435" target="_blank"><img src="https://trendshift.io/api/badge/repositories/5435" alt="JoeanAmier%2FXHS-Downloader | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
@@ -155,7 +155,13 @@
 <td align="center">cookie</td>
 <td align="center">str</td>
 <td align="center">请求数据时使用的 Cookie；可选参数</td>
-<td align="center">配置文件 Cookie 值</td>
+<td align="center">配置文件 cookie 参数</td>
+</tr>
+<tr>
+<td align="center">proxy</td>
+<td align="center">str</td>
+<td align="center">请求数据时使用的代理；可选参数</td>
+<td align="center">配置文件 proxy 参数</td>
 </tr>
 <tr>
 <td align="center">skip</td>
@@ -167,18 +173,20 @@
 </table>
 <p><b>代码示例：</b></p>
 <pre>
-def api_demo():
+async def example_api():
+    """通过 API 设置参数，适合二次开发"""
     server = "http://127.0.0.1:6666/xhs/"
     data = {
-        "url": "https://www.xiaohongshu.com/explore/123456789",
+        "url": "",  # 必需参数
         "download": True,
         "index": [
             3,
             6,
             9,
         ],
+        "proxy": "http://127.0.0.1:10808",
     }
-    response = requests.post(server, json=data)
+    response = post(server, json=data, timeout=10)
     print(response.json())
 </pre>
 <h1>📜 其他说明</h1>
@@ -560,9 +568,31 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 <li><b>TikTokDownloader（抖音、TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
 <li><b>KS-Downloader（快手、KuaiShou）</b>：<a href="https://github.com/JoeanAmier/KS-Downloader">https://github.com/JoeanAmier/KS-Downloader</a></li>
 </ul>
-<h1>💰 项目赞助</h1>
-<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg" alt="PyCharm logo">
-<p><b>JetBrains</b> 支持全球开源社区认可的活跃项目，并为非商业开发提供免费许可证。</p>
+
+# 💰 项目赞助
+
+## JetBrains 工具
+
+![PyCharm logo](https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg)
+
+**JetBrains** 支持全球开源社区认可的活跃项目，并为非商业开发提供免费许可证。
+
+***
+
+## TikHub
+
+<img src="static/赞助商_TikHub_Logo.png" alt="TikHub">
+<p><a href="https://tikhub.io/">TikHub</a> 是一家领先的数据接口服务供应商，专注于提供高质量的数据接口，涵盖了多个热门平台，包括 抖音、TikTok、小红书、Instagram、Twitter 和 快手 等平台。</p>
+<p>TikHub 还提供定制化的服务，如直播间监控、作品监控和达人监控，以满足不同业务场景的需求。</p>
+<p>通过每日签到，用户可以免费获取一定额度的使用量；可以使用我的 <strong>推荐链接</strong>：<a href="https://user.tikhub.io/users/signup?referral_code=ZrdH8McC">https://user.tikhub.io/users/signup?referral_code=ZrdH8McC</a> 或 <strong>推荐码</strong>：<code>ZrdH8McC</code>，注册并充值即可获得 <code>$2</code> 额度！</p>
+<p><a href="https://tikhub.io/">TikHub</a> 提供以下服务：</p>
+<ul>
+<li>丰富的数据接口</li>
+<li>每日签到免费获取额度</li>
+<li>高质量的 API 服务</li>
+<li>官网：<a href="https://tikhub.io/">https://tikhub.io/</a></li>
+<li>用户登陆地址：<a href="https://user.tikhub.io/">https://user.tikhub.io/</a></li>
+</ul>
 <h1>⚠️ 免责声明</h1>
 <ul>
 <li>使用者对本项目的使用由使用者自行决定，并自行承担风险。作者对使用者使用本项目所产生的任何损失、责任、或风险概不负责。</li>

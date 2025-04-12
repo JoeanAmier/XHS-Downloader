@@ -1,5 +1,5 @@
 <div align="center">
-<img src="static/XHS-Downloader.png" alt="" height="256" width="256"><br>
+<img src="static/XHS-Downloader.png" alt="XHS-Downloader" height="256" width="256"><br>
 <h1>XHS-Downloader</h1>
 <p><a href="README.md">简体中文</a> | English</p>
 <a href="https://trendshift.io/repositories/5435" target="_blank"><img src="https://trendshift.io/api/badge/repositories/5435" alt="JoeanAmier%2FXHS-Downloader | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
@@ -158,8 +158,14 @@
 <tr>
 <td align="center">cookie</td>
 <td align="center">str</td>
-<td align="center">Cookies used when requesting data; Optional parameter</td>
-<td align="center">Settings Cookie Value</td>
+<td align="center">Cookie used when requesting data; Optional parameter</td>
+<td align="center">Settings cookie Value</td>
+</tr>
+<tr>
+<td align="center">proxy</td>
+<td align="center">str</td>
+<td align="center">Proxy used when requesting data; Optional parameter</td>
+<td align="center">Settings proxy Value</td>
 </tr>
 <tr>
 <td align="center">skip</td>
@@ -171,18 +177,20 @@
 </table>
 <p><b>Code example:</b></p>
 <pre>
-def api_demo():
+async def example_api():
+    """通过 API 设置参数，适合二次开发"""
     server = "http://127.0.0.1:6666/xhs/"
     data = {
-        "url": "https://www.xiaohongshu.com/explore/123456789",
+        "url": "",  # 必需参数
         "download": True,
         "index": [
             3,
             6,
             9,
         ],
+        "proxy": "http://127.0.0.1:10808",
     }
-    response = requests.post(server, json=data)
+    response = post(server, json=data, timeout=10)
     print(response.json())
 </pre>
 <h1>📜 Others</h1>
@@ -585,9 +593,31 @@ repository to execute the build process
 <li><b>TikTokDownloader（抖音、TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
 <li><b>KS-Downloader（快手、KuaiShou）</b>：<a href="https://github.com/JoeanAmier/KS-Downloader">https://github.com/JoeanAmier/KS-Downloader</a></li>
 </ul>
-<h1>💰 Sponsor</h1>
-<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg" alt="PyCharm logo">
+
+# 💰 Project Sponsorship
+
+## JetBrains Tools
+
+![PyCharm logo](https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg)
+
 <p><b>JetBrains</b> support active projects recognized within the global open-source community with complimentary licenses for non-commercial development.</p>
+
+***
+
+## TikHub
+
+<img src="static/赞助商_TikHub_Logo.png" alt="TikHub">
+<p><a href="https://tikhub.io/">TikHub</a> is a leading data interface service provider, specializing in offering high-quality data interfaces for multiple popular platforms, including DouYin, TikTok, Xiaohongshu, Instagram, Twitter, and Kuaishou.</p>
+<p>TikHub also provides customized services such as live streaming room monitoring, post monitoring, and influencer monitoring to meet the needs of different business scenarios.</p>
+<p>Through daily sign-ins, users can obtain a certain quota of usage for free. You can use my <strong>referral link</strong>：<a href="https://user.tikhub.io/users/signup?referral_code=ZrdH8McC">https://user.tikhub.io/users/signup?referral_code=ZrdH8McC</a> or <strong>Referral Code</strong>：<code>ZrdH8McC</code>，Register and recharge to receive <code>$2</code> limit！</p>
+<p><a href="https://tikhub.io/">TikHub</a> Provide the following services:</p>
+<ul>
+<li>Rich data interfaces</li>
+<li>Free daily check-in to obtain credit limit</li>
+<li>High quality API services</li>
+<li>Official website:<a href="https://tikhub.io/">https://tikhub.io/</a></li>
+<li>User login address:<a href="https://user.tikhub.io/">https://user.tikhub.io/</a></li>
+</ul>
 <h1>⚠️ Disclaimer</h1>
 <ul>
 <li>Users decide on their own how to use this project and bear the risks themselves. The author is not responsible for any losses, liabilities, or risks incurred by users in the use of this project</li>

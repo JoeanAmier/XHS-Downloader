@@ -681,7 +681,7 @@ requires-dist = [
     { name = "pyperclip", specifier = ">=1.9.0" },
     { name = "pyyaml", specifier = ">=6.0.2" },
     { name = "rookiepy", specifier = ">=0.5.6" },
-    { name = "textual", specifier = ">=2.1.2" },
+    { name = "textual", specifier = ">=3.0.0" },
     { name = "uvicorn", specifier = ">=0.34.0" },
 ]
 

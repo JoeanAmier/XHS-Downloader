@@ -6,10 +6,11 @@ class ExtractParams(BaseModel):
     download: bool = False
     index: list = None
     cookie: str = None
+    proxy: str = None
     skip: bool = False
 
 
 class ExtractData(BaseModel):
     message: str
-    url: str
+    params: ExtractParams
     data: dict | None

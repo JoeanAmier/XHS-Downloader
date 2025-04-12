@@ -1,6 +1,7 @@
 from typing import TYPE_CHECKING
 
 from httpx import HTTPError
+from httpx import get
 
 from ..module import ERROR, Manager, logging, retry, sleep_time
 from ..translation import _
@@ -19,6 +20,7 @@ class Html:
         self.retry = manager.retry
         self.client = manager.request_client
         self.headers = manager.headers
+        self.timeout = manager.timeout
 
     @retry
     async def request_url(
@@ -27,14 +29,15 @@ class Html:
         content=True,
         log=None,
         cookie: str = None,
+        proxy: str = None,
         **kwargs,
     ) -> str:
         headers = self.update_cookie(
             cookie,
         )
         try:
-            match content:
-                case True:
+            match (content, bool(proxy)):
+                case (True, False):
                     response = await self.__request_url_get(
                         url,
                         headers,
@@ -43,10 +46,29 @@ class Html:
                     await sleep_time()
                     response.raise_for_status()
                     return response.text
-                case False:
+                case (True, True):
+                    response = await self.__request_url_get_proxy(
+                        url,
+                        headers,
+                        proxy,
+                        **kwargs,
+                    )
+                    await sleep_time()
+                    response.raise_for_status()
+                    return response.text
+                case (False, False):
                     response = await self.__request_url_head(
                         url,
                         headers,
+                        **kwargs,
+                    )
+                    await sleep_time()
+                    return str(response.url)
+                case (False, True):
+                    response = await self.__request_url_head_proxy(
+                        url,
+                        headers,
+                        proxy,
                         **kwargs,
                     )
                     await sleep_time()
@@ -81,6 +103,23 @@ class Html:
             **kwargs,
         )
 
+    async def __request_url_head_proxy(
+        self,
+        url: str,
+        headers: dict,
+        proxy: str,
+        **kwargs,
+    ):
+        return await self.client.head(
+            url,
+            headers=headers,
+            proxy=proxy,
+            follow_redirects=True,
+            verify=False,
+            timeout=self.timeout,
+            **kwargs,
+        )
+
     async def __request_url_get(
         self,
         url: str,
@@ -90,5 +129,22 @@ class Html:
         return await self.client.get(
             url,
             headers=headers,
+            **kwargs,
+        )
+
+    async def __request_url_get_proxy(
+        self,
+        url: str,
+        headers: dict,
+        proxy: str,
+        **kwargs,
+    ):
+        return get(
+            url,
+            headers=headers,
+            proxy=proxy,
+            follow_redirects=True,
+            verify=False,
+            timeout=self.timeout,
             **kwargs,
         )
