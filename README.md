@@ -197,19 +197,21 @@ async def example_api():
 <li>程序下载记录数据储存至 <code>./ExploreID.db</code> 文件</li>
 </ul>
 <h1 id="user-scripts">🕹 用户脚本</h1>
-<p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以添加 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">用户脚本</a>，无需下载安装即可体验项目功能！</p>
+<p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以添加 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">用户脚本</a>(右键单击复制链接)，无需下载安装即可体验项目功能！</p>
 <img src="static/screenshot/脚本安装教程.png" alt="">
-<p>脚本安装成功后，打开小红书页面，查看脚本说明，并根据提示操作。</p>
+<hr>
 <img src="static/screenshot/用户脚本截图1.png" alt="">
 <hr>
 <img src="static/screenshot/用户脚本截图2.png" alt="">
+<hr>
+<img src="static/screenshot/用户脚本截图3.png" alt="">
 <p>提示：使用 XHS-Downloader 用户脚本批量提取作品链接，搭配 XHS-Downloader 程序可以实现批量下载无水印作品文件！</p>
 <h2>📜 脚本说明</h2>
 <ul>
 <li>下载小红书无水印作品文件时，脚本需要花费时间处理文件，请等待片刻，请勿多次点击下载按钮</li>
 <li>无水印图片文件为 PNG 格式；无水印视频文件较大，可能需要较长的时间处理，页面跳转可能会导致下载失败</li>
 <li>提取账号发布、收藏、点赞、专辑作品链接时，脚本可以自动滚动页面直至加载全部作品</li>
-<li>提取推荐作品链接、搜索作品、用户链接时，脚本可以自动滚动指定次数加载更多内容，默认滚动次数：10 次</li>
+<li>提取推荐作品链接、搜索作品、用户链接时，脚本可以自动滚动指定次数加载更多内容，默认滚动次数：50 次</li>
 <li>自动滚动页面功能默认关闭；用户可以自由开启，并修改滚动页面次数，修改后立即生效</li>
 <li>如果未开启自动滚动页面功能，用户需要手动滚动页面以便加载更多内容后再进行其他操作</li>
 <li>支持作品文件打包下载；该功能默认开启，多个文件的作品将会以压缩包格式下载</li>

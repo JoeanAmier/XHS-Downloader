@@ -201,19 +201,23 @@ async def example_api():
 <li>The program's download records will be stored in the <code>./ExploreID.db</code> file</li>
 </ul>
 <h1 id="user-scripts">🕹 User Script</h1>
-<p>If your browser has the <a href="https://www.tampermonkey.net/">Tampermonkey</a> browser extension installed, you can add the <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">user script</a> to experience the project features without needing to download or install anything!</p>
+<p>If your browser has the <a href="https://www.tampermonkey.net/">Tampermonkey</a> browser extension installed, you can add the <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">user script</a>(Right click to copy link) to experience the project features without needing to download or install anything!</p>
 <img src="static/screenshot/脚本安装教程.png" alt="">
 <p>After successfully installing the script, open the RedNote page, check the script instructions, and follow the prompts to operate.</p>
+<img src="static/screenshot/脚本安装教程.png" alt="">
+<hr>
 <img src="static/screenshot/用户脚本截图1.png" alt="">
 <hr>
 <img src="static/screenshot/用户脚本截图2.png" alt="">
+<hr>
+<img src="static/screenshot/用户脚本截图3.png" alt="">
 <p>Note: Using the XHS-Downloader user script to batch extract works links, in combination with the XHS-Downloader program, can achieve batch downloading of watermark-free works files!</p>
 <h2>📜 Script Instructions</h2>
 <ul>
 <li>When downloading watermark-free works from Xiaohongshu, the script requires time to process the files. Please wait for a moment and do not click the download button multiple times.</li>
 <li>Watermark-free image files are in PNG format; watermark-free video files are larger and may take longer to process. Page redirects may cause download failures.</li>
 <li>When extracting links for posts, collects, likes, and board from an account, the script can automatically scroll the page until all works are loaded.</li>
-<li>When extracting recommended works links, search works, and user links, the script can automatically scroll a specified number of times to load more content. The default number of page scrolls is 10.</li>
+<li>When extracting recommended works links, search works, and user links, the script can automatically scroll a specified number of times to load more content. The default number of page scrolls is 50.</li>
 <li>The automatic scrolling page function is turned off by default; Users can freely open and modify the number of times the page is scrolled, and the modification will take effect immediately.</li>
 <li>If the automatic page scroll feature is not enabled, users need to manually scroll the page to load more content before performing other actions.</li>
 <li>Support packaging and downloading of work files; This feature is enabled by default, and works from multiple files will be downloaded in compressed file format</li>
