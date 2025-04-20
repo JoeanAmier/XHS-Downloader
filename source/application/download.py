@@ -65,6 +65,7 @@ class Download:
         self.video_download = manager.video_download
         self.live_download = manager.live_download
         self.author_archive = manager.author_archive
+        self.write_mtime = manager.write_mtime
 
     async def run(
         self,
@@ -74,6 +75,7 @@ class Download:
         nickname: str,
         filename: str,
         type_: str,
+        mtime: int,
         log,
         bar,
     ) -> tuple[Path, list[Any]]:
@@ -102,6 +104,7 @@ class Download:
                 path,
                 name,
                 format_,
+                mtime,
                 log,
                 bar,
             )
@@ -198,6 +201,7 @@ class Download:
         path: Path,
         name: str,
         format_: str,
+        mtime: int,
         log,
         bar,
     ):
@@ -253,7 +257,12 @@ class Download:
                     format_,
                     log,
                 )
-                self.manager.move(temp, real)
+                self.manager.move(
+                    temp,
+                    real,
+                    mtime,
+                    self.write_mtime,
+                )
                 # self.__create_progress(bar, None)
                 logging(log, _("文件 {0} 下载成功").format(real.name))
                 return True
@@ -321,8 +330,8 @@ class Download:
         headers["Range"] = f"bytes={(p := self.__get_resume_byte_position(file))}-"
         return p
 
+    @staticmethod
     async def __suffix_with_file(
-        self,
         temp: Path,
         path: Path,
         name: str,

@@ -103,6 +103,7 @@ class XHS:
         folder_mode=False,
         download_record=True,
         author_archive=False,
+        write_mtime=False,
         language="zh_CN",
         read_cookie: int | str = None,
         _print: bool = True,
@@ -129,6 +130,7 @@ class XHS:
             download_record,
             folder_mode,
             author_archive,
+            write_mtime,
             _print,
         )
         self.mapping_data = mapping_data or {}
@@ -184,6 +186,7 @@ class XHS:
                     + self.CLEANER.filter_name(container["作者昵称"]),
                     name,
                     container["作品类型"],
+                    container["时间戳"],
                     log,
                     bar,
                 )

@@ -155,6 +155,11 @@ class Setting(Screen):
                     id="author_archive",
                     value=self.data["author_archive"],
                 ),
+                Checkbox(
+                    _("更新文件修改时间"),
+                    id="write_mtime",
+                    value=self.data["write_mtime"],
+                ),
                 classes="horizontal-layout",
             ),
             Container(
@@ -229,6 +234,7 @@ class Setting(Screen):
                 "live_download": self.query_one("#live_download").value,
                 "download_record": self.query_one("#download_record").value,
                 "author_archive": self.query_one("#author_archive").value,
+                "write_mtime": self.query_one("#write_mtime").value,
             }
         )
 

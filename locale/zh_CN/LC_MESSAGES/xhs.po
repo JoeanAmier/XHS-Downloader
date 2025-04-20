@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: XHS-Downloader 2.4\n"
+"Project-Id-Version: XHS-Downloader 2.5\n"
 "Report-Msgid-Bugs-To: <yonglelolu@foxmail.com>\n"
-"POT-Creation-Date: 2025-01-15 21:12+0800\n"
+"POT-Creation-Date: 2025-04-20 17:31+0800\n"
 "PO-Revision-Date: 2024-12-22 14:14+0800\n"
 "Last-Translator: <yonglelolu@foxmail.com>\n"
 "Language-Team: Chinese (simplified)\n"
@@ -17,217 +17,221 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:158
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:178
 #, python-brace-format
 msgid "作品 {0} 存在下载记录，跳过下载"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:171
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:195
 msgid "提取作品文件下载地址失败"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:197
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:215
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:452
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:224
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:251
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:549
 msgid "提取小红书作品链接失败"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:200
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:226
 #, python-brace-format
 msgid "共 {0} 个小红书作品待处理..."
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:252
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:296
 #, python-brace-format
 msgid "作品 {0} 存在下载记录，跳过处理"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:255
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:299
 #, python-brace-format
 msgid "开始处理作品：{0}"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:259
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:308
 #, python-brace-format
 msgid "{0} 获取数据失败"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:264
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:313
 #, python-brace-format
 msgid "{0} 提取数据失败"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:266
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:75
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:13
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:315
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:83
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:13
 msgid "视频"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:268
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:82
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:13
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:317
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:90
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:13
 msgid "图文"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:273
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:323
 #, python-brace-format
 msgid "作品处理完成：{0}"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:334
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:54
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:401
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:57
 msgid ""
 "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，"
 "如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:464
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:562
 msgid "获取小红书作品数据成功"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\app.py:466
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:564
 msgid "获取小红书作品数据失败"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:118
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:130
 msgid "视频作品下载功能已关闭，跳过下载"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:134
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:147
 msgid "图文作品下载功能已关闭，跳过下载"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:162
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:170
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:182
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:193
 #, python-brace-format
 msgid "{0} 文件已存在，跳过下载"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:208
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:239
 #, python-brace-format
 msgid "文件 {0} 缓存异常，重新下载"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:231
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:267
 #, python-brace-format
 msgid "文件 {0} 下载成功"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:238
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:273
 #, python-brace-format
 msgid "网络异常，{0} 下载失败，错误信息: {1}"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\download.py:311
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:350
 #, python-brace-format
 msgid "文件 {0} 格式判断失败，错误信息：{1}"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:50
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:58
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\explore.py:63
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:50
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:58
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:63
 msgid "未知"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\application\request.py:44
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\request.py:80
 #, python-brace-format
 msgid "网络异常，{0} 请求失败: {1}"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:116
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:124
 msgid "小红书作品链接"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:118
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:131
 msgid "下载指定序号的图片文件，仅对图文作品生效；多个序号输入示例：\"1 3 5 7\""
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:119
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:33
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:136
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:30
 msgid "作品数据 / 文件保存根路径"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:120
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:36
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:137
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:40
 msgid "作品文件储存文件夹名称"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:121
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:38
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:138
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:49
 msgid "作品文件名称格式"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:125
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:142
 msgid "小红书网页版 Cookie，无需登录"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:126
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:46
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:143
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:78
 msgid "网络代理"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:127
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:48
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:144
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:88
 msgid "请求数据超时限制，单位：秒"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:128
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:50
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:150
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:98
 msgid "下载文件时，每次从服务器获取的数据块大小，单位：字节"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:129
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:52
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:153
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:108
 msgid "请求数据失败时，重试的最大次数"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:130
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:154
 msgid "是否记录作品数据至文件"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:131
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:159
 msgid "图文作品文件下载格式，支持：PNG、WEBP"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:132
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:161
 msgid "动态图片下载开关"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:133
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:64
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:162
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:149
 msgid "作品下载记录开关"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:134
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:167
 msgid "是否将每个作品的文件储存至单独的文件夹"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:135
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:173
+msgid "是否将每个作者的作品储存至单独的文件夹"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:175
 msgid "设置程序语言，目前支持：zh_CN、en_US"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:136
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:176
 msgid "读取指定配置文件"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:138
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:183
 #, python-brace-format
 msgid "从指定的浏览器读取小红书网页版 Cookie，支持：{0}; 输入浏览器名称或序号"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:144
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:196
 msgid "是否更新配置文件"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:145
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:197
 msgid "查看详细参数说明"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\CLI\main.py:146
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:198
 msgid "查看 XHS-Downloader 版本"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\expansion\browser.py:45
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\expansion\browser.py:53
 #, python-brace-format
 msgid ""
 "读取指定浏览器的 Cookie 并写入配置文件\n"
@@ -237,134 +241,186 @@ msgid ""
 "请输入浏览器名称或序号："
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\expansion\browser.py:49
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\expansion\browser.py:63
 msgid "未选择浏览器！"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\expansion\browser.py:55
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\expansion\browser.py:74
 msgid "浏览器名称或序号输入错误！"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\expansion\browser.py:61
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\expansion\browser.py:80
 msgid "获取 Cookie 失败，未找到 Cookie 数据！"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\expansion\browser.py:99
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\expansion\browser.py:118
 msgid "从浏览器读取 Cookie 功能不支持当前平台！"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\expansion\cleaner.py:45
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\expansion\cleaner.py:45
 msgid "不受支持的操作系统类型，可能无法正常去除非法字符！"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\module\manager.py:204
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:226
 #, python-brace-format
 msgid "代理 {0} 测试成功"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\module\manager.py:208
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:230
 #, python-brace-format
 msgid "代理 {0} 测试超时"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\module\manager.py:216
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:238
 #, python-brace-format
 msgid "代理 {0} 测试失败：{1}"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:26
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:37
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:26
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:22
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:57
+#, python-brace-format
+msgid "{old_folder} 文件夹不存在，跳过处理"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:86
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:108
+msgid "文件夹"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:91
+#, python-brace-format
+msgid "文件夹 {old_folder} 已重命名为 {new_folder}"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:113
+#, python-brace-format
+msgid "文件夹 {old_} 重命名为 {new_}"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:186
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:201
+msgid "文件"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:191
+#, python-brace-format
+msgid "文件 {old_file} 重命名为 {new_file}"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:210
+#, python-brace-format
+msgid "{type} {old}被占用，重命名失败: {error}"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:219
+#, python-brace-format
+msgid "{type} {new}名称重复，重命名失败: {error}"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:228
+#, python-brace-format
+msgid "处理{type} {old}时发生预期之外的错误: {error}"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\tools.py:31
+msgid ""
+"如需重新尝试处理该对象，请关闭所有正在访问该对象的窗口或程序，然后直接按下回"
+"车键！\n"
+"如需跳过处理该对象，请输入任意字符后按下回车键！"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:20
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:29
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:21
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:15
 msgid "退出程序"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:30
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:38
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:21
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:30
 msgid "检查更新"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:34
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\record.py:28
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:23
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:22
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\record.py:35
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:16
 msgid "返回首页"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:44
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:35
 msgid "如果 XHS-Downloader 对您有帮助，请考虑为它点个 Star，感谢您的支持！"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:49
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:42
 msgid "Discord 社区"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:51
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:46
 msgid "邀请链接："
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:53
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:60
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:66
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:65
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:48
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:61
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:70
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:56
 msgid "点击访问"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\about.py:55
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:51
 msgid "作者的其他开源项目"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\app.py:62
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\app.py:74
 msgid ""
 "配置文件 settings.json 缺少必要的参数，请删除该文件，然后重新运行程序，自动生"
 "成默认配置文件！"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:39
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:97
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:31
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:212
 msgid "程序设置"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:40
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:32
 msgid "下载记录"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:41
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:33
 msgid "开启监听"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:42
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:34
 msgid "关于项目"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:56
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:49
 msgid "开源协议: "
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:61
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:52
 msgid "项目地址: "
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:69
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:59
 msgid "请输入小红书图文/视频作品链接"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:72
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:62
 msgid "多个链接之间使用空格分隔"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:74
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:64
 msgid "下载无水印作品文件"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:75
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:65
 msgid "读取剪贴板"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:76
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:66
 msgid "清空输入框"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:88
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:81
 msgid "免责声明\n"
 msgstr ""
 "关于 XHS-Downloader 的 免责声明：\n"
@@ -390,128 +446,136 @@ msgstr ""
 "和功能，则视为您已完全理解并接受上述免责声明，并自愿承担使用本项目的一切风险"
 "和后果。\n"
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:103
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:94
 msgid "未输入任何小红书作品链接"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\index.py:126
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:124
 msgid "下载小红书作品文件失败"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\loading.py:18
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\loading.py:19
 msgid "程序处理中..."
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:27
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:22
 msgid "关闭监听"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:36
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:34
 msgid "已启动监听剪贴板模式"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:38
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:36
 msgid "退出监听剪贴板模式"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\record.py:23
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\record.py:23
 msgid "请输入待删除的小红书作品链接或作品 ID"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\record.py:24
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\record.py:26
 msgid ""
 "支持输入作品 ID 或包含作品 ID 的作品链接，多个链接或 ID 之间使用空格分隔"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\record.py:27
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\record.py:32
 msgid "删除指定作品 ID"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\record.py:36
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\record.py:47
 msgid "删除下载记录成功"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:34
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:35
 msgid "程序根路径"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:42
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:64
 msgid "内置 Chrome User Agent"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:44
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:69
 msgid "小红书网页版 Cookie"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:47
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:83
 msgid "不使用代理"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:56
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:120
 msgid "记录作品详细数据"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:57
-msgid "作品文件夹归档模式"
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:125
+msgid "作品归档保存模式"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:58
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:130
 msgid "视频作品下载开关"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:59
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:135
 msgid "图文作品下载开关"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:63
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:144
 msgid "动图文件下载开关"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:67
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:154
+msgid "作者归档保存模式"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:159
+msgid "更新文件修改时间"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:167
 msgid "图片下载格式"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:68
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:171
 msgid "程序语言"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:85
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:194
 msgid "保存配置"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:86
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:198
 msgid "放弃更改"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:93
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:208
 msgid "小红书网页版 Cookie，无需登录，参数已设置"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\setting.py:94
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:209
 msgid "小红书网页版 Cookie，无需登录，参数未设置"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\update.py:24
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:26
 msgid "正在检查新版本，请稍等..."
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\update.py:37
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:46
 #, python-brace-format
 msgid "检测到新版本：{0}.{1}"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\update.py:45
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:54
 msgid "当前版本为开发版, 可更新至正式版"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\update.py:50
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:59
 msgid "当前已是最新开发版"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\update.py:55
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:64
 msgid "当前已是最新正式版"
 msgstr ""
 
-#: C:\Users\youyq\PycharmProjects\XHS-Downloader\source\TUI\update.py:61
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:71
 msgid "检测新版本失败"
 msgstr ""

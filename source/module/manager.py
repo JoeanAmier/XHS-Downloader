@@ -1,7 +1,7 @@
 from pathlib import Path
 from re import compile, sub
 from shutil import move, rmtree
-
+from os import utime
 from httpx import (
     AsyncClient,
     AsyncHTTPTransport,
@@ -65,6 +65,7 @@ class Manager:
         download_record: bool,
         folder_mode: bool,
         author_archive: bool,
+        write_mtime: bool,
         _print: bool,
     ):
         self.root = root
@@ -117,6 +118,7 @@ class Manager:
         self.video_download = self.check_bool(video_download, True)
         self.live_download = self.check_bool(live_download, True)
         self.author_archive = self.check_bool(author_archive, False)
+        self.write_mtime = self.check_bool(write_mtime, False)
 
     def __check_path(self, path: str) -> Path:
         if not path:
@@ -164,9 +166,21 @@ class Manager:
     def archive(root: Path, name: str, folder_mode: bool) -> Path:
         return root.joinpath(name) if folder_mode else root
 
-    @staticmethod
-    def move(temp: Path, path: Path):
+    @classmethod
+    def move(
+        cls,
+        temp: Path,
+        path: Path,
+        mtime: int = None,
+        rewrite: bool = False,
+    ):
         move(temp.resolve(), path.resolve())
+        if rewrite and mtime:
+            cls.update_mtime(path.resolve(), mtime)
+
+    @staticmethod
+    def update_mtime(file: Path, mtime: int):
+        utime(file, (mtime, mtime))
 
     def __clean(self):
         rmtree(self.temp.resolve())

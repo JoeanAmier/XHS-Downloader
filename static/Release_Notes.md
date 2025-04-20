@@ -3,17 +3,18 @@
 1. 增加对 `JPEG` 和 `HEIC` 图片格式的支持
 2. 新增启动 `监听剪贴板` 模式时清空剪贴板内容
 3. 修复 `监听剪贴板` 模式可能丢失链接的问题
-4. 支持按作者归档保存作品文件
-5. 支持 API 模式设置临时代理
-6. 新增自动更新作者昵称功能
-7. 优化 `headers` 处理逻辑
-8. 优化语言代码获取逻辑
-9. 支持 `SOCKS` 代理
-10. 支持设置作者别名
+4. 支持以发布时间作为文件修改时间
+5. 支持按作者归档保存作品文件
+6. 支持 API 模式设置临时代理
+7. 新增自动更新作者昵称功能
+8. 优化 `headers` 处理逻辑
+9. 优化语言代码获取逻辑
+10. 支持 `SOCKS` 代理
+11. 支持设置作者别名
 
 **注意：**
 
-<p><strong>配置文件新增参数 <code>mapping_data</code>、<code>author_archive</code>，旧版本更新需要手动添加配置内容：<code>"mapping_data": {}, "author_archive": false</code>；或者直接删除旧版配置文件后再运行程序！</strong></p>
+<p><strong>配置文件新增参数 <code>mapping_data</code>、<code>author_archive</code>、<code>write_mtime</code>，旧版本更新需要手动添加配置内容：<code>"mapping_data": {}, "author_archive": false, "write_mtime": false</code>；或者直接删除旧版配置文件后再运行程序！</strong></p>
 
 *****
 

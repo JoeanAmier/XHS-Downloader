@@ -246,6 +246,7 @@ async def example():
     download_record = True  # 是否记录下载成功的作品 ID
     language = "zh_CN"  # 设置程序提示语言
     author_archive = True  # 是否将每个作者的作品存至单独的文件夹
+    write_mtime = True  # 是否将作品文件的 修改时间 修改为作品的发布时间
     read_cookie = None  # 读取浏览器 Cookie，支持设置浏览器名称（字符串）或者浏览器序号（整数），设置为 None 代表不读取
 
     # async with XHS() as xhs:
@@ -271,12 +272,22 @@ async def example():
         language=language,
         read_cookie=read_cookie,
         author_archive=author_archive,
+        write_mtime=write_mtime,
     ) as xhs:  # 使用自定义参数
         download = True  # 是否下载作品文件，默认值：False
         # 返回作品详细信息，包括下载地址
         # 获取数据失败时返回空字典
-        print(await xhs.extract(demo_link, download, index=[1, 2]))
-
+        print(
+            await xhs.extract(
+                demo_link,
+                download,
+                index=[
+                    1,
+                    2,
+                    5,
+                ],
+            )
+        )
 </pre>
 <h1>📋 读取剪贴板</h1>
 <p>项目使用 <code>pyperclip</code> 实现读取剪贴板功能，该模块在不同的系统上会有差异。</p>
@@ -403,6 +414,12 @@ async def example():
 <td align="center">author_archive</td>
 <td align="center">bool</td>
 <td align="center"><sup><a href="#author_archive">#</a></sup>是否将每个作者的作品储存至单独的文件夹；文件夹名称为 <code>作者ID_作者昵称</code></td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">write_mtime</td>
+<td align="center">bool</td>
+<td align="center">是否将作品文件的 <code>修改时间</code> 属性修改为作品的发布时间</td>
 <td align="center">false</td>
 </tr>
 <tr>

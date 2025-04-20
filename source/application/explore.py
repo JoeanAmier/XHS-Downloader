@@ -62,6 +62,9 @@ class Explore:
             if (last := data.safe_extract("lastUpdateTime"))
             else _("未知")
         )
+        container["时间戳"] = (
+            (time / 1000) if (time := data.safe_extract("time")) else None
+        )
 
     @staticmethod
     def __extract_user(container: dict, data: Namespace):

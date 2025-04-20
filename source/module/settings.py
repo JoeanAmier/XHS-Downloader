@@ -27,6 +27,7 @@ class Settings:
         "folder_mode": False,
         "download_record": True,
         "author_archive": False,
+        "write_mtime": False,
         "language": "zh_CN",
     }
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"
