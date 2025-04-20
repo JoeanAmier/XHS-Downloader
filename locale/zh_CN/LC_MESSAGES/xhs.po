@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: XHS-Downloader 2.5\n"
 "Report-Msgid-Bugs-To: <yonglelolu@foxmail.com>\n"
-"POT-Creation-Date: 2025-04-20 17:31+0800\n"
+"POT-Creation-Date: 2025-04-20 19:05+0800\n"
 "PO-Revision-Date: 2024-12-22 14:14+0800\n"
 "Last-Translator: <yonglelolu@foxmail.com>\n"
 "Language-Team: Chinese (simplified)\n"
@@ -157,77 +157,81 @@ msgstr ""
 msgid "作品文件名称格式"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:142
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:140
 msgid "小红书网页版 Cookie，无需登录"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:143
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:141
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:78
 msgid "网络代理"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:144
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:142
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:88
 msgid "请求数据超时限制，单位：秒"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:150
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:148
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:98
 msgid "下载文件时，每次从服务器获取的数据块大小，单位：字节"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:153
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:151
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:108
 msgid "请求数据失败时，重试的最大次数"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:154
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:152
 msgid "是否记录作品数据至文件"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:159
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:157
 msgid "图文作品文件下载格式，支持：PNG、WEBP"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:161
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:159
 msgid "动态图片下载开关"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:162
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:160
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:149
 msgid "作品下载记录开关"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:167
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:165
 msgid "是否将每个作品的文件储存至单独的文件夹"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:173
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:171
 msgid "是否将每个作者的作品储存至单独的文件夹"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:175
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:177
+msgid "是否将作品文件的修改时间属性修改为作品的发布时间"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:179
 msgid "设置程序语言，目前支持：zh_CN、en_US"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:176
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:180
 msgid "读取指定配置文件"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:183
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:187
 #, python-brace-format
 msgid "从指定的浏览器读取小红书网页版 Cookie，支持：{0}; 输入浏览器名称或序号"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:196
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:200
 msgid "是否更新配置文件"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:197
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:201
 msgid "查看详细参数说明"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:198
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:202
 msgid "查看 XHS-Downloader 版本"
 msgstr ""
 

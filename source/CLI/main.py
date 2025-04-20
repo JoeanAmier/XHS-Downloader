@@ -136,8 +136,6 @@ class CLI:
             ("--work_path", "-wp", "str", _("作品数据 / 文件保存根路径")),
             ("--folder_name", "-fn", "str", _("作品文件储存文件夹名称")),
             ("--name_format", "-nf", "str", _("作品文件名称格式")),
-            # ("--sec_ch_ua", "-su", "str", _("Sec-Ch-Ua")),
-            # ("--sec_ch_ua_platform", "-sp", "str", _("Sec-Ch-Ua-Platform")),
             ("--user_agent", "-ua", "str", "User-Agent"),
             ("--cookie", "-ck", "str", _("小红书网页版 Cookie，无需登录")),
             ("--proxy", "-p", "str", _("网络代理")),
@@ -171,6 +169,15 @@ class CLI:
                 "-aa",
                 "bool",
                 _("是否将每个作者的作品储存至单独的文件夹"),
+            ),
+            (
+                "--write_mtime",
+                "-wm",
+                "bool",
+                fill(
+                    _("是否将作品文件的修改时间属性修改为作品的发布时间"),
+                    width=55,
+                ),
             ),
             ("--language", "-l", "choice", _("设置程序语言，目前支持：zh_CN、en_US")),
             ("--settings", "-s", "str", _("读取指定配置文件")),
@@ -288,6 +295,11 @@ class CLI:
 @option(
     "--author_archive",
     "-aa",
+    type=bool,
+)
+@option(
+    "--write_mtime",
+    "-wm",
     type=bool,
 )
 @option(

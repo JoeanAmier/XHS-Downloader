@@ -203,6 +203,7 @@ class XHS:
         data["采集时间"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         data["下载地址"] = " ".join(data["下载地址"])
         data["动图地址"] = " ".join(i or "NaN" for i in data["动图地址"])
+        data.pop("时间戳", None)
         await self.data_recorder.add(**data)
 
     async def __add_record(self, id_: str, result: list) -> None:
