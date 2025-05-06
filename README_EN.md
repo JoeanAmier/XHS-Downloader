@@ -86,8 +86,8 @@
 </ul>
 <li>Create Container</li>
 <ul>
-<li>TUI Mode: <code>docker run --name ContainerName(optional) -p HostPort:6666 -it joeanamier/xhs-downloader</code></li>
-<li>API Mode: <code>docker run --name ContainerName(optional) -p HostPort:6666 -it joeanamier/xhs-downloader python main.py server</code></li>
+<li>TUI Mode: <code>docker run --name ContainerName(optional) -p HostPort:6666 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader</code></li>
+<li>API Mode: <code>docker run --name ContainerName(optional) -p HostPort:6666 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader python main.py server</code></li>
 </ul>
 <li>Run Container
 <ul>
