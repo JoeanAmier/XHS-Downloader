@@ -9,9 +9,6 @@ __all__ = ["Explore"]
 class Explore:
     time_format = "%Y-%m-%d_%H:%M:%S"
 
-    def __init__(self):
-        self.explore_type = {"video": _("视频"), "normal": _("图文")}
-
     def run(self, data: Namespace) -> dict:
         return self.__extract_data(data)
 
@@ -46,9 +43,7 @@ class Explore:
         )
         container["作品标题"] = data.safe_extract("title")
         container["作品描述"] = data.safe_extract("desc")
-        container["作品类型"] = self.explore_type.get(
-            data.safe_extract("type"), _("未知")
-        )
+        container["作品类型"] = self.__classify_works(data)
         # container["IP归属地"] = data.safe_extract("ipLocation")
 
     def __extract_time(self, container: dict, data: Namespace):
@@ -73,3 +68,13 @@ class Explore:
         container["作者链接"] = (
             f"https://www.xiaohongshu.com/user/profile/{container['作者ID']}"
         )
+
+    @staticmethod
+    def __classify_works(data: Namespace) -> str:
+        type_ = data.safe_extract("type")
+        list_ = data.safe_extract("imageList", [])
+        if type_ not in {"video", "normal"} or len(list_) == 0:
+            return _("未知")
+        if type_ == "video":
+            return _("视频") if len(list_) == 1 else _("图集")
+        return _("图文")

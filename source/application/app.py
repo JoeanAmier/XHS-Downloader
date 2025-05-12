@@ -315,9 +315,13 @@ class XHS:
             return {}
         if data["作品类型"] == _("视频"):
             self.__extract_video(data, namespace)
-        elif data["作品类型"] == _("图文"):
+        elif data["作品类型"] in {
+            _("图文"),
+            _("图集"),
+        }:
             self.__extract_image(data, namespace)
         else:
+            logging(log, _("未知的作品类型：{0}").format(i), WARNING)
             data["下载地址"] = []
         await self.update_author_nickname(data, log)
         await self.__download_files(data, download, index, log, bar)
