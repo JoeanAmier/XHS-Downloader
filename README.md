@@ -84,6 +84,7 @@
 <ul>
 <li>方式一：使用 <code>Dockerfile</code> 文件构建镜像</li>
 <li>方式二：使用 <code>docker pull joeanamier/xhs-downloader</code> 命令拉取镜像</li>
+<li>方式三：使用 <code>docker pull ghcr.io/joeanamier/xhs-downloader</code> 命令拉取镜像</li>
 </ul>
 <li>创建容器</li>
 <ul>

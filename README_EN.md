@@ -85,6 +85,7 @@
 <ul>
 <li>Method 1: Build the image using the <code>Dockerfile</code></li>
 <li>Method 2: Pull the image using the command <code>docker pull joeanamier/xhs-downloader</code></li>
+<li>Method 3: Pull the image using the command <code>docker pull ghcr.io/joeanamier/xhs-downloader</code></li>
 </ul>
 <li>Create Container</li>
 <ul>
