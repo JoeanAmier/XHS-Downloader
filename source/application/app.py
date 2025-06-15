@@ -521,7 +521,7 @@ class XHS:
     async def run_server(
         self,
         host="0.0.0.0",
-        port=6666,
+        port=5556,
         log_level="info",
     ):
         self.server = FastAPI(

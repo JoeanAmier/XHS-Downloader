@@ -88,8 +88,8 @@
 </ul>
 <li>创建容器</li>
 <ul>
-<li>TUI 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:6666 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader</code></li>
-<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:6666 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader python main.py server</code></li>
+<li>TUI 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader</code></li>
+<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader python main.py server</code></li>
 </ul>
 <li>运行容器
 <ul>
@@ -121,7 +121,7 @@
 <h1>🖥 服务器模式</h1>
 <p><b>启动：</b>运行命令：<code>python .\main.py server</code></p>
 <p><b>关闭：</b>按下 <code>Ctrl</code> + <code>C</code> 关闭服务器</p>
-<p>访问 <code>http://127.0.0.1:6666/docs</code> 或者 <code>http://127.0.0.1:6666/redoc</code>；你会看到自动生成的交互式 API 文档！</p>
+<p>访问 <code>http://127.0.0.1:5556/docs</code> 或者 <code>http://127.0.0.1:5556/redoc</code>；你会看到自动生成的交互式 API 文档！</p>
 <p><b>请求接口：</b><code>/xhs/</code></p>
 <p><b>请求方法：</b><code>POST</code></p>
 <p><b>请求格式：</b><code>JSON</code></p>
@@ -178,7 +178,7 @@
 <pre>
 async def example_api():
     """通过 API 设置参数，适合二次开发"""
-    server = "http://127.0.0.1:6666/xhs/"
+    server = "http://127.0.0.1:5556/xhs/"
     data = {
         "url": "",  # 必需参数
         "download": True,
@@ -604,22 +604,6 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 
 **JetBrains** 支持全球开源社区认可的活跃项目，并为非商业开发提供免费许可证。
 
-***
-
-## TikHub
-
-<img src="static/赞助商_TikHub_Logo.png" alt="TikHub">
-<p><a href="https://tikhub.io/">TikHub</a> 是一家领先的数据接口服务供应商，专注于提供高质量的数据接口，涵盖了多个热门平台，包括 抖音、TikTok、小红书、Instagram、Twitter 和 快手 等平台。</p>
-<p>TikHub 还提供定制化的服务，如直播间监控、作品监控和达人监控，以满足不同业务场景的需求。</p>
-<p>通过每日签到，用户可以免费获取一定额度的使用量；可以使用我的 <strong>推荐链接</strong>：<a href="https://user.tikhub.io/users/signup?referral_code=ZrdH8McC">https://user.tikhub.io/users/signup?referral_code=ZrdH8McC</a> 或 <strong>推荐码</strong>：<code>ZrdH8McC</code>，注册并充值即可获得 <code>$2</code> 额度！</p>
-<p><a href="https://tikhub.io/">TikHub</a> 提供以下服务：</p>
-<ul>
-<li>丰富的数据接口</li>
-<li>每日签到免费获取额度</li>
-<li>高质量的 API 服务</li>
-<li>官网：<a href="https://tikhub.io/">https://tikhub.io/</a></li>
-<li>用户登陆地址：<a href="https://user.tikhub.io/">https://user.tikhub.io/</a></li>
-</ul>
 <h1>⚠️ 免责声明</h1>
 <ol>
 <li>使用者对本项目的使用由使用者自行决定，并自行承担风险。作者对使用者使用本项目所产生的任何损失、责任、或风险概不负责。</li>

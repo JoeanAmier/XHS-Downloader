@@ -89,8 +89,8 @@
 </ul>
 <li>Create Container</li>
 <ul>
-<li>TUI Mode: <code>docker run --name ContainerName(optional) -p HostPort:6666 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader</code></li>
-<li>API Mode: <code>docker run --name ContainerName(optional) -p HostPort:6666 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader python main.py server</code></li>
+<li>TUI Mode: <code>docker run --name ContainerName(optional) -p HostPort:5556 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader</code></li>
+<li>API Mode: <code>docker run --name ContainerName(optional) -p HostPort:5556 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader python main.py server</code></li>
 </ul>
 <li>Run Container
 <ul>
@@ -122,7 +122,7 @@
 <h1>🖥 Server Mode</h1>
 <p><b>Start:</b> Run the command: <code>python .\main.py server</code></p>
 <p><b>Stop:</b> Press <code>Ctrl</code> + <code>C</code> to stop the server</p>
-<p>Open <code>http://127.0.0.1:6666/docs</code> or <code>http://127.0.0.1:6666/redoc</code>; you will see automatically generated interactive API documentation!</p>
+<p>Open <code>http://127.0.0.1:5556/docs</code> or <code>http://127.0.0.1:5556/redoc</code>; you will see automatically generated interactive API documentation!</p>
 <p><b>Request endpoint:</b>
 <code>/xhs/</code></p>
 <p><b>Request method:</b>
@@ -182,7 +182,7 @@
 <pre>
 async def example_api():
     """通过 API 设置参数，适合二次开发"""
-    server = "http://127.0.0.1:6666/xhs/"
+    server = "http://127.0.0.1:5556/xhs/"
     data = {
         "url": "",  # 必需参数
         "download": True,
@@ -297,6 +297,7 @@ async def example():
                 ],
             )
         )
+
 </pre>
 <h1>📋 Read Clipboard</h1>
 <p>The project uses <code>pyperclip</code> to implement clipboard reading functionality, which varies across different systems.</p>
@@ -631,22 +632,6 @@ repository to execute the build process
 
 <p><b>JetBrains</b> support active projects recognized within the global open-source community with complimentary licenses for non-commercial development.</p>
 
-***
-
-## TikHub
-
-<img src="static/赞助商_TikHub_Logo.png" alt="TikHub">
-<p><a href="https://tikhub.io/">TikHub</a> is a leading data interface service provider, specializing in offering high-quality data interfaces for multiple popular platforms, including DouYin, TikTok, Xiaohongshu, Instagram, Twitter, and Kuaishou.</p>
-<p>TikHub also provides customized services such as live streaming room monitoring, post monitoring, and influencer monitoring to meet the needs of different business scenarios.</p>
-<p>Through daily sign-ins, users can obtain a certain quota of usage for free. You can use my <strong>referral link</strong>：<a href="https://user.tikhub.io/users/signup?referral_code=ZrdH8McC">https://user.tikhub.io/users/signup?referral_code=ZrdH8McC</a> or <strong>Referral Code</strong>：<code>ZrdH8McC</code>，Register and recharge to receive <code>$2</code> limit！</p>
-<p><a href="https://tikhub.io/">TikHub</a> Provide the following services:</p>
-<ul>
-<li>Rich data interfaces</li>
-<li>Free daily check-in to obtain credit limit</li>
-<li>High quality API services</li>
-<li>Official website:<a href="https://tikhub.io/">https://tikhub.io/</a></li>
-<li>User login address:<a href="https://user.tikhub.io/">https://user.tikhub.io/</a></li>
-</ul>
 <h1>⚠️ Disclaimer</h1>
 <ol>
 <li>The user's use of this project is entirely at their own discretion and responsibility. The author assumes no liability for any losses, claims, or risks arising from the user's use of this project.</li>
