@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      2.0.1
+// @version      2.0.2
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -1304,7 +1304,7 @@ XHS-Downloader 用户脚本 详细说明：
             flex: 1;
         }
 
-        .title {
+        .xhstitle {
             font-size: 0.95rem;
             color: var(--on-surface);
             font-weight: 500;
@@ -1505,7 +1505,7 @@ XHS-Downloader 用户脚本 详细说明：
                     <span class="material-icons">${item.icon}</span>
                 </div>
                 <div class="content">
-                    <div class="title">${item.text}</div>
+                    <div class="xhstitle">${item.text}</div>
                     <div class="subtitle">${item.description}</div>
                 </div>
             `;
