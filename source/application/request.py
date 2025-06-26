@@ -36,8 +36,8 @@ class Html:
             cookie,
         )
         try:
-            match (content, bool(proxy)):
-                case (True, False):
+            match bool(proxy):
+                case False:
                     response = await self.__request_url_get(
                         url,
                         headers,
@@ -45,8 +45,8 @@ class Html:
                     )
                     await sleep_time()
                     response.raise_for_status()
-                    return response.text
-                case (True, True):
+                    return response.text if content else str(response.url)
+                case True:
                     response = await self.__request_url_get_proxy(
                         url,
                         headers,
@@ -55,24 +55,7 @@ class Html:
                     )
                     await sleep_time()
                     response.raise_for_status()
-                    return response.text
-                case (False, False):
-                    response = await self.__request_url_head(
-                        url,
-                        headers,
-                        **kwargs,
-                    )
-                    await sleep_time()
-                    return str(response.url)
-                case (False, True):
-                    response = await self.__request_url_head_proxy(
-                        url,
-                        headers,
-                        proxy,
-                        **kwargs,
-                    )
-                    await sleep_time()
-                    return str(response.url)
+                    return response.text if content else str(response.url)
                 case _:
                     raise ValueError
         except HTTPError as error:

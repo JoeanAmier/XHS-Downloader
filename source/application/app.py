@@ -73,7 +73,7 @@ class XHS:
     VERSION_BETA = VERSION_BETA
     LINK = compile(r"https?://www\.xiaohongshu\.com/explore/\S+")
     SHARE = compile(r"https?://www\.xiaohongshu\.com/discovery/item/\S+")
-    SHORT = compile(r"https?://xhslink\.com/\S+")
+    SHORT = compile(r"https?://xhslink\.com/[^\s\"<>\\^`{|}，。；！？、【】《》]+")
     ID = compile(r"(?:explore|item)/(\S+)?\?")
     __INSTANCE = None
     CLEANER = Cleaner()
