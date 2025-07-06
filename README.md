@@ -605,6 +605,12 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 
 **JetBrains** 支持全球开源社区认可的活跃项目，并为非商业开发提供免费许可证。
 
+***
+
+## DartNode
+
+[![Powered by DartNode](https://dartnode.com/branding/DN-Open-Source-sm.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
+
 <h1>⚠️ 免责声明</h1>
 <ol>
 <li>使用者对本项目的使用由使用者自行决定，并自行承担风险。作者对使用者使用本项目所产生的任何损失、责任、或风险概不负责。</li>

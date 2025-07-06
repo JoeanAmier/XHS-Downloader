@@ -633,6 +633,12 @@ repository to execute the build process
 
 <p><b>JetBrains</b> support active projects recognized within the global open-source community with complimentary licenses for non-commercial development.</p>
 
+***
+
+## DartNode
+
+[![Powered by DartNode](https://dartnode.com/branding/DN-Open-Source-sm.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
+
 <h1>⚠️ Disclaimer</h1>
 <ol>
 <li>The user's use of this project is entirely at their own discretion and responsibility. The author assumes no liability for any losses, claims, or risks arising from the user's use of this project.</li>
