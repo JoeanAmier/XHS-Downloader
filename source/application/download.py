@@ -96,6 +96,15 @@ class Download:
                 filename,
                 log,
             )
+        elif type_ == _("图集"):
+            tasks = self.__ready_download_image(
+                urls,
+                lives,
+                index,
+                path,
+                filename,
+                log,
+            )
         else:
             raise ValueError
         tasks = [
