@@ -323,6 +323,7 @@ class XHS:
         else:
             logging(log, _("未知的作品类型：{0}").format(i), WARNING)
             data["下载地址"] = []
+            data["动图地址"] = []
         await self.update_author_nickname(data, log)
         await self.__download_files(data, download, index, log, bar)
         logging(log, _("作品处理完成：{0}").format(i))
