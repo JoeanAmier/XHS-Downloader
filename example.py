@@ -1,5 +1,5 @@
 from asyncio import run
-
+from pyperclip import paste
 from httpx import post
 from rich import print
 
@@ -92,7 +92,9 @@ async def example_api():
 
 
 async def test():
-    url = ""
+    url = "" or paste()
+    if not url:
+        return
     async with XHS(
         download_record=False,
         # image_format="PNG",
