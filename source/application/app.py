@@ -3,9 +3,12 @@ from contextlib import suppress
 from datetime import datetime
 from re import compile
 from urllib.parse import urlparse
-
+from textwrap import dedent
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
+from fastmcp import FastMCP
+from typing import Annotated
+from pydantic import Field
 
 # from aiohttp import web
 from pyperclip import copy, paste
@@ -525,11 +528,14 @@ class XHS:
         port=5556,
         log_level="info",
     ):
+        mcp = self.init_mcp_server()
         self.server = FastAPI(
             debug=self.VERSION_BETA,
             title="XHS-Downloader",
             version=__VERSION__,
+            lifespan=mcp.lifespan,
         )
+        self.server.mount("/xhs", mcp)
         self.setup_routes()
         config = Config(
             self.server,
@@ -541,19 +547,38 @@ class XHS:
         await server.serve()
 
     def setup_routes(self):
-        @self.server.get("/")
+        @self.server.get(
+            "/",
+            summary=_("访问项目 GitHub 仓库"),
+            description=_("重定向至项目 GitHub 仓库主页"),
+            tags=["API"],
+        )
         async def index():
             return RedirectResponse(url=REPOSITORY)
 
         @self.server.post(
-            "/xhs/",
+            "/xhs/detail",
+            summary=_("获取作品数据及下载地址"),
+            description=_(
+                dedent("""
+                **参数**:
+                        
+                - **url**: 小红书作品链接，自动提取，不支持多链接；必需参数
+                - **download**: 是否下载作品文件；设置为 true 将会耗费更多时间；可选参数
+                - **index**: 下载指定序号的图片文件，仅对图文作品生效；download 参数设置为 false 时不生效；可选参数
+                - **cookie**: 请求数据时使用的 Cookie；可选参数
+                - **proxy**: 请求数据时使用的代理；可选参数
+                - **skip**: 是否跳过存在下载记录的作品；设置为 true 将不会返回存在下载记录的作品数据；可选参数
+                """)
+            ),
+            tags=["API"],
             response_model=ExtractData,
         )
         async def handle(extract: ExtractParams):
+            data = None
             url = await self.extract_links(extract.url, None)
             if not url:
                 msg = _("提取小红书作品链接失败")
-                data = None
             else:
                 if data := await self.__deal_extract(
                     url[0],
@@ -568,5 +593,136 @@ class XHS:
                     msg = _("获取小红书作品数据成功")
                 else:
                     msg = _("获取小红书作品数据失败")
-                    data = None
             return ExtractData(message=msg, params=extract, data=data)
+
+    def init_mcp_server(self):
+        mcp = FastMCP(
+            "XHS-Downloader",
+            instructions=dedent("""
+                本服务器提供两个 MCP 接口，分别用于获取小红书作品信息和下载小红书作品文件，二者互不依赖，可独立调用。
+                
+                支持的作品链接格式：
+                - https://www.xiaohongshu.com/explore/...
+                - https://www.xiaohongshu.com/discovery/item/...
+                - https://xhslink.com/...
+                
+                get_data
+                功能：输入小红书作品链接，返回该作品的信息。
+                参数：
+                - url（必填）：小红书作品链接
+                返回：
+                - message：提示
+                - data：作品信息
+                
+                download
+                功能：输入小红书作品链接，下载作品文件。
+                参数：
+                - url（必填）：小红书作品链接
+                - index（选填）：根据用户指定的图片序号（如用户说“下载第1和第3张”时，index应为 [1, 3]），生成由所需图片序号组成的列表；如果用户未指定序号，则该字段为 None
+                - return_data（可选）：是否返回作品信息；如需获取作品信息，可设置此参数为 true，默认值为 false
+                返回：
+                - true 或者 dict：表示下载成功
+                - false 或者 null：表示下载失败或出错
+                """),
+            version=__VERSION__,
+        )
+
+        @mcp.tool(
+            name="get_data",
+            description=_(
+                dedent("""
+                功能：输入小红书作品链接，返回该作品的信息。
+                
+                参数：
+                url（必填）：小红书作品链接，格式如：
+                - https://www.xiaohongshu.com/explore/...
+                - https://www.xiaohongshu.com/discovery/item/...
+                - https://xhslink.com/...
+                
+                返回：
+                message：提示
+                data：作品信息
+                """)
+            ),
+            tags={
+                "小红书",
+                "XiaoHongShu",
+                "RedNote",
+            },
+        )
+        async def get_data(
+            url: Annotated[str, Field(description=_("小红书作品链接"))],
+        ) -> dict:
+            data = None
+            url = await self.extract_links(url, None)
+            if not url:
+                msg = _("提取小红书作品链接失败")
+            else:
+                if data := await self.__deal_extract(
+                    url[0],
+                    False,
+                    None,
+                    None,
+                    None,
+                    True,
+                ):
+                    msg = _("获取小红书作品数据成功")
+                else:
+                    msg = _("获取小红书作品数据失败")
+            return {
+                "message": msg,
+                "data": data,
+            }
+
+        @mcp.tool(
+            name="download",
+            description=_(
+                dedent("""
+                功能：输入小红书作品链接，下载作品文件。
+                
+                参数：
+                url（必填）：小红书作品链接，格式如：
+                - https://www.xiaohongshu.com/explore/...
+                - https://www.xiaohongshu.com/discovery/item/...
+                - https://xhslink.com/...
+                
+                index（选填）：根据用户指定的图片序号（如用户说“下载第1和第3张”时，index应为 [1, 3]），生成由所需图片序号组成的列表；如果用户未指定序号，则该字段为 None
+                return_data（可选）：是否返回作品信息；如需获取作品信息，可设置此参数为 true，默认值为 false
+                
+                返回：
+                true 或者 dict：表示下载成功
+                false 或者 null：表示下载失败或出错
+                """)
+            ),
+            tags={
+                "小红书",
+                "XiaoHongShu",
+                "RedNote",
+            },
+        )
+        async def download(
+            url: Annotated[str, Field(description=_("小红书作品链接"))],
+            index: Annotated[
+                list[str | int] | None,
+                Field(default=None, description=_("指定需要下载的图文作品序号")),
+            ],
+            return_data: Annotated[
+                bool,
+                Field(default=False, description=_("是否需要返回作品信息")),
+            ],
+        ) -> dict | bool | None:
+            data = None
+            url = await self.extract_links(url, None)
+            if url:
+                data = await self.__deal_extract(
+                    url[0],
+                    True,
+                    index,
+                    None,
+                    None,
+                    True,
+                )
+            return (data or None) if return_data else bool(data)
+
+        return mcp.http_app(path="/mcp")
+

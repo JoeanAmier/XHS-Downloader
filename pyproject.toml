@@ -14,6 +14,7 @@ dependencies = [
     "click>=8.1.8",
     "emoji>=2.14.1",
     "fastapi>=0.115.9",
+    "fastmcp>=2.10.5",
     "httpx[socks]>=0.28.1",
     "lxml>=5.3.1",
     "pyperclip>=1.9.0",

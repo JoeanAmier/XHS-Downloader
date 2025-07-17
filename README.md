@@ -638,6 +638,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 * https://github.com/encode/httpx/
 * https://github.com/tiangolo/fastapi
 * https://github.com/textualize/textual/
+* https://github.com/jlowin/fastmcp
 * https://github.com/omnilib/aiosqlite
 * https://github.com/thewh1teagle/rookie
 * https://github.com/carpedm20/emoji/

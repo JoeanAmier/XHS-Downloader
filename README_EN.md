@@ -662,6 +662,7 @@ repository to execute the build process
 * https://github.com/encode/httpx/
 * https://github.com/tiangolo/fastapi
 * https://github.com/textualize/textual/
+* https://github.com/jlowin/fastmcp
 * https://github.com/omnilib/aiosqlite
 * https://github.com/thewh1teagle/rookie
 * https://github.com/carpedm20/emoji/
