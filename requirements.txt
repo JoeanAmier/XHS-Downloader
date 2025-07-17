@@ -10,6 +10,8 @@ emoji==2.14.1
     # via xhs-downloader (pyproject.toml)
 fastapi==0.115.12
     # via xhs-downloader (pyproject.toml)
+fastmcp==2.10.5
+    # via xhs-downloader (pyproject.toml)
 httpx[socks]==0.28.1
     # via xhs-downloader (pyproject.toml)
 lxml==5.3.2

@@ -38,6 +38,7 @@
 <li>✅ Read cookies from browser</li>
 <li>✅ Customizable file name format</li>
 <li>✅ Support API call functionality</li>
+<li>✅ Support MCP call functionality</li>
 <li>✅ Support file breakpoint resume download</li>
 <li>✅ Intelligent recognition of works file types</li>
 <li>✅ Supports author alias configuration</li>
@@ -121,11 +122,13 @@
 <hr>
 <img src="static/screenshot/命令行模式截图EN2.png" alt="">
 <h1>🖥 Server Mode</h1>
+<p>⭐ Server mode supports both API calls and MCP calls!</p>
 <p><b>Start:</b> Run the command: <code>python .\main.py server</code></p>
 <p><b>Stop:</b> Press <code>Ctrl</code> + <code>C</code> to stop the server</p>
+<h2>API Calls</h2>
 <p>Open <code>http://127.0.0.1:5556/docs</code> or <code>http://127.0.0.1:5556/redoc</code>; you will see automatically generated interactive API documentation!</p>
 <p><b>Request endpoint:</b>
-<code>/xhs/</code></p>
+<code>/xhs/detail</code></p>
 <p><b>Request method:</b>
 <code>POST</code></p>
 <p><b>Request format:</b>
@@ -197,6 +200,20 @@ async def example_api():
     response = post(server, json=data, timeout=10)
     print(response.json())
 </pre>
+<h2>MCP Calls</h2>
+<p><b>MCP URL:</b><code>http://127.0.0.1:5556/xhs/mcp</code></p>
+<p><b>MCP Transmission Mechanism:</b><code>streamableHttp</code></p>
+<h3>MCP Configuration Example</h3>
+<img src="static/screenshot/MCP配置示例.png" alt="MCP Configuration Example">
+<h3>MCP Invocation Example</h3>
+<h4><strong>Retrieve RedNote Works Information</strong></h4>
+<img src="static/screenshot/MCP获取数据.png" alt="MCP Data Retrieval">
+<hr>
+<h4><strong>Download RedNote Works Files</strong></h4>
+<p>When downloading images, you can specify the sequence numbers of the images to download. By default, post information is not returned. If you need the post information, please explicitly state so during the conversation.</p>
+<img src="static/screenshot/MCP下载文件1.png" alt="MCP File Download">
+<hr>
+<img src="static/screenshot/MCP下载文件2.png" alt="MCP File Download">
 <h1>📜 Others</h1>
 <ul>
 <li>Due to the date information carried in the links of RedNote works, using links obtained from previous dates may be subject to risk control. It is recommended to use the latest RedNote works links when downloading RedNote work files</li>

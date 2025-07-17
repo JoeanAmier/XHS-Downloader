@@ -37,6 +37,7 @@
 <li>✅ 从浏览器读取 Cookie</li> 
 <li>✅ 自定义文件名称格式</li> 
 <li>✅ 支持 API 调用功能</li>
+<li>✅ 支持 MCP 调用功能</li>
 <li>✅ 支持文件断点续传下载</li>
 <li>✅ 智能识别作品文件类型</li>
 <li>✅ 支持设置作者备注</li>
@@ -120,10 +121,12 @@
 <hr>
 <img src="static/screenshot/命令行模式截图CN2.png" alt="">
 <h1>🖥 服务器模式</h1>
+<p>⭐ 服务器模式同时支持 API 调用和 MCP 调用！</p>
 <p><b>启动：</b>运行命令：<code>python .\main.py server</code></p>
 <p><b>关闭：</b>按下 <code>Ctrl</code> + <code>C</code> 关闭服务器</p>
+<h2>API 调用</h2>
 <p>访问 <code>http://127.0.0.1:5556/docs</code> 或者 <code>http://127.0.0.1:5556/redoc</code>；你会看到自动生成的交互式 API 文档！</p>
-<p><b>请求接口：</b><code>/xhs/</code></p>
+<p><b>请求接口：</b><code>/xhs/detail</code></p>
 <p><b>请求方法：</b><code>POST</code></p>
 <p><b>请求格式：</b><code>JSON</code></p>
 <p><b>请求参数：</b></p>
@@ -193,6 +196,20 @@ async def example_api():
     response = post(server, json=data, timeout=10)
     print(response.json())
 </pre>
+<h2>MCP 调用</h2>
+<p><b>MCP URL：</b><code>http://127.0.0.1:5556/xhs/mcp</code></p>
+<p><b>MCP 传输机制：</b><code>可流式传输的 HTTP (streamableHttp)</code></p>
+<h3>MCP 配置示例</h3>
+<img src="static/screenshot/MCP配置示例.png" alt="MCP配置示例">
+<h3>MCP 调用示例</h3>
+<h4><strong>获取小红书作品信息</strong></h4>
+<img src="static/screenshot/MCP获取数据.png" alt="MCP获取数据">
+<hr>
+<h4><strong>下载小红书作品文件</strong></h4>
+<p>下载图文作品时可以指定需要下载的图片序号；默认不返回作品信息，如需返回作品信息，请在对话时明确表述。</p>
+<img src="static/screenshot/MCP下载文件1.png" alt="MCP下载文件">
+<hr>
+<img src="static/screenshot/MCP下载文件2.png" alt="MCP下载文件">
 <h1>📜 其他说明</h1>
 <ul>
 <li>由于作品链接携带日期信息，使用先前日期获取的作品链接可能会被风控，建议下载作品文件时使用最新获取的作品链接</li>

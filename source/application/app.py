@@ -607,7 +607,7 @@ class XHS:
                 - https://xhslink.com/...
                 
                 get_data
-                功能：输入小红书作品链接，返回该作品的信息。
+                功能：输入小红书作品链接，返回该作品的信息，不会下载文件。
                 参数：
                 - url（必填）：小红书作品链接
                 返回：
@@ -615,11 +615,11 @@ class XHS:
                 - data：作品信息
                 
                 download
-                功能：输入小红书作品链接，下载作品文件。
+                功能：输入小红书作品链接，下载作品文件，默认不返回作品信息。
                 参数：
                 - url（必填）：小红书作品链接
                 - index（选填）：根据用户指定的图片序号（如用户说“下载第1和第3张”时，index应为 [1, 3]），生成由所需图片序号组成的列表；如果用户未指定序号，则该字段为 None
-                - return_data（可选）：是否返回作品信息；如需获取作品信息，可设置此参数为 true，默认值为 false
+                - return_data（可选）：是否返回作品信息；如需返回作品信息，可设置此参数为 true，默认值为 false
                 返回：
                 - true 或者 dict：表示下载成功
                 - false 或者 null：表示下载失败或出错
@@ -629,9 +629,8 @@ class XHS:
 
         @mcp.tool(
             name="get_data",
-            description=_(
-                dedent("""
-                功能：输入小红书作品链接，返回该作品的信息。
+            description=dedent("""
+                功能：输入小红书作品链接，返回该作品的信息，不会下载文件。
                 
                 参数：
                 url（必填）：小红书作品链接，格式如：
@@ -642,8 +641,7 @@ class XHS:
                 返回：
                 message：提示
                 data：作品信息
-                """)
-            ),
+                """),
             tags={
                 "小红书",
                 "XiaoHongShu",
@@ -676,9 +674,8 @@ class XHS:
 
         @mcp.tool(
             name="download",
-            description=_(
-                dedent("""
-                功能：输入小红书作品链接，下载作品文件。
+            description=dedent("""
+                功能：输入小红书作品链接，下载作品文件，默认不返回作品信息。
                 
                 参数：
                 url（必填）：小红书作品链接，格式如：
@@ -687,13 +684,12 @@ class XHS:
                 - https://xhslink.com/...
                 
                 index（选填）：根据用户指定的图片序号（如用户说“下载第1和第3张”时，index应为 [1, 3]），生成由所需图片序号组成的列表；如果用户未指定序号，则该字段为 None
-                return_data（可选）：是否返回作品信息；如需获取作品信息，可设置此参数为 true，默认值为 false
+                return_data（可选）：是否返回作品信息；如需返回作品信息，可设置此参数为 true，默认值为 false
                 
                 返回：
                 true 或者 dict：表示下载成功
                 false 或者 null：表示下载失败或出错
-                """)
-            ),
+                """),
             tags={
                 "小红书",
                 "XiaoHongShu",
