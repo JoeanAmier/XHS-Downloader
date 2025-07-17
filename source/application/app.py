@@ -599,38 +599,38 @@ class XHS:
         mcp = FastMCP(
             "XHS-Downloader",
             instructions=dedent("""
-                本服务器提供两个 MCP 接口，分别用于获取小红书作品信息和下载小红书作品文件，二者互不依赖，可独立调用。
+                本服务器提供两个 MCP 接口，分别用于获取小红书作品信息数据和下载小红书作品文件，二者互不依赖，可独立调用。
                 
                 支持的作品链接格式：
                 - https://www.xiaohongshu.com/explore/...
                 - https://www.xiaohongshu.com/discovery/item/...
                 - https://xhslink.com/...
                 
-                get_data
-                功能：输入小红书作品链接，返回该作品的信息，不会下载文件。
+                get_detail_data
+                功能：输入小红书作品链接，返回该作品的信息数据，不会下载文件。
                 参数：
                 - url（必填）：小红书作品链接
                 返回：
-                - message：提示
-                - data：作品信息
+                - message：结果提示
+                - data：作品信息数据
                 
-                download
-                功能：输入小红书作品链接，下载作品文件，默认不返回作品信息。
+                download_detail
+                功能：输入小红书作品链接，下载作品文件，默认不返回作品信息数据。
                 参数：
                 - url（必填）：小红书作品链接
                 - index（选填）：根据用户指定的图片序号（如用户说“下载第1和第3张”时，index应为 [1, 3]），生成由所需图片序号组成的列表；如果用户未指定序号，则该字段为 None
-                - return_data（可选）：是否返回作品信息；如需返回作品信息，可设置此参数为 true，默认值为 false
+                - return_data（可选）：是否返回作品信息数据；如需返回作品信息数据，设置此参数为 true，默认值为 false
                 返回：
-                - true 或者 dict：表示下载成功
-                - false 或者 null：表示下载失败或出错
+                - message：结果提示
+                - data：作品信息数据，不需要返回作品信息数据时固定为 None
                 """),
             version=__VERSION__,
         )
 
         @mcp.tool(
-            name="get_data",
+            name="get_detail_data",
             description=dedent("""
-                功能：输入小红书作品链接，返回该作品的信息，不会下载文件。
+                功能：输入小红书作品链接，返回该作品的信息数据，不会下载文件。
                 
                 参数：
                 url（必填）：小红书作品链接，格式如：
@@ -639,64 +639,68 @@ class XHS:
                 - https://xhslink.com/...
                 
                 返回：
-                message：提示
-                data：作品信息
+                - message：结果提示
+                - data：作品信息数据
                 """),
             tags={
                 "小红书",
                 "XiaoHongShu",
                 "RedNote",
             },
+            annotations={
+                "title": "获取小红书作品信息数据",
+                "readOnlyHint": False,
+                "destructiveHint": False,
+                "idempotentHint": True,
+                "openWorldHint": True,
+            },
         )
-        async def get_data(
+        async def get_detail_data(
             url: Annotated[str, Field(description=_("小红书作品链接"))],
         ) -> dict:
-            data = None
-            url = await self.extract_links(url, None)
-            if not url:
-                msg = _("提取小红书作品链接失败")
-            else:
-                if data := await self.__deal_extract(
-                    url[0],
-                    False,
-                    None,
-                    None,
-                    None,
-                    True,
-                ):
-                    msg = _("获取小红书作品数据成功")
-                else:
-                    msg = _("获取小红书作品数据失败")
+            msg, data = await self.deal_detail_mcp(
+                url,
+                False,
+                None,
+            )
             return {
                 "message": msg,
                 "data": data,
             }
 
         @mcp.tool(
-            name="download",
+            name="download_detail",
             description=dedent("""
-                功能：输入小红书作品链接，下载作品文件，默认不返回作品信息。
+                功能：输入小红书作品链接，下载作品文件，默认不返回作品信息数据。
                 
                 参数：
                 url（必填）：小红书作品链接，格式如：
                 - https://www.xiaohongshu.com/explore/...
                 - https://www.xiaohongshu.com/discovery/item/...
                 - https://xhslink.com/...
-                
                 index（选填）：根据用户指定的图片序号（如用户说“下载第1和第3张”时，index应为 [1, 3]），生成由所需图片序号组成的列表；如果用户未指定序号，则该字段为 None
-                return_data（可选）：是否返回作品信息；如需返回作品信息，可设置此参数为 true，默认值为 false
+                return_data（可选）：是否返回作品信息数据；如需返回作品信息数据，设置此参数为 true，默认值为 false
                 
                 返回：
-                true 或者 dict：表示下载成功
-                false 或者 null：表示下载失败或出错
+                - message：结果提示
+                - data：作品信息数据，不需要返回作品信息数据时固定为 None
                 """),
             tags={
                 "小红书",
                 "XiaoHongShu",
                 "RedNote",
+                "Download",
+                "下载",
+            },
+            annotations={
+                "title": "下载小红书作品文件，可以返回作品信息数据",
+                "readOnlyHint": False,
+                "destructiveHint": False,
+                "idempotentHint": True,
+                "openWorldHint": True,
             },
         )
-        async def download(
+        async def download_detail(
             url: Annotated[str, Field(description=_("小红书作品链接"))],
             index: Annotated[
                 list[str | int] | None,
@@ -704,21 +708,63 @@ class XHS:
             ],
             return_data: Annotated[
                 bool,
-                Field(default=False, description=_("是否需要返回作品信息")),
+                Field(default=False, description=_("是否需要返回作品信息数据")),
             ],
-        ) -> dict | bool | None:
-            data = None
-            url = await self.extract_links(url, None)
-            if url:
-                data = await self.__deal_extract(
-                    url[0],
-                    True,
-                    index,
-                    None,
-                    None,
-                    True,
-                )
-            return (data or None) if return_data else bool(data)
+        ) -> dict:
+            msg, data = await self.deal_detail_mcp(
+                url,
+                False,
+                index,
+            )
+            match (
+                bool(data),
+                return_data,
+            ):
+                case (True, True):
+                    return {
+                        "message": msg + ", " + _("作品文件下载任务执行完毕"),
+                        "data": data,
+                    }
+                case (True, False):
+                    return {
+                        "message": _("作品文件下载任务执行完毕"),
+                        "data": None,
+                    }
+                case (False, True):
+                    return {
+                        "message": msg + ", " + _("作品文件下载任务未执行"),
+                        "data": None,
+                    }
+                case (False, False):
+                    return {
+                        "message": msg + ", " + _("作品文件下载任务未执行"),
+                        "data": None,
+                    }
+                case _:
+                    raise ValueError
 
         return mcp.http_app(path="/mcp")
 
+    async def deal_detail_mcp(
+        self,
+        url: str,
+        download: bool,
+        index: list[str | int] | None,
+    ):
+        data = None
+        url = await self.extract_links(url, None)
+        if not url:
+            msg = _("提取小红书作品链接失败")
+        else:
+            if data := await self.__deal_extract(
+                url[0],
+                download,
+                index,
+                None,
+                None,
+                True,
+            ):
+                msg = _("获取小红书作品数据成功")
+            else:
+                msg = _("获取小红书作品数据失败")
+        return msg, data
