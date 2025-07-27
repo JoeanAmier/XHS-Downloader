@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      2.0.3
+// @version      2.0.4
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -158,7 +158,7 @@ XHS-Downloader 用户脚本 详细说明：
             images.forEach((item) => {
                 let match = item.urlDefault.match(regex);
                 if (match && match[1]) {
-                    urls.push(`https://ci.xiaohongshu.com/${match[1]}?imageView2/format/png?`);
+                    urls.push(`https://ci.xiaohongshu.com/${match[1]}?imageView2/format/png`);
                 }
             })
             return urls
