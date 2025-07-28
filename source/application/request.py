@@ -32,6 +32,8 @@ class Html:
         proxy: str = None,
         **kwargs,
     ) -> str:
+        if not url.startswith("http"):
+            url = f"https://{url}"
         headers = self.update_cookie(
             cookie,
         )

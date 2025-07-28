@@ -74,11 +74,12 @@ class XHS:
     VERSION_MAJOR = VERSION_MAJOR
     VERSION_MINOR = VERSION_MINOR
     VERSION_BETA = VERSION_BETA
-    LINK = compile(r"https?://www\.xiaohongshu\.com/explore/\S+")
-    USER = compile(r"https?://www\.xiaohongshu\.com/user/profile/[a-z0-9]+/\S+")
-    SHARE = compile(r"https?://www\.xiaohongshu\.com/discovery/item/\S+")
-    SHORT = compile(r"https?://xhslink\.com/[^\s\"<>\\^`{|}，。；！？、【】《》]+")
+    LINK = compile(r"(?:https?://)?www\.xiaohongshu\.com/explore/\S+")
+    USER = compile(r"(?:https?://)?www\.xiaohongshu\.com/user/profile/[a-z0-9]+/\S+")
+    SHARE = compile(r"(?:https?://)?www\.xiaohongshu\.com/discovery/item/\S+")
+    SHORT = compile(r"(?:https?://)?xhslink\.com/[^\s\"<>\\^`{|}，。；！？、【】《》]+")
     ID = compile(r"(?:explore|item)/(\S+)?\?")
+    ID_USER = compile(r"user/profile/[a-z0-9]+/(\S+)?\?")
     __INSTANCE = None
     CLEANER = Cleaner()
 
@@ -285,6 +286,8 @@ class XHS:
         ids = []
         for i in links:
             if j := self.ID.search(i):
+                ids.append(j.group(1))
+            elif j := self.ID_USER.search(i):
                 ids.append(j.group(1))
         return ids
 
