@@ -247,7 +247,6 @@ async def example():
     """通过代码设置参数，适合二次开发"""
     # 示例链接
     demo_link = "https://www.xiaohongshu.com/explore/XXX?xsec_token=XXX"
-
     # 实例对象
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
@@ -269,10 +268,8 @@ async def example():
     author_archive = True  # 是否将每个作者的作品存至单独的文件夹
     write_mtime = True  # 是否将作品文件的 修改时间 修改为作品的发布时间
     read_cookie = None  # 读取浏览器 Cookie，支持设置浏览器名称（字符串）或者浏览器序号（整数），设置为 None 代表不读取
-
     # async with XHS() as xhs:
     #     pass  # 使用默认参数
-
     async with XHS(
         work_path=work_path,
         folder_name=folder_name,
@@ -615,14 +612,6 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 </ul>
 
 # 💰 项目赞助
-
-## JetBrains 工具
-
-![PyCharm logo](https://resources.jetbrains.com/storage/products/company/brand/logos/PyCharm.svg)
-
-**JetBrains** 支持全球开源社区认可的活跃项目，并为非商业开发提供免费许可证。
-
-***
 
 ## DartNode
 
