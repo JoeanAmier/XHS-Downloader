@@ -50,9 +50,9 @@ if __name__ == "__main__":
         # TODO: 重构优化
         if len(argv) == 1:
             run(app())
-        elif argv[1] == "api":
+        elif argv[1].upper() == "API":
             run(api_server())
-        elif argv[1] == "mcp":
+        elif argv[1].upper() == "MCP":
             run(mcp_server())
             # run(mcp_server("stdio"))
         else:

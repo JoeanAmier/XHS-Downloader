@@ -91,7 +91,8 @@
 <li>创建容器</li>
 <ul>
 <li>TUI 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader</code></li>
-<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader python main.py server</code></li>
+<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader python main.py api</code></li>
+<li>MCP 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader python main.py mcp</code></li>
 </ul>
 <li>运行容器
 <ul>
