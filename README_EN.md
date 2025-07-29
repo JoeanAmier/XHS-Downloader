@@ -122,10 +122,10 @@
 <hr>
 <img src="static/screenshot/命令行模式截图EN2.png" alt="">
 <h1>🖥 Server Mode</h1>
-<p>⭐ Server mode supports both API calls and MCP calls!</p>
-<p><b>Start:</b> Run the command: <code>python .\main.py server</code></p>
+<p>Server modes include API mode and MCP mode!</p>
+<h2>API Mode</h2>
+<p><b>Start:</b> Run the command: <code>python .\main.py api</code></p>
 <p><b>Stop:</b> Press <code>Ctrl</code> + <code>C</code> to stop the server</p>
-<h2>API Calls</h2>
 <p>Open <code>http://127.0.0.1:5556/docs</code> or <code>http://127.0.0.1:5556/redoc</code>; you will see automatically generated interactive API documentation!</p>
 <p><b>Request endpoint:</b>
 <code>/xhs/detail</code></p>
@@ -186,7 +186,7 @@
 <pre>
 async def example_api():
     """通过 API 设置参数，适合二次开发"""
-    server = "http://127.0.0.1:5556/xhs/"
+    server = "http://127.0.0.1:5556/xhs/detail"
     data = {
         "url": "",  # 必需参数
         "download": True,
@@ -200,10 +200,14 @@ async def example_api():
     response = post(server, json=data, timeout=10)
     print(response.json())
 </pre>
-<h2>MCP Calls</h2>
-<p><b>MCP URL:</b><code>http://127.0.0.1:5556/xhs/mcp</code></p>
-<p><b>MCP Transmission Mechanism:</b><code>streamableHttp</code></p>
+<h2>MCP Mode</h2>
+<p><b>Start:</b> Run the command: <code>python .\main.py mcp</code></p>
+<p><b>Stop:</b> Press <code>Ctrl</code> + <code>C</code> to stop the server</p>
 <h3>MCP Configuration Example</h3>
+
+[//]: # (<h4>STDIO</h4>)
+<h4>Streamable HTTP</h4>
+<p><b>MCP URL:</b><code>http://127.0.0.1:5556/mcp/</code></p>
 <img src="static/screenshot/MCP配置示例.png" alt="MCP Configuration Example">
 <h3>MCP Invocation Example</h3>
 <h4><strong>Retrieve RedNote Works Information</strong></h4>

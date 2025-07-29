@@ -154,9 +154,6 @@ class XHS:
         self.clipboard_cache: str = ""
         self.queue = Queue()
         self.event = Event()
-        # self.runner = self.init_server()
-        # self.site = None
-        self.server = None
 
     def __extract_image(self, container: dict, data: Namespace):
         container["下载地址"], container["动图地址"] = self.image.get_image_link(
@@ -528,23 +525,20 @@ class XHS:
     #     await self.runner.cleanup()
     #     logging(log, _("Web API 服务器已关闭！"))
 
-    async def run_server(
+    async def run_api_server(
         self,
         host="0.0.0.0",
         port=5556,
         log_level="info",
     ):
-        mcp = self.init_mcp_server()
-        self.server = FastAPI(
+        api = FastAPI(
             debug=self.VERSION_BETA,
             title="XHS-Downloader",
             version=__VERSION__,
-            lifespan=mcp.lifespan,
         )
-        self.server.mount("/xhs", mcp)
-        self.setup_routes()
+        self.setup_routes(api)
         config = Config(
-            self.server,
+            api,
             host=host,
             port=port,
             log_level=log_level,
@@ -552,8 +546,11 @@ class XHS:
         server = Server(config)
         await server.serve()
 
-    def setup_routes(self):
-        @self.server.get(
+    def setup_routes(
+        self,
+        server: FastAPI,
+    ):
+        @server.get(
             "/",
             summary=_("访问项目 GitHub 仓库"),
             description=_("重定向至项目 GitHub 仓库主页"),
@@ -562,7 +559,7 @@ class XHS:
         async def index():
             return RedirectResponse(url=REPOSITORY)
 
-        @self.server.post(
+        @server.post(
             "/xhs/detail",
             summary=_("获取作品数据及下载地址"),
             description=_(
@@ -601,7 +598,13 @@ class XHS:
                     msg = _("获取小红书作品数据失败")
             return ExtractData(message=msg, params=extract, data=data)
 
-    def init_mcp_server(self):
+    async def run_mcp_server(
+        self,
+        transport="streamable-http",
+        host="0.0.0.0",
+        port=5556,
+        log_level="INFO",
+    ):
         mcp = FastMCP(
             "XHS-Downloader",
             instructions=dedent("""
@@ -631,6 +634,9 @@ class XHS:
                 - data：作品信息数据，不需要返回作品信息数据时固定为 None
                 """),
             version=__VERSION__,
+            host=host,
+            port=port,
+            log_level=log_level,
         )
 
         @mcp.tool(
@@ -749,7 +755,9 @@ class XHS:
                 case _:
                     raise ValueError
 
-        return mcp.http_app(path="/mcp")
+        await mcp.run_async(
+            transport=transport,
+        )
 
     async def deal_detail_mcp(
         self,

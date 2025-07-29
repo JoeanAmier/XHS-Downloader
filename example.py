@@ -76,7 +76,7 @@ async def example():
 
 async def example_api():
     """通过 API 设置参数，适合二次开发"""
-    server = "http://127.0.0.1:5556/xhs/"
+    server = "http://127.0.0.1:5556/xhs/detail"
     data = {
         "url": "",  # 必需参数
         "download": True,

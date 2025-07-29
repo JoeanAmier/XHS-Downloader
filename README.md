@@ -121,10 +121,10 @@
 <hr>
 <img src="static/screenshot/命令行模式截图CN2.png" alt="">
 <h1>🖥 服务器模式</h1>
-<p>⭐ 服务器模式同时支持 API 调用和 MCP 调用！</p>
-<p><b>启动：</b>运行命令：<code>python .\main.py server</code></p>
+<p>服务器模式包含 API 模式和 MCP 模式！</p>
+<h2>API 模式</h2>
+<p><b>启动：</b>运行命令：<code>python .\main.py api</code></p>
 <p><b>关闭：</b>按下 <code>Ctrl</code> + <code>C</code> 关闭服务器</p>
-<h2>API 调用</h2>
 <p>访问 <code>http://127.0.0.1:5556/docs</code> 或者 <code>http://127.0.0.1:5556/redoc</code>；你会看到自动生成的交互式 API 文档！</p>
 <p><b>请求接口：</b><code>/xhs/detail</code></p>
 <p><b>请求方法：</b><code>POST</code></p>
@@ -182,7 +182,7 @@
 <pre>
 async def example_api():
     """通过 API 设置参数，适合二次开发"""
-    server = "http://127.0.0.1:5556/xhs/"
+    server = "http://127.0.0.1:5556/xhs/detail"
     data = {
         "url": "",  # 必需参数
         "download": True,
@@ -196,10 +196,14 @@ async def example_api():
     response = post(server, json=data, timeout=10)
     print(response.json())
 </pre>
-<h2>MCP 调用</h2>
-<p><b>MCP URL：</b><code>http://127.0.0.1:5556/xhs/mcp</code></p>
-<p><b>MCP 传输机制：</b><code>可流式传输的 HTTP (streamableHttp)</code></p>
+<h2>MCP 模式</h2>
+<p><b>启动：</b>运行命令：<code>python .\main.py mcp</code></p>
+<p><b>关闭：</b>按下 <code>Ctrl</code> + <code>C</code> 关闭服务器</p>
 <h3>MCP 配置示例</h3>
+
+[//]: # (<h4>STDIO</h4>)
+<h4>Streamable HTTP</h4>
+<p><b>MCP URL：</b><code>http://127.0.0.1:5556/mcp/</code></p>
 <img src="static/screenshot/MCP配置示例.png" alt="MCP配置示例">
 <h3>MCP 调用示例</h3>
 <h4><strong>获取小红书作品信息</strong></h4>
