@@ -160,6 +160,11 @@ class Setting(Screen):
                     id="write_mtime",
                     value=self.data["write_mtime"],
                 ),
+                Checkbox(
+                    _("生成Markdown记录"),
+                    id="markdown_record",
+                    value=self.data.get("markdown_record", False),
+                ),
                 classes="horizontal-layout",
             ),
             Container(
@@ -235,6 +240,7 @@ class Setting(Screen):
                 "download_record": self.query_one("#download_record").value,
                 "author_archive": self.query_one("#author_archive").value,
                 "write_mtime": self.query_one("#write_mtime").value,
+                "markdown_record": self.query_one("#markdown_record").value,
             }
         )
 

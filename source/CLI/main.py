@@ -179,6 +179,15 @@ class CLI:
                     width=55,
                 ),
             ),
+            (
+                "--markdown_record",
+                "-mdr",
+                "bool",
+                fill(
+                    _("是否在作品文件夹中生成Markdown格式的记录文件"),
+                    width=55,
+                ),
+            ),
             ("--language", "-l", "choice", _("设置程序语言，目前支持：zh_CN、en_US")),
             ("--settings", "-s", "str", _("读取指定配置文件")),
             (
@@ -300,6 +309,11 @@ class CLI:
 @option(
     "--write_mtime",
     "-wm",
+    type=bool,
+)
+@option(
+    "--markdown_record",
+    "-mdr",
     type=bool,
 )
 @option(

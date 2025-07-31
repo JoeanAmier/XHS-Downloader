@@ -1,5 +1,5 @@
 from asyncio import run
-from pyperclip import paste
+
 from httpx import post
 from rich import print
 
@@ -31,6 +31,7 @@ async def example():
     language = "zh_CN"  # 设置程序提示语言
     author_archive = True  # 是否将每个作者的作品存至单独的文件夹
     write_mtime = True  # 是否将作品文件的 修改时间 修改为作品的发布时间
+    markdown_record = True  # 是否在作品文件夹中生成Markdown格式的记录文件
     read_cookie = None  # 读取浏览器 Cookie，支持设置浏览器名称（字符串）或者浏览器序号（整数），设置为 None 代表不读取
 
     # async with XHS() as xhs:
@@ -57,6 +58,7 @@ async def example():
         read_cookie=read_cookie,
         author_archive=author_archive,
         write_mtime=write_mtime,
+        markdown_record=markdown_record,
     ) as xhs:  # 使用自定义参数
         download = True  # 是否下载作品文件，默认值：False
         # 返回作品详细信息，包括下载地址
@@ -76,7 +78,7 @@ async def example():
 
 async def example_api():
     """通过 API 设置参数，适合二次开发"""
-    server = "http://127.0.0.1:5556/xhs/detail"
+    server = "http://127.0.0.1:6666/xhs/"
     data = {
         "url": "",  # 必需参数
         "download": True,
@@ -92,9 +94,7 @@ async def example_api():
 
 
 async def test():
-    url = "" or paste()
-    if not url:
-        return
+    url = ""
     async with XHS(
         download_record=False,
         # image_format="PNG",
