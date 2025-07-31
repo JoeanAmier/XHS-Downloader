@@ -28,6 +28,7 @@ class Settings:
         "download_record": True,
         "author_archive": False,
         "write_mtime": False,
+        "markdown_record": False,
         "language": "zh_CN",
     }
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"
@@ -36,7 +37,15 @@ class Settings:
         self.file = root.joinpath("./settings.json")
 
     def run(self):
-        return self.read() if self.file.is_file() else self.create()
+        if self.file.is_file():
+            data = self.read()
+            # 确保所有默认键都存在，提供向后兼容性
+            for key, value in self.default.items():
+                if key not in data:
+                    data[key] = value
+            return data
+        else:
+            return self.create()
 
     def read(self) -> dict:
         with self.file.open("r", encoding=self.encode) as f:

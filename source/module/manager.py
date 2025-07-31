@@ -66,6 +66,7 @@ class Manager:
         folder_mode: bool,
         author_archive: bool,
         write_mtime: bool,
+        markdown_record: bool,
         _print: bool,
     ):
         self.root = root
@@ -85,6 +86,7 @@ class Manager:
         self.image_format = self.__check_image_format(image_format)
         self.folder_mode = self.check_bool(folder_mode, False)
         self.download_record = self.check_bool(download_record, True)
+        self.markdown_record = self.check_bool(markdown_record, False)
         self.proxy_tip = None
         self.proxy = self.__check_proxy(proxy)
         self.print_proxy_tip(
