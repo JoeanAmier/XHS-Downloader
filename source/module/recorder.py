@@ -1,7 +1,7 @@
 from asyncio import CancelledError
 from contextlib import suppress
 from typing import TYPE_CHECKING
-
+from shutil import move
 from aiosqlite import connect
 
 if TYPE_CHECKING:
@@ -12,7 +12,9 @@ __all__ = ["IDRecorder", "DataRecorder", "MapRecorder"]
 
 class IDRecorder:
     def __init__(self, manager: "Manager"):
-        self.file = manager.root.joinpath("ExploreID.db")
+        self.name = "ExploreID.db"
+        self.file = manager.root.joinpath(self.name)
+        self.changed = False
         self.switch = manager.download_record
         self.database = None
         self.cursor = None
@@ -56,6 +58,7 @@ class IDRecorder:
             return [i[0] for i in await self.cursor.fetchmany()]
 
     async def __aenter__(self):
+        self.compatible()
         await self._connect_database()
         return self
 
@@ -63,6 +66,16 @@ class IDRecorder:
         with suppress(CancelledError):
             await self.cursor.close()
         await self.database.close()
+
+    def compatible(
+        self,
+    ):
+        if (
+            not self.changed
+            and (old := self.file.parent.parent.joinpath(self.name)).exists()
+            and not self.file.exists()
+        ):
+            move(old, self.file)
 
 
 class DataRecorder(IDRecorder):
@@ -89,7 +102,9 @@ class DataRecorder(IDRecorder):
 
     def __init__(self, manager: "Manager"):
         super().__init__(manager)
-        self.file = manager.folder.joinpath("ExploreData.db")
+        self.name = "ExploreData.db"
+        self.file = manager.folder.joinpath(self.name)
+        self.changed = True
         self.switch = manager.record_data
 
     async def _connect_database(self):
@@ -131,7 +146,8 @@ class DataRecorder(IDRecorder):
 class MapRecorder(IDRecorder):
     def __init__(self, manager: "Manager"):
         super().__init__(manager)
-        self.file = manager.root.joinpath("MappingData.db")
+        self.name = "MappingData.db"
+        self.file = manager.root.joinpath(self.name)
         self.switch = manager.author_archive
 
     async def _connect_database(self):

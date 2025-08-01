@@ -1,7 +1,7 @@
 from json import dump, load
 from pathlib import Path
 from platform import system
-
+from shutil import move
 from .static import ROOT, USERAGENT
 
 __all__ = ["Settings"]
@@ -35,33 +35,69 @@ class Settings:
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"
 
     def __init__(self, root: Path = ROOT):
+        """初始化Settings类
+
+        Args:
+            root: 设置文件的根目录路径,默认为ROOT
+        """
         # 设置文件路径
-        self.file = root.joinpath("./settings.json")
+        self.name = "settings.json"
+        self.root = root
+        self.path = root.joinpath(self.name)
 
     def run(self):
+        """运行设置管理
+
+        Returns:
+            dict: 设置参数字典
+        """
+        self.migration_file()
         # 如果文件存在则读取,否则创建新文件
-        return self.read() if self.file.is_file() else self.create()
+        return self.read() if self.path.is_file() else self.create()
 
     def read(self) -> dict:
+        """读取设置文件
+
+        Returns:
+            dict: 读取的设置参数字典
+        """
         # 读取设置文件
-        with self.file.open("r", encoding=self.encode) as f:
+        with self.path.open("r", encoding=self.encode) as f:
             return self.compatible(load(f))
 
     def create(self) -> dict:
+        """创建新的设置文件
+
+        Returns:
+            dict: 默认设置参数字典
+        """
         # 创建新的设置文件
-        with self.file.open("w", encoding=self.encode) as f:
+        with self.path.open("w", encoding=self.encode) as f:
             dump(self.default, f, indent=4, ensure_ascii=False)
             return self.default
 
     def update(self, data: dict):
+        """更新设置文件内容
+
+        Args:
+            data: 要更新的设置参数字典
+        """
         # 更新设置文件
-        with self.file.open("w", encoding=self.encode) as f:
+        with self.path.open("w", encoding=self.encode) as f:
             dump(data, f, indent=4, ensure_ascii=False)
 
     def compatible(
         self,
         data: dict,
     ) -> dict:
+        """兼容性检查,确保所有默认配置都存在
+
+        Args:
+            data: 要检查的设置参数字典
+
+        Returns:
+            dict: 经过兼容性检查后的设置参数字典
+        """
         # 兼容性检查: 确保所有默认配置都存在
         update = False
         for i, j in self.default.items():
@@ -71,3 +107,13 @@ class Settings:
         if update:
             self.update(data)
         return data
+
+    def migration_file(self):
+        """迁移设置文件
+
+        如果旧的设置文件存在且新路径下不存在,则移动旧文件到新路径
+        """
+        if (
+            old := self.root.parent.joinpath(self.name)
+        ).exists() and not self.path.exists():
+            move(old, self.path)

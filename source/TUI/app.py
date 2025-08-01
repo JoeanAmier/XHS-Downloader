@@ -16,7 +16,7 @@ __all__ = ["XHSDownloader"]
 
 
 class XHSDownloader(App):
-    CSS_PATH = ROOT.joinpath("static/XHS-Downloader.tcss")
+    CSS_PATH = ROOT.parent.joinpath("static/XHS-Downloader.tcss")
     SETTINGS = Settings(ROOT)
 
     def __init__(self):
