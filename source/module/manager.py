@@ -16,6 +16,10 @@ from source.expansion import remove_empty_directories
 from ..translation import _
 from .static import HEADERS, USERAGENT, WARNING
 from .tools import logging
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ..expansion import Cleaner
 
 __all__ = ["Manager"]
 
@@ -67,8 +71,10 @@ class Manager:
         author_archive: bool,
         write_mtime: bool,
         _print: bool,
+        cleaner: "Cleaner",
     ):
         self.root = root
+        self.cleaner = cleaner
         self.temp = root.joinpath("Temp")
         self.path = self.__check_path(path)
         self.folder = self.__check_folder(folder)
@@ -130,8 +136,8 @@ class Manager:
         return r if (r := self.__check_root_again(r)) else self.root
 
     def __check_folder(self, folder: str) -> Path:
-        # TODO: 待实现
-        return self.path.joinpath(folder or "Download")
+        folder = self.cleaner.filter_name(folder, default="Download")
+        return self.path.joinpath(folder)
 
     @staticmethod
     def __check_root_again(root: Path) -> bool | Path:

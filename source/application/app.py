@@ -137,6 +137,7 @@ class XHS:
             author_archive,
             write_mtime,
             _print,
+            self.CLEANER,
         )
         self.mapping_data = mapping_data or {}
         self.map_recorder = MapRecorder(
