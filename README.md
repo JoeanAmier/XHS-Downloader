@@ -89,13 +89,13 @@
 <ul>
 <li>方式一：使用 <code>Dockerfile</code> 文件构建镜像</li>
 <li>方式二：使用 <code>docker pull joeanamier/xhs-downloader</code> 命令拉取镜像</li>
-<li>方式三：使用 <code>docker pull ghcr.io/joeanamier/xhs-downloader</code> 命令拉取镜像</li>
+<li>方式三：使用 <code>docker pull ghcr.io/joeanamier/xhs-downloader:2.6-dev</code> 命令拉取镜像</li>
 </ul>
 <li>创建容器</li>
 <ul>
-<li>TUI 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app/Volume -it joeanamier/xhs-downloader</code></li>
-<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app/Volume -it joeanamier/xhs-downloader python main.py api</code></li>
-<li>MCP 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app/Volume -it joeanamier/xhs-downloader python main.py mcp</code></li>
+<li>TUI 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app/Volume -it ghcr.io/joeanamier/xhs-downloader:2.6-dev</code></li>
+<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app/Volume -it ghcr.io/joeanamier/xhs-downloader:2.6-dev python main.py api</code></li>
+<li>MCP 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app/Volume -it ghcr.io/joeanamier/xhs-downloader:2.6-dev python main.py mcp</code></li>
 </ul>
 <li>运行容器
 <ul>
