@@ -64,6 +64,7 @@
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/作品ID?xsec_token=XXX</code></li>
 <li><code>https://www.xiaohongshu.com/discovery/item/作品ID?xsec_token=XXX</code></li>
+<li><code>https://www.xiaohongshu.com/user/profile/作者ID/作品ID?xsec_token=XXX</code></li>
 <li><code>https://xhslink.com/分享码</code></li>
 <br/>
 <p><b>支持单次输入多个作品链接，链接之间使用空格分隔；程序会自动提取有效链接，无需额外处理！</b></p>
@@ -78,7 +79,10 @@
 <p>⭐ 本项目包含自动构建可执行文件的 GitHub Actions，使用者可以随时使用 GitHub Actions 将最新源码构建为可执行文件！</p>
 <p>⭐ 自动构建可执行文件教程请查阅本文档的 <code>构建可执行文件指南</code> 部分；如果需要更加详细的图文教程，请 <a href="https://mp.weixin.qq.com/s/TorfoZKkf4-x8IBNLImNuw">查阅文章</a>！</p>
 <p><strong>注意：Mac OS 平台可执行文件 <code>main</code> 可能需要从终端命令行启动；受设备限制，Mac OS 平台可执行文件尚未经过测试，无法保证可用性！</strong></p>
-<p>若通过此方式使用程序，文件默认下载路径为：<code>.\_internal\Download</code>；配置文件路径为：<code>.\_internal\settings.json</code></p>
+<p>若通过此方式使用程序，文件默认下载路径为：<code>.\_internal\Volume\Download</code>；配置文件路径为：<code>.\_internal\Volume\settings.json</code></p>
+<h3>程序更新</h3>
+<p> <strong>方案一：</strong>下载并解压文件，将旧版本的 <code>_internal\Volume</code> 文件夹复制到新版本的 <code>_internal</code> 文件夹。</p>
+<p> <strong>方案二：</strong>下载并解压文件（不要运行程序），复制全部文件，直接覆盖旧版本文件。</p>
 <h2>⌨️ Docker 运行</h2>
 <ol>
 <li>获取镜像</li>
@@ -89,9 +93,9 @@
 </ul>
 <li>创建容器</li>
 <ul>
-<li>TUI 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader</code></li>
-<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader python main.py api</code></li>
-<li>MCP 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app -it joeanamier/xhs-downloader python main.py mcp</code></li>
+<li>TUI 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app/Volume -it joeanamier/xhs-downloader</code></li>
+<li>API 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app/Volume -it joeanamier/xhs-downloader python main.py api</code></li>
+<li>MCP 模式：<code>docker run --name 容器名称(可选) -p 主机端口号:5556 -v xhs_downloader_volume:/app/Volume -it joeanamier/xhs-downloader python main.py mcp</code></li>
 </ul>
 <li>运行容器
 <ul>
@@ -218,8 +222,9 @@ async def example_api():
 <ul>
 <li>由于作品链接携带日期信息，使用先前日期获取的作品链接可能会被风控，建议下载作品文件时使用最新获取的作品链接</li>
 <li>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie</li>
-<li>如果开启保存作品数据至文件功能，作品数据默认储存至 <code>./Download/ExploreData.db</code> 文件</li>
-<li>程序下载记录数据储存至 <code>./ExploreID.db</code> 文件</li>
+<li>如果开启保存作品数据至文件功能，作品数据默认储存至 <code>./Volume/Download/ExploreData.db</code> 文件</li>
+<li>程序下载记录数据储存至 <code>./Volume/ExploreID.db</code> 文件</li>
+<li>为了避免请求频率过高对平台服务器造成影响，本项目内置请求延时机制</li>
 </ul>
 <h1 id="user-scripts">🕹 用户脚本</h1>
 <p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以添加 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">用户脚本</a>(右键单击复制链接)，无需下载安装即可体验项目功能！</p>
@@ -340,7 +345,7 @@ async def example():
 <td align="center">work_path</td>
 <td align="center">str</td>
 <td align="center">作品数据 / 文件保存根路径</td>
-<td align="center">项目根路径</td>
+<td align="center">项目根路径/Volume</td>
 </tr>
 <tr>
 <td align="center">folder_name</td>
