@@ -1,14 +1,10 @@
 from textual.app import App
-from textual.widgets import RichLog
 
 from ..application import XHS
 from ..module import (
-    ERROR,
     ROOT,
     Settings,
-    logging,
 )
-from ..translation import _
 from .about import About
 from .index import Index
 from .loading import Loading
@@ -66,16 +62,6 @@ class XHSDownloader(App):
             name="record",
         )
         await self.push_screen("index")
-        self.SETTINGS.check_keys(
-            self.parameter,
-            logging,
-            self.screen.query_one(RichLog),
-            _(
-                "配置文件 settings.json 缺少必要的参数，请删除该文件，然后重新运行程序，自动生成默认配置文件！"
-            )
-            + f"\n{'>' * 50}",
-            ERROR,
-        )
 
     async def action_settings(self):
         async def save_settings(data: dict) -> None:

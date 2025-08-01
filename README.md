@@ -19,13 +19,12 @@
 <br>
 <p>🔥 <b>小红书链接提取/作品采集工具</b>：提取账号发布、收藏、点赞、专辑作品链接；提取搜索结果作品链接、用户链接；采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
 <p>🔥 “小红书”、“XiaoHongShu”、“RedNote” 含义相同，本项目统称为 “小红书”</p>
-<p>⭐ 本项目完全免费开源，无任何收费功能，请勿上当受骗！</p>
 <h1>📑 项目功能</h1>
 <ul><b>程序功能</b>
 <li>✅ 采集小红书作品信息</li>
 <li>✅ 提取小红书作品下载地址</li>
 <li>✅ 下载小红书无水印作品文件</li>
-<li>✅ 下载小红书 livePhoto 文件(非无水印)</li>
+<li>✅ 下载小红书 livePhoto 文件(含水印)</li>
 <li>✅ 自动跳过已下载的作品文件</li>
 <li>✅ 作品文件完整性处理机制</li>
 <li>✅ 自定义图文作品文件下载格式</li>
@@ -265,7 +264,7 @@ async def example():
     record_data = False  # 是否保存作品数据至文件
     image_format = "WEBP"  # 图文作品文件下载格式，支持：AUTO、PNG、WEBP、JPEG、HEIC
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
-    image_download = True  # 图文作品文件下载开关
+    image_download = True  # 图文、图集作品文件下载开关
     video_download = True  # 视频作品文件下载开关
     live_download = False  # 图文动图文件下载开关
     download_record = True  # 是否记录下载成功的作品 ID
@@ -406,7 +405,7 @@ async def example():
 <tr>
 <td align="center">image_download</td>
 <td align="center">bool</td>
-<td align="center">图文作品文件下载开关</td>
+<td align="center">图文、图集作品文件下载开关</td>
 <td align="center">true</td>
 </tr>
 <tr>

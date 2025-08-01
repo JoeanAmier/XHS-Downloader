@@ -19,14 +19,13 @@
 <br>
 <p>🔥 <b>RedNote Link Extraction/Content Collection Tool</b>：Extract account-published, favorites, and liked works links; extract search result works links and user links; collect RedNote works information; extract RedNote works download addresses; download RedNote watermark-free works files!</p>
 <p>🔥 "RedNote", "XiaoHongShu" and "小红书" have the same meaning, and this project is collectively referred to as "RedNote".</p>
-<p>⭐ This project is completely free and open-source, with no paid features. Please do not be deceived!</p>
 <p>⭐ Due to the author's limited energy, I was unable to update the English document in a timely manner, and the content may have become outdated, partial translation is machine translation, the translation result may be incorrect, Suggest referring to Chinese documentation. If you want to contribute to translation, we warmly welcome you.</p>
 <h1>📑 Project Features</h1>
 <ul><b>Program Features</b>
 <li>✅ Collect RedNote works information</li>
 <li>✅ Extract RedNote works download addresses</li>
 <li>✅ Download RedNote watermark-free works files</li>
-<li>✅ Download RedNote livePhoto files (non-watermark-free)</li>
+<li>✅ Download RedNote livePhoto files (watermark)</li>
 <li>✅ Automatically skip already downloaded works files</li>
 <li>✅ works file integrity handling mechanism</li>
 <li>✅ Customizable image works file download format</li>
@@ -271,7 +270,7 @@ async def example():
     record_data = False  # 是否保存作品数据至文件
     image_format = "WEBP"  # 图文作品文件下载格式，支持：AUTO、PNG、WEBP、JPEG、HEIC
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
-    image_download = True  # 图文作品文件下载开关
+    image_download = True  # 图文、图集作品文件下载开关
     video_download = True  # 视频作品文件下载开关
     live_download = False  # 图文动图文件下载开关
     download_record = True  # 是否记录下载成功的作品 ID
@@ -412,7 +411,7 @@ async def example():
 <tr>
 <td align="center">image_download</td>
 <td align="center">bool</td>
-<td align="center">Switch for downloading image works files</td>
+<td align="center">Switch for downloading image and atlas works files</td>
 <td align="center">true</td>
 </tr>
 <tr>
