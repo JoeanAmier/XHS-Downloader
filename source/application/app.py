@@ -253,7 +253,8 @@ class XHS:
         url = await self.extract_links(url, log)
         if not url:
             logging(log, _("提取小红书作品链接失败"), WARNING)
-        else:
+            return
+        if index:
             await self.__deal_extract(
                 url[0],
                 download,
@@ -262,6 +263,18 @@ class XHS:
                 bar,
                 data,
             )
+        else:
+            [
+                await self.__deal_extract(
+                    u,
+                    download,
+                    index,
+                    log,
+                    bar,
+                    data,
+                )
+                for u in url
+            ]
 
     async def extract_links(self, url: str, log) -> list:
         urls = []

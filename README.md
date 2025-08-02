@@ -117,6 +117,7 @@
 </ol>
 <h1>🛠 命令行模式</h1>
 <p>项目支持命令行运行模式，若想要下载图文作品的部分图片，可以使用此模式设置需要下载的图片序号！</p>
+<p><strong>注意：</strong>未设置 <code>--index</code> 参数时，支持传入多个作品链接，全部链接需要使用引号包围，链接之间使用空格分隔；已设置 <code>--index</code> 参数时，不支持传入多个作品链接，即使传入多个作品链接，程序仅处理首个作品链接！</p>
 <p>可以使用命令行 <b>从浏览器读取 Cookie 并写入配置文件！</b></p>
 <p>命令示例：<code>python .\main.py --browser_cookie Chrome --update_settings</code></p>
 <p><code>bool</code> 类型参数支持使用 <code>true</code>、<code>false</code>、<code>1</code>、<code>0</code>、<code>yes</code>、<code>no</code>、<code>on</code> 或 <code>off</code>（不区分大小写）来设置。</p>
