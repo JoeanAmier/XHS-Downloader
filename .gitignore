@@ -3,5 +3,6 @@ __pycache__/
 /.venv/
 /.ruff_cache/
 /.idea/
+/.run/
 /Volume/
 !/.github/
