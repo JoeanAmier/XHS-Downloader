@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      2.0.4
+// @version      2.1.0
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -33,6 +33,7 @@
         packageDownloadFiles: GM_getValue("packageDownloadFiles", true),
         autoScrollSwitch: GM_getValue("autoScrollSwitch", false),
         maxScrollCount: GM_getValue("maxScrollCount", 50),
+        keepMenuVisible: GM_getValue("keepMenuVisible", false),
         fileNameFormat: undefined,
         imageFileFormat: undefined,
         icon: {
@@ -126,6 +127,16 @@ XHS-Downloader 用户脚本 详细说明：
     const updateMaxScrollCount = (value) => {
         config.maxScrollCount = parseInt(value) || 50;
         GM_setValue("maxScrollCount", config.maxScrollCount);
+    };
+
+    const updateKeepMenuVisible = (value) => {
+        config.keepMenuVisible = value;
+        GM_setValue("keepMenuVisible", config.keepMenuVisible);
+        if (config.keepMenuVisible) {
+            showMenu();
+        } else {
+            hideMenu();
+        }
     };
 
     const updateFileNameFormat = (value) => {
@@ -280,8 +291,7 @@ XHS-Downloader 用户脚本 详细说明：
                     "headers": {
                         "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
                         "accept-language": "zh-SG,zh;q=0.9",
-                    },
-                    "method": "GET",
+                    }, "method": "GET",
                 });
 
                 // 检查响应状态码
@@ -869,7 +879,7 @@ XHS-Downloader 用户脚本 详细说明：
         const filePack = createSettingItem({
             label: '文件打包下载',
             description: '启用后，多个文件的作品将会以压缩包格式下载',
-            checked: GM_getValue("packageDownloadFiles", true)
+            checked: GM_getValue("packageDownloadFiles", true),
         });
 
         // 滚动次数设置
@@ -880,6 +890,12 @@ XHS-Downloader 用户脚本 详细说明：
             min: 10,
             max: 5000,
             disabled: !GM_getValue("autoScrollSwitch", false),
+        });
+
+        const keepMenuVisible = createSettingItem({
+            label: '菜单保持显示',
+            description: '启用后，功能菜单无需鼠标悬停始终保持显示',
+            checked: GM_getValue("keepMenuVisible", false),
         });
 
         // 名称格式设置
@@ -900,6 +916,7 @@ XHS-Downloader 用户脚本 详细说明：
         body.appendChild(filePack);
         body.appendChild(autoScroll);
         body.appendChild(scrollCount);
+        body.appendChild(keepMenuVisible);
         // body.appendChild(nameFormat);
 
         // 创建底部按钮
@@ -925,6 +942,7 @@ XHS-Downloader 用户脚本 详细说明：
         saveBtn.addEventListener('click', () => {
             updateAutoScrollSwitch(autoScroll.querySelector('input').checked);
             updatePackageDownloadFiles(filePack.querySelector('input').checked);
+            updateKeepMenuVisible(keepMenuVisible.querySelector('input').checked);
             updateMaxScrollCount(parseInt(scrollCount.querySelector('input').value) || 50)
             // updateFileNameFormat(nameFormat.querySelector('.text-input').value.trim() || null);
             closeSettingsModal();
@@ -1406,6 +1424,9 @@ XHS-Downloader 用户脚本 详细说明：
     let hideTimeout;
 
     const hideMenu = () => {
+        if (config.keepMenuVisible) {
+            return;
+        }
         hideTimeout = setTimeout(() => {
             menu.classList.remove('menu-enter');
             menu.classList.add('menu-exit');
@@ -1564,4 +1585,8 @@ XHS-Downloader 用户脚本 详细说明：
     document.body.appendChild(menu);
     document.head.appendChild(style);
     setupUrlListener();
+
+    if (config.keepMenuVisible) {
+        showMenu();
+    }
 })();

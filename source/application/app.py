@@ -566,7 +566,7 @@ class XHS:
     ):
         @server.get(
             "/",
-            summary=_("访问项目 GitHub 仓库"),
+            summary=_("跳转至项目 GitHub 仓库"),
             description=_("重定向至项目 GitHub 仓库主页"),
             tags=["API"],
         )
