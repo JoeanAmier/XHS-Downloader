@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      2.1.0
+// @version      2.1.1
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -370,7 +370,7 @@ XHS-Downloader 用户脚本 详细说明：
     const extractName = () => {
         let name = document.title.replace(/ - 小红书$/, "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9 ~!@#$%&()_\-+=\[\];"',.！（）【】：“”，。《》？]/g, "");
         name = truncateString(name, 64,);
-        let match = currentUrl.match(/\/([^\/]+)$/);
+        let match = currentUrl.match(/\/([0-9a-z]+?)\?/);
         let id = match ? match[1] : null;
         return name === "" ? id : name
     };
