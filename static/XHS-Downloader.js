@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      2.1.1
+// @version      2.1.2
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -510,11 +510,17 @@ XHS-Downloader 用户脚本 详细说明：
 
     const generateUserUrls = data => data.map(id => `https://www.xiaohongshu.com/user/profile/${id}`).join(" ");
 
+    const invalidDetection = data => data.every(([first]) => Boolean(first));
+
     const extractAllLinks = (callback, order) => {
         scrollScreenEvent(() => {
             let data;
             if (order >= 0 && order <= 2) {
                 data = extractNotesInfo(order);
+                if (!invalidDetection(data)) {
+                    alert("提取作品链接失败！受平台限制，未登录状态下无法通过账号主页浏览作品！");
+                    return;
+                }
             } else if (order === 3) {
                 data = extractSearchNotes();
             } else if (order === 4) {
