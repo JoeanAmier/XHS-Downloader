@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      2.1.7
+// @version      2.1.8
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -225,6 +225,7 @@
         const name = extractName();
         console.info(`文件名称 ${name}`);
         if (note.type === "video") {
+            showToast("正在下载文件，请稍等...");
             await downloadVideo(urls[0], name);
         } else {
             let items = extractImageWebpUrls(note, urls);
@@ -234,6 +235,7 @@
             } else if (urls.length > 1) {
                 showImageSelectionModal(items, name,)
             } else {
+                showToast("正在下载文件，请稍等...");
                 await downloadImage(items, name);
             }
         }
@@ -1251,6 +1253,7 @@
                 return;
             }
             closeImagesModal();
+            showToast("正在下载文件，请稍等...");
             await downloadImage(selectedImages, name)
         });
 
