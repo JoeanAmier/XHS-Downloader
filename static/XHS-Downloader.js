@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      2.1.3
+// @version      2.1.4
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -485,7 +485,7 @@
 
     const extractNotesInfo = order => {
         const notesRawValue = unsafeWindow.__INITIAL_STATE__.user.notes._rawValue[order];
-        return notesRawValue.map(item => [item.id, item.xsecToken,]);
+        return notesRawValue.map(item => [item.id, item.xsecToken, item.noteCard.cover.urlDefault, item.noteCard.user.nickName, item.noteCard.displayTitle,]);
     };
 
     const extractBoardInfo = () => {
@@ -501,7 +501,7 @@
             const id = match[1]; // match[0] 是整个匹配的字符串，match[1] 是第一个括号内的匹配
 
             const notesRawValue = unsafeWindow.__INITIAL_STATE__.board.boardFeedsMap._rawValue[id].notes;
-            return notesRawValue.map(item => [item.noteId, item.xsecToken,]);
+            return notesRawValue.map(item => [item.noteId, item.xsecToken, item.noteCard.cover.urlDefault, item.noteCard.user.nickName, item.noteCard.displayTitle,]);
         } else {
             console.error("从链接提取专辑 ID 失败", currentUrl,);
             return [];
@@ -510,12 +510,12 @@
 
     const extractFeedInfo = () => {
         const notesRawValue = unsafeWindow.__INITIAL_STATE__.feed.feeds._rawValue;
-        return notesRawValue.map(item => [item.id, item.xsecToken,]);
+        return notesRawValue.map(item => [item.id, item.xsecToken, item.noteCard.cover.urlDefault, item.noteCard.user.nickName, item.noteCard.displayTitle,]);
     };
 
     const extractSearchNotes = () => {
         const notesRawValue = unsafeWindow.__INITIAL_STATE__.search.feeds._rawValue;
-        return notesRawValue.map(item => [item.id, item.xsecToken,]);
+        return notesRawValue.map(item => [item.id, item.xsecToken, item.noteCard.cover.urlDefault, item.noteCard.user.nickName, item.noteCard.displayTitle,]);
     }
 
     const extractSearchUsers = () => {
@@ -547,10 +547,26 @@
             } else if (order === 5) {
                 data = extractBoardInfo()
             } else {
-                data = [];
+                data = []
             }
-            let urlsString = order !== 4 ? generateNoteUrls(data) : generateUserUrls(data);
-            callback(urlsString);
+            if (data.length === 0) {
+                callback("");
+                return;
+            }
+            let urlsString;
+            if (order === 4) {
+                urlsString = generateUserUrls(data);
+                callback(urlsString);
+            } else {
+                showListSelectionModal(data.map(([id, token, cover, author, title,]) => ({
+                    id: id, token: token, image: cover, author: author, title: title,
+                })),).then((selected) => {
+                    if (selected.length > 0) {
+                        urlsString = generateNoteUrls(selected.map(item => [item.id, item.token]));
+                        callback(urlsString);
+                    }
+                });
+            }
         }, [0, 1, 2, 5].includes(order))
     };
 
@@ -1229,6 +1245,266 @@
         closeBtn.addEventListener('click', closeImagesModal);
         overlay.addEventListener('click', (e) => e.target === overlay && closeImagesModal());
     };
+
+    (() => {
+        if (!document.getElementById('listSelectionStyle')) {
+            const style = document.createElement('style');
+            style.id = 'listSelectionStyle';
+            style.textContent = `
+            /* 列表弹窗容器，仅定义差异尺寸，其他沿用通用 modal 样式 */
+            .list-selection-modal {
+                background: #fff;
+                border-radius: 16px;
+                width: 80%;
+                max-width: 800px;
+                max-height: 80vh;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+                overflow: hidden;
+                animation: scaleUp 0.3s;
+                display: flex;
+                flex-direction: column;
+            }
+
+            /* 列表容器 */
+            .list-container {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            /* 列表项 */
+            .list-item {
+                display: grid;
+                grid-template-columns: 24px 64px 1fr; /* 复选框、缩略图、文本区 */
+                align-items: center;
+                gap: 12px;
+                padding: 10px;
+                border: 1px solid #eee;
+                border-radius: 10px;
+                transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+                cursor: pointer;
+            }
+            .list-item:hover {
+                background: #fafafa;
+                border-color: #e6e6e6;
+            }
+            .list-item.selected {
+                border-color: #2196F3;
+                box-shadow: 0 0 0 4px rgba(33,150,243,0.12) inset;
+            }
+
+            /* 复选框样式（使用原生复选框以保证可访问性与简单性） */
+            .list-checkbox {
+                width: 18px;
+                height: 18px;
+                margin: 0 0 0 2px;
+                cursor: pointer;
+            }
+
+            /* 缩略图 */
+            .list-thumb {
+                width: 64px;
+                height: 64px;
+                object-fit: cover;
+                border-radius: 8px;
+                user-select: none;
+                pointer-events: none; /* 点击行切换选择，避免图片拦截点击 */
+                background: #f2f2f2;
+            }
+
+            /* 文本区 */
+            .list-texts {
+                display: flex;
+                flex-direction: column;
+                min-width: 0; /* 允许文本正确换行截断 */
+            }
+            .list-author {
+                font-size: 0.95rem;
+                color: #212121;
+                font-weight: 500;
+                line-height: 1.4;
+                word-break: break-word;
+            }
+            .list-title {
+                margin-top: 4px;
+                font-size: 0.85rem;
+                color: #757575;
+                line-height: 1.4;
+                word-break: break-word;
+            }
+        `;
+            document.head.appendChild(style);
+        }
+    })();
+
+    /**
+     * 显示列表选择弹窗
+     * @param {Array<{id:any, image:string, author:string, title:string}>} list
+     * @param {Object} [options]
+     * @param {string} [options.title='请选择'] 弹窗标题
+     * @param {string} [options.confirmText='确认'] 确认按钮文本
+     * @param {string} [options.cancelText='取消'] 取消按钮文本
+     * @param {boolean} [options.prechecked=true] 是否默认勾选全部
+     * @returns {Promise<Array|null>} 点击确认返回选中项数组；取消/关闭返回 null
+     */
+    function showListSelectionModal(list, options = {}) {
+        const {
+            title = '请选择需要提取的项目', confirmText = '确认', cancelText = '取消', prechecked = true,
+        } = options;
+
+        if (document.getElementById('listSelectionOverlay')) return Promise.resolve(null);
+
+        return new Promise((resolve) => {
+            // 覆盖层
+            const overlay = document.createElement('div');
+            overlay.id = 'listSelectionOverlay';
+            overlay.style.cssText = `
+            position: fixed; inset: 0; background: rgba(0,0,0,0.32);
+            backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center;
+            z-index: 10000; animation: fadeIn 0.3s;
+        `;
+
+            // 弹窗
+            const modal = document.createElement('div');
+            modal.className = 'list-selection-modal';
+
+            // 头部
+            const header = document.createElement('div');
+            header.className = 'modal-header';
+            header.innerHTML = `<span>${title}</span>`;
+
+            // 内容
+            const body = document.createElement('div');
+            body.className = 'modal-body';
+
+            const container = document.createElement('div');
+            container.className = 'list-container';
+
+            // id -> item 映射
+            const map = new Map();
+            list.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'list-item';
+                row.dataset.key = item.id;
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'list-checkbox';
+                checkbox.checked = prechecked;
+
+                const img = document.createElement('img');
+                img.className = 'list-thumb';
+                img.src = item.image || '';
+                img.alt = 'thumb';
+
+                const texts = document.createElement('div');
+                texts.className = 'list-texts';
+                const author = document.createElement('div');
+                author.className = 'list-author';
+                author.textContent = item.author ?? '';
+                const title = document.createElement('div');
+                title.className = 'list-title';
+                title.textContent = item.title ?? '';
+                texts.appendChild(author);
+                texts.appendChild(title);
+
+                row.appendChild(checkbox);
+                row.appendChild(img);
+                row.appendChild(texts);
+
+                if (checkbox.checked) row.classList.add('selected');
+
+                row.addEventListener('click', (e) => {
+                    if ((e.target instanceof HTMLElement) && e.target.classList.contains('list-checkbox')) return;
+                    checkbox.checked = !checkbox.checked;
+                    row.classList.toggle('selected', checkbox.checked);
+                });
+
+                checkbox.addEventListener('change', () => {
+                    row.classList.toggle('selected', checkbox.checked);
+                });
+
+                map.set(row.dataset.key, item);
+                container.appendChild(row);
+            });
+
+            body.appendChild(container);
+
+            // 底部按钮
+            const footer = document.createElement('div');
+            footer.className = 'modal-footer';
+
+            // 新增：全选 / 全不选
+            const selectAllBtn = document.createElement('button');
+            selectAllBtn.className = 'secondary-btn';
+            selectAllBtn.textContent = '全选';
+
+            const selectNoneBtn = document.createElement('button');
+            selectNoneBtn.className = 'secondary-btn';
+            selectNoneBtn.textContent = '全不选';
+
+            // 右侧操作：确认 / 取消
+            const confirmBtn = document.createElement('button');
+            confirmBtn.className = 'primary-btn';
+            confirmBtn.textContent = confirmText;
+
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'secondary-btn';
+            cancelBtn.textContent = cancelText;
+
+            // 将按钮加入 footer（顺序：全选、全不选、确认、取消）
+            footer.appendChild(selectAllBtn);
+            footer.appendChild(selectNoneBtn);
+            footer.appendChild(confirmBtn);
+            footer.appendChild(cancelBtn);
+
+            // 组装
+            modal.appendChild(header);
+            modal.appendChild(body);
+            modal.appendChild(footer);
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+
+            // 辅助：批量设置选择状态
+            const setAllChecked = (checked) => {
+                container.querySelectorAll('.list-item').forEach((row) => {
+                    const box = row.querySelector('.list-checkbox');
+                    if (box) {
+                        box.checked = checked;
+                        row.classList.toggle('selected', checked);
+                    }
+                });
+            };
+
+            // 关闭
+            const close = (result) => {
+                overlay.style.animation = 'fadeOut 0.2s';
+                setTimeout(() => {
+                    overlay.remove();
+                    resolve(result);
+                }, 200);
+            };
+
+            // 事件绑定
+            selectAllBtn.addEventListener('click', () => setAllChecked(true));
+            selectNoneBtn.addEventListener('click', () => setAllChecked(false));
+            cancelBtn.addEventListener('click', () => close(null));
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) close(null);
+            });
+            confirmBtn.addEventListener('click', () => {
+                const selected = [];
+                container.querySelectorAll('.list-item').forEach((row) => {
+                    const checkbox = row.querySelector('.list-checkbox');
+                    if (checkbox && checkbox.checked) {
+                        const key = row.dataset.key;
+                        if (map.has(key)) selected.push(map.get(key));
+                    }
+                });
+                close(selected);
+            });
+        });
+    }
 
     // 创建主图标
     const createIcon = () => {
