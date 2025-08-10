@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      2.1.5
+// @version      2.1.6
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -574,10 +574,10 @@
         extractAllLinks(urlsString => {
             if (urlsString) {
                 GM_setClipboard(urlsString, "text", () => {
-                    alert('作品/用户链接已复制到剪贴板！');
+                    showToast('作品/用户链接已复制到剪贴板！');
                 });
             } else {
-                alert("未提取到任何作品/用户链接！")
+                showToast("未提取到任何作品/用户链接！")
             }
         }, order);
     };
@@ -1234,7 +1234,7 @@
                 }
             });
             if (selectedImages.length === 0) {
-                alert('请至少选择一张图片！');
+                showToast('请至少选择一张图片！');
                 return;
             }
             closeImagesModal();
@@ -1684,6 +1684,53 @@
         }
     `;
     document.head.appendChild(style);
+
+    // 创建并显示一个自动消失的消息弹窗（Toast）
+    function showToast(message, duration = 5000) {
+        const toast = document.createElement('div');
+        toast.textContent = message;
+
+        // 基础样式（可按需调整）
+        Object.assign(toast.style, {
+            position: 'fixed',
+            left: '50%',
+            bottom: '10rem',
+            transform: 'translateX(-50%)',
+            maxWidth: '80vw',
+            padding: '10px 16px',
+            background: 'rgba(128, 128, 128, 0.6)',
+            color: '#fff',
+            fontSize: '16px',
+            lineHeight: '1.4',
+            borderRadius: '8px',
+            boxShadow: '0 6px 16px rgba(0,0,0,0.25)',
+            zIndex: '99999',
+            opacity: '0',
+            transition: 'opacity 200ms ease',
+            pointerEvents: 'none',
+            whiteSpace: 'pre-wrap',
+            textAlign: 'center',
+        });
+
+        document.body.appendChild(toast);
+
+        // 触发淡入
+        requestAnimationFrame(() => {
+            toast.style.opacity = '1';
+        });
+
+        // 指定时间后淡出并移除
+        const hide = () => {
+            toast.style.opacity = '0';
+            const remove = () => {
+                toast.removeEventListener('transitionend', remove);
+                if (toast.parentNode) toast.parentNode.removeChild(toast);
+            };
+            toast.addEventListener('transitionend', remove);
+        };
+
+        setTimeout(hide, duration);
+    }
 
     // 涟漪效果
     const createRipple = e => {
