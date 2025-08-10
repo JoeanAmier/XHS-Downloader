@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: XHS-Downloader 2.6\n"
 "Report-Msgid-Bugs-To: <yonglelolu@foxmail.com>\n"
-"POT-Creation-Date: 2025-05-17 15:41+0800\n"
+"POT-Creation-Date: 2025-08-10 23:34+0800\n"
 "PO-Revision-Date: 2024-12-22 14:14+0800\n"
 "Last-Translator: <yonglelolu@foxmail.com>\n"
 "Language-Team: Chinese (simplified)\n"
@@ -17,118 +17,157 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:178
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:181
 #, python-brace-format
 msgid "作品 {0} 存在下载记录，跳过下载"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:195
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:198
 msgid "提取作品文件下载地址失败"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:225
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:252
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:554
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:228
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:255
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:598
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:785
 msgid "提取小红书作品链接失败"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:227
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:230
 #, python-brace-format
 msgid "共 {0} 个小红书作品待处理..."
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:297
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:317
 #, python-brace-format
 msgid "作品 {0} 存在下载记录，跳过处理"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:300
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:320
 #, python-brace-format
 msgid "开始处理作品：{0}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:309
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:329
 #, python-brace-format
 msgid "{0} 获取数据失败"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:314
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:334
 #, python-brace-format
 msgid "{0} 提取数据失败"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:316
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:336
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:83
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:79
 msgid "视频"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:319
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:90
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:339
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:91
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:80
 msgid "图文"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:320
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:340
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:92
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:79
 msgid "图集"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:324
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:344
 #, python-brace-format
 msgid "未知的作品类型：{0}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:328
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:349
 #, python-brace-format
 msgid "作品处理完成：{0}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:406
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:427
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:57
 msgid ""
 "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，"
 "如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:567
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:569
+msgid "跳转至项目 GitHub 仓库"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:570
+msgid "重定向至项目 GitHub 仓库主页"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:578
+msgid "获取作品数据及下载地址"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:610
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:795
 msgid "获取小红书作品数据成功"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:569
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:612
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:797
 msgid "获取小红书作品数据失败"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:130
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:682
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:727
+msgid "小红书作品链接"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:730
+msgid "指定需要下载的图文作品序号"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:734
+msgid "是否需要返回作品信息数据"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:748
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:753
+msgid "作品文件下载任务执行完毕"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:758
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:763
+msgid "作品文件下载任务未执行"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:133
 msgid "视频作品下载功能已关闭，跳过下载"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:147
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:150
 msgid "图文作品下载功能已关闭，跳过下载"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:182
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:193
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:185
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:196
 #, python-brace-format
 msgid "{0} 文件已存在，跳过下载"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:239
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:242
 #, python-brace-format
 msgid "文件 {0} 缓存异常，重新下载"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:267
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:270
 #, python-brace-format
 msgid "文件 {0} 下载成功"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:273
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:276
 #, python-brace-format
 msgid "网络异常，{0} 下载失败，错误信息: {1}"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:350
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:353
 #, python-brace-format
 msgid "文件 {0} 格式判断失败，错误信息：{1}"
 msgstr ""
@@ -139,22 +178,22 @@ msgstr ""
 msgid "未知"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\request.py:80
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\request.py:65
 #, python-brace-format
 msgid "网络异常，{0} 请求失败: {1}"
 msgstr ""
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:124
-msgid "小红书作品链接"
+msgid "小红书作品链接，多个链接使用空格分隔"
 msgstr ""
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:131
-msgid "下载指定序号的图片文件，仅对图文作品生效；多个序号输入示例：\"1 3 5 7\""
+msgid ""
+"下载指定序号的图片文件，仅对图文/图集作品生效；多个序号输入示例：\"1 3 5 7\""
 msgstr ""
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:136
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:30
-msgid "作品数据 / 文件保存根路径"
+msgid "作品数据/文件保存根路径"
 msgstr ""
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:137
@@ -259,15 +298,15 @@ msgstr ""
 msgid "未选择浏览器！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\expansion\browser.py:74
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\expansion\browser.py:75
 msgid "浏览器名称或序号输入错误！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\expansion\browser.py:80
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\expansion\browser.py:81
 msgid "获取 Cookie 失败，未找到 Cookie 数据！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\expansion\browser.py:118
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\expansion\browser.py:119
 msgid "从浏览器读取 Cookie 功能不支持当前平台！"
 msgstr ""
 
@@ -275,17 +314,17 @@ msgstr ""
 msgid "不受支持的操作系统类型，可能无法正常去除非法字符！"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:226
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:232
 #, python-brace-format
 msgid "代理 {0} 测试成功"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:230
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:236
 #, python-brace-format
 msgid "代理 {0} 测试超时"
 msgstr ""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:238
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:244
 #, python-brace-format
 msgid "代理 {0} 测试失败：{1}"
 msgstr ""
@@ -381,12 +420,6 @@ msgstr ""
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:51
 msgid "作者的其他开源项目"
-msgstr ""
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\app.py:74
-msgid ""
-"配置文件 settings.json 缺少必要的参数，请删除该文件，然后重新运行程序，自动生"
-"成默认配置文件！"
 msgstr ""
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:31
@@ -515,6 +548,10 @@ msgstr ""
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\record.py:47
 msgid "删除下载记录成功"
+msgstr ""
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:30
+msgid "作品数据 / 文件保存根路径"
 msgstr ""
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:35
