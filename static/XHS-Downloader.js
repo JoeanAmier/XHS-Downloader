@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      2.1.9
+// @version      2.1.10
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -1090,13 +1090,17 @@
         transition: all 0.2s;
         border: 2px solid transparent;
         aspect-ratio: 3 / 4;
-        background: #f7f7f7;
+        background:
+            conic-gradient(#eee 25%, transparent 0 50%, #eee 0 75%, transparent 0)
+            0 0/16px 16px #fafafa;
     }
     .image-item img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
+        object-position: center;
         border-radius: 6px;
+        display: block;
     }
     .image-item.selected { border-color: #2196F3; }
 
