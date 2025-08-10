@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      2.1.6
+// @version      2.1.7
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -1209,12 +1209,25 @@
         // 创建底部按钮
         const footer = document.createElement('div');
         footer.className = 'modal-footer';
+        // 新增：全选 / 全不选
+        const selectAllBtn = document.createElement('button');
+        selectAllBtn.className = 'secondary-btn';
+        selectAllBtn.textContent = '全选';
+
+        const selectNoneBtn = document.createElement('button');
+        selectNoneBtn.className = 'secondary-btn';
+        selectNoneBtn.textContent = '全不选';
+
         const confirmBtn = document.createElement('button');
         confirmBtn.className = 'primary-btn';
         confirmBtn.textContent = '开始下载';
+
         const closeBtn = document.createElement('button');
         closeBtn.className = 'secondary-btn';
         closeBtn.textContent = '关闭窗口';
+
+        footer.appendChild(selectAllBtn);
+        footer.appendChild(selectNoneBtn);
         footer.appendChild(confirmBtn);
         footer.appendChild(closeBtn);
 
@@ -1244,6 +1257,20 @@
         // 关闭事件
         closeBtn.addEventListener('click', closeImagesModal);
         overlay.addEventListener('click', (e) => e.target === overlay && closeImagesModal());
+
+        const setAllChecked = (checked) => {
+            const items = imageGrid.querySelectorAll('.image-item');
+            items.forEach((item) => {
+                const box = item.querySelector('.image-checkbox');
+                if (!box || box.disabled) return;
+                box.checked = checked;
+                item.classList.toggle('selected', checked);
+            });
+        };
+
+        // 全选 / 全不选
+        selectAllBtn.addEventListener('click', () => setAllChecked(true));
+        selectNoneBtn.addEventListener('click', () => setAllChecked(false));
     };
 
     (() => {
@@ -1349,7 +1376,7 @@
      */
     function showListSelectionModal(list, options = {}) {
         const {
-            title = '请选择需要提取的项目', confirmText = '确认', cancelText = '取消', prechecked = true,
+            title = '请选择需要提取的项目', confirmText = '提取链接', cancelText = '放弃', prechecked = true,
         } = options;
 
         if (document.getElementById('listSelectionOverlay')) return Promise.resolve(null);
