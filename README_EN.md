@@ -21,6 +21,8 @@
 <p>🔥 "RedNote", "XiaoHongShu" and "小红书" have the same meaning, and this project is collectively referred to as "RedNote".</p>
 <p>⭐ Due to the author's limited energy, I was unable to update the English document in a timely manner, and the content may have become outdated, partial translation is machine translation, the translation result may be incorrect, Suggest referring to Chinese documentation. If you want to contribute to translation, we warmly welcome you.</p>
 <h1>📑 Project Features</h1>
+<details>
+<summary>Program Features and User Script Features (Click to Expand)</summary>
 <ul><b>Program Features</b>
 <li>✅ Collect RedNote works information</li>
 <li>✅ Extract RedNote works download addresses</li>
@@ -53,14 +55,14 @@
 <li>✅ Extract search result works links</li>
 <li>✅ Extract search result user links</li>
 </ul>
-<p>⭐ The development plan and progress of XHS-Downloader can be found at <a href="https://github.com/users/JoeanAmier/projects/5">Projects</a></p>
+</details>
 <h1>📸 Program Screenshots</h1>
-<p><b>🎥 Click the images to watch the demo video</b></p>
-<a href="https://www.bilibili.com/video/BV1v1LwzsEi9/"><img src="static/screenshot/程序运行截图EN1.png" alt=""></a>
+<p><a href="https://www.bilibili.com/video/BV1Fcb3zWEjt/">Watch Demo on Bilibili</a>；<a href="https://youtu.be/VIjDytHaopg">Watch Demo on YouTube</a></p>
+<img src="static/screenshot/程序运行截图EN1.png" alt="">
 <hr>
-<a href="https://www.bilibili.com/video/BV1v1LwzsEi9/"><img src="static/screenshot/程序运行截图EN2.png" alt=""></a>
+<img src="static/screenshot/程序运行截图EN2.png" alt="">
 <hr>
-<a href="https://www.bilibili.com/video/BV1v1LwzsEi9/"><img src="static/screenshot/程序运行截图EN3.png" alt=""></a>
+<img src="static/screenshot/程序运行截图EN3.png" alt="">
 <h1>🔗 Supported Links</h1>
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/WorksID?xsec_token=XXX</code></li>
@@ -216,6 +218,8 @@ async def example_api():
 <p><b>MCP URL:</b><code>http://127.0.0.1:5556/mcp/</code></p>
 <img src="static/screenshot/MCP配置示例.png" alt="MCP Configuration Example">
 <h3>MCP Invocation Example</h3>
+<details>
+<summary>MCP Function and Call Example (Click to Expand)</summary>
 <h4><strong>Retrieve RedNote Works Information</strong></h4>
 <img src="static/screenshot/MCP获取数据.png" alt="MCP Data Retrieval">
 <hr>
@@ -224,6 +228,7 @@ async def example_api():
 <img src="static/screenshot/MCP下载文件1.png" alt="MCP File Download">
 <hr>
 <img src="static/screenshot/MCP下载文件2.png" alt="MCP File Download">
+</details>
 <h1>📜 Others</h1>
 <ul>
 <li>Due to the date information carried in the links of RedNote works, using links obtained from previous dates may be subject to risk control. It is recommended to use the latest RedNote works links when downloading RedNote work files</li>
@@ -235,14 +240,17 @@ async def example_api():
 <h1 id="user-scripts">🕹 User Script</h1>
 <p>If your browser has the <a href="https://www.tampermonkey.net/">Tampermonkey</a> browser extension installed, you can add the <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">user script</a>(Right click to copy link) to experience the project features without needing to download or install anything!</p>
 <img src="static/screenshot/脚本安装教程.png" alt="">
-<p>After successfully installing the script, open the RedNote page, check the script instructions, and follow the prompts to operate.</p>
-<img src="static/screenshot/脚本安装教程.png" alt="">
 <hr>
+<details>
+<summary>View Tampermonkey userscript screenshots (click to expand)</summary>
 <img src="static/screenshot/用户脚本截图1.png" alt="">
 <hr>
 <img src="static/screenshot/用户脚本截图2.png" alt="">
 <hr>
 <img src="static/screenshot/用户脚本截图3.png" alt="">
+<hr>
+<img src="static/screenshot/用户脚本截图4.png" alt="">
+</details>
 <p>Note: Using the XHS-Downloader user script to batch extract works links, in combination with the XHS-Downloader program, can achieve batch downloading of watermark-free works files!</p>
 <h2>📜 Script Instructions</h2>
 <ul>
@@ -511,8 +519,9 @@ async def example():
 <h1>🗳 Download Records</h1>
 <p>XHS-Downloader will store the IDs of downloaded works in a database. When downloading the same works again, XHS-Downloader will automatically skip the file download (even if the works file does not exist). If you want to re-download the works file, please delete the corresponding works ID from the database and then use XHS-Downloader to download the works file again!</p>
 <p>This feature is enabled by default. If it is turned off, XHS-Downloader will check if the file exists. If the file exists, it will skip the download!</p>
-
-# 📦 Build of Executable File Guide
+<h2>Build of Executable File Guide</h2>
+<details>
+<summary>Build of Executable File Guide (Click to Expand)</summary>
 
 This guide will walk you through forking this repository and executing GitHub Actions to automatically build and package
 the program based on the latest source code!
@@ -600,6 +609,7 @@ A:
 A: Due to permission restrictions, you cannot directly trigger Actions from the main repository. Please use the forked
 repository to execute the build process
 
+</details>
 <h1>⭐ Star History</h1>
 <p>
 <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=JoeanAmier/XHS-Downloader&amp;type=Timeline"/>

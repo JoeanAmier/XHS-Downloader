@@ -42,7 +42,7 @@ class BrowserCookie:
         cls,
         domains: list[str],
         console: Console = None,
-    ) -> str:
+    ) -> str | None:
         console = console or Console()
         options = "\n".join(
             f"{i}. {k}: {v[1]}"
@@ -61,6 +61,7 @@ class BrowserCookie:
                 console,
             )
         console.print(_("未选择浏览器！"))
+        return None
 
     @classmethod
     def get(

@@ -20,6 +20,8 @@
 <p>🔥 <b>小红书链接提取/作品采集工具</b>：提取账号发布、收藏、点赞、专辑作品链接；提取搜索结果作品链接、用户链接；采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
 <p>🔥 “小红书”、“XiaoHongShu”、“RedNote” 含义相同，本项目统称为 “小红书”</p>
 <h1>📑 项目功能</h1>
+<details>
+<summary>项目程序与用户脚本功能清单（点击展开）</summary>
 <ul><b>程序功能</b>
 <li>✅ 采集小红书作品信息</li>
 <li>✅ 提取小红书作品下载地址</li>
@@ -52,14 +54,14 @@
 <li>✅ 提取搜索结果作品链接</li>
 <li>✅ 提取搜索结果用户链接</li>
 </ul>
-<p>⭐ XHS-Downloader 开发计划及进度可前往 <a href="https://github.com/users/JoeanAmier/projects/5">Projects</a> 查阅</p>
+</details>
 <h1>📸 程序截图</h1>
-<p><b>🎥 点击图片观看演示视频</b></p>
-<a href="https://www.bilibili.com/video/BV1v1LwzsEi9/"><img src="static/screenshot/程序运行截图CN1.png" alt=""></a>
+<p><a href="https://www.bilibili.com/video/BV1Fcb3zWEjt/">前往 bilibili 观看演示</a>；<a href="https://youtu.be/VIjDytHaopg">前往 YouTube 观看演示</a></p>
+<img src="static/screenshot/程序运行截图CN1.png" alt="">
 <hr>
-<a href="https://www.bilibili.com/video/BV1v1LwzsEi9/"><img src="static/screenshot/程序运行截图CN2.png" alt=""></a>
+<img src="static/screenshot/程序运行截图CN2.png" alt="">
 <hr>
-<a href="https://www.bilibili.com/video/BV1v1LwzsEi9/"><img src="static/screenshot/程序运行截图CN3.png" alt=""></a>
+<img src="static/screenshot/程序运行截图CN3.png" alt="">
 <h1>🔗 支持链接</h1>
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/作品ID?xsec_token=XXX</code></li>
@@ -212,6 +214,8 @@ async def example_api():
 <p><b>MCP URL：</b><code>http://127.0.0.1:5556/mcp/</code></p>
 <img src="static/screenshot/MCP配置示例.png" alt="MCP配置示例">
 <h3>MCP 调用示例</h3>
+<details>
+<summary>MCP 功能及调用示例（点击展开）</summary>
 <h4><strong>获取小红书作品信息</strong></h4>
 <img src="static/screenshot/MCP获取数据.png" alt="MCP获取数据">
 <hr>
@@ -220,6 +224,7 @@ async def example_api():
 <img src="static/screenshot/MCP下载文件1.png" alt="MCP下载文件">
 <hr>
 <img src="static/screenshot/MCP下载文件2.png" alt="MCP下载文件">
+</details>
 <h1>📜 其他说明</h1>
 <ul>
 <li>由于作品链接携带日期信息，使用先前日期获取的作品链接可能会被风控，建议下载作品文件时使用最新获取的作品链接</li>
@@ -232,11 +237,16 @@ async def example_api():
 <p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以添加 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">用户脚本</a>(右键单击复制链接)，无需下载安装即可体验项目功能！</p>
 <img src="static/screenshot/脚本安装教程.png" alt="">
 <hr>
+<details>
+<summary>查看 Tampermonkey 用户脚本截图（点击展开）</summary>
 <img src="static/screenshot/用户脚本截图1.png" alt="">
 <hr>
 <img src="static/screenshot/用户脚本截图2.png" alt="">
 <hr>
 <img src="static/screenshot/用户脚本截图3.png" alt="">
+<hr>
+<img src="static/screenshot/用户脚本截图4.png" alt="">
+</details>
 <p>提示：使用 XHS-Downloader 用户脚本批量提取作品链接，搭配 XHS-Downloader 程序可以实现批量下载无水印作品文件！</p>
 <h2>📜 脚本说明</h2>
 <ul>
@@ -486,8 +496,9 @@ async def example():
 <h1>🗳 下载记录</h1>
 <p>XHS-Downloader 会将下载过的作品 ID 储存至数据库，当重复下载相同的作品时，XHS-Downloader 会自动跳过该作品的文件下载（即使作品文件不存在），如果想要重新下载作品文件，请先删除数据库中对应的作品 ID，再使用 XHS-Downloader 下载作品文件！</p>
 <p>该功能默认开启，如果关闭该功能，XHS-Downloader 会检查文件是否存在，若文件存在则跳过下载！</p>
-
-# 📦 构建可执行文件指南
+<h2>构建可执行文件指南</h2>
+<details>
+<summary><b>构建可执行文件指南（点击展开）</b></summary>
 
 本指南将引导您通过 Fork 本仓库并执行 GitHub Actions 自动完成基于最新源码的程序构建和打包！
 
@@ -569,6 +580,7 @@ A:
 
 A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fork 仓库的方式执行打包流程
 
+</details>
 <h1>⭐ Star 趋势</h1>
 <p>
 <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=JoeanAmier/XHS-Downloader&amp;type=Timeline"/>
