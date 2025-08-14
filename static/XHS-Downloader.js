@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      2.1.13
+// @version      2.1.14
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -571,20 +571,18 @@
             if (order === 4) {
                 urlsString = generateUserUrls(data);
                 callback(urlsString);
+            } else if (config.linkCheckboxSwitch) {
+                showListSelectionModal(data.map(([id, token, cover, author, title,]) => ({
+                    id: id, token: token, image: cover, author: author, title: title,
+                })),).then((selected) => {
+                    if (selected.length > 0) {
+                        urlsString = generateNoteUrls(selected.map(item => [item.id, item.token]));
+                        callback(urlsString);
+                    }
+                });
             } else {
-                if (config.linkCheckboxSwitch) {
-                    showListSelectionModal(data.map(([id, token, cover, author, title,]) => ({
-                        id: id, token: token, image: cover, author: author, title: title,
-                    })),).then((selected) => {
-                        if (selected.length > 0) {
-                            urlsString = generateNoteUrls(selected.map(item => [item.id, item.token]));
-                            callback(urlsString);
-                        }
-                    });
-                } else {
-                    urlsString = generateNoteUrls(data.map(item => [item.id, item.token]))
-                    callback(urlsString);
-                }
+                urlsString = generateNoteUrls(data.map(item => item.slice(0, 2)))
+                callback(urlsString);
             }
         }, [0, 1, 2, 5].includes(order))
     };
