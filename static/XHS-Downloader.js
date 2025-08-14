@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      2.1.10
+// @version      2.1.11
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -503,7 +503,7 @@
             const id = match[1]; // match[0] 是整个匹配的字符串，match[1] 是第一个括号内的匹配
 
             const notesRawValue = unsafeWindow.__INITIAL_STATE__.board.boardFeedsMap._rawValue[id].notes;
-            return notesRawValue.filter(item => item?.noteCard).map(item => [item.noteId, item.xsecToken, item.noteCard.cover.urlDefault, item.noteCard.user.nickName, item.noteCard.displayTitle,]);
+            return notesRawValue.map(item => [item.noteId, item.xsecToken, item.noteCard.cover.urlDefault, item.noteCard.user.nickName, item.noteCard.displayTitle,]);
         } else {
             console.error("从链接提取专辑 ID 失败", currentUrl,);
             return [];
