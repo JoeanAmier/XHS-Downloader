@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XHS-Downloader
 // @namespace    https://github.com/JoeanAmier/XHS-Downloader
-// @version      2.1.11
+// @version      2.1.12
 // @description  提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
 // @author       JoeanAmier
 // @match        http*://xhslink.com/*
@@ -34,6 +34,8 @@
         autoScrollSwitch: GM_getValue("autoScrollSwitch", false),
         maxScrollCount: GM_getValue("maxScrollCount", 50),
         keepMenuVisible: GM_getValue("keepMenuVisible", false),
+        linkCheckboxSwitch: GM_getValue("linkCheckboxSwitch", true),
+        imageCheckboxSwitch: GM_getValue("imageCheckboxSwitch", true),
         fileNameFormat: undefined,
         imageFileFormat: undefined,
         icon: {
@@ -144,6 +146,16 @@
         }
     };
 
+    const updateLinkCheckboxSwitch = (value) => {
+        config.linkCheckboxSwitch = value;
+        GM_setValue("linkCheckboxSwitch", config.linkCheckboxSwitch);
+    }
+
+    const updateImageCheckboxSwitch = (value) => {
+        config.imageCheckboxSwitch = value;
+        GM_setValue("imageCheckboxSwitch", config.imageCheckboxSwitch);
+    }
+
     const updateFileNameFormat = (value) => {
         config.fileNameFormat = value;
         GM_setValue("fileNameFormat", config.fileNameFormat);
@@ -232,7 +244,7 @@
             if (items.length === 0) {
                 console.error("解析图文作品数据失败", note)
                 abnormal("解析图文作品数据发生异常！")
-            } else if (urls.length > 1) {
+            } else if (urls.length > 1 && config.imageCheckboxSwitch) {
                 showImageSelectionModal(items, name,)
             } else {
                 showToast("正在下载文件，请稍等...");
@@ -560,14 +572,19 @@
                 urlsString = generateUserUrls(data);
                 callback(urlsString);
             } else {
-                showListSelectionModal(data.map(([id, token, cover, author, title,]) => ({
-                    id: id, token: token, image: cover, author: author, title: title,
-                })),).then((selected) => {
-                    if (selected.length > 0) {
-                        urlsString = generateNoteUrls(selected.map(item => [item.id, item.token]));
-                        callback(urlsString);
-                    }
-                });
+                if (config.linkCheckboxSwitch) {
+                    showListSelectionModal(data.map(([id, token, cover, author, title,]) => ({
+                        id: id, token: token, image: cover, author: author, title: title,
+                    })),).then((selected) => {
+                        if (selected.length > 0) {
+                            urlsString = generateNoteUrls(selected.map(item => [item.id, item.token]));
+                            callback(urlsString);
+                        }
+                    });
+                } else {
+                    urlsString = generateNoteUrls(data.map(item => [item.id, item.token]))
+                    callback(urlsString);
+                }
             }
         }, [0, 1, 2, 5].includes(order))
     };
@@ -998,6 +1015,18 @@
             disabled: !GM_getValue("autoScrollSwitch", false),
         });
 
+        const linkCheckboxSwitch = createSettingItem({
+            label: '链接提取选择模式',
+            description: '关闭后，提取作品链接时无需确认直接提取全部链接',
+            checked: GM_getValue("linkCheckboxSwitch", true),
+        });
+
+        const imageCheckboxSwitch = createSettingItem({
+            label: '图片下载选择模式',
+            description: '关闭后，下载图文作品时无需确认直接下载全部文件',
+            checked: GM_getValue("imageCheckboxSwitch", true),
+        });
+
         const keepMenuVisible = createSettingItem({
             label: '菜单保持显示',
             description: '启用后，功能菜单无需鼠标悬停始终保持显示',
@@ -1022,6 +1051,8 @@
         body.appendChild(filePack);
         body.appendChild(autoScroll);
         body.appendChild(scrollCount);
+        body.appendChild(linkCheckboxSwitch);
+        body.appendChild(imageCheckboxSwitch);
         body.appendChild(keepMenuVisible);
         // body.appendChild(nameFormat);
 
@@ -1049,6 +1080,8 @@
             updateAutoScrollSwitch(autoScroll.querySelector('input').checked);
             updatePackageDownloadFiles(filePack.querySelector('input').checked);
             updateKeepMenuVisible(keepMenuVisible.querySelector('input').checked);
+            updateLinkCheckboxSwitch(linkCheckboxSwitch.querySelector('input').checked);
+            updateImageCheckboxSwitch(imageCheckboxSwitch.querySelector('input').checked);
             updateMaxScrollCount(parseInt(scrollCount.querySelector('input').value) || 50)
             // updateFileNameFormat(nameFormat.querySelector('.text-input').value.trim() || null);
             closeSettingsModal();

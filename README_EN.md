@@ -238,7 +238,8 @@ async def example_api():
 <li>To prevent high-frequency requests from impacting the platform's servers, this project includes a built-in request delay mechanism</li>
 </ul>
 <h1 id="user-scripts">🕹 User Script</h1>
-<p>If your browser has the <a href="https://www.tampermonkey.net/">Tampermonkey</a> browser extension installed, you can add the <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">user script</a>(Right click to copy link) to experience the project features without needing to download or install anything!</p>
+<p>If your browser has the <a href="https://www.tampermonkey.net/">Tampermonkey</a> extension installed, you can use the userscript to try the project's features!</p>
+<p>Userscript links (right-click to copy the link): <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/refs/heads/master/static/XHS-Downloader.js">master branch</a>, <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/refs/heads/develop/static/XHS-Downloader.js">develop branch</a></p>
 <img src="static/screenshot/脚本安装教程.png" alt="">
 <hr>
 <details>

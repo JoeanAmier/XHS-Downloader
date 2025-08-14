@@ -234,7 +234,8 @@ async def example_api():
 <li>为了避免请求频率过高对平台服务器造成影响，本项目内置请求延时机制</li>
 </ul>
 <h1 id="user-scripts">🕹 用户脚本</h1>
-<p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以添加 <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js">用户脚本</a>(右键单击复制链接)，无需下载安装即可体验项目功能！</p>
+<p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以使用用户脚本体验项目功能！</p>
+<p>用户脚本链接（右键单击复制链接）：<a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/refs/heads/master/static/XHS-Downloader.js">master 分支</a>、<a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/refs/heads/develop/static/XHS-Downloader.js">develop 分支</a></p>
 <img src="static/screenshot/脚本安装教程.png" alt="">
 <hr>
 <details>
