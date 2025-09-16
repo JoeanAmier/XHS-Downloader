@@ -1011,7 +1011,7 @@ wheels = [
 
 [[package]]
 name = "xhs-downloader"
-version = "2.6"
+version = "2.7"
 source = { virtual = "." }
 dependencies = [
     { name = "aiofiles" },

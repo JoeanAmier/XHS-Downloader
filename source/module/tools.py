@@ -49,7 +49,7 @@ def logging(log, text, style=INFO):
 
 
 async def sleep_time(
-    min_time: int | float = 1.0,
-    max_time: int | float = 2.5,
+    min_time: int | float = 2.0,
+    max_time: int | float = 4.0,
 ):
     await sleep(uniform(min_time, max_time))

@@ -14,7 +14,7 @@ from ..module import (
     FILE_SIGNATURES_LENGTH,
     MAX_WORKERS,
     logging,
-    sleep_time,
+    # sleep_time,
 )
 from ..module import retry as re_download
 from ..translation import _
@@ -175,8 +175,8 @@ class Download:
             tasks.append([j[1], file, self.live_format])
         return tasks
 
+    @staticmethod
     def __check_exists_glob(
-        self,
         path: Path,
         name: str,
         log,
@@ -186,8 +186,8 @@ class Download:
             return True
         return False
 
+    @staticmethod
     def __check_exists_path(
-        self,
         path: Path,
         name: str,
         log,
@@ -236,7 +236,7 @@ class Download:
                     url,
                     headers=headers,
                 ) as response:
-                    await sleep_time()
+                    # await sleep_time()
                     if response.status_code == 416:
                         raise CacheError(
                             _("文件 {0} 缓存异常，重新下载").format(temp.name),
@@ -311,11 +311,12 @@ class Download:
         headers: dict[str, str],
         suffix: str,
     ) -> tuple[int, str]:
+        """未使用"""
         response = await self.client.head(
             url,
             headers=headers,
         )
-        await sleep_time()
+        # await sleep_time()
         response.raise_for_status()
         suffix = self.__extract_type(response.headers.get("Content-Type")) or suffix
         length = response.headers.get("Content-Length", 0)

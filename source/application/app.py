@@ -38,7 +38,7 @@ from source.module import (
     Manager,
     MapRecorder,
     logging,
-    sleep_time,
+    # sleep_time,
 )
 from source.translation import _, switch_language
 
@@ -347,7 +347,7 @@ class XHS:
         await self.update_author_nickname(data, log)
         await self.__download_files(data, download, index, log, bar)
         logging(log, _("作品处理完成：{0}").format(i))
-        await sleep_time()
+        # await sleep_time()
         return data
 
     async def update_author_nickname(
