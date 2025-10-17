@@ -9,19 +9,19 @@ readme = "README.md"
 license = "GPL-3.0"
 requires-python = ">=3.12,<3.13"
 dependencies = [
-    "aiofiles>=24.1.0",
+    "aiofiles>=25.1.0",
     "aiosqlite>=0.21.0",
-    "click>=8.1.8",
-    "emoji>=2.14.1",
-    "fastapi>=0.115.9",
+    "click>=8.3.0",
+    "emoji>=2.15.0",
+    "fastapi>=0.119.0",
     "fastmcp>=2.12.4",
     "httpx[socks]>=0.28.1",
-    "lxml>=5.3.1",
-    "pyperclip>=1.9.0",
-    "pyyaml>=6.0.2",
+    "lxml>=6.0.2",
+    "pyperclip>=1.11.0",
+    "pyyaml>=6.0.3",
     "rookiepy>=0.5.6",
-    "textual>=3.1.0",
-    "uvicorn>=0.34.0",
+    "textual>=6.3.0",
+    "uvicorn>=0.37.0",
 ]
 
 [project.urls]
