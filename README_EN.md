@@ -81,7 +81,7 @@
 <p>⭐ Mac OS, Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> or <a href="https://github.com/JoeanAmier/XHS-Downloader/actions">Actions</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
 <p>⭐ This project includes GitHub Actions for automatic building executable files. Users can use GitHub Actions to build the latest source code into executable files at any time!</p>
 <p>⭐ For the automatic building executable files tutorial, please refer to the <code>Build of Executable File Guide</code> section of this document. If you need a more detailed step-by-step tutorial with illustrations, please <a href="https://mp.weixin.qq.com/s/TorfoZKkf4-x8IBNLImNuw">check out this article</a>!</p>
-<p><strong>Note: The executable file <code>main</code> for Mac OS may need to be launched from the terminal command line; Due to device limitations, the Mac OS executable file has not been tested and its availability cannot be guaranteed!</strong></p>
+<p><strong>Note: Due to the macOS platform's executable file <code>main</code> not being code-signed, it will be restricted by system security measures on first run. Please execute the command <code>xattr -cr main.app</code> in the terminal to remove the security flag, after which it can run normally.</strong></p>
 <p>If you use the program in this way, the default download path for files is: <code>.\_internal\Volume\Download</code>; the configuration file path is: <code>.\_internal\Volume\settings.json</code></p>
 <h3>Update Methods</h3>
 <p><strong>Method 1:</strong> Download and extract the files, then copy the old version of the <code>_internal\Volume</code> folder into the new version's <code>_internal</code> folder.</p>
@@ -122,9 +122,11 @@
 <h1>🛠 Command Line Mode</h1>
 <p>The project supports command line mode. If you want to download specific images from a text and image works, you can use this mode to set the image sequence number you want to download!</p>
 <p><strong>Note:</strong> When the <code>--index</code> parameter is not set, multiple works links can be passed in. All links must be enclosed in quotation marks and separated by spaces. When the <code>--index</code> parameter is set, multiple works links are not supported. Even if multiple links are passed in, the program will only process the first link!</p>
-<p>You can use the command line to <b>read cookies from the browser and write to the configuration file!</b></p>
-<p>Command example: <code>python .\main.py --browser_cookie Chrome --update_settings</code></p>
 <p>The <code>bool</code> type parameters support setting with <code>true</code>, <code>false</code>, <code>1</code>, <code>0</code>, <code>yes</code>, <code>no</code>, <code>on</code> or <code>off</code> (case insensitive).</p>
+<h2>Read Browser Cookies</h2>
+<p>You can use the command line to <b>read cookies from browser and write them to the configuration file!</b></p>
+<p>Command example: <code>python .\main.py --browser_cookie Chrome --update_settings</code></p>
+<p>Compatibility note: The third-party module this feature depends on has not been updated for a long time and may not properly support the latest browser versions. If the feature is not working properly, please try obtaining cookies manually!</p>
 <hr>
 <img src="static/screenshot/命令行模式截图EN1.png" alt="">
 <hr>
@@ -340,8 +342,8 @@ async def example():
 <p>On Linux, this module makes use of the xclip or xsel commands, which should come with the os. Otherwise run "sudo apt-get install xclip" or "sudo apt-get install xsel" (Note: xsel does not always seem to work.)</p>
 <p>Otherwise on Linux, you will need the qtpy or PyQT5 modules installed.</p>
 <h1>⚙️ Configuration File</h1>
-<p>The <code>settings.json</code> file in the root directory of the project is automatically generated on the first run and allows customization of some runtime parameters.</p>
-<p>If invalid parameter values are set, the program will use the default values!</p>
+<p>The <code>./Volume/settings.json</code> file in the project's root directory is automatically generated on the first run. You can use it to customize the program's operating parameters. If an invalid parameter value is set, the program will revert to its default value.</p>
+<p>If you are unable to modify settings through the program's interface, you can edit this configuration file directly. If your computer lacks a suitable program for editing JSON files, we recommend using an <a href="https://www.toolhelper.cn/JSON/JSONFormat">online tool</a>. Remember to restart the software after making changes for them to take effect.</p>
 <table>
 <thead>
 <tr>
