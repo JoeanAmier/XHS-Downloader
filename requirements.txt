@@ -8,9 +8,9 @@ click==8.3.0
     # via xhs-downloader (pyproject.toml)
 emoji==2.15.0
     # via xhs-downloader (pyproject.toml)
-fastapi==0.119.0
+fastapi==0.121.0
     # via xhs-downloader (pyproject.toml)
-fastmcp==2.13.0
+fastmcp>=2.13.0
     # via xhs-downloader (pyproject.toml)
 httpx[socks]==0.28.1
     # via xhs-downloader (pyproject.toml)
@@ -22,7 +22,7 @@ pyyaml==6.0.3
     # via xhs-downloader (pyproject.toml)
 rookiepy==0.5.6
     # via xhs-downloader (pyproject.toml)
-textual==6.3.0
+textual==6.5.0
     # via xhs-downloader (pyproject.toml)
-uvicorn==0.37.0
+uvicorn==0.38.0
     # via xhs-downloader (pyproject.toml)

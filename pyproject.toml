@@ -13,15 +13,15 @@ dependencies = [
     "aiosqlite>=0.21.0",
     "click>=8.3.0",
     "emoji>=2.15.0",
-    "fastapi>=0.119.0",
-    "fastmcp>=2.12.4",
+    "fastapi>=0.121.0",
+    "fastmcp>=2.13.0",
     "httpx[socks]>=0.28.1",
     "lxml>=6.0.2",
     "pyperclip>=1.11.0",
     "pyyaml>=6.0.3",
     "rookiepy>=0.5.6",
-    "textual>=6.3.0",
-    "uvicorn>=0.37.0",
+    "textual>=6.5.0",
+    "uvicorn>=0.38.0",
 ]
 
 [project.urls]
