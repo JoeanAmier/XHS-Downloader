@@ -25,13 +25,13 @@ HEADERS = {
     "user-agent": USERAGENT,
 }
 
-MASTER = "b #fff200"
-PROMPT = "b turquoise2"
-GENERAL = "b bright_white"
-PROGRESS = "b bright_magenta"
-ERROR = "b bright_red"
-WARNING = "b bright_yellow"
-INFO = "b bright_green"
+MASTER = "#fff200"
+PROMPT = "turquoise2"
+GENERAL = "bright_white"
+PROGRESS = "bright_magenta"
+ERROR = "bright_red"
+WARNING = "bright_yellow"
+INFO = "bright_green"
 
 FILE_SIGNATURES: tuple[
     tuple[

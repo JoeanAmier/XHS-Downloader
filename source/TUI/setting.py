@@ -162,6 +162,15 @@ class Setting(Screen):
                 ),
                 classes="horizontal-layout",
             ),
+            Label(),
+            Container(
+                Checkbox(
+                    _("脚本服务器开关"),
+                    id="script_server",
+                    value=self.data["script_server"],
+                ),
+                classes="horizontal-layout",
+            ),
             Container(
                 Label(
                     _("图片下载格式"),
@@ -235,6 +244,7 @@ class Setting(Screen):
                 "download_record": self.query_one("#download_record").value,
                 "author_archive": self.query_one("#author_archive").value,
                 "write_mtime": self.query_one("#write_mtime").value,
+                "script_server": self.query_one("#script_server").value,
             }
         )
 

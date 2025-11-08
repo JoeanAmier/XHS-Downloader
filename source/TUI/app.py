@@ -38,6 +38,7 @@ class XHSDownloader(App):
             **self.parameter,
             _print=False,
         )
+        self.APP.init_script_server()
 
     async def on_mount(self) -> None:
         self.theme = "nord"
@@ -76,6 +77,7 @@ class XHSDownloader(App):
         await self.APP.close()
         self.__initialization()
         await self.__aenter__()
+        await self.APP.switch_script_server()
         self.uninstall_screen("index")
         self.uninstall_screen("setting")
         self.uninstall_screen("loading")

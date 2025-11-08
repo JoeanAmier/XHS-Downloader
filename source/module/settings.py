@@ -30,6 +30,7 @@ class Settings:
         "author_archive": False,  # 是否按作者归档
         "write_mtime": False,  # 是否写入修改时间
         "language": "zh_CN",  # 语言设置
+        "script_server": False,  # 是否启用脚本服务器
     }
     # 根据操作系统设置编码格式
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"

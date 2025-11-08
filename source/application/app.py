@@ -1,4 +1,13 @@
-from asyncio import Event, Queue, QueueEmpty, create_task, gather, sleep
+from asyncio import (
+    Event,
+    Queue,
+    QueueEmpty,
+    create_task,
+    gather,
+    sleep,
+    Future,
+    CancelledError,
+)
 from contextlib import suppress
 from datetime import datetime
 from re import compile
@@ -14,14 +23,14 @@ from pydantic import Field
 from pyperclip import copy, paste
 from uvicorn import Config, Server
 
-from source.expansion import (
+from ..expansion import (
     BrowserCookie,
     Cleaner,
     Converter,
     Namespace,
     beautify_string,
 )
-from source.module import (
+from ..module import (
     __VERSION__,
     ERROR,
     MASTER,
@@ -39,8 +48,9 @@ from source.module import (
     MapRecorder,
     logging,
     # sleep_time,
+    ScriptServer,
 )
-from source.translation import _, switch_language
+from ..translation import _, switch_language
 
 from ..module import Mapping
 from .download import Download
@@ -111,6 +121,7 @@ class XHS:
         write_mtime=False,
         language="zh_CN",
         read_cookie: int | str = None,
+        script_server: bool = False,
         _print: bool = True,
         *args,
         **kwargs,
@@ -136,6 +147,7 @@ class XHS:
             folder_mode,
             author_archive,
             write_mtime,
+            script_server,
             _print,
             self.CLEANER,
         )
@@ -155,6 +167,7 @@ class XHS:
         self.clipboard_cache: str = ""
         self.queue = Queue()
         self.event = Event()
+        self.script = None
 
     def __extract_image(self, container: dict, data: Namespace):
         container["下载地址"], container["动图地址"] = self.image.get_image_link(
@@ -474,6 +487,7 @@ class XHS:
         await self.id_recorder.__aexit__(exc_type, exc_value, traceback)
         await self.data_recorder.__aexit__(exc_type, exc_value, traceback)
         await self.map_recorder.__aexit__(exc_type, exc_value, traceback)
+        await self.stop_script_server()
         await self.close()
 
     async def close(self):
@@ -796,3 +810,46 @@ class XHS:
             else:
                 msg = _("获取小红书作品数据失败")
         return msg, data
+
+    def init_script_server(
+        self,
+    ):
+        if self.manager.script_server:
+            self.run_script_server()
+
+    async def switch_script_server(
+        self,
+        switch: bool = None,
+    ):
+        if switch is None:
+            switch = self.manager.script_server
+        if switch:
+            self.run_script_server()
+        else:
+            await self.stop_script_server()
+
+    def run_script_server(
+        self,
+        host="0.0.0.0",
+        port=5556,
+    ):
+        if not self.script:
+            self.script = create_task(self._run_script_server(host, port))
+
+    async def _run_script_server(
+        self,
+        host="0.0.0.0",
+        port=5556,
+    ):
+        async with ScriptServer(self, host, port):
+            await Future()
+
+    async def stop_script_server(self):
+        if self.script:
+            self.script.cancel()
+            with suppress(CancelledError):
+                await self.script
+            self.script = None
+
+    async def _script_server_debug(self):
+        await self.switch_script_server(self.manager.script_server)

@@ -70,6 +70,7 @@ class Manager:
         folder_mode: bool,
         author_archive: bool,
         write_mtime: bool,
+        script_server: bool,
         _print: bool,
         cleaner: "Cleaner",
     ):
@@ -126,6 +127,7 @@ class Manager:
         self.live_download = self.check_bool(live_download, True)
         self.author_archive = self.check_bool(author_archive, False)
         self.write_mtime = self.check_bool(write_mtime, False)
+        self.script_server = self.check_bool(script_server, False)
         self.create_folder()
 
     def __check_path(self, path: str) -> Path:
@@ -282,8 +284,12 @@ class Manager:
         self.folder.mkdir(exist_ok=True)
         self.temp.mkdir(exist_ok=True)
 
-    def compatible(self,):
-        if self.path == self.root and (
-            old := self.path.parent.joinpath(self.folder.name)
-        ).exists() and not self.folder.exists():
+    def compatible(
+        self,
+    ):
+        if (
+            self.path == self.root
+            and (old := self.path.parent.joinpath(self.folder.name)).exists()
+            and not self.folder.exists()
+        ):
             move(old, self.folder)

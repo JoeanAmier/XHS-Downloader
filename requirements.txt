@@ -26,3 +26,5 @@ textual==6.5.0
     # via xhs-downloader (pyproject.toml)
 uvicorn==0.38.0
     # via xhs-downloader (pyproject.toml)
+websockets==15.0.1
+    # via xhs-downloader (pyproject.toml)
