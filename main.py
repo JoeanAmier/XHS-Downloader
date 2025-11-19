@@ -13,6 +13,17 @@ async def app():
     async with XHSDownloader() as xhs:
         await xhs.run_async()
 
+async def web_server(
+    host="0.0.0.0",
+    port=5556,
+    log_level="info",
+):
+    async with XHS(**Settings().run()) as xhs:
+        await xhs.run_web_server(
+            host,
+            port,
+            log_level,
+        )
 
 async def api_server(
     host="0.0.0.0",
@@ -49,11 +60,13 @@ if __name__ == "__main__":
     ):
         # TODO: 重构优化
         if len(argv) == 1:
-            run(app())
+            # run(app())
+            run(web_server())
         elif argv[1].upper() == "API":
             run(api_server())
         elif argv[1].upper() == "MCP":
             run(mcp_server())
-            # run(mcp_server("stdio"))
+        elif argv[1].upper() == "WEB":
+            run(web_server())
         else:
             cli()

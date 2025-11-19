@@ -10,6 +10,12 @@ from fastmcp import FastMCP
 from typing import Annotated
 from pydantic import Field
 
+from fastapi.staticfiles import StaticFiles  # 添加导入
+from fastapi import Request
+from fastapi.templating import Jinja2Templates
+from fastapi.responses import HTMLResponse
+import os
+
 # from aiohttp import web
 from pyperclip import copy, paste
 from uvicorn import Config, Server
@@ -197,6 +203,31 @@ class XHS:
         elif not u:
             logging(log, _("提取作品文件下载地址失败"), ERROR)
         await self.save_data(container)
+    async def __web_download_files(
+        self,
+        container: dict,
+        download: bool,
+        index,
+        log,
+        bar,
+    ):
+        name = self.__naming_rules(container)
+        if (u := container["下载地址"]) and download:
+                path, result = await self.download.run(
+                    u,
+                    container["动图地址"],
+                    index,
+                    container["作者ID"]
+                    + "_"
+                    + self.CLEANER.filter_name(container["作者昵称"]),
+                    name,
+                    container["作品类型"],
+                    container["时间戳"],
+                    log,
+                    bar,
+                )
+        elif not u:
+            logging(log, _("提取作品文件下载地址失败"), ERROR)
 
     @data_cache
     async def save_data(
@@ -208,6 +239,7 @@ class XHS:
         data["动图地址"] = " ".join(i or "NaN" for i in data["动图地址"])
         data.pop("时间戳", None)
         await self.data_recorder.add(**data)
+
 
     async def __add_record(self, id_: str, result: list) -> None:
         if all(result):
@@ -346,6 +378,62 @@ class XHS:
             data["动图地址"] = []
         await self.update_author_nickname(data, log)
         await self.__download_files(data, download, index, log, bar)
+        logging(log, _("作品处理完成：{0}").format(i))
+        # await sleep_time()
+        return data
+
+    async def __deal_web_extract(
+        self,
+        url: str,
+        download: bool,
+        index: list | tuple | None,
+        log,
+        bar,
+        data: bool,
+        cookie: str = None,
+        proxy: str = None,
+    ):
+        if await self.skip_download(i := self.__extract_link_id(url)) and not data:
+            msg = _("作品 {0} 存在下载记录，跳过处理").format(i)
+            logging(log, msg)
+            return {"message": msg}
+        logging(log, _("开始处理作品：{0}").format(i))
+        html = await self.html.request_url(
+            url,
+            log=log,
+            cookie=cookie,
+            proxy=proxy,
+        )
+        namespace = self.__generate_data_object(html)
+        if not namespace:
+            logging(log, _("{0} 获取数据失败").format(i), ERROR)
+            return {}
+        data = self.explore.run(namespace)
+        # logging(log, data)  # 调试代码
+        if not data:
+            logging(log, _("{0} 提取数据失败").format(i), ERROR)
+            return {}
+        if data["作品类型"] == _("视频"):
+            self.__extract_video(data, namespace)
+        elif data["作品类型"] in {
+            _("图文"),
+            _("图集"),
+        }:
+            self.__extract_image(data, namespace)
+        else:
+            logging(log, _("未知的作品类型：{0}").format(i), WARNING)
+            data["下载地址"] = []
+            data["动图地址"] = []
+        await self.update_author_nickname(data, log)
+
+        # 判空处理：如果 index 为空，则根据 下载地址 和 动图地址 的最大长度生成列表
+        if not index and data:
+            # 计算非空下载地址和动图地址的总数量
+            total_length = len([x for x in data["下载地址"] if x]) + len([x for x in data["动图地址"] if x])
+            if total_length > 0:
+                index = list(range(1, total_length + 1))
+
+        await self.__web_download_files(data, download, index, log, bar)
         logging(log, _("作品处理完成：{0}").format(i))
         # await sleep_time()
         return data
@@ -538,6 +626,86 @@ class XHS:
     # async def close_server(self, log=None, ):
     #     await self.runner.cleanup()
     #     logging(log, _("Web API 服务器已关闭！"))
+
+    async def run_web_server(
+        self,
+        host="0.0.0.0",
+        port=5555,
+        log_level="info",
+    ):
+        api = FastAPI(
+            docs_url=None,  # 禁用 Swagger UI
+            redoc_url=None,  # 禁用 ReDoc
+            openapi_url=None,  # 禁用 OpenAPI JSON schema（彻底隐藏 API 规范）
+            debug=self.VERSION_BETA,
+            title="XHS-Downloader",
+            version=__VERSION__,
+        )
+        self.setup_web_routes(api)
+        config = Config(
+            api,
+            host=host,
+            port=port,
+            log_level=log_level,
+        )
+        server = Server(config)
+        await server.serve()
+
+    def  setup_web_routes(self,server: FastAPI):
+        # 创建静态文件目录（如果不存在）
+        static_dir = "static"
+        templates_dir = os.path.join(static_dir, "templates")
+
+        os.makedirs(static_dir, exist_ok=True)
+        os.makedirs(templates_dir, exist_ok=True)
+
+        # 挂载静态文件目录
+        server.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+        # 设置模板
+        templates = Jinja2Templates(directory=templates_dir)
+
+        @server.get("/", response_class=HTMLResponse)
+        async def home_page(request: Request):
+            return templates.TemplateResponse("index.html", {"request": request})
+
+        @server.post(
+        "/xhs/detail",
+            summary=_("获取作品数据及下载地址"),
+            description=_(
+                dedent("""
+                **参数**:
+                        
+                - **url**: 小红书作品链接，自动提取，不支持多链接；必需参数
+                - **download**: 是否下载作品文件；设置为 true 将会耗费更多时间；可选参数
+                - **index**: 下载指定序号的图片文件，仅对图文作品生效；download 参数设置为 false 时不生效；可选参数
+                - **cookie**: 请求数据时使用的 Cookie；可选参数
+                - **proxy**: 请求数据时使用的代理；可选参数
+                - **skip**: 是否跳过存在下载记录的作品；设置为 true 将不会返回存在下载记录的作品数据；可选参数
+                """)
+            ),
+            tags=["API"],
+            response_model=ExtractData,)
+        async def handle(extract: ExtractParams):
+            data = None
+            url = await self.extract_links(extract.url, None)
+            if not url:
+                msg = _("提取小红书作品链接失败")
+            else:
+                if data := await self.__deal_web_extract(
+                    url[0],
+                    False,
+                    extract.index,
+                    None,
+                    None,
+                    True,
+                    extract.cookie,
+                    extract.proxy,
+                ):
+                    msg = _("获取小红书作品数据成功")
+                else:
+                    msg = _("获取小红书作品数据失败")
+            return ExtractData(message=msg, params=extract, data=data)
 
     async def run_api_server(
         self,
