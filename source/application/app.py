@@ -5,10 +5,13 @@ from re import compile
 from urllib.parse import urlparse
 from textwrap import dedent
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastmcp import FastMCP
 from typing import Annotated
 from pydantic import Field
+
+from source.sitenav import SiteItem, SiteNavRoute
 
 # from aiohttp import web
 from pyperclip import copy, paste
@@ -152,6 +155,7 @@ class XHS:
         self.download = Download(self.manager)
         self.id_recorder = IDRecorder(self.manager)
         self.data_recorder = DataRecorder(self.manager)
+        self.data_sites = SiteItem(self.manager.root)
         self.clipboard_cache: str = ""
         self.queue = Queue()
         self.event = Event()
@@ -468,12 +472,14 @@ class XHS:
         await self.id_recorder.__aenter__()
         await self.data_recorder.__aenter__()
         await self.map_recorder.__aenter__()
+        await self.data_sites.__aenter__()
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback):
         await self.id_recorder.__aexit__(exc_type, exc_value, traceback)
         await self.data_recorder.__aexit__(exc_type, exc_value, traceback)
         await self.map_recorder.__aexit__(exc_type, exc_value, traceback)
+        await self.data_sites.__aexit__(exc_type, exc_value, traceback)
         await self.close()
 
     async def close(self):
@@ -550,6 +556,16 @@ class XHS:
             title="XHS-Downloader",
             version=__VERSION__,
         )
+        api.add_middleware(
+            CORSMiddleware,
+            allow_origins=["*"],  # 或具体域名列表
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
+        
+        site_nav_router = SiteNavRoute(self.manager, self.data_sites).setup_routes()
+        api.include_router(site_nav_router)
+
         self.setup_routes(api)
         config = Config(
             api,
