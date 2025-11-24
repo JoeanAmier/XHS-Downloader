@@ -41,6 +41,18 @@ async def mcp_server(
             log_level=log_level,
         )
 
+def remove_pyc_files(directory='.'):    
+    """
+    递归地删除指定目录下所有的 .pyc 文件。
+    :param directory: 开始搜索的目录，默认为当前目录
+    """
+    import os
+    for item in os.listdir(directory):
+        path = os.path.join(directory, item)
+        if os.path.isfile(path) and path.endswith('.pyc'):
+            os.remove(path)
+        elif os.path.isdir(path):
+            remove_pyc_files(path)
 
 if __name__ == "__main__":
     with suppress(

@@ -1,0 +1,29 @@
+
+
+# @name 保存图片
+POST http://127.0.0.1:8000/xhs/ HTTP/1.1
+content-type: application/json
+
+{
+    "url": "https://www.xiaohongshu.com/explore/66c1f7d8000000002503260c?app_platform=ios&app_version=8.47&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CBqKL_NU8ZzAB9sRXZLJ5wa-4lCE9Q3z_mFiXvhAvQD8I=&author_share=1&xhsshare=CopyLink&shareRedId=ODk2NDQ7NUs2NzUyOTgwNjc7OTlHPkdO&apptime=1725348420&share_id=5f65f071604f4bf8af670e12168871d5",
+    "download": true,
+    "index": [
+        1,
+        4
+    ],
+    "skip": false
+}
+
+###
+
+# @name 保存图片from share
+POST http://127.0.0.1:8000/xhs/ HTTP/1.1
+content-type: application/json
+
+// 已下载时仍然下载
+{
+	"url": "http://xhslink.com/B/zoaW3J",
+	"download": true,
+	"index": [1, 2],
+	"skip": false 
+}

@@ -26,3 +26,5 @@ textual==6.5.0
     # via xhs-downloader (pyproject.toml)
 uvicorn==0.38.0
     # via xhs-downloader (pyproject.toml)
+bs4>=0.0.2
+pre_commit>=4.2.0

@@ -1,3 +1,21 @@
+# 本地运行
+- `uv sync`
+- `uv run main.py api`
+- `uv run uvicorn main:api_server --reload`
+
+- `docker build -t xhs-downloader:v1 .`
+- `docker run --name=xhs-downloader -p 5556:5556 -itd --restart=unless-stopped xhs-downloader:v1 python main.py api`
+- `docker cp xhs-downloader:/app /mnt/sda1/dockers/xhs-downloader/app`
+- `docker run --name=xhs-downloader -v /mnt/sda1/dockers/xhs-downloader/app:/app -p 5556:5556 -itd --restart=unless-stopped xhs-downloader:v1 python main.py api`
+
+# 更新
+- 找到容器ID: `docker ps`
+- `docker stop 2b922fa3a2fc`
+- `git pull`
+- `cp -r source/ app/`
+- `docker start 2b922fa3a2fc`
+
+
 <div align="center">
 <img src="static/XHS-Downloader.png" alt="XHS-Downloader" height="256" width="256"><br>
 <h1>XHS-Downloader</h1>
