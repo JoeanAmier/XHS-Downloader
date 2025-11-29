@@ -715,8 +715,9 @@ class XHS:
                 - https://www.xiaohongshu.com/explore/...
                 - https://www.xiaohongshu.com/discovery/item/...
                 - https://xhslink.com/...
+                download（选填）：是否下载作品文件；设置为 true 将会将作品文件下载到本地；默认值为 false
                 index（选填）：根据用户指定的图片序号（如用户说“下载第1和第3张”时，index应为 [1, 3]），生成由所需图片序号组成的列表；如果用户未指定序号，则该字段为 None
-                return_data（可选）：是否返回作品信息数据；如需返回作品信息数据，设置此参数为 true，默认值为 false
+                return_data（选填）：是否返回作品信息数据；如需返回作品信息数据，设置此参数为 true，默认值为 false
                 
                 返回：
                 - message：结果提示
@@ -739,6 +740,10 @@ class XHS:
         )
         async def download_detail(
             url: Annotated[str, Field(description=_("小红书作品链接"))],
+            download: Annotated[
+                bool,
+                Field(default=False, description=_("是否下载作品文件")),
+            ],
             index: Annotated[
                 list[str | int] | None,
                 Field(default=None, description=_("指定需要下载的图文作品序号")),
@@ -750,7 +755,7 @@ class XHS:
         ) -> dict:
             msg, data = await self.deal_detail_mcp(
                 url,
-                False,
+                download,
                 index,
             )
             match (
