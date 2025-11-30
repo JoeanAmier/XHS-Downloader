@@ -168,6 +168,7 @@ class XHS:
         self.queue = Queue()
         self.event = Event()
         self.script = None
+        self.init_script_server()
 
     def __extract_image(self, container: dict, data: Namespace):
         container["下载地址"], container["动图地址"] = self.image.get_image_link(
@@ -750,7 +751,7 @@ class XHS:
         ) -> dict:
             msg, data = await self.deal_detail_mcp(
                 url,
-                False,
+                True,
                 index,
             )
             match (

@@ -286,6 +286,7 @@ class Download:
                     str(error),
                     ERROR,
                 )
+                return False
 
     @staticmethod
     def __create_progress(

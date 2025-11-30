@@ -38,7 +38,6 @@ class XHSDownloader(App):
             **self.parameter,
             _print=False,
         )
-        self.APP.init_script_server()
 
     async def on_mount(self) -> None:
         self.theme = "nord"
