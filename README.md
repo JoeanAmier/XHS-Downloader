@@ -80,11 +80,27 @@
 <p>⭐ Mac OS、Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 或者 <a href="https://github.com/JoeanAmier/XHS-Downloader/actions">Actions</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main</code> 即可使用。</p>
 <p>⭐ 本项目包含自动构建可执行文件的 GitHub Actions，使用者可以随时使用 GitHub Actions 将最新源码构建为可执行文件！</p>
 <p>⭐ 自动构建可执行文件教程请查阅本文档的 <code>构建可执行文件指南</code> 部分；如果需要更加详细的图文教程，请 <a href="https://mp.weixin.qq.com/s/TorfoZKkf4-x8IBNLImNuw">查阅文章</a>！</p>
-<p><strong>注意：由于 Mac OS 平台的可执行文件 <code>main</code> 未经过代码签名，首次运行时会受到系统安全限制。请先在终端执行 <code>xattr -cr main.app</code> 命令移除安全标记，执行一次后即可正常运行。</strong></p>
+<p><strong>注意：由于 Mac OS 平台的可执行文件 <code>main</code> 未经过代码签名，首次运行时会受到系统安全限制。请先在终端执行 <code>xattr -cr 项目文件夹路径</code> 命令移除安全标记，执行一次后即可正常运行。</strong></p>
 <p>若通过此方式使用程序，文件默认下载路径为：<code>.\_internal\Volume\Download</code>；配置文件路径为：<code>.\_internal\Volume\settings.json</code></p>
 <h3>程序更新</h3>
 <p><strong>方案一：</strong>下载并解压文件，将旧版本的 <code>_internal\Volume</code> 文件夹复制到新版本的 <code>_internal</code> 文件夹。</p>
 <p><strong>方案二：</strong>下载并解压文件（不要运行程序），复制全部文件，直接覆盖旧版本文件。</p>
+<h2>⌨️ 源码运行</h2>
+<ol>
+<li>安装 <code>3.12</code> 版本的 <a href="https://www.python.org/">Python</a> 解释器</li>
+<li>下载最新的源码或 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
+<ol><b>使用 pip 安装项目依赖</b>
+<li>运行 <code>python -m venv venv</code> 命令创建虚拟环境（可选）</li>
+<li>运行 <code>.\venv\Scripts\activate.ps1</code> 或者 <code>venv\Scripts\activate</code> 命令激活虚拟环境（可选）</li>
+<li>运行 <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> 命令安装程序所需模块</li>
+<li>运行 <code>python .\main.py</code> 或者 <code>python main.py</code> 命令启动 XHS-Downloader</li>
+</ol>
+<ol><b>使用 uv 安装项目依赖（推荐）</b>
+<li>运行 <code>uv venv</code> 命令创建虚拟环境</li>
+<li>运行 <code>uv sync</code> 命令同步环境依赖</li>
+<li>运行 <code>uv run main.py</code> 命令启动 XHS-Downloader</li>
+</ol>
+</ol>
 <h2>⌨️ Docker 运行</h2>
 <ol>
 <li>获取镜像</li>
@@ -108,16 +124,6 @@
 </li>
 </ol>
 <p>Docker 运行项目时不支持 <b>命令行调用模式</b>，无法使用 <b>读取剪贴板</b> 与 <b>监听剪贴板</b> 功能，可以正常粘贴内容，其他功能如有异常请反馈！</p>
-<h2>⌨️ 源码运行</h2>
-<ol>
-
-[//]: # (<li>安装版本号不低于 <code>3.12</code> 的 Python 解释器</li>)
-<li>安装版本号为 <code>3.12</code> 的 Python 解释器</li>
-<li>下载本项目最新的源码或 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
-<li>打开终端，切换至项目根路径</li>
-<li>运行 <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> 命令安装程序所需模块</li>
-<li>运行 <code>main.py</code> 即可使用</li>
-</ol>
 <h1>🛠 命令行模式</h1>
 <p>项目支持命令行运行模式，若想要下载图文作品的部分图片，可以使用此模式设置需要下载的图片序号！</p>
 <p><strong>注意：</strong>未设置 <code>--index</code> 参数时，支持传入多个作品链接，全部链接需要使用引号包围，链接之间使用空格分隔；已设置 <code>--index</code> 参数时，不支持传入多个作品链接，即使传入多个作品链接，程序仅处理首个作品链接！</p>

@@ -81,11 +81,27 @@
 <p>⭐ Mac OS, Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> or <a href="https://github.com/JoeanAmier/XHS-Downloader/actions">Actions</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
 <p>⭐ This project includes GitHub Actions for automatic building executable files. Users can use GitHub Actions to build the latest source code into executable files at any time!</p>
 <p>⭐ For the automatic building executable files tutorial, please refer to the <code>Build of Executable File Guide</code> section of this document. If you need a more detailed step-by-step tutorial with illustrations, please <a href="https://mp.weixin.qq.com/s/TorfoZKkf4-x8IBNLImNuw">check out this article</a>!</p>
-<p><strong>Note: Due to the macOS platform's executable file <code>main</code> not being code-signed, it will be restricted by system security measures on first run. Please execute the command <code>xattr -cr main.app</code> in the terminal to remove the security flag, after which it can run normally.</strong></p>
+<p><strong>Note: Due to the macOS platform's executable file <code>main</code> not being code-signed, it will be restricted by system security measures on first run. Please execute the command <code>xattr -cr project_folder_path</code> in the terminal to remove the security flag, after which it can run normally.</strong></p>
 <p>If you use the program in this way, the default download path for files is: <code>.\_internal\Volume\Download</code>; the configuration file path is: <code>.\_internal\Volume\settings.json</code></p>
 <h3>Update Methods</h3>
 <p><strong>Method 1:</strong> Download and extract the files, then copy the old version of the <code>_internal\Volume</code> folder into the new version's <code>_internal</code> folder.</p>
 <p><strong>Method 2:</strong> Download and extract the files (do not run the program), then copy all files and directly overwrite the old version.</p>
+<h2>⌨️ Run from Source Code</h2>
+<ol>
+<li>Install <a href="https://www.python.org/">Python</a> interpreter version <code>3.12</code></li>
+<li>Download the latest source code or the source code released in <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to your local machine</li>
+<ol><b>Install project dependencies using pip</b>
+<li>Run the command <code>python -m venv venv</code> to create a virtual environment (optional)</li>
+<li>Run the command <code>.\venv\Scripts\activate.ps1</code> or <code>venv\Scripts\activate</code> to activate the virtual environment (optional)</li>
+<li>Run the command <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> to install the required modules for the program</li>
+<li>Run the command <code>python .\main.py</code> or <code>python main.py</code> to start XHS-Downloader</li>
+</ol>
+<ol><b>Install project dependencies using uv (recommended)</b>
+<li>Run the command <code>uv venv</code> to create a virtual environment</li>
+<li>Run the command <code>uv sync</code> to synchronize environment dependencies</li>
+<li>Run the command <code>uv run main.py</code> to start XHS-Downloader</li>
+</ol>
+</ol>
 <h2>⌨️ Docker Run</h2>
 <ol>
 <li>Get Image</li>
@@ -109,16 +125,6 @@
 </li>
 </ol>
 <p>When running the project via Docker, the <b>command line call mode</b> is not supported. The <b>clipboard reading</b> and <b>clipboard monitoring</b> functions are unavailable, but pasting content works fine. Please provide feedback if other features are not functioning properly!</p>
-<h2>⌨️ Source Code Run</h2>
-<ol>
-
-[//]: # (<li>Install the Python interpreter with a version no lower than <code>3.12</code></li>)
-<li>Install Python interpreter with version <code>3.12</code></li>
-<li>Download the latest source code of this project or the source code released in <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to your local machine</li>
-<li>Open the terminal and switch to the root path of the project</li>
-<li>Run the command <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> to install the required modules</li>
-<li>Run <code>main.py</code> to use</li>
-</ol>
 <h1>🛠 Command Line Mode</h1>
 <p>The project supports command line mode. If you want to download specific images from a text and image works, you can use this mode to set the image sequence number you want to download!</p>
 <p><strong>Note:</strong> When the <code>--index</code> parameter is not set, multiple works links can be passed in. All links must be enclosed in quotation marks and separated by spaces. When the <code>--index</code> parameter is set, multiple works links are not supported. Even if multiple links are passed in, the program will only process the first link!</p>
