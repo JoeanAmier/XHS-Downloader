@@ -114,7 +114,7 @@ class Download:
             for url, name, format_ in tasks
         ]
         tasks = await gather(*tasks)
-        return path, tasks
+        return path, tasks  # 未解之谜
 
     def __generate_path(self, nickname: str, filename: str):
         if self.author_archive:

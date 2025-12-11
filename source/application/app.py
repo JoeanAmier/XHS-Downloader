@@ -18,6 +18,7 @@ from fastapi.responses import RedirectResponse
 from fastmcp import FastMCP
 from typing import Annotated
 from pydantic import Field
+from types import SimpleNamespace
 
 # from aiohttp import web
 from pyperclip import copy, paste
@@ -188,13 +189,15 @@ class XHS:
         index,
         log,
         bar,
+        count: SimpleNamespace,
     ):
         name = self.__naming_rules(container)
         if (u := container["下载地址"]) and download:
             if await self.skip_download(i := container["作品ID"]):
                 logging(log, _("作品 {0} 存在下载记录，跳过下载").format(i))
+                count.skip += 1
             else:
-                path, result = await self.download.run(
+                __, result = await self.download.run(
                     u,
                     container["动图地址"],
                     index,
@@ -207,9 +210,16 @@ class XHS:
                     log,
                     bar,
                 )
-                await self.__add_record(i, result)
+                if result:
+                    count.success += 1
+                    await self.__add_record(
+                        i,
+                    )
+                else:
+                    count.fail += 1
         elif not u:
             logging(log, _("提取作品文件下载地址失败"), ERROR)
+            count.fail += 1
         await self.save_data(container)
 
     @data_cache
@@ -223,9 +233,11 @@ class XHS:
         data.pop("时间戳", None)
         await self.data_recorder.add(**data)
 
-    async def __add_record(self, id_: str, result: list) -> None:
-        if all(result):
-            await self.id_recorder.add(id_)
+    async def __add_record(
+        self,
+        id_: str,
+    ) -> None:
+        await self.id_recorder.add(id_)
 
     async def extract(
         self,
@@ -236,14 +248,17 @@ class XHS:
         bar=None,
         data=True,
     ) -> list[dict]:
-        # return  # 调试代码
-        urls = await self.extract_links(url, log)
-        if not urls:
+        if not (urls := await self.extract_links(url, log)):
             logging(log, _("提取小红书作品链接失败"), WARNING)
-        else:
-            logging(log, _("共 {0} 个小红书作品待处理...").format(len(urls)))
-        # return urls  # 调试代码
-        return [
+            return []
+        statistics = SimpleNamespace(
+            all=len(urls),
+            success=0,
+            fail=0,
+            skip=0,
+        )
+        logging(log, _("共 {0} 个小红书作品待处理...").format(statistics.all))
+        result = [
             await self.__deal_extract(
                 i,
                 download,
@@ -251,9 +266,27 @@ class XHS:
                 log,
                 bar,
                 data,
+                count=statistics,
             )
             for i in urls
         ]
+        self.show_statistics(statistics, log,)
+        return result
+
+    @staticmethod
+    def show_statistics(
+        statistics: SimpleNamespace,
+        log=None,
+    ) -> None:
+        logging(
+            log,
+            _("共处理 {0} 个作品，成功 {1} 个，失败 {2} 个，跳过 {3} 个").format(
+                statistics.all,
+                statistics.success,
+                statistics.fail,
+                statistics.skip,
+            ),
+        )
 
     async def extract_cli(
         self,
@@ -278,6 +311,12 @@ class XHS:
                 data,
             )
         else:
+            statistics = SimpleNamespace(
+                all=len(url),
+                success=0,
+                fail=0,
+                skip=0,
+            )
             [
                 await self.__deal_extract(
                     u,
@@ -286,9 +325,11 @@ class XHS:
                     log,
                     bar,
                     data,
+                    count=statistics,
                 )
                 for u in url
             ]
+            self.show_statistics(statistics, log,)
 
     async def extract_links(self, url: str, log) -> list:
         urls = []
@@ -326,10 +367,17 @@ class XHS:
         data: bool,
         cookie: str = None,
         proxy: str = None,
+        count=SimpleNamespace(
+            all=0,
+            success=0,
+            fail=0,
+            skip=0,
+        ),
     ):
         if await self.skip_download(i := self.__extract_link_id(url)) and not data:
             msg = _("作品 {0} 存在下载记录，跳过处理").format(i)
             logging(log, msg)
+            count.skip += 1
             return {"message": msg}
         logging(log, _("开始处理作品：{0}").format(i))
         html = await self.html.request_url(
@@ -341,11 +389,13 @@ class XHS:
         namespace = self.__generate_data_object(html)
         if not namespace:
             logging(log, _("{0} 获取数据失败").format(i), ERROR)
+            count.fail += 1
             return {}
         data = self.explore.run(namespace)
         # logging(log, data)  # 调试代码
         if not data:
             logging(log, _("{0} 提取数据失败").format(i), ERROR)
+            count.fail += 1
             return {}
         if data["作品类型"] == _("视频"):
             self.__extract_video(data, namespace)
@@ -359,7 +409,14 @@ class XHS:
             data["下载地址"] = []
             data["动图地址"] = []
         await self.update_author_nickname(data, log)
-        await self.__download_files(data, download, index, log, bar)
+        await self.__download_files(
+            data,
+            download,
+            index,
+            log,
+            bar,
+            count,
+        )
         logging(log, _("作品处理完成：{0}").format(i))
         # await sleep_time()
         return data
