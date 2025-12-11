@@ -11,6 +11,7 @@ requires-python = ">=3.12,<3.13"
 dependencies = [
     "aiofiles>=25.1.0",
     "aiosqlite>=0.21.0",
+    "bs4>=0.0.2",
     "click>=8.3.0",
     "emoji>=2.15.0",
     "fastapi>=0.121.0",
