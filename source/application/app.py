@@ -123,6 +123,8 @@ class XHS:
         language="zh_CN",
         read_cookie: int | str = None,
         script_server: bool = False,
+        script_host="0.0.0.0",
+        script_port=5558,
         _print: bool = True,
         *args,
         **kwargs,
@@ -169,7 +171,10 @@ class XHS:
         self.queue = Queue()
         self.event = Event()
         self.script = None
-        self.init_script_server()
+        self.init_script_server(
+            script_host,
+            script_port,
+        )
 
     def __extract_image(self, container: dict, data: Namespace):
         container["下载地址"], container["动图地址"] = self.image.get_image_link(
@@ -270,7 +275,10 @@ class XHS:
             )
             for i in urls
         ]
-        self.show_statistics(statistics, log,)
+        self.show_statistics(
+            statistics,
+            log,
+        )
         return result
 
     @staticmethod
@@ -329,7 +337,10 @@ class XHS:
                 )
                 for u in url
             ]
-            self.show_statistics(statistics, log,)
+            self.show_statistics(
+                statistics,
+                log,
+            )
 
     async def extract_links(self, url: str, log) -> list:
         urls = []
@@ -871,25 +882,32 @@ class XHS:
 
     def init_script_server(
         self,
+        host="0.0.0.0",
+        port=5558,
     ):
         if self.manager.script_server:
-            self.run_script_server()
+            self.run_script_server(host, port)
 
     async def switch_script_server(
         self,
+        host="0.0.0.0",
+        port=5558,
         switch: bool = None,
     ):
         if switch is None:
             switch = self.manager.script_server
         if switch:
-            self.run_script_server()
+            self.run_script_server(
+                host,
+                port,
+            )
         else:
             await self.stop_script_server()
 
     def run_script_server(
         self,
         host="0.0.0.0",
-        port=5556,
+        port=5558,
     ):
         if not self.script:
             self.script = create_task(self._run_script_server(host, port))
@@ -897,7 +915,7 @@ class XHS:
     async def _run_script_server(
         self,
         host="0.0.0.0",
-        port=5556,
+        port=5558,
     ):
         async with ScriptServer(self, host, port):
             await Future()
@@ -910,4 +928,6 @@ class XHS:
             self.script = None
 
     async def _script_server_debug(self):
-        await self.switch_script_server(self.manager.script_server)
+        await self.switch_script_server(
+            switch=self.manager.script_server,
+        )

@@ -12,7 +12,7 @@ class ScriptServer:
         self,
         core: "XHS",
         host="0.0.0.0",
-        port=5556,
+        port=5558,
     ):
         self.core = core
         self.host = host
