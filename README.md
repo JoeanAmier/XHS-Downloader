@@ -682,9 +682,10 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 * https://github.com/encode/httpx/
 * https://github.com/tiangolo/fastapi
 * https://github.com/textualize/textual/
+* https://github.com/pyinstaller/pyinstaller
+* https://github.com/zbowling/beartype-pyinstaller-repro
 * https://github.com/jlowin/fastmcp
 * https://github.com/omnilib/aiosqlite
-* https://github.com/thewh1teagle/rookie
 * https://github.com/carpedm20/emoji/
 * https://github.com/asweigart/pyperclip
 * https://github.com/lxml/lxml

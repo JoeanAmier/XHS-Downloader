@@ -34,13 +34,13 @@ jobs:
       - name: 构建 Win 可执行文件
         if: runner.os == 'Windows'
         run: |
-          pyinstaller --icon=./static/XHS-Downloader.ico --add-data "static:static" --add-data "locale:locale" --collect-all emoji --copy-metadata fastmcp --hidden-import diskcache main.py
+          pyinstaller --icon=./static/XHS-Downloader.ico --add-data "static:static" --add-data "locale:locale" --copy-metadata fastmcp  --runtime-hook ./source/expansion/pyi_rth_beartype.py main.py
         shell: pwsh
 
       - name: 构建 Mac 可执行文件
         if: runner.os == 'macOS'
         run: |
-          pyinstaller --icon=./static/XHS-Downloader.icns --add-data "static:static" --add-data "locale:locale" --collect-all emoji --copy-metadata fastmcp --hidden-import diskcache main.py
+          pyinstaller --icon=./static/XHS-Downloader.icns --add-data "static:static" --add-data "locale:locale" --copy-metadata fastmcp  --runtime-hook ./source/expansion/pyi_rth_beartype.py main.py
 
       - name: 创建压缩包
         run: |

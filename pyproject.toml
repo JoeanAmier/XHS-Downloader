@@ -13,14 +13,14 @@ dependencies = [
     "aiosqlite>=0.21.0",
     "click>=8.3.1",
     "emoji>=2.15.0",
-    "fastapi>=0.123.10",
-    "fastmcp>=2.13.3",
+    "fastapi>=0.124.2",
+    "fastmcp>=2.14.0",
     "httpx[socks]>=0.28.1",
     "lxml>=6.0.2",
     "pyperclip>=1.11.0",
     "pyyaml>=6.0.3",
     "rookiepy>=0.5.6",
-    "textual>=6.7.1",
+    "textual>=6.8.0",
     "uvicorn>=0.38.0",
     "websockets>=15.0.1",
 ]
@@ -112,5 +112,6 @@ docstring-code-line-length = "dynamic"
 
 [dependency-groups]
 dev = [
+    "pyinstaller>=6.17.0",
     "textual-dev>=1.7.0",
 ]
