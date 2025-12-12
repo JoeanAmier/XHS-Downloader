@@ -556,10 +556,10 @@ class XHS:
         await self.id_recorder.__aexit__(exc_type, exc_value, traceback)
         await self.data_recorder.__aexit__(exc_type, exc_value, traceback)
         await self.map_recorder.__aexit__(exc_type, exc_value, traceback)
-        await self.stop_script_server()
         await self.close()
 
     async def close(self):
+        await self.stop_script_server()
         await self.manager.close()
 
     @staticmethod
