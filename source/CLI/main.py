@@ -45,7 +45,11 @@ class CLI:
         self.path = ctx.params.pop("settings")
         self.update = ctx.params.pop("update_settings")
         self.settings = Settings(self.__check_settings_path())
-        self.parameter = self.settings.run() | self.__clean_params(ctx.params)
+        self.parameter = (
+            self.settings.run()
+            | self.__clean_params(ctx.params)
+            | {"script_server": False}
+        )
         self.APP = XHS(**self.parameter)
 
     async def __aenter__(self):

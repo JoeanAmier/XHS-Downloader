@@ -257,6 +257,14 @@ async def example_api():
 <img src="static/screenshot/用户脚本截图4.png" alt="">
 </details>
 <p>提示：使用 XHS-Downloader 用户脚本批量提取作品链接，搭配 XHS-Downloader 程序可以实现批量下载无水印作品文件！</p>
+<h2>🌏 连接服务器</h2>
+<p>⭐ 本项目支持通过浏览器用户脚本与主程序联动，实现一键推送下载任务。</p>
+<ul><b>功能说明：</b>
+<li>在项目程序的配置文件中，需要将 <code>script_server</code> 参数设置为 <code>true</code></li>
+<li>保持项目程序在后台运行，它将作为服务器，接收用户脚本的指令（TUI、MCP 和 API 模式均支持）</li>
+<li>当您在浏览器中访问作品页面时，点击用户脚本菜单中的 <code>推送下载任务</code> 选项</li>
+<li>用户脚本会将下载任务发送给项目程序，由项目程序负责处理和下载文件</li>
+</ul>
 <h2>📜 脚本说明</h2>
 <ul>
 <li>下载小红书无水印作品文件时，脚本需要花费时间处理文件，请等待片刻，请勿多次点击下载按钮</li>
@@ -475,6 +483,12 @@ async def example():
 <td align="center">str</td>
 <td align="center">设置程序语言，目前支持：<code>zh_CN</code>、<code>en_US</code></td>
 <td align="center">zh_CN</td>
+</tr>
+<tr>
+<td align="center">script_server</td>
+<td align="center">bool</td>
+<td align="center">是否开启用户脚本服务器，用于接收浏览器用户脚本的下载任务（TUI、MCP 和 API 模式生效）</td>
+<td align="center">false</td>
 </tr>
 </tbody>
 </table>

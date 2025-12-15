@@ -261,6 +261,14 @@ async def example_api():
 <img src="static/screenshot/用户脚本截图4.png" alt="">
 </details>
 <p>Note: Using the XHS-Downloader user script to batch extract works links, in combination with the XHS-Downloader program, can achieve batch downloading of watermark-free works files!</p>
+<h2>🌐 Connect to Server</h2>
+<p>⭐ This project supports interaction with the main program through a browser userscript, enabling one-click push of download tasks.</p>
+<ul><b>Function Description:</b>
+<li>In the project program's configuration file, you need to set the <code>script_server</code> parameter to <code>true</code></li>
+<li>Keep the project program running in the background, where it will act as a server to receive commands from the userscript (TUI, MCP, and API modes are all supported)</li>
+<li>When you visit a post page in your browser, click the <code>Push Download Task</code> option in the userscript menu</li>
+<li>The userscript will send the download task to the project program, which will handle and download the files</li>
+</ul>
 <h2>📜 Script Instructions</h2>
 <ul>
 <li>When downloading watermark-free works from Xiaohongshu, the script requires time to process the files. Please wait for a moment and do not click the download button multiple times.</li>
@@ -479,6 +487,12 @@ async def example():
 <td align="center">str</td>
 <td align="center">Set program language. Currently supported: <code>zh_CN</code>, <code>en_US</code></td>
 <td align="center">zh_CN</td>
+</tr>
+<tr>
+<td align="center">script_server</td>
+<td align="center">bool</td>
+<td align="center">Whether to enable the user script server for receiving download tasks from the browser user script (effective in TUI, MCP, and API modes)</td>
+<td align="center">false</td>
 </tr>
 </tbody>
 </table>
