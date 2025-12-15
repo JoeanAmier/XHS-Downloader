@@ -19,8 +19,6 @@ from fastmcp import FastMCP
 from typing import Annotated
 from pydantic import Field
 from types import SimpleNamespace
-
-# from aiohttp import web
 from pyperclip import copy, paste
 from uvicorn import Config, Server
 
@@ -680,53 +678,6 @@ class XHS:
             if value
             else ""
         )
-
-    # @staticmethod
-    # async def index(request):
-    #     return web.HTTPFound(REPOSITORY)
-
-    # async def handle(self, request):
-    #     data = await request.post()
-    #     url = data.get("url")
-    #     download = data.get("download", False)
-    #     index = data.get("index")
-    #     skip = data.get("skip", False)
-    #     url = await self.__extract_links(url, None)
-    #     if not url:
-    #         msg = _("提取小红书作品链接失败")
-    #         data = None
-    #     else:
-    #         if data := await self.__deal_extract(url[0], download, index, None, None, not skip, ):
-    #             msg = _("获取小红书作品数据成功")
-    #         else:
-    #             msg = _("获取小红书作品数据失败")
-    #             data = None
-    #     return web.json_response(dict(message=msg, url=url[0], data=data))
-
-    # def init_server(self, ):
-    #     app = web.Application(debug=True)
-    #     app.router.add_get('/', self.index)
-    #     app.router.add_post('/xhs/', self.handle)
-    #     return web.AppRunner(app)
-
-    # async def run_server(self, log=None, ):
-    #     try:
-    #         await self.start_server(log)
-    #         while True:
-    #             await sleep(3600)  # 保持服务器运行
-    #     except (CancelledError, KeyboardInterrupt):
-    #         await self.close_server(log)
-
-    # async def start_server(self, log=None, ):
-    #     await self.runner.setup()
-    #     self.site = web.TCPSite(self.runner, "0.0.0.0")
-    #     await self.site.start()
-    #     logging(log, _("Web API 服务器已启动！"))
-    #     logging(log, _("服务器主机及端口: {0}".format(self.site.name, )))
-
-    # async def close_server(self, log=None, ):
-    #     await self.runner.cleanup()
-    #     logging(log, _("Web API 服务器已关闭！"))
 
     async def run_api_server(
         self,

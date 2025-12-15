@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.2.0
+// @version        2.2.1
 // @tag            小红书
 // @tag            RedNote
 // @description    提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
@@ -32,6 +32,8 @@
 
     const iconBase64 = "data:image/png;base64,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";
 
+    const defaultsWebSocketURL = "ws://127.0.0.1:5558";
+
     let config = {
         disclaimer: GM_getValue("disclaimer", false),
         packageDownloadFiles: GM_getValue("packageDownloadFiles", true),
@@ -40,10 +42,10 @@
         keepMenuVisible: GM_getValue("keepMenuVisible", false),
         linkCheckboxSwitch: GM_getValue("linkCheckboxSwitch", true),
         imageCheckboxSwitch: GM_getValue("imageCheckboxSwitch", true),
-        scriptServerURL: GM_getValue("scriptServerURL", "ws://127.0.0.1:5558"),
+        // imageDownloadFormat: GM_getValue("imageDownloadFormat", "JPG"),
+        scriptServerURL: GM_getValue("scriptServerURL", defaultsWebSocketURL),
         scriptServerSwitch: GM_getValue("scriptServerSwitch", false),
         fileNameFormat: undefined,
-        imageFileFormat: undefined,
         icon: {
             type: 'image', // 可选: image/svg/font
             image: {
@@ -676,9 +678,12 @@
         border-radius: 16px;
         width: 380px; /* 缩小窗口宽度 */
         max-width: 95vw;
+        max-height: 95vh;
         box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
         overflow: hidden;
         animation: scaleUp 0.3s;
+        display: flex;
+        flex-direction: column;
     }
 
     /* 通用头部/内容/底部/按钮（三个弹窗共用） */
@@ -800,6 +805,31 @@
         outline: none;
         border-color: #2196F3;
         box-shadow: 0 0 4px rgba(33, 150, 243, 0.3);
+    }
+    .select-input {
+        width: 100px;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        margin-top: 8px;
+        background: #fff;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M3 4.5L6 7.5L9 4.5H3Z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        padding-right: 32px;
+    }
+    .select-input:focus {
+        outline: none;
+        border-color: #2196F3;
+        box-shadow: 0 0 4px rgba(33, 150, 243, 0.3);
+    }
+    .select-input:disabled {
+        background-color: #f5f5f5;
+        color: #999;
+        cursor: not-allowed;
     }
     .setting-description {
         font-size: 0.875rem;
@@ -924,15 +954,16 @@
     }
 
     // 创建开关项
-    const createSettingItem = ({label, description, checked}) => {
+    const createSwitchItem = ({label, description, checked, disabled = false}) => {
         const item = document.createElement('div');
         item.className = 'setting-item';
+        item.style.opacity = disabled ? 0.6 : 1;
 
         item.innerHTML = `
             <label>
                 <span>${label}</span>
                 <div class="toggle-switch">
-                    <input type="checkbox" ${checked ? 'checked' : ''}>
+                    <input type="checkbox" ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}>
                     <span class="slider"></span>
                 </div>
             </label>
@@ -987,16 +1018,41 @@
     };
 
     // 创建文本输入项
-    const createTextInput = ({label, description, placeholder, value}) => {
+    const createTextInput = ({label, description, placeholder, value, disabled = false}) => {
         const item = document.createElement('div');
         item.className = 'setting-item';
+        item.style.opacity = disabled ? 0.6 : 1;
 
         item.innerHTML = `
             <div>
                 <span style="font-size: 1rem; font-weight: 500; color: #333;">${label}</span>
             </div>
             <div class="setting-description">${description}</div>
-            <input type="text" class="text-input" placeholder="${placeholder}" value="${value}">
+            <input type="text" class="text-input" placeholder="${placeholder}" value="${value}" ${disabled ?
+                                                                                                  'disabled' : ''}>
+        `;
+
+        return item;
+    };
+
+    // 创建下拉框项
+    const createSelectItem = ({label, description, options, value, disabled = false}) => {
+        const item = document.createElement('div');
+        item.className = 'setting-item';
+        item.style.opacity = disabled ? 0.6 : 1;
+
+        // 生成选项HTML
+        const optionsHtml = options.map(
+            option => `<option value="${option}" ${option === value ? 'selected' : ''}>${option}</option>`).join('');
+
+        item.innerHTML = `
+            <label>
+                <span>${label}</span>
+                <select class="select-input" ${disabled ? 'disabled' : ''}>
+                    ${optionsHtml}
+                </select>
+            </label>
+            <div class="setting-description">${description}</div>
         `;
 
         return item;
@@ -1037,18 +1093,18 @@
         body.className = 'modal-body';
 
         // 自动滚动开关
-        const autoScroll = createSettingItem({
-                                                 label: '自动滚动页面',
-                                                 description: '启用后，页面将根据规则自动滚动以便加载更多内容',
-                                                 checked: GM_getValue("autoScrollSwitch", false),
-                                             });
+        const autoScroll = createSwitchItem({
+                                                label: '自动滚动页面',
+                                                description: '启用后，页面将根据规则自动滚动以便加载更多内容',
+                                                checked: GM_getValue("autoScrollSwitch", false),
+                                            });
 
         // 文件打包开关
-        const filePack = createSettingItem({
-                                               label: '文件打包下载',
-                                               description: '启用后，多个文件的作品将会以压缩包格式下载',
-                                               checked: GM_getValue("packageDownloadFiles", true),
-                                           });
+        const filePack = createSwitchItem({
+                                              label: '文件打包下载',
+                                              description: '启用后，多个文件的作品将会以压缩包格式下载',
+                                              checked: GM_getValue("packageDownloadFiles", true),
+                                          });
 
         // 滚动次数设置
         const scrollCount = createNumberInput({
@@ -1056,46 +1112,64 @@
                                                   description: '自动滚动页面的次数（仅在启用自动滚动页面时可用）',
                                                   value: GM_getValue("maxScrollCount", 50),
                                                   min: 10,
-                                                  max: 5000,
+                                                  max: 9999,
                                                   disabled: !GM_getValue("autoScrollSwitch", false),
                                               });
 
-        const linkCheckboxSwitch = createSettingItem({
-                                                         label: '链接提取选择模式',
-                                                         description: '关闭后，提取作品链接时无需确认直接提取全部链接',
-                                                         checked: GM_getValue("linkCheckboxSwitch", true),
+        const linkCheckboxSwitch = createSwitchItem({
+                                                        label: '链接提取选择模式',
+                                                        description: '关闭后，提取作品链接时无需确认直接提取全部链接',
+                                                        checked: GM_getValue("linkCheckboxSwitch", true),
+                                                    });
+
+        const imageCheckboxSwitch = createSwitchItem({
+                                                         label: '图片下载选择模式',
+                                                         description: '关闭后，下载图文作品时无需确认直接下载全部文件',
+                                                         checked: GM_getValue("imageCheckboxSwitch", true),
                                                      });
 
-        const imageCheckboxSwitch = createSettingItem({
-                                                          label: '图片下载选择模式',
-                                                          description: '关闭后，下载图文作品时无需确认直接下载全部文件',
-                                                          checked: GM_getValue("imageCheckboxSwitch", true),
-                                                      });
+        const keepMenuVisible = createSwitchItem({
+                                                     label: '菜单保持显示',
+                                                     description: '启用后，功能菜单无需鼠标悬停始终保持显示',
+                                                     checked: GM_getValue("keepMenuVisible", false),
+                                                 });
 
-        const keepMenuVisible = createSettingItem({
-                                                      label: '菜单保持显示',
-                                                      description: '启用后，功能菜单无需鼠标悬停始终保持显示',
-                                                      checked: GM_getValue("keepMenuVisible", false),
-                                                  });
+        const scriptServerURL = createTextInput({
+                                                    label: 'WebSocket 服务器地址',
+                                                    description: 'WebSocket 服务器地址',
+                                                    placeholder: defaultsWebSocketURL,
+                                                    value: GM_getValue("scriptServerURL", defaultsWebSocketURL),
+                                                    disabled: !GM_getValue("scriptServerSwitch", false),
+                                                });
 
-        const scriptServerSwitch = createSettingItem({
-                                                         label: '连接服务器',
-                                                         description: '启用后，可以把下载任务推送至服务器',
-                                                         checked: GM_getValue("scriptServerSwitch", false),
-                                                     });
+        const scriptServerSwitch = createSwitchItem({
+                                                        label: '连接服务器',
+                                                        description: '启用后，可以把下载任务推送至服务器',
+                                                        checked: GM_getValue("scriptServerSwitch", false),
+                                                    });
 
-        // 名称格式设置
+        // const imageDownloadFormat = createSelectItem({
+        //                                                  label: '图片下载格式',
+        //                                                  description: '选择图片格式',
+        //                                                  options: ["AUTO", "PNG", "JPG",],
+        //                                                  value: GM_getValue("imageDownloadFormat", "JPG"),
+        //                                              });
+        //
         // const nameFormat = createTextInput({
-        //     label: '文件名称格式',
-        //     description: '设置文件的名称格式（例如：{date}-{title}）。',
-        //     placeholder: '{date}-{title}',
-        //     value: GM_getValue("fileNameFormat",)
-        // });
+        //                                        label: '文件名称格式',
+        //                                        description: '设置文件的名称格式（例如：{date}-{title}）。',
+        //                                        placeholder: '{date}-{title}',
+        //                                        value: GM_getValue("fileNameFormat",)
+        //                                    });
 
         // 绑定自动滚动开关控制次数输入
         autoScroll.querySelector('input').addEventListener('change', (e) => {
             scrollCount.querySelector('input').disabled = !e.target.checked;
             scrollCount.querySelector('.number-input').style.opacity = e.target.checked ? 1 : 0.6;
+        });
+        scriptServerSwitch.querySelector('input').addEventListener('change', (e) => {
+            scriptServerURL.querySelector('input').disabled = !e.target.checked;
+            scriptServerURL.querySelector('.text-input').style.opacity = e.target.checked ? 1 : 0.6;
         });
 
         // 组合内容
@@ -1104,9 +1178,10 @@
         body.appendChild(scrollCount);
         body.appendChild(linkCheckboxSwitch);
         body.appendChild(imageCheckboxSwitch);
+        // body.appendChild(imageDownloadFormat);
         body.appendChild(keepMenuVisible);
+        body.appendChild(scriptServerURL);
         body.appendChild(scriptServerSwitch);
-        // body.appendChild(nameFormat);
 
         // 创建底部按钮
         const footer = document.createElement('div');
@@ -1135,6 +1210,7 @@
             updateLinkCheckboxSwitch(linkCheckboxSwitch.querySelector('input').checked);
             updateImageCheckboxSwitch(imageCheckboxSwitch.querySelector('input').checked);
             updateMaxScrollCount(parseInt(scrollCount.querySelector('input').value) || 50)
+            updateScriptServerURL(scriptServerURL.querySelector('.text-input').value.trim() || defaultsWebSocketURL);
             updateScriptServerSwitch(scriptServerSwitch.querySelector('input').checked);
             // updateFileNameFormat(nameFormat.querySelector('.text-input').value.trim() || null);
             closeSettingsModal();
