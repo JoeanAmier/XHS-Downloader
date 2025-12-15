@@ -379,13 +379,12 @@ class XHS:
             fail=0,
             skip=0,
         ),
-    ):
-        if await self.skip_download(i := self.__extract_link_id(url)) and not data:
-            msg = _("作品 {0} 存在下载记录，跳过处理").format(i)
-            logging(log, msg)
+    ) -> tuple[str, Namespace | dict]:
+        if await self.skip_download(id_ := self.__extract_link_id(url)) and not data:
+            logging(log, _("作品 {0} 存在下载记录，跳过处理").format(id_))
             count.skip += 1
-            return {"message": msg}
-        logging(log, _("开始处理作品：{0}").format(i))
+            return id_, {}
+        logging(log, _("开始处理作品：{0}").format(id_))
         html = await self.html.request_url(
             url,
             log=log,
@@ -394,10 +393,10 @@ class XHS:
         )
         namespace = self.__generate_data_object(html)
         if not namespace:
-            logging(log, _("{0} 获取数据失败").format(i), ERROR)
+            logging(log, _("{0} 获取数据失败").format(id_), ERROR)
             count.fail += 1
-            return {}
-        return i, namespace
+            return id_, {}
+        return id_, namespace
 
     def _extract_data(
         self,
