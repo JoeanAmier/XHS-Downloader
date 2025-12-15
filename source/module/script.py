@@ -1,5 +1,5 @@
 from contextlib import suppress
-
+from json import loads
 from websockets import ConnectionClosed, serve
 from typing import TYPE_CHECKING
 
@@ -22,8 +22,8 @@ class ScriptServer:
     async def handler(self, websocket):
         with suppress(ConnectionClosed):
             async for message in websocket:
-                print(f"收到消息: {message}")
-                await websocket.send("消息已接收")
+                data = loads(message)
+                await self.core.deal_script_tasks(**data)
 
     async def start(self):
         """启动服务器"""

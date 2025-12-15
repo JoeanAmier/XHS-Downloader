@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.1.15
+// @version        2.2.0
 // @tag            小红书
 // @tag            RedNote
 // @description    提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
@@ -40,6 +40,8 @@
         keepMenuVisible: GM_getValue("keepMenuVisible", false),
         linkCheckboxSwitch: GM_getValue("linkCheckboxSwitch", true),
         imageCheckboxSwitch: GM_getValue("imageCheckboxSwitch", true),
+        scriptServerURL: GM_getValue("scriptServerURL", "ws://127.0.0.1:5558"),
+        scriptServerSwitch: GM_getValue("scriptServerSwitch", false),
         fileNameFormat: undefined,
         imageFileFormat: undefined,
         icon: {
@@ -101,14 +103,16 @@
 `
 
         await showTextModal({
-            title: 'XHS-Downloader 脚本说明', text: instructions, mode: 'info',           // info: 仅关闭
-            closeText: '关闭'
-        });
+                                title: 'XHS-Downloader 脚本说明', text: instructions, mode: 'info', closeText: '关闭'
+                            });
         if (!config.disclaimer) {
             showTextModal({
-                title: 'XHS-Downloader 免责声明', text: disclaimer_content, mode: 'confirm',        // confirm: 确认+关闭
-                confirmText: '我已知晓', closeText: '关闭'
-            }).then(answer => {
+                              title: 'XHS-Downloader 免责声明',
+                              text: disclaimer_content,
+                              mode: 'confirm',
+                              confirmText: '我已知晓',
+                              closeText: '关闭'
+                          }).then(answer => {
                 GM_setValue("disclaimer", answer);
                 config.disclaimer = answer;
             });
@@ -160,6 +164,21 @@
         GM_setValue("imageCheckboxSwitch", config.imageCheckboxSwitch);
     }
 
+    const updateScriptServerURL = (value) => {
+        config.scriptServerURL = value;
+        GM_setValue("scriptServerURL", config.scriptServerURL);
+    }
+
+    const updateScriptServerSwitch = (value) => {
+        webSocket.disconnect();
+        if (value) {
+            webSocket.url = config.scriptServerURL;
+            webSocket.connect();
+        }
+        config.scriptServerSwitch = value;
+        GM_setValue("scriptServerSwitch", config.scriptServerSwitch);
+    }
+
     const updateFileNameFormat = (value) => {
         config.fileNameFormat = value;
         GM_setValue("fileNameFormat", config.fileNameFormat);
@@ -171,18 +190,17 @@
 
     const abnormal = (text) => {
         showTextModal({
-            title: '发生异常',
-            text: `${text}请向作者反馈！\n项目开源地址：https://github.com/JoeanAmier/XHS-Downloader`,
-            mode: 'info',           // info: 仅关闭
-            closeText: '关闭'
-        });
+                          title: '发生异常',
+                          text: `${text}请向作者反馈！\n项目开源地址：https://github.com/JoeanAmier/XHS-Downloader`,
+                          mode: 'info',
+                          closeText: '关闭'
+                      });
     };
 
     const runTips = (text) => {
         showTextModal({
-            title: '脚本提示', text: text, mode: 'info',           // info: 仅关闭
-            closeText: '关闭'
-        });
+                          title: '脚本提示', text: text, mode: 'info', closeText: '关闭'
+                      });
     }
 
     const generateVideoUrl = note => {
@@ -223,8 +241,8 @@
             for (const [index, item] of imageList.entries()) {
                 if (item.urlDefault) {
                     items.push({
-                        webp: item.urlDefault, index: index + 1, url: urls[index],
-                    })
+                                   webp: item.urlDefault, index: index + 1, url: urls[index],
+                               })
                 } else {
                     console.error("提取图片预览链接失败", item)
                     break
@@ -237,27 +255,41 @@
         }
     };
 
-    const download = async (urls, note) => {
+    const download = async (urls, note, server = false,) => {
         const name = extractName();
-        console.info(`文件名称 ${name}`);
-        if (note.type === "video") {
-            showToast("正在下载文件，请稍等...");
-            await downloadVideo(urls[0], name);
+        if (server) {
+            let data = {data: note, index: null,};
+            if (note.type === "normal") {
+                let items = extractImageWebpUrls(note, urls);
+                if (items.length === 0) {
+                    console.error("解析图文作品数据失败", note)
+                    abnormal("解析图文作品数据发生异常！")
+                } else if (urls.length > 1 && config.imageCheckboxSwitch) {
+                    data.index = await showImageSelectionModal(items, name, server,);
+                }
+            }
+            webSocket.send(JSON.stringify(data));
         } else {
-            let items = extractImageWebpUrls(note, urls);
-            if (items.length === 0) {
-                console.error("解析图文作品数据失败", note)
-                abnormal("解析图文作品数据发生异常！")
-            } else if (urls.length > 1 && config.imageCheckboxSwitch) {
-                showImageSelectionModal(items, name,)
-            } else {
+            console.debug(`文件名称 ${name}`);
+            if (note.type === "video") {
                 showToast("正在下载文件，请稍等...");
-                await downloadImage(items, name);
+                await downloadVideo(urls[0], name);
+            } else {
+                let items = extractImageWebpUrls(note, urls);
+                if (items.length === 0) {
+                    console.error("解析图文作品数据失败", note)
+                    abnormal("解析图文作品数据发生异常！")
+                } else if (urls.length > 1 && config.imageCheckboxSwitch) {
+                    await showImageSelectionModal(items, name,);
+                } else {
+                    showToast("正在下载文件，请稍等...");
+                    await downloadImage(items, name);
+                }
             }
         }
     };
 
-    const exploreDeal = async note => {
+    const exploreDeal = async (note, server = false,) => {
         try {
             let links;
             if (note.type === "normal") {
@@ -266,8 +298,8 @@
                 links = generateVideoUrl(note);
             }
             if (links.length > 0) {
-                console.info("下载链接", links);
-                await download(links, note);
+                // console.debug("下载链接", links);
+                await download(links, note, server,);
             } else {
                 abnormal("处理下载链接发生异常！")
             }
@@ -287,11 +319,11 @@
         }
     };
 
-    const extractDownloadLinks = async () => {
+    const extractDownloadLinks = async (server = false) => {
         if (currentUrl.includes("https://www.xiaohongshu.com/explore/")) {
             let note = extractNoteInfo();
             if (note.note) {
-                await exploreDeal(note.note);
+                await exploreDeal(note.note, server,);
             } else {
                 abnormal("读取作品数据发生异常！");
             }
@@ -315,7 +347,7 @@
         document.body.removeChild(tempLink); // 从 DOM 中移除临时链接
         URL.revokeObjectURL(blobUrl); // 释放 URL
 
-        console.info(`文件已成功下载: ${name}`);
+        // console.debug(`文件已成功下载: ${name}`);
     }
 
     const downloadFile = async (link, name, trigger = true, retries = 5) => {
@@ -403,7 +435,8 @@
     };
 
     const extractName = () => {
-        let name = document.title.replace(/ - 小红书$/, "").replace(/[^\u4e00-\u9fa5a-zA-Z0-9 ~!@#$%&()_\-+=\[\];"',.！（）【】：“”，。《》？]/g, "");
+        let name = document.title.replace(/ - 小红书$/, "")
+                           .replace(/[^\u4e00-\u9fa5a-zA-Z0-9 ~!@#$%&()_\-+=\[\];"',.！（）【】：“”，。《》？]/g, "");
         name = truncateString(name, 64,);
         let match = currentUrl.match(/\/([0-9a-z]+?)\?/);
         let id = match ? match[1] : null;
@@ -503,7 +536,9 @@
 
     const extractNotesInfo = order => {
         const notesRawValue = unsafeWindow.__INITIAL_STATE__.user.notes._rawValue[order];
-        return notesRawValue.filter(item => item?.noteCard).map(item => [item.id, item.xsecToken, item.noteCard.cover.urlDefault, item.noteCard.user.nickName, item.noteCard.displayTitle,]);
+        return notesRawValue.filter(item => item?.noteCard).map(
+            item => [item.id, item.xsecToken, item.noteCard.cover.urlDefault, item.noteCard.user.nickName,
+                     item.noteCard.displayTitle,]);
     };
 
     const extractBoardInfo = () => {
@@ -519,7 +554,8 @@
             const id = match[1]; // match[0] 是整个匹配的字符串，match[1] 是第一个括号内的匹配
 
             const notesRawValue = unsafeWindow.__INITIAL_STATE__.board.boardFeedsMap._rawValue[id].notes;
-            return notesRawValue.map(item => [item.noteId, item.xsecToken, item.cover.urlDefault, item.user.nickName, item.displayTitle,]);
+            return notesRawValue.map(
+                item => [item.noteId, item.xsecToken, item.cover.urlDefault, item.user.nickName, item.displayTitle,]);
         } else {
             console.error("从链接提取专辑 ID 失败", currentUrl,);
             return [];
@@ -528,12 +564,16 @@
 
     const extractFeedInfo = () => {
         const notesRawValue = unsafeWindow.__INITIAL_STATE__.feed.feeds._rawValue;
-        return notesRawValue.filter(item => item?.noteCard).map(item => [item.id, item.xsecToken, item.noteCard.cover.urlDefault, item.noteCard.user.nickName, item.noteCard.displayTitle,]);
+        return notesRawValue.filter(item => item?.noteCard).map(
+            item => [item.id, item.xsecToken, item.noteCard.cover.urlDefault, item.noteCard.user.nickName,
+                     item.noteCard.displayTitle,]);
     };
 
     const extractSearchNotes = () => {
         const notesRawValue = unsafeWindow.__INITIAL_STATE__.search.feeds._rawValue;
-        return notesRawValue.filter(item => item?.noteCard).map(item => [item.id, item.xsecToken, item.noteCard.cover.urlDefault, item.noteCard.user.nickName, item.noteCard.displayTitle,]);
+        return notesRawValue.filter(item => item?.noteCard).map(
+            item => [item.id, item.xsecToken, item.noteCard.cover.urlDefault, item.noteCard.user.nickName,
+                     item.noteCard.displayTitle,]);
     }
 
     const extractSearchUsers = () => {
@@ -541,7 +581,9 @@
         return notesRawValue.map(item => item.id);
     }
 
-    const generateNoteUrls = data => data.map(([id, token,]) => `https://www.xiaohongshu.com/discovery/item/${id}?source=webshare&xhsshare=pc_web&xsec_token=${token}&xsec_source=pc_share`).join(" ");
+    const generateNoteUrls = data => data.map(
+        ([id, token,]) => `https://www.xiaohongshu.com/discovery/item/${id}?source=webshare&xhsshare=pc_web&xsec_token=${token}&xsec_source=pc_share`)
+                                         .join(" ");
 
     const generateUserUrls = data => data.map(id => `https://www.xiaohongshu.com/user/profile/${id}`).join(" ");
 
@@ -604,7 +646,8 @@
     };
 
     if (typeof JSZip === 'undefined') {
-        runTips("XHS-Downloader 用户脚本依赖库 JSZip 加载失败，作品文件打包下载功能无法使用，请尝试刷新网页或者向作者反馈！");
+        runTips(
+            "XHS-Downloader 用户脚本依赖库 JSZip 加载失败，作品文件打包下载功能无法使用，请尝试刷新网页或者向作者反馈！");
     }
 
     let style = document.createElement('style');
@@ -995,45 +1038,51 @@
 
         // 自动滚动开关
         const autoScroll = createSettingItem({
-            label: '自动滚动页面',
-            description: '启用后，页面将根据规则自动滚动以便加载更多内容',
-            checked: GM_getValue("autoScrollSwitch", false),
-        });
+                                                 label: '自动滚动页面',
+                                                 description: '启用后，页面将根据规则自动滚动以便加载更多内容',
+                                                 checked: GM_getValue("autoScrollSwitch", false),
+                                             });
 
         // 文件打包开关
         const filePack = createSettingItem({
-            label: '文件打包下载',
-            description: '启用后，多个文件的作品将会以压缩包格式下载',
-            checked: GM_getValue("packageDownloadFiles", true),
-        });
+                                               label: '文件打包下载',
+                                               description: '启用后，多个文件的作品将会以压缩包格式下载',
+                                               checked: GM_getValue("packageDownloadFiles", true),
+                                           });
 
         // 滚动次数设置
         const scrollCount = createNumberInput({
-            label: '自动滚动次数',
-            description: '自动滚动页面的次数（仅在启用自动滚动页面时可用）',
-            value: GM_getValue("maxScrollCount", 50),
-            min: 10,
-            max: 5000,
-            disabled: !GM_getValue("autoScrollSwitch", false),
-        });
+                                                  label: '自动滚动次数',
+                                                  description: '自动滚动页面的次数（仅在启用自动滚动页面时可用）',
+                                                  value: GM_getValue("maxScrollCount", 50),
+                                                  min: 10,
+                                                  max: 5000,
+                                                  disabled: !GM_getValue("autoScrollSwitch", false),
+                                              });
 
         const linkCheckboxSwitch = createSettingItem({
-            label: '链接提取选择模式',
-            description: '关闭后，提取作品链接时无需确认直接提取全部链接',
-            checked: GM_getValue("linkCheckboxSwitch", true),
-        });
+                                                         label: '链接提取选择模式',
+                                                         description: '关闭后，提取作品链接时无需确认直接提取全部链接',
+                                                         checked: GM_getValue("linkCheckboxSwitch", true),
+                                                     });
 
         const imageCheckboxSwitch = createSettingItem({
-            label: '图片下载选择模式',
-            description: '关闭后，下载图文作品时无需确认直接下载全部文件',
-            checked: GM_getValue("imageCheckboxSwitch", true),
-        });
+                                                          label: '图片下载选择模式',
+                                                          description: '关闭后，下载图文作品时无需确认直接下载全部文件',
+                                                          checked: GM_getValue("imageCheckboxSwitch", true),
+                                                      });
 
         const keepMenuVisible = createSettingItem({
-            label: '菜单保持显示',
-            description: '启用后，功能菜单无需鼠标悬停始终保持显示',
-            checked: GM_getValue("keepMenuVisible", false),
-        });
+                                                      label: '菜单保持显示',
+                                                      description: '启用后，功能菜单无需鼠标悬停始终保持显示',
+                                                      checked: GM_getValue("keepMenuVisible", false),
+                                                  });
+
+        const scriptServerSwitch = createSettingItem({
+                                                         label: '连接服务器',
+                                                         description: '启用后，可以把下载任务推送至服务器',
+                                                         checked: GM_getValue("scriptServerSwitch", false),
+                                                     });
 
         // 名称格式设置
         // const nameFormat = createTextInput({
@@ -1056,6 +1105,7 @@
         body.appendChild(linkCheckboxSwitch);
         body.appendChild(imageCheckboxSwitch);
         body.appendChild(keepMenuVisible);
+        body.appendChild(scriptServerSwitch);
         // body.appendChild(nameFormat);
 
         // 创建底部按钮
@@ -1085,6 +1135,7 @@
             updateLinkCheckboxSwitch(linkCheckboxSwitch.querySelector('input').checked);
             updateImageCheckboxSwitch(imageCheckboxSwitch.querySelector('input').checked);
             updateMaxScrollCount(parseInt(scrollCount.querySelector('input').value) || 50)
+            updateScriptServerSwitch(scriptServerSwitch.querySelector('input').checked);
             // updateFileNameFormat(nameFormat.querySelector('.text-input').value.trim() || null);
             closeSettingsModal();
         });
@@ -1184,137 +1235,144 @@
     };
 
     /* ==================== 弹窗逻辑 ==================== */
-    const showImageSelectionModal = (imageUrls, name) => {
-        if (document.getElementById('imageSelectionOverlay')) {
-            return;
-        }
+    const showImageSelectionModal = (imageUrls, name, server = false,) => {
+        return new Promise((resolve,) => {
+            if (document.getElementById('imageSelectionOverlay')) {
+                return;
+            }
 
-        // 创建覆盖层
-        const overlay = document.createElement('div');
-        overlay.id = 'imageSelectionOverlay';
+            // 创建覆盖层
+            const overlay = document.createElement('div');
+            overlay.id = 'imageSelectionOverlay';
 
-        // 创建弹窗
-        const modal = document.createElement('div');
-        modal.className = 'image-selection-modal';
+            // 创建弹窗
+            const modal = document.createElement('div');
+            modal.className = 'image-selection-modal';
 
-        // 创建头部
-        const header = document.createElement('div');
-        header.className = 'modal-header';
-        header.innerHTML = `
+            // 创建头部
+            const header = document.createElement('div');
+            header.className = 'modal-header';
+            header.innerHTML = `
             <span>请选中需要下载的图片</span>
         `;
 
-        // 创建内容区域
-        const body = document.createElement('div');
-        body.className = 'modal-body';
+            // 创建内容区域
+            const body = document.createElement('div');
+            body.className = 'modal-body';
 
-        // 创建图片网格
-        const imageGrid = document.createElement('div');
-        imageGrid.className = 'image-grid';
+            // 创建图片网格
+            const imageGrid = document.createElement('div');
+            imageGrid.className = 'image-grid';
 
-        // 动态生成图片项
-        imageUrls.forEach((image) => {
-            const item = document.createElement('div');
-            item.className = 'image-item';
+            // 动态生成图片项
+            imageUrls.forEach((image) => {
+                const item = document.createElement('div');
+                item.className = 'image-item';
 
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.className = 'image-checkbox';
-            checkbox.id = `image-checkbox-${image.index}`;
-            checkbox.checked = true;
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'image-checkbox';
+                checkbox.id = `image-checkbox-${image.index}`;
+                checkbox.checked = true;
 
-            const label = document.createElement('label');
-            label.htmlFor = `image-checkbox-${image.index}`;
+                const label = document.createElement('label');
+                label.htmlFor = `image-checkbox-${image.index}`;
 
-            const img = document.createElement('img');
-            img.src = image.webp;
-            img.index = image.index;
-            img.url = image.url;
-            img.alt = `图片_${image.index}`;
+                const img = document.createElement('img');
+                img.src = image.webp;
+                img.index = image.index;
+                img.url = image.url;
+                img.alt = `图片_${image.index}`;
 
-            item.appendChild(checkbox);
-            item.appendChild(label);
-            item.appendChild(img);
+                item.appendChild(checkbox);
+                item.appendChild(label);
+                item.appendChild(img);
 
-            // 绑定点击事件
-            item.addEventListener('click', (e) => {
-                if (e.target.tagName !== 'INPUT') {
-                    checkbox.checked = !checkbox.checked;
-                    item.classList.toggle('selected', checkbox.checked);
+                // 绑定点击事件
+                item.addEventListener('click', (e) => {
+                    if (e.target.tagName !== 'INPUT') {
+                        checkbox.checked = !checkbox.checked;
+                        item.classList.toggle('selected', checkbox.checked);
+                    }
+                });
+
+                imageGrid.appendChild(item);
+            });
+
+            body.appendChild(imageGrid);
+
+            // 创建底部按钮
+            const footer = document.createElement('div');
+            footer.className = 'modal-footer';
+            // 新增：全选 / 全不选
+            const selectAllBtn = document.createElement('button');
+            selectAllBtn.className = 'secondary-btn';
+            selectAllBtn.textContent = '全选';
+
+            const selectNoneBtn = document.createElement('button');
+            selectNoneBtn.className = 'secondary-btn';
+            selectNoneBtn.textContent = '全不选';
+
+            const confirmBtn = document.createElement('button');
+            confirmBtn.className = 'primary-btn';
+            confirmBtn.textContent = '开始下载';
+
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'secondary-btn';
+            closeBtn.textContent = '关闭窗口';
+
+            footer.appendChild(selectAllBtn);
+            footer.appendChild(selectNoneBtn);
+            footer.appendChild(confirmBtn);
+            footer.appendChild(closeBtn);
+
+            // 组装弹窗
+            modal.appendChild(header);
+            modal.appendChild(body);
+            modal.appendChild(footer);
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+
+            // 确认事件
+            confirmBtn.addEventListener('click', async () => {
+                const selectedImages = Array.from(document.querySelectorAll('.image-checkbox:checked'))
+                                            .map((checkbox) => {
+                                                let item = checkbox.parentElement.querySelector('img');
+                                                return {
+                                                    index: item.index, url: item.url,
+                                                }
+                                            });
+                if (selectedImages.length === 0) {
+                    showToast('请至少选择一张图片！');
+                    return;
+                }
+                closeImagesModal();
+                if (server) {
+                    resolve(selectedImages.map(item => item.index));
+                } else {
+                    showToast("正在下载文件，请稍等...");
+                    await downloadImage(selectedImages, name)
                 }
             });
 
-            imageGrid.appendChild(item);
-        });
+            // 关闭事件
+            closeBtn.addEventListener('click', closeImagesModal);
+            overlay.addEventListener('click', (e) => e.target === overlay && closeImagesModal());
 
-        body.appendChild(imageGrid);
+            const setAllChecked = (checked) => {
+                const items = imageGrid.querySelectorAll('.image-item');
+                items.forEach((item) => {
+                    const box = item.querySelector('.image-checkbox');
+                    if (!box || box.disabled) return;
+                    box.checked = checked;
+                    item.classList.toggle('selected', checked);
+                });
+            };
 
-        // 创建底部按钮
-        const footer = document.createElement('div');
-        footer.className = 'modal-footer';
-        // 新增：全选 / 全不选
-        const selectAllBtn = document.createElement('button');
-        selectAllBtn.className = 'secondary-btn';
-        selectAllBtn.textContent = '全选';
-
-        const selectNoneBtn = document.createElement('button');
-        selectNoneBtn.className = 'secondary-btn';
-        selectNoneBtn.textContent = '全不选';
-
-        const confirmBtn = document.createElement('button');
-        confirmBtn.className = 'primary-btn';
-        confirmBtn.textContent = '开始下载';
-
-        const closeBtn = document.createElement('button');
-        closeBtn.className = 'secondary-btn';
-        closeBtn.textContent = '关闭窗口';
-
-        footer.appendChild(selectAllBtn);
-        footer.appendChild(selectNoneBtn);
-        footer.appendChild(confirmBtn);
-        footer.appendChild(closeBtn);
-
-        // 组装弹窗
-        modal.appendChild(header);
-        modal.appendChild(body);
-        modal.appendChild(footer);
-        overlay.appendChild(modal);
-        document.body.appendChild(overlay);
-
-        // 确认事件
-        confirmBtn.addEventListener('click', async () => {
-            const selectedImages = Array.from(document.querySelectorAll('.image-checkbox:checked')).map((checkbox) => {
-                let item = checkbox.parentElement.querySelector('img');
-                return {
-                    index: item.index, url: item.url,
-                }
-            });
-            if (selectedImages.length === 0) {
-                showToast('请至少选择一张图片！');
-                return;
-            }
-            closeImagesModal();
-            showToast("正在下载文件，请稍等...");
-            await downloadImage(selectedImages, name)
-        });
-
-        // 关闭事件
-        closeBtn.addEventListener('click', closeImagesModal);
-        overlay.addEventListener('click', (e) => e.target === overlay && closeImagesModal());
-
-        const setAllChecked = (checked) => {
-            const items = imageGrid.querySelectorAll('.image-item');
-            items.forEach((item) => {
-                const box = item.querySelector('.image-checkbox');
-                if (!box || box.disabled) return;
-                box.checked = checked;
-                item.classList.toggle('selected', checked);
-            });
-        };
-
-        // 全选 / 全不选
-        selectAllBtn.addEventListener('click', () => setAllChecked(true));
-        selectNoneBtn.addEventListener('click', () => setAllChecked(false));
+            // 全选 / 全不选
+            selectAllBtn.addEventListener('click', () => setAllChecked(true));
+            selectNoneBtn.addEventListener('click', () => setAllChecked(false));
+        })
     };
 
     (() => {
@@ -1568,7 +1626,7 @@
                 container.querySelectorAll('.list-item').forEach((row) => {
                     const checkbox = row.querySelector('.list-checkbox');
                     if (checkbox && checkbox.checked) {
-                        const key = row.dataset.key;
+                        const {key} = row.dataset;
                         if (map.has(key)) selected.push(map.get(key));
                     }
                 });
@@ -1854,59 +1912,77 @@
 
         if (!config.disclaimer) {
             menuItems.push({
-                text: 'README', icon: ' 📄 ', action: readme, description: '阅读脚本说明和免责声明'
-            },);
-        } else if (currentUrl === "https://www.xiaohongshu.com/explore" || currentUrl.includes("https://www.xiaohongshu.com/explore?")) {
+                               text: 'README', icon: ' 📄 ', action: readme, description: '阅读脚本说明和免责声明'
+                           },);
+        } else if (currentUrl === "https://www.xiaohongshu.com/explore" || currentUrl.includes(
+            "https://www.xiaohongshu.com/explore?")) {
             menuItems.push({
-                text: '提取推荐作品链接',
-                icon: ' ⛓ ',
-                action: () => extractAllLinksEvent(-1),
-                description: '提取当前页面的作品链接至剪贴板'
-            },);
+                               text: '提取推荐作品链接',
+                               icon: ' ⛓ ',
+                               action: () => extractAllLinksEvent(-1),
+                               description: '提取当前页面的作品链接至剪贴板'
+                           },);
         } else if (currentUrl.includes("https://www.xiaohongshu.com/explore/")) {
             menuItems.push({
-                text: '下载作品文件', icon: ' 📦 ', action: extractDownloadLinks, description: '下载当前作品的无水印文件'
-            },);
+                               text: '下载作品文件',
+                               icon: ' 📦 ',
+                               action: () => extractDownloadLinks(false),
+                               description: '下载当前作品的无水印文件'
+                           },);
+            if (config.scriptServerSwitch) {
+                menuItems.push({
+                                   text: '推送下载任务',
+                                   icon: ' 🌏 ',
+                                   action: () => extractDownloadLinks(true),
+                                   description: '向服务器发送下载请求'
+                               });
+            }
         } else if (currentUrl.includes("https://www.xiaohongshu.com/user/profile/")) {
             menuItems.push({
-                text: '提取发布作品链接',
-                icon: ' ⛓ ',
-                action: () => extractAllLinksEvent(0),
-                description: '提取账号发布作品链接至剪贴板'
-            }, {
-                text: '提取点赞作品链接',
-                icon: ' ⛓ ',
-                action: () => extractAllLinksEvent(2),
-                description: '提取账号点赞作品链接至剪贴板'
-            }, {
-                text: '提取收藏作品链接',
-                icon: ' ⛓ ',
-                action: () => extractAllLinksEvent(1),
-                description: '提取账号收藏作品链接至剪贴板'
-            },);
+                               text: '提取发布作品链接',
+                               icon: ' ⛓ ',
+                               action: () => extractAllLinksEvent(0),
+                               description: '提取账号发布作品链接至剪贴板'
+                           }, {
+                               text: '提取点赞作品链接',
+                               icon: ' ⛓ ',
+                               action: () => extractAllLinksEvent(2),
+                               description: '提取账号点赞作品链接至剪贴板'
+                           }, {
+                               text: '提取收藏作品链接',
+                               icon: ' ⛓ ',
+                               action: () => extractAllLinksEvent(1),
+                               description: '提取账号收藏作品链接至剪贴板'
+                           },);
         } else if (currentUrl.includes("https://www.xiaohongshu.com/search_result")) {
             menuItems.push({
-                text: '提取作品链接', icon: ' ⛓ ', action: () => extractAllLinksEvent(3), description: '提取搜索结果的作品链接至剪贴板'
-            }, {
-                text: '提取用户链接', icon: ' ⛓ ', action: () => extractAllLinksEvent(4), description: '提取搜索结果的用户链接至剪贴板'
-            },);
+                               text: '提取作品链接',
+                               icon: ' ⛓ ',
+                               action: () => extractAllLinksEvent(3),
+                               description: '提取搜索结果的作品链接至剪贴板'
+                           }, {
+                               text: '提取用户链接',
+                               icon: ' ⛓ ',
+                               action: () => extractAllLinksEvent(4),
+                               description: '提取搜索结果的用户链接至剪贴板'
+                           },);
         } else if (currentUrl.includes("https://www.xiaohongshu.com/board/")) {
             menuItems.push({
-                text: "提取专辑作品链接",
-                icon: ' ⛓ ',
-                action: () => extractAllLinksEvent(5),
-                description: '提取当前专辑的作品链接至剪贴板'
-            },);
+                               text: "提取专辑作品链接",
+                               icon: ' ⛓ ',
+                               action: () => extractAllLinksEvent(5),
+                               description: '提取当前专辑的作品链接至剪贴板'
+                           },);
         }
 
         // 常用功能
         menuItems.push({
-            separator: true
-        }, {
-            text: '修改用户脚本设置', icon: ' ⚙️ ', action: showSettings, description: '修改用户脚本设置'
-        }, {
-            text: '访问项目开源仓库', icon: ' 📒 ', action: about, description: '访问项目 GitHub 开源仓库'
-        });
+                           separator: true
+                       }, {
+                           text: '修改用户脚本设置', icon: ' ⚙️ ', action: showSettings, description: '修改用户脚本设置'
+                       }, {
+                           text: '访问项目开源仓库', icon: ' 📒 ', action: about, description: '访问项目 GitHub 开源仓库'
+                       });
 
         // 创建菜单项
         menuItems.forEach(item => {
@@ -1989,5 +2065,74 @@
 
     if (config.keepMenuVisible) {
         showMenu();
+    }
+
+    class WebSocketManager {
+        constructor(url) {
+            this.url = url;
+            this.ws = null;
+        }
+
+        onOpen() {
+        }
+
+        onMessage(message) {
+
+        }
+
+        onClose(event) {
+
+        }
+
+        onError(error) {
+            console.error('Script Server WebSocket error:', error);
+            showToast('脚本服务器连接出错，请检查网络连接或脚本服务器状态是否正常！',);
+        }
+
+        get isConnected() {
+            return this.ws && this.ws.readyState === WebSocket.OPEN;
+        }
+
+        connect() {
+            if (this.ws && this.ws.readyState !== WebSocket.CLOSED) {
+                return;
+            }
+            try {
+                this.ws = new WebSocket(this.url);
+                this.ws.onopen = (event) => this.onOpen(event);
+                this.ws.onmessage = (event) => this.onMessage(event);
+                this.ws.onclose = (event) => {
+                    this.ws = null;
+                    this.onClose(event);
+                };
+                this.ws.onerror = (event) => {
+                    this.ws = null;
+                    this.onError(event);
+                };
+            } catch (error) {
+                this.onError(error);
+            }
+        }
+
+        disconnect() {
+            if (this.isConnected) {
+                this.ws.close();
+            }
+        }
+
+        send(data) {
+            if (this.isConnected) {
+                this.ws.send(data);
+                showToast("已向服务器发送下载请求");
+            } else {
+                showToast('脚本服务器未连接，请检查网络连接或脚本服务器状态是否正常！',);
+            }
+        }
+    }
+
+    const webSocket = new WebSocketManager(config.scriptServerURL,);
+
+    if (config.scriptServerSwitch) {
+        webSocket.connect();
     }
 })();

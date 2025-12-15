@@ -368,13 +368,10 @@ class XHS:
                 ids.append(j.group(1))
         return ids
 
-    async def __deal_extract(
+    async def _get_html_data(
         self,
         url: str,
-        download: bool,
-        index: list | tuple | None,
         log,
-        bar,
         data: bool,
         cookie: str = None,
         proxy: str = None,
@@ -402,12 +399,34 @@ class XHS:
             logging(log, _("{0} 获取数据失败").format(i), ERROR)
             count.fail += 1
             return {}
+        return i, namespace
+
+    def _extract_data(
+        self,
+        namespace: Namespace,
+        id_: str,
+        log,
+        count,
+    ):
         data = self.explore.run(namespace)
         # logging(log, data)  # 调试代码
         if not data:
-            logging(log, _("{0} 提取数据失败").format(i), ERROR)
+            logging(log, _("{0} 提取数据失败").format(id_), ERROR)
             count.fail += 1
             return {}
+        return data
+
+    async def _deal_download_tasks(
+        self,
+        data: dict,
+        namespace: Namespace,
+        id_: str,
+        download: bool,
+        index: list | tuple | None,
+        log,
+        bar,
+        count: SimpleNamespace,
+    ):
         if data["作品类型"] == _("视频"):
             self.__extract_video(data, namespace)
         elif data["作品类型"] in {
@@ -416,7 +435,7 @@ class XHS:
         }:
             self.__extract_image(data, namespace)
         else:
-            logging(log, _("未知的作品类型：{0}").format(i), WARNING)
+            logging(log, _("未知的作品类型：{0}").format(id_), WARNING)
             data["下载地址"] = []
             data["动图地址"] = []
         await self.update_author_nickname(data, log)
@@ -428,9 +447,96 @@ class XHS:
             bar,
             count,
         )
-        logging(log, _("作品处理完成：{0}").format(i))
         # await sleep_time()
         return data
+
+    async def __deal_extract(
+        self,
+        url: str,
+        download: bool,
+        index: list | tuple | None,
+        log,
+        bar,
+        data: bool,
+        cookie: str = None,
+        proxy: str = None,
+        count=SimpleNamespace(
+            all=0,
+            success=0,
+            fail=0,
+            skip=0,
+        ),
+    ):
+        id_, namespace = await self._get_html_data(
+            url,
+            log,
+            data,
+            cookie,
+            proxy,
+            count,
+        )
+        if not namespace:
+            return namespace
+        if not (
+            data := self._extract_data(
+                namespace,
+                id_,
+                log,
+                count,
+            )
+        ):
+            return data
+        data = await self._deal_download_tasks(
+            data,
+            namespace,
+            id_,
+            download,
+            index,
+            log,
+            bar,
+            count,
+        )
+        logging(log, _("作品处理完成：{0}").format(id_))
+        return data
+
+    async def deal_script_tasks(
+        self,
+        data: dict,
+        index: list | tuple | None,
+        log=None,
+        bar=None,
+        count=SimpleNamespace(
+            all=0,
+            success=0,
+            fail=0,
+            skip=0,
+        ),
+    ):
+        namespace = self.json_to_namespace(data)
+        id_ = namespace.safe_extract("noteId", "")
+        if not (
+            data := self._extract_data(
+                namespace,
+                id_,
+                log,
+                count,
+            )
+        ):
+            return data
+        return await self._deal_download_tasks(
+            data,
+            namespace,
+            id_,
+            True,
+            index,
+            log,
+            bar,
+            count,
+        )
+
+    @staticmethod
+    def json_to_namespace(data: dict) -> Namespace:
+        return Namespace(data)
 
     async def update_author_nickname(
         self,
