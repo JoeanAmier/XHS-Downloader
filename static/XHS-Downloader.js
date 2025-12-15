@@ -41,8 +41,7 @@
         maxScrollCount: GM_getValue("maxScrollCount", 50),
         keepMenuVisible: GM_getValue("keepMenuVisible", false),
         linkCheckboxSwitch: GM_getValue("linkCheckboxSwitch", true),
-        imageCheckboxSwitch: GM_getValue("imageCheckboxSwitch", true),
-        // imageDownloadFormat: GM_getValue("imageDownloadFormat", "JPG"),
+        imageCheckboxSwitch: GM_getValue("imageCheckboxSwitch", true), // imageDownloadFormat: GM_getValue("imageDownloadFormat", "JPG"),
         scriptServerURL: GM_getValue("scriptServerURL", defaultsWebSocketURL),
         scriptServerSwitch: GM_getValue("scriptServerSwitch", false),
         fileNameFormat: undefined,
@@ -1136,7 +1135,7 @@
 
         const scriptServerURL = createTextInput({
                                                     label: 'WebSocket 服务器地址',
-                                                    description: 'WebSocket 服务器地址',
+                                                    description: '用户脚本连接的 WebSocket 服务器',
                                                     placeholder: defaultsWebSocketURL,
                                                     value: GM_getValue("scriptServerURL", defaultsWebSocketURL),
                                                     disabled: !GM_getValue("scriptServerSwitch", false),
@@ -1480,10 +1479,10 @@
             /* 列表项 */
             .list-item {
                 display: grid;
-                grid-template-columns: 24px 64px 1fr; /* 复选框、缩略图、文本区 */
+                grid-template-columns: 32px 0px 64px 1fr; /* 序号、复选框、缩略图、文本区 */
                 align-items: center;
-                gap: 12px;
-                padding: 10px;
+                gap: 8px;
+                padding: 8px;
                 border: 1px solid #eee;
                 border-radius: 10px;
                 transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
@@ -1496,6 +1495,11 @@
             .list-item.selected {
                 border-color: #2196F3;
                 box-shadow: 0 0 0 4px rgba(33,150,243,0.12) inset;
+            }
+
+            /* 序号样式 */
+            .list-number {
+                text-align: center;
             }
 
             /* 复选框样式（使用原生复选框以保证可访问性与简单性） */
@@ -1587,10 +1591,15 @@
 
             // id -> item 映射
             const map = new Map();
-            list.forEach(item => {
+            list.forEach((item, index) => {
                 const row = document.createElement('div');
                 row.className = 'list-item';
                 row.dataset.key = item.id;
+
+                // 添加序号
+                const number = document.createElement('div');
+                number.className = 'list-number';
+                number.textContent = (index + 1).toString();
 
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
@@ -1613,6 +1622,7 @@
                 texts.appendChild(author);
                 texts.appendChild(title);
 
+                row.appendChild(number);
                 row.appendChild(checkbox);
                 row.appendChild(img);
                 row.appendChild(texts);
