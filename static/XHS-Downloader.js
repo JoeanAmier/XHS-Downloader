@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.2.2
+// @version        2.2.3
 // @tag            小红书
 // @tag            RedNote
 // @description    提取小红书作品/用户链接，下载小红书无水印图文/视频作品文件
@@ -63,8 +63,7 @@
     };
 
     const readme = async () => {
-        const instructions = `
-功能清单：
+        const instructions = `功能清单：
 1. 下载小红书无水印作品文件
 2. 提取推荐页面作品链接
 3. 提取账号发布作品链接
@@ -85,8 +84,7 @@
 
 项目开源地址：https://github.com/JoeanAmier/XHS-Downloader
 `
-        const disclaimer_content = `
-1. 使用者对本项目的使用由使用者自行决定，并自行承担风险。作者对使用者使用本项目所产生的任何损失、责任、或风险概不负责。
+        const disclaimer_content = `1. 使用者对本项目的使用由使用者自行决定，并自行承担风险。作者对使用者使用本项目所产生的任何损失、责任、或风险概不负责。
 2. 本项目的作者提供的代码和功能是基于现有知识和技术的开发成果。作者按现有技术水平努力确保代码的正确性和安全性，但不保证代码完全没有错误或缺陷。
 3. 本项目依赖的所有第三方库、插件或服务各自遵循其原始开源或商业许可，使用者需自行查阅并遵守相应协议，作者不对第三方组件的稳定性、安全性及合规性承担任何责任。
 4. 使用者在使用本项目时必须严格遵守 GNU General Public License v3.0 的要求，并在适当的地方注明使用了 GNU General Public License v3.0 的代码。
@@ -186,7 +184,23 @@
     };
 
     const about = () => {
-        window.open('https://github.com/JoeanAmier/XHS-Downloader', '_blank');
+        const aboutText = `项目开源协议：GNU General Public License v3.0
+项目开源地址：https://github.com/JoeanAmier/XHS-Downloader
+
+如果 XHS-Downloader 对您有帮助，请考虑为它点个 Star ⭐，感谢您的支持！
+If XHS-Downloader has been helpful to you, please consider giving it a Star ⭐, Thank you for your support!
+
+✨ 作者的其他开源项目：
+✨ Other Open Source Projects by the Author:
+
+DouK-Downloader（抖音、DouYin、TikTok）：https://github.com/JoeanAmier/TikTokDownloader
+KS-Downloader（快手、KuaiShou）：https://github.com/JoeanAmier/KS-Downloader
+
+项目 Discord 社区：https://discord.com/invite/ZYtmgKud9Y
+`;
+        showTextModal({
+                          title: '关于 XHS-Downloader', text: aboutText, mode: 'info', closeText: '关闭'
+                      });
     }
 
     const abnormal = (text) => {
@@ -2067,7 +2081,10 @@
                        }, {
                            text: '修改用户脚本设置', icon: ' ⚙️ ', action: showSettings, description: '修改用户脚本设置'
                        }, {
-                           text: '访问项目开源仓库', icon: ' 📒 ', action: about, description: '访问项目 GitHub 开源仓库'
+            text: '关于 XHS-Downloader',
+            icon: ' 📒 ',
+            action: about,
+            description: '查看 XHS-Downloader 更多信息'
                        });
 
         // 创建菜单项
