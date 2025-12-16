@@ -661,7 +661,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 
 ## DartNode
 
-[![Powered by DartNode](docs/DartNode_AD.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
+[![Powered by DartNode](static/DartNode_AD.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
 
 ***
 
