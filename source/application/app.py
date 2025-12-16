@@ -21,6 +21,7 @@ from pydantic import Field
 from types import SimpleNamespace
 from pyperclip import copy, paste
 from uvicorn import Config, Server
+from typing import Callable
 
 from ..expansion import (
     BrowserCookie,
@@ -48,6 +49,7 @@ from ..module import (
     logging,
     # sleep_time,
     ScriptServer,
+    INFO,
 )
 from ..translation import _, switch_language
 
@@ -57,6 +59,7 @@ from .explore import Explore
 from .image import Image
 from .request import Html
 from .video import Video
+from rich import print
 
 __all__ = ["XHS"]
 
@@ -77,6 +80,19 @@ def data_cache(function):
             data["动图地址"] = lives
 
     return inner
+
+
+class Print:
+    def __init__(
+        self,
+        func: Callable = print,
+    ):
+        self.func = func
+
+    def __call__(
+        self,
+    ):
+        return self.func
 
 
 class XHS:
@@ -123,11 +139,11 @@ class XHS:
         script_server: bool = False,
         script_host="0.0.0.0",
         script_port=5558,
-        _print: bool = True,
         *args,
         **kwargs,
     ):
         switch_language(language)
+        self.print = Print()
         self.manager = Manager(
             ROOT,
             work_path,
@@ -149,8 +165,8 @@ class XHS:
             author_archive,
             write_mtime,
             script_server,
-            _print,
             self.CLEANER,
+            self.print,
         )
         self.mapping_data = mapping_data or {}
         self.map_recorder = MapRecorder(
@@ -190,14 +206,12 @@ class XHS:
         container: dict,
         download: bool,
         index,
-        log,
-        bar,
         count: SimpleNamespace,
     ):
         name = self.__naming_rules(container)
         if (u := container["下载地址"]) and download:
             if await self.skip_download(i := container["作品ID"]):
-                logging(log, _("作品 {0} 存在下载记录，跳过下载").format(i))
+                self.logging(_("作品 {0} 存在下载记录，跳过下载").format(i))
                 count.skip += 1
             else:
                 __, result = await self.download.run(
@@ -210,8 +224,6 @@ class XHS:
                     name,
                     container["作品类型"],
                     container["时间戳"],
-                    log,
-                    bar,
                 )
                 if result:
                     count.success += 1
@@ -221,7 +233,7 @@ class XHS:
                 else:
                     count.fail += 1
         elif not u:
-            logging(log, _("提取作品文件下载地址失败"), ERROR)
+            self.logging(_("提取作品文件下载地址失败"), ERROR)
             count.fail += 1
         await self.save_data(container)
 
@@ -247,12 +259,14 @@ class XHS:
         url: str,
         download=False,
         index: list | tuple = None,
-        log=None,
-        bar=None,
         data=True,
     ) -> list[dict]:
-        if not (urls := await self.extract_links(url, log)):
-            logging(log, _("提取小红书作品链接失败"), WARNING)
+        if not (
+            urls := await self.extract_links(
+                url,
+            )
+        ):
+            self.logging(_("提取小红书作品链接失败"), WARNING)
             return []
         statistics = SimpleNamespace(
             all=len(urls),
@@ -260,14 +274,12 @@ class XHS:
             fail=0,
             skip=0,
         )
-        logging(log, _("共 {0} 个小红书作品待处理...").format(statistics.all))
+        self.logging(_("共 {0} 个小红书作品待处理...").format(statistics.all))
         result = [
             await self.__deal_extract(
                 i,
                 download,
                 index,
-                log,
-                bar,
                 data,
                 count=statistics,
             )
@@ -275,17 +287,14 @@ class XHS:
         ]
         self.show_statistics(
             statistics,
-            log,
         )
         return result
 
-    @staticmethod
     def show_statistics(
+        self,
         statistics: SimpleNamespace,
-        log=None,
     ) -> None:
-        logging(
-            log,
+        self.logging(
             _("共处理 {0} 个作品，成功 {1} 个，失败 {2} 个，跳过 {3} 个").format(
                 statistics.all,
                 statistics.success,
@@ -299,21 +308,19 @@ class XHS:
         url: str,
         download=True,
         index: list | tuple = None,
-        log=None,
-        bar=None,
         data=False,
     ) -> None:
-        url = await self.extract_links(url, log)
+        url = await self.extract_links(
+            url,
+        )
         if not url:
-            logging(log, _("提取小红书作品链接失败"), WARNING)
+            self.logging(_("提取小红书作品链接失败"), WARNING)
             return
         if index:
             await self.__deal_extract(
                 url[0],
                 download,
                 index,
-                log,
-                bar,
                 data,
             )
         else:
@@ -328,8 +335,6 @@ class XHS:
                     u,
                     download,
                     index,
-                    log,
-                    bar,
                     data,
                     count=statistics,
                 )
@@ -337,17 +342,18 @@ class XHS:
             ]
             self.show_statistics(
                 statistics,
-                log,
             )
 
-    async def extract_links(self, url: str, log) -> list:
+    async def extract_links(
+        self,
+        url: str,
+    ) -> list:
         urls = []
         for i in url.split():
             if u := self.SHORT.search(i):
                 i = await self.html.request_url(
                     u.group(),
                     False,
-                    log,
                 )
             if u := self.SHARE.search(i):
                 urls.append(u.group())
@@ -369,7 +375,6 @@ class XHS:
     async def _get_html_data(
         self,
         url: str,
-        log,
         data: bool,
         cookie: str = None,
         proxy: str = None,
@@ -382,19 +387,18 @@ class XHS:
     ) -> tuple[str, Namespace | dict]:
         if await self.skip_download(id_ := self.__extract_link_id(url)) and not data:
             msg = _("作品 {0} 存在下载记录，跳过处理").format(id_)
-            logging(log, msg)
+            self.logging(msg)
             count.skip += 1
             return id_, {"message": msg}
-        logging(log, _("开始处理作品：{0}").format(id_))
+        self.logging(_("开始处理作品：{0}").format(id_))
         html = await self.html.request_url(
             url,
-            log=log,
             cookie=cookie,
             proxy=proxy,
         )
         namespace = self.__generate_data_object(html)
         if not namespace:
-            logging(log, _("{0} 获取数据失败").format(id_), ERROR)
+            self.logging(_("{0} 获取数据失败").format(id_), ERROR)
             count.fail += 1
             return id_, {}
         return id_, namespace
@@ -403,13 +407,11 @@ class XHS:
         self,
         namespace: Namespace,
         id_: str,
-        log,
         count,
     ):
         data = self.explore.run(namespace)
-        # logging(log, data)  # 调试代码
         if not data:
-            logging(log, _("{0} 提取数据失败").format(id_), ERROR)
+            self.logging(_("{0} 提取数据失败").format(id_), ERROR)
             count.fail += 1
             return {}
         return data
@@ -421,8 +423,6 @@ class XHS:
         id_: str,
         download: bool,
         index: list | tuple | None,
-        log,
-        bar,
         count: SimpleNamespace,
     ):
         if data["作品类型"] == _("视频"):
@@ -433,16 +433,16 @@ class XHS:
         }:
             self.__extract_image(data, namespace)
         else:
-            logging(log, _("未知的作品类型：{0}").format(id_), WARNING)
+            self.logging(_("未知的作品类型：{0}").format(id_), WARNING)
             data["下载地址"] = []
             data["动图地址"] = []
-        await self.update_author_nickname(data, log)
+        await self.update_author_nickname(
+            data,
+        )
         await self.__download_files(
             data,
             download,
             index,
-            log,
-            bar,
             count,
         )
         # await sleep_time()
@@ -453,8 +453,6 @@ class XHS:
         url: str,
         download: bool,
         index: list | tuple | None,
-        log,
-        bar,
         data: bool,
         cookie: str = None,
         proxy: str = None,
@@ -467,7 +465,6 @@ class XHS:
     ):
         id_, namespace = await self._get_html_data(
             url,
-            log,
             data,
             cookie,
             proxy,
@@ -479,7 +476,6 @@ class XHS:
             data := self._extract_data(
                 namespace,
                 id_,
-                log,
                 count,
             )
         ):
@@ -490,19 +486,15 @@ class XHS:
             id_,
             download,
             index,
-            log,
-            bar,
             count,
         )
-        logging(log, _("作品处理完成：{0}").format(id_))
+        self.logging(_("作品处理完成：{0}").format(id_))
         return data
 
     async def deal_script_tasks(
         self,
         data: dict,
         index: list | tuple | None,
-        log=None,
-        bar=None,
         count=SimpleNamespace(
             all=0,
             success=0,
@@ -516,7 +508,6 @@ class XHS:
             data := self._extract_data(
                 namespace,
                 id_,
-                log,
                 count,
             )
         ):
@@ -527,8 +518,6 @@ class XHS:
             id_,
             True,
             index,
-            log,
-            bar,
             count,
         )
 
@@ -539,7 +528,6 @@ class XHS:
     async def update_author_nickname(
         self,
         container: dict,
-        log,
     ):
         if a := self.CLEANER.filter_name(
             self.mapping_data.get(i := container["作者ID"], "")
@@ -550,7 +538,6 @@ class XHS:
         await self.mapping.update_cache(
             i,
             container["作者昵称"],
-            log,
         )
 
     @staticmethod
@@ -602,13 +589,10 @@ class XHS:
     async def monitor(
         self,
         delay=1,
-        download=False,
-        log=None,
-        bar=None,
-        data=True,
+        download=True,
+        data=False,
     ) -> None:
-        logging(
-            None,
+        self.logging(
             _(
                 "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"
             ),
@@ -618,7 +602,7 @@ class XHS:
         copy("")
         await gather(
             self.__get_link(delay),
-            self.__receive_link(delay, download, None, log, bar, data),
+            self.__receive_link(delay, download=download, index=None, data=data),
         )
 
     async def __get_link(self, delay: int):
@@ -987,4 +971,11 @@ class XHS:
     async def _script_server_debug(self):
         await self.switch_script_server(
             switch=self.manager.script_server,
+        )
+
+    def logging(self, text, style=INFO):
+        logging(
+            self.print,
+            text,
+            style,
         )

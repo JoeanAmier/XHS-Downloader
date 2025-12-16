@@ -17,6 +17,7 @@ class Html:
         self,
         manager: "Manager",
     ):
+        self.print = manager.print
         self.retry = manager.retry
         self.client = manager.request_client
         self.headers = manager.headers
@@ -27,7 +28,6 @@ class Html:
         self,
         url: str,
         content=True,
-        log=None,
         cookie: str = None,
         proxy: str = None,
         **kwargs,
@@ -62,7 +62,9 @@ class Html:
                     raise ValueError
         except HTTPError as error:
             logging(
-                log, _("网络异常，{0} 请求失败: {1}").format(url, repr(error)), ERROR
+                self.print,
+                _("网络异常，{0} 请求失败: {1}").format(url, repr(error)),
+                ERROR,
             )
             return ""
 

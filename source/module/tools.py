@@ -1,5 +1,6 @@
 from asyncio import sleep
 from random import uniform
+from typing import Callable
 
 from rich import print
 from rich.text import Text
@@ -37,15 +38,16 @@ def retry_limited(function):
     return inner
 
 
-def logging(log, text, style=INFO):
+def logging(log: Callable, text, style=INFO):
     string = Text(text, style=style)
-    if log:
-        log.write(
+    func = log()
+    if func is print:
+        func(string)
+    else:
+        func.write(
             string,
             scroll_end=True,
         )
-    else:
-        print(string)
 
 
 async def sleep_time(

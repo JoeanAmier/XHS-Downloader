@@ -6,7 +6,7 @@ system to be compatible with PyInstaller's frozen import mechanism.
 
 The Problem:
 -----------
-Beartype's `beartype.claw` module installs a custom path hook into 
+Beartype's `beartype.claw` module installs a custom path hook into
 `sys.path_hooks` that uses `SourceFileLoader` to load and transform Python
 source files. In PyInstaller's frozen environment:
 
@@ -36,26 +36,26 @@ import sys
 
 def _is_pyinstaller_frozen():
     """Check if running in a PyInstaller frozen environment."""
-    return getattr(sys, 'frozen', False) or hasattr(sys, '_MEIPASS')
+    return getattr(sys, "frozen", False) or hasattr(sys, "_MEIPASS")
 
 
 def _patch_beartype_claw():
     """
     Patch beartype's add_beartype_pathhook to skip in frozen environments.
-    
+
     This patches the function at import time before any user code can call it.
     """
     # Only patch if we're actually frozen
     if not _is_pyinstaller_frozen():
         return
-    
+
     try:
         # Import the module containing the function to patch
         from beartype.claw._importlib import clawimpmain
-        
+
         # Store the original function
         _original_add_beartype_pathhook = clawimpmain.add_beartype_pathhook
-        
+
         def _patched_add_beartype_pathhook():
             """
             Patched version of add_beartype_pathhook that skips in frozen env.
@@ -66,15 +66,16 @@ def _patch_beartype_claw():
                 return
             # Otherwise, call the original
             return _original_add_beartype_pathhook()
-        
+
         # Replace the function in clawimpmain module
         clawimpmain.add_beartype_pathhook = _patched_add_beartype_pathhook
-        
+
         # CRITICAL: Also patch clawpkgmain which does `from ... import add_beartype_pathhook`
         # and thus has its own local reference to the original function
         from beartype.claw._package import clawpkgmain
+
         clawpkgmain.add_beartype_pathhook = _patched_add_beartype_pathhook
-        
+
     except ImportError:
         # beartype not installed or not using claw module
         pass
@@ -85,4 +86,3 @@ def _patch_beartype_claw():
 
 # Apply the patch when this runtime hook is loaded
 _patch_beartype_claw()
-

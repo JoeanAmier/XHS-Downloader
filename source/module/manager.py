@@ -71,9 +71,10 @@ class Manager:
         author_archive: bool,
         write_mtime: bool,
         script_server: bool,
-        _print: bool,
         cleaner: "Cleaner",
+        print_object,
     ):
+        self.print = print_object
         self.root = root
         self.cleaner = cleaner
         self.temp = root.joinpath("Temp")
@@ -95,9 +96,7 @@ class Manager:
         self.download_record = self.check_bool(download_record, True)
         self.proxy_tip = None
         self.proxy = self.__check_proxy(proxy)
-        self.print_proxy_tip(
-            _print,
-        )
+        self.print_proxy_tip()
         self.timeout = timeout
         self.request_client = AsyncClient(
             headers=self.headers
@@ -249,14 +248,13 @@ class Manager:
                     ),
                     WARNING,
                 )
+        return None
 
     def print_proxy_tip(
         self,
-        _print: bool = True,
-        log=None,
     ) -> None:
-        if _print and self.proxy_tip:
-            logging(log, *self.proxy_tip)
+        if self.proxy_tip:
+            logging(self.print, *self.proxy_tip)
 
     @classmethod
     def clean_cookie(cls, cookie_string: str) -> str:
