@@ -473,7 +473,7 @@ class XHS:
             proxy,
             count,
         )
-        if not namespace:
+        if not isinstance(namespace, Namespace):
             return namespace
         if not (
             data := self._extract_data(
