@@ -381,9 +381,10 @@ class XHS:
         ),
     ) -> tuple[str, Namespace | dict]:
         if await self.skip_download(id_ := self.__extract_link_id(url)) and not data:
-            logging(log, _("作品 {0} 存在下载记录，跳过处理").format(id_))
+            msg = _("作品 {0} 存在下载记录，跳过处理").format(id_)
+            logging(log, msg)
             count.skip += 1
-            return id_, {}
+            return id_, {"message": msg}
         logging(log, _("开始处理作品：{0}").format(id_))
         html = await self.html.request_url(
             url,
