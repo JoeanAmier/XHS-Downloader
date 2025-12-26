@@ -139,7 +139,6 @@ class XHS:
         script_server: bool = False,
         script_host="0.0.0.0",
         script_port=5558,
-        *args,
         **kwargs,
     ):
         switch_language(language)
@@ -619,7 +618,12 @@ class XHS:
         content: str,
     ):
         await gather(
-            *[self.queue.put(i) for i in await self.extract_links(content, None)]
+            *[
+                self.queue.put(i)
+                for i in await self.extract_links(
+                    content,
+                )
+            ]
         )
 
     async def __receive_link(self, delay: int, *args, **kwargs):
@@ -717,7 +721,9 @@ class XHS:
         )
         async def handle(extract: ExtractParams):
             data = None
-            url = await self.extract_links(extract.url, None)
+            url = await self.extract_links(
+                extract.url,
+            )
             if not url:
                 msg = _("提取小红书作品链接失败")
             else:
@@ -725,8 +731,6 @@ class XHS:
                     url[0],
                     extract.download,
                     extract.index,
-                    None,
-                    None,
                     not extract.skip,
                     extract.cookie,
                     extract.proxy,
@@ -904,21 +908,20 @@ class XHS:
         index: list[str | int] | None,
     ):
         data = None
-        url = await self.extract_links(url, None)
+        url = await self.extract_links(
+            url,
+        )
         if not url:
             msg = _("提取小红书作品链接失败")
+        elif data := await self.__deal_extract(
+            url[0],
+            download,
+            index,
+            True,
+        ):
+            msg = _("获取小红书作品数据成功")
         else:
-            if data := await self.__deal_extract(
-                url[0],
-                download,
-                index,
-                None,
-                None,
-                True,
-            ):
-                msg = _("获取小红书作品数据成功")
-            else:
-                msg = _("获取小红书作品数据失败")
+            msg = _("获取小红书作品数据失败")
         return msg, data
 
     def init_script_server(
