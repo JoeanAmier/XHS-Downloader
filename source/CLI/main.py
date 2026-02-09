@@ -31,9 +31,7 @@ __all__ = ["cli"]
 
 def check_value(function):
     def inner(ctx: Context, param, value):
-        if not value:
-            return
-        return function(ctx, param, value)
+        return function(ctx, param, value) if value else None
 
     return inner
 
@@ -81,8 +79,8 @@ class CLI:
         data.pop("browser_cookie")
 
     def __clean_params(self, data: dict) -> dict:
-        self.__merge_cookie(data)
-        return {k: v for k, v in data.items() if v}
+        # self.__merge_cookie(data)
+        return {k: v for k, v in data.items() if v != None}
 
     @staticmethod
     def __format_index(index: str) -> list:

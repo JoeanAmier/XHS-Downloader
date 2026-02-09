@@ -1,6 +1,6 @@
 [project]
 name = "XHS-Downloader"
-version = "2.7"
+version = "2.8"
 description = "小红书（XiaoHongShu、RedNote）链接提取/作品采集工具：提取账号发布、收藏、点赞、专辑作品链接；提取搜索结果作品、用户链接；采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件"
 authors = [
     { name = "JoeanAmier", email = "yonglelolu@foxmail.com" },
@@ -111,6 +111,8 @@ docstring-code-line-length = "dynamic"
 
 [dependency-groups]
 dev = [
+    "nuitka>=4.0",
+    "pycryptodome>=3.23.0",
     "pyinstaller>=6.17.0",
     "textual-dev>=1.7.0",
 ]
