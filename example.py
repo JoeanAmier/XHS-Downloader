@@ -31,7 +31,7 @@ async def example():
     language = "zh_CN"  # 设置程序提示语言
     author_archive = True  # 是否将每个作者的作品存至单独的文件夹
     write_mtime = True  # 是否将作品文件的 修改时间 修改为作品的发布时间
-    read_cookie = None  # 读取浏览器 Cookie，支持设置浏览器名称（字符串）或者浏览器序号（整数），设置为 None 代表不读取
+    # read_cookie = None  # 读取浏览器 Cookie，支持设置浏览器名称（字符串）或者浏览器序号（整数），设置为 None 代表不读取
 
     # async with XHS() as xhs:
     #     pass  # 使用默认参数
@@ -54,7 +54,7 @@ async def example():
         live_download=live_download,
         download_record=download_record,
         language=language,
-        read_cookie=read_cookie,
+        # read_cookie=read_cookie,
         author_archive=author_archive,
         write_mtime=write_mtime,
     ) as xhs:  # 使用自定义参数

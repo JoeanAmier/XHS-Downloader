@@ -76,6 +76,7 @@
 <p>⭐ It is recommended to use the <a href="https://learn.microsoft.com/en-us/windows/terminal/install">Windows Terminal</a> (default terminal for Windows 11) to run the program for the best display effect!</p>
 <h1>🥣 Usage</h1>
 <p>If you only need to download notes files, it is recommended to choose <b>Program Run</b>; if you have other needs, it is recommended to choose <b>Source Code Run</b>!</p>
+<p>⚠️ Cookies are optional. If issues occur, please try configuring or updating them and retry!</p>
 <p>⚠️ When Cookie is not set, video works can only be downloaded in low resolution; it is recommended to configure Cookie to obtain higher quality (no need to log in to the account)!</p>
 <h2>🖱 Program Run</h2>
 <p>⭐ Mac OS, Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> or <a href="https://github.com/JoeanAmier/XHS-Downloader/actions">Actions</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
@@ -240,7 +241,7 @@ async def example_api():
 <h1>📜 Others</h1>
 <ul>
 <li>Due to the date information carried in the links of RedNote notes, using links obtained from previous dates may be subject to risk control. It is recommended to use the latest RedNote notes links when downloading RedNote work files</li>
-<li>Windows system requires running programs as an administrator to read Chromium, Chrome, Edge browser cookies</li>
+<li><del>Windows system requires running programs as an administrator to read Chromium, Chrome, Edge browser cookies</del></li>
 <li>If the function to save notes data to a file is enabled, the notes data will be stored by default in the <code>./Volume/Download/ExploreData.db</code> file</li>
 <li>The program's download records will be stored in the <code>./Volume/ExploreID.db</code> file</li>
 <li>To prevent high-frequency requests from impacting the platform's servers, this project includes a built-in request delay mechanism</li>
@@ -311,7 +312,7 @@ async def example():
     language = "zh_CN"  # 设置程序提示语言
     author_archive = True  # 是否将每个作者的作品存至单独的文件夹
     write_mtime = True  # 是否将作品文件的 修改时间 修改为作品的发布时间
-    read_cookie = None  # 读取浏览器 Cookie，支持设置浏览器名称（字符串）或者浏览器序号（整数），设置为 None 代表不读取
+    # read_cookie = None  # 读取浏览器 Cookie，支持设置浏览器名称（字符串）或者浏览器序号（整数），设置为 None 代表不读取
     # async with XHS() as xhs:
     #     pass  # 使用默认参数
     async with XHS(
@@ -332,7 +333,7 @@ async def example():
         live_download=live_download,
         download_record=download_record,
         language=language,
-        read_cookie=read_cookie,
+        # read_cookie=read_cookie,
         author_archive=author_archive,
         write_mtime=write_mtime,
     ) as xhs:  # 使用自定义参数

@@ -1,6 +1,6 @@
 from xhshow import Xhshow
 from typing import TYPE_CHECKING
-from ..module import Manager, retry, sleep_time
+from ..module import retry, sleep_time
 from httpx import get
 
 if TYPE_CHECKING:
