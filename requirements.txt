@@ -20,7 +20,7 @@ pyperclip==1.11.0
     # via xhs-downloader (pyproject.toml)
 pyyaml==6.0.3
     # via xhs-downloader (pyproject.toml)
-textual==8.0.2
+textual==8.1.1
     # via xhs-downloader (pyproject.toml)
 uvicorn==0.41.0
     # via xhs-downloader (pyproject.toml)
