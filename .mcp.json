@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "XHS-Downloader": {
+      "command": "npx",
+      "args": [
+        "JoeanAmier-XHS-Downloader"
+      ]
+    }
+  }
+}

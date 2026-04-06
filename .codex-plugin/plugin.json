@@ -1,0 +1,16 @@
+{
+  "name": "XHS-Downloader",
+  "version": "0.1.0",
+  "description": "\u5c0f\u7ea2\u4e66\uff08XiaoHongShu\u3001RedNote\uff09\u94fe\u63a5\u63d0\u53d6/\u4f5c\u54c1\u91c7\u96c6\u5de5\u5177\uff1a\u63d0\u53d6\u8d26\u53f7\u53d1\u5e03\u3001\u6536\u85cf\u3001\u70b9\u8d5e\u3001\u4e13\u8f91\u4f5c\u54c1\u94fe\u63a5\uff1b\u63d0\u53d6\u641c\u7d22\u7ed3\u679c\u4f5c\u54c1\u3001\u7528\u6237\u94fe\u63a5\uff1b\u91c7\u96c6\u5c0f\u7ea2\u4e66\u4f5c\u54c1\u4fe1\u606f\uff1b\u63d0\u53d6\u5c0f\u7ea2\u4e66\u4f5c\u54c1\u4e0b\u8f7d\u5730\u5740\uff1b\u4e0b\u8f7d\u5c0f\u7ea2\u4e66\u4f5c\u54c1\u6587\u4ef6",
+  "author": {
+    "name": "JoeanAmier",
+    "url": "https://github.com/JoeanAmier"
+  },
+  "homepage": "https://github.com/JoeanAmier/XHS-Downloader",
+  "repository": "https://github.com/JoeanAmier/XHS-Downloader",
+  "keywords": [
+    "mcp",
+    "codex"
+  ],
+  "mcpServers": "./.mcp.json"
+}
