@@ -5,5 +5,8 @@ __all__ = ["Progress"]
 
 
 class Progress(Screen):
+    """Displays download progress in a Textual UI."""
+
     def compose(self) -> ComposeResult:
-        pass
+        """Compose the progress display widgets."""
+        return
