@@ -8,7 +8,6 @@ from textual.widgets import Button, Footer, Header, Label, RichLog
 from ..application import XHS
 from ..module import (
     INFO,
-    MASTER,
     PROJECT,
 )
 from ..translation import _
@@ -42,24 +41,12 @@ class Monitor(Screen):
 
     @work(exclusive=True)
     async def run_monitor(self):
-        await self.xhs.monitor(
-            download=True,
-            log=self.query_one(RichLog),
-            data=False,
-        )
+        await self.xhs.monitor()
         await self.action_close()
 
     def on_mount(self) -> None:
         self.title = PROJECT
-        self.query_one(RichLog).write(
-            Text(
-                _(
-                    "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"
-                ),
-                style=MASTER,
-            ),
-            scroll_end=True,
-        )
+        self.xhs.print.func = self.query_one(RichLog)
         self.run_monitor()
 
     async def action_close(self):

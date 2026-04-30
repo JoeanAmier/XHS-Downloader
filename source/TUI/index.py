@@ -61,7 +61,7 @@ class Index(Screen):
             ),
             Input(placeholder=_("多个链接之间使用空格分隔")),
             HorizontalScroll(
-                Button(_("下载无水印作品文件"), id="deal"),
+                Button(_("下载作品文件"), id="deal"),
                 Button(_("读取剪贴板"), id="paste"),
                 Button(_("清空输入框"), id="reset"),
             ),
@@ -77,13 +77,12 @@ class Index(Screen):
         self.title = PROJECT
         self.url = self.query_one(Input)
         self.tip = self.query_one(RichLog)
+        self.xhs.print.func = self.tip
         self.tip.write(
             Text(_("免责声明\n") + f"\n{'>' * 50}", style=MASTER),
             scroll_end=True,
         )
-        self.xhs.manager.print_proxy_tip(
-            log=self.tip,
-        )
+        self.xhs.manager.print_proxy_tip()
 
     @on(Button.Pressed, "#deal")
     async def deal_button(self):
@@ -114,7 +113,6 @@ class Index(Screen):
             await self.xhs.extract(
                 self.url.value,
                 True,
-                log=self.tip,
                 data=False,
             )
         ):

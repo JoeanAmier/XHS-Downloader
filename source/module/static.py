@@ -1,7 +1,7 @@
 from pathlib import Path
 
 VERSION_MAJOR = 2
-VERSION_MINOR = 7
+VERSION_MINOR = 8
 VERSION_BETA = True
 __VERSION__ = f"{VERSION_MAJOR}.{VERSION_MINOR}.{'beta' if VERSION_BETA else 'stable'}"
 ROOT = Path(__file__).resolve().parent.parent.parent.joinpath("Volume")
@@ -16,7 +16,10 @@ RELEASES = "https://github.com/JoeanAmier/XHS-Downloader/releases/latest"
 
 USERSCRIPT = "https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js"
 
-USERAGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36"
+USERAGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 "
+    "Safari/537.36 Edg/143.0.0.0"
+)
 
 HEADERS = {
     "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,"
@@ -25,13 +28,13 @@ HEADERS = {
     "user-agent": USERAGENT,
 }
 
-MASTER = "b #fff200"
-PROMPT = "b turquoise2"
-GENERAL = "b bright_white"
-PROGRESS = "b bright_magenta"
-ERROR = "b bright_red"
-WARNING = "b bright_yellow"
-INFO = "b bright_green"
+MASTER = "#fff200"
+PROMPT = "turquoise2"
+GENERAL = "bright_white"
+PROGRESS = "bright_magenta"
+ERROR = "bright_red"
+WARNING = "bright_yellow"
+INFO = "bright_green"
 
 FILE_SIGNATURES: tuple[
     tuple[

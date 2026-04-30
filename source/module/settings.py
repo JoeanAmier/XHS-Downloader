@@ -15,21 +15,25 @@ class Settings:
         "folder_name": "Download",  # 下载文件夹名称
         "name_format": "发布时间 作者昵称 作品标题",  # 文件命名格式
         "user_agent": USERAGENT,  # 请求头
+        # "a_user_agent": USERAGENT,  # 请求头
+        # "b_user_agent": USERAGENT,  # 请求头
         "cookie": "",  # Cookie
         "proxy": None,  # 代理设置
         "timeout": 10,  # 超时时间(秒)
         "chunk": 1024 * 1024 * 2,  # 下载块大小(字节)
         "max_retry": 5,  # 最大重试次数
         "record_data": False,  # 是否记录作品数据
-        "image_format": "PNG",  # 图文作品格式
+        "image_format": "JPEG",  # 图文作品格式
         "image_download": True,  # 是否下载图文
         "video_download": True,  # 是否下载视频
         "live_download": False,  # 是否下载动图
+        "video_preference": "resolution",  # 视频文件偏好
         "folder_mode": False,  # 文件夹归档模式
         "download_record": True,  # 是否记录下载历史
         "author_archive": False,  # 是否按作者归档
         "write_mtime": False,  # 是否写入修改时间
         "language": "zh_CN",  # 语言设置
+        "script_server": False,  # 是否启用脚本服务器
     }
     # 根据操作系统设置编码格式
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"

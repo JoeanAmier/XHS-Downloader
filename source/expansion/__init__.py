@@ -1,4 +1,4 @@
-from .browser import BrowserCookie
+# from .browser import BrowserCookie
 from .cleaner import Cleaner
 from .converter import Converter
 from .error import CacheError

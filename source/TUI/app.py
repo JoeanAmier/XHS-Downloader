@@ -76,6 +76,7 @@ class XHSDownloader(App):
         await self.APP.close()
         self.__initialization()
         await self.__aenter__()
+        await self.APP.switch_script_server()
         self.uninstall_screen("index")
         self.uninstall_screen("setting")
         self.uninstall_screen("loading")

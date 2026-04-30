@@ -6,4 +6,6 @@ __pycache__/
 /.run/
 /Volume/
 !/.github/
-.DS_Store
+/build/
+/dist/
+/output/

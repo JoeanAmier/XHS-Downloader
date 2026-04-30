@@ -1,28 +1,28 @@
 [project]
 name = "XHS-Downloader"
-version = "2.7"
+version = "2.8"
 description = "小红书（XiaoHongShu、RedNote）链接提取/作品采集工具：提取账号发布、收藏、点赞、专辑作品链接；提取搜索结果作品、用户链接；采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件"
 authors = [
     { name = "JoeanAmier", email = "yonglelolu@foxmail.com" },
 ]
 readme = "README.md"
 license = "GPL-3.0"
-requires-python = ">=3.12,<3.13"
+requires-python = ">=3.12"
 dependencies = [
     "aiofiles>=25.1.0",
-    "aiosqlite>=0.21.0",
-    "bs4>=0.0.2",
-    "click>=8.3.0",
+    "aiosqlite>=0.22.1",
+    "click>=8.3.1",
+    "curl-cffi>=0.15.0",
     "emoji>=2.15.0",
-    "fastapi>=0.121.0",
-    "fastmcp>=2.13.0",
-    "httpx[socks]>=0.28.1",
-    "lxml>=6.0.2",
+    "fastapi>=0.128.5",
+    "fastmcp>=2.14.5",
+    "httpx[http2,socks]>=0.28.1",
+    "lxml>=6.1.0",
     "pyperclip>=1.11.0",
     "pyyaml>=6.0.3",
-    "rookiepy>=0.5.6",
-    "textual>=6.5.0",
-    "uvicorn>=0.38.0",
+    "textual>=7.5.0",
+    "uvicorn>=0.40.0",
+    "websockets>=16.0",
 ]
 
 [project.urls]
@@ -112,5 +112,8 @@ docstring-code-line-length = "dynamic"
 
 [dependency-groups]
 dev = [
+    "nuitka>=4.0",
+    "pycryptodome>=3.23.0",
+    "pyinstaller>=6.17.0",
     "textual-dev>=1.7.0",
 ]

@@ -26,7 +26,7 @@ class SiteNavRoute:
             response_class=JSONResponse,
         )
         async def get_sites(category: str = "index"):
-            logging(None, f"start get sites for category: {category}")
+            logging(self.manager.print, f"start get sites for category: {category}")
             return await self.db_obj.all(category)
 
         def _build_site_tree(flat_sites):
@@ -58,7 +58,7 @@ class SiteNavRoute:
             response_class=JSONResponse,
         )
         async def get_sites_tree(category: str = "index"):
-            logging(None, f"start get sites tree for category: {category}")
+            logging(self.manager.print, f"start get sites tree for category: {category}")
             flat_sites = await self.db_obj.all(category)
             tree_sites = _build_site_tree(flat_sites)
             return tree_sites
@@ -139,7 +139,7 @@ class SiteNavRoute:
             response_class=JSONResponse,
         )
         async def batch_update_metadata(category: str):
-            logging(None, f"start batch update metadata for category: {category}")
+            logging(self.manager.print, f"start batch update metadata for category: {category}")
 
             # 查询符合条件的站点
             query = "SELECT * FROM site_item WHERE LOWER(category) = LOWER(?) AND uri IS NOT NULL AND uri != '' AND (favicon IS NULL OR favicon = '')"
@@ -167,7 +167,7 @@ class SiteNavRoute:
                             await self.db_obj.update(site["id"], **update_data)
                             updated_count += 1
                 except Exception as e:
-                    logging(None, f"Error updating metadata for {url}: {e}")
+                    logging(self.manager.print, f"Error updating metadata for {url}: {e}")
 
             return {
                 "code": 200,

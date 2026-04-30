@@ -2,6 +2,7 @@ from pathlib import Path
 from re import compile, sub
 from shutil import move, rmtree
 from os import utime
+from http.cookies import SimpleCookie
 from httpx import (
     AsyncClient,
     AsyncHTTPTransport,
@@ -66,13 +67,16 @@ class Manager:
         image_download: bool,
         video_download: bool,
         live_download: bool,
+        video_preference: str,
         download_record: bool,
         folder_mode: bool,
         author_archive: bool,
         write_mtime: bool,
-        _print: bool,
+        script_server: bool,
         cleaner: "Cleaner",
+        print_object,
     ):
+        self.print = print_object
         self.root = root
         self.cleaner = cleaner
         self.temp = root.joinpath("Temp")
@@ -81,9 +85,6 @@ class Manager:
         self.compatible()
         self.blank_headers = HEADERS | {
             "user-agent": user_agent or USERAGENT,
-        }
-        self.headers = self.blank_headers | {
-            "cookie": cookie,
         }
         self.retry = retry
         self.chunk = chunk
@@ -94,17 +95,17 @@ class Manager:
         self.download_record = self.check_bool(download_record, True)
         self.proxy_tip = None
         self.proxy = self.__check_proxy(proxy)
-        self.print_proxy_tip(
-            _print,
-        )
+        self.print_proxy_tip()
         self.timeout = timeout
         self.request_client = AsyncClient(
-            headers=self.headers
+            headers=self.blank_headers
             | {
                 "referer": "https://www.xiaohongshu.com/",
             },
+            cookies=self.cookie_str_to_dict(cookie),
             timeout=timeout,
             verify=False,
+            http2=True,
             follow_redirects=True,
             mounts={
                 "http://": AsyncHTTPTransport(proxy=self.proxy),
@@ -123,9 +124,11 @@ class Manager:
         )
         self.image_download = self.check_bool(image_download, True)
         self.video_download = self.check_bool(video_download, True)
+        self.video_preference = self.check_video_preference(video_preference)
         self.live_download = self.check_bool(live_download, True)
         self.author_archive = self.check_bool(author_archive, False)
         self.write_mtime = self.check_bool(write_mtime, False)
+        self.script_server = self.check_bool(script_server, False)
         self.create_folder()
 
     def __check_path(self, path: str) -> Path:
@@ -157,7 +160,7 @@ class Manager:
             "avif",
         }:
             return i
-        return "png"
+        return "jpeg"
 
     @staticmethod
     def is_exists(path: Path) -> bool:
@@ -213,6 +216,12 @@ class Manager:
             format_,
         )
 
+    @staticmethod
+    def check_video_preference(preference: str) -> str:
+        if preference in {"resolution", "bitrate", "size"}:
+            return preference
+        return "resolution"
+
     def __check_proxy(
         self,
         proxy: str,
@@ -247,14 +256,13 @@ class Manager:
                     ),
                     WARNING,
                 )
+        return None
 
     def print_proxy_tip(
         self,
-        _print: bool = True,
-        log=None,
     ) -> None:
-        if _print and self.proxy_tip:
-            logging(log, *self.proxy_tip)
+        if self.proxy_tip:
+            logging(self.print, *self.proxy_tip)
 
     @classmethod
     def clean_cookie(cls, cookie_string: str) -> str:
@@ -282,8 +290,18 @@ class Manager:
         self.folder.mkdir(exist_ok=True)
         self.temp.mkdir(exist_ok=True)
 
-    def compatible(self,):
-        if self.path == self.root and (
-            old := self.path.parent.joinpath(self.folder.name)
-        ).exists() and not self.folder.exists():
+    def compatible(
+        self,
+    ):
+        if (
+            self.path == self.root
+            and (old := self.path.parent.joinpath(self.folder.name)).exists()
+            and not self.folder.exists()
+        ):
             move(old, self.folder)
+
+    @staticmethod
+    def cookie_str_to_dict(cookie_str: str) -> dict:
+        cookie = SimpleCookie()
+        cookie.load(cookie_str)
+        return {key: morsel.value for key, morsel in cookie.items()}

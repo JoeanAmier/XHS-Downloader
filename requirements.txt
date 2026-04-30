@@ -2,29 +2,29 @@
 #    uv pip compile pyproject.toml --no-deps --no-strip-extras -o requirements.txt
 aiofiles==25.1.0
     # via xhs-downloader (pyproject.toml)
-aiosqlite==0.21.0
+aiosqlite==0.22.1
     # via xhs-downloader (pyproject.toml)
-click==8.3.0
+click==8.3.2
     # via xhs-downloader (pyproject.toml)
 emoji==2.15.0
     # via xhs-downloader (pyproject.toml)
-fastapi==0.121.0
+fastapi==0.135.3
     # via xhs-downloader (pyproject.toml)
-fastmcp>=2.13.0
+fastmcp>=3.1.0
     # via xhs-downloader (pyproject.toml)
-httpx[socks]==0.28.1
+httpx[http2,socks]==0.28.1
     # via xhs-downloader (pyproject.toml)
-lxml==6.0.2
+lxml==6.1.0
     # via xhs-downloader (pyproject.toml)
 pyperclip==1.11.0
     # via xhs-downloader (pyproject.toml)
 pyyaml==6.0.3
     # via xhs-downloader (pyproject.toml)
-rookiepy==0.5.6
+textual==8.2.3
     # via xhs-downloader (pyproject.toml)
-textual==6.5.0
+uvicorn==0.44.0
     # via xhs-downloader (pyproject.toml)
-uvicorn==0.38.0
+websockets==16.0
     # via xhs-downloader (pyproject.toml)
 bs4>=0.0.2
 pre_commit>=4.2.0

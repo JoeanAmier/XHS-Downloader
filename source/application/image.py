@@ -10,10 +10,16 @@ class Image:
     def get_image_link(cls, data: Namespace, format_: str) -> tuple[list, list]:
         images = data.safe_extract("imageList", [])
         live_link = cls.__get_live_link(images)
-        token_list = [
-            cls.__extract_image_token(Namespace.object_extract(i, "urlDefault"))
-            for i in images
-        ]
+        if not any(
+            token_list := [
+                cls.__extract_image_token(Namespace.object_extract(i, "urlDefault"))
+                for i in images
+            ]
+        ):
+            token_list = [
+                cls.__extract_image_token(Namespace.object_extract(i, "url"))
+                for i in images
+            ]
         match format_:
             case "png" | "webp" | "jpeg" | "heic" | "avif":
                 return [
