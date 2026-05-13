@@ -61,7 +61,10 @@ class Manager:
         cookie: str,
         proxy: str | dict,
         timeout: int,
+        download_timeout: int,
         retry: int,
+        max_workers: int,
+        retry_backoff: bool,
         record_data: bool,
         image_format: str,
         image_download: bool,
@@ -87,6 +90,9 @@ class Manager:
             "user-agent": user_agent or USERAGENT,
         }
         self.retry = retry
+        self.max_workers = max_workers
+        self.retry_backoff = retry_backoff
+        self.download_timeout = download_timeout
         self.chunk = chunk
         self.name_format = self.__check_name_format(name_format)
         self.record_data = self.check_bool(record_data, False)
@@ -114,7 +120,7 @@ class Manager:
         )
         self.download_client = AsyncClient(
             headers=self.blank_headers,
-            timeout=timeout,
+            timeout=download_timeout,
             verify=False,
             follow_redirects=True,
             mounts={

@@ -12,9 +12,7 @@ from ..module import (
     ERROR,
     FILE_SIGNATURES,
     FILE_SIGNATURES_LENGTH,
-    MAX_WORKERS,
     logging,
-    # sleep_time,
 )
 from ..module import retry as re_download
 from ..translation import _
@@ -28,7 +26,6 @@ __all__ = ["Download"]
 
 
 class Download:
-    SEMAPHORE = Semaphore(MAX_WORKERS)
     CONTENT_TYPE_MAP = {
         "image/png": "png",
         "image/jpeg": "jpeg",
@@ -48,9 +45,11 @@ class Download:
         self.folder = manager.folder
         self.temp = manager.temp
         self.chunk = manager.chunk
+        self.semaphore = Semaphore(manager.max_workers)
         self.client: "AsyncClient" = manager.download_client
         self.headers = manager.blank_headers
         self.retry = manager.retry
+        self.retry_backoff = manager.retry_backoff
         self.folder_mode = manager.folder_mode
         self.video_format = "mp4"
         self.live_format = "mp4"
@@ -202,7 +201,7 @@ class Download:
         format_: str,
         mtime: int,
     ):
-        async with self.SEMAPHORE:
+        async with self.semaphore:
             headers = self.headers.copy()
             temp = self.temp.joinpath(f"{name}.{format_}")
             self.__update_headers_range(

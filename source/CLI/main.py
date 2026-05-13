@@ -261,6 +261,11 @@ class CLI:
     type=int,
 )
 @option(
+    "--download_timeout",
+    "-dt",
+    type=int,
+)
+@option(
     "--chunk",
     "-c",
     type=int,
@@ -269,6 +274,16 @@ class CLI:
     "--max_retry",
     "-mr",
     type=int,
+)
+@option(
+    "--max_workers",
+    "-mw",
+    type=int,
+)
+@option(
+    "--retry_backoff",
+    "-rb",
+    type=bool,
 )
 @option(
     "--record_data",
