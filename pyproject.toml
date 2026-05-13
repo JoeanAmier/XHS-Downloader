@@ -20,7 +20,7 @@ dependencies = [
     "lxml>=6.1.0",
     "pyperclip>=1.11.0",
     "pyyaml>=6.0.3",
-    "textual>=8.2.4",
+    "textual>=8.2.6",
     "uvicorn>=0.46.0",
     "websockets>=16.0",
 ]

@@ -1919,7 +1919,7 @@ wheels = [
 
 [[package]]
 name = "textual"
-version = "8.2.4"
+version = "8.2.6"
 source = { registry = "https://mirrors.ustc.edu.cn/pypi/simple" }
 dependencies = [
     { name = "markdown-it-py", extra = ["linkify"] },
@@ -1929,9 +1929,9 @@ dependencies = [
     { name = "rich" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://mirrors.ustc.edu.cn/pypi/packages/19/89/bec5709fb759f9c784bbcb30b2e3497df3f901691d13c2b864dbf6694a17/textual-8.2.4.tar.gz", hash = "sha256:d4e2b2ddd7157191d00b228592b7c739ea080b7d792fd410f23ca75f05ea76c4", size = 1848933, upload-time = "2026-04-19T04:20:45.845Z" }
+sdist = { url = "https://mirrors.ustc.edu.cn/pypi/packages/1c/b3/b62658f6cf808d28e4d16a07509728a7b17824f55a6d3533f017fd4566b0/textual-8.2.6.tar.gz", hash = "sha256:cef3714498a120a99278b98d4c165c278844e73db50f1db039aaabd89f2d1b63", size = 1856990, upload-time = "2026-05-13T09:56:12.281Z" }
 wheels = [
-    { url = "https://mirrors.ustc.edu.cn/pypi/packages/5c/32/02932f0d597cdbb34e34bf24266ff0f2cf292ccb3aafc37dd9efcb0cc416/textual-8.2.4-py3-none-any.whl", hash = "sha256:a83bd3f0cc7125ca203845af753f9d6b6be030025ecd1b05cc75ebe645b9c4ba", size = 724390, upload-time = "2026-04-19T04:20:49.968Z" },
+    { url = "https://mirrors.ustc.edu.cn/pypi/packages/b8/b4/c2b876f445e52522824cb900f2c7db3a7c24f89d20449ef278b4195d0ecb/textual-8.2.6-py3-none-any.whl", hash = "sha256:17c92bec7ff1617bd7db2a3d9734b0c3b7d2c274c67d5eba94371ea2f99a63fd", size = 729855, upload-time = "2026-05-13T09:56:14.687Z" },
 ]
 
 [[package]]
@@ -2176,7 +2176,7 @@ requires-dist = [
     { name = "lxml", specifier = ">=6.1.0" },
     { name = "pyperclip", specifier = ">=1.11.0" },
     { name = "pyyaml", specifier = ">=6.0.3" },
-    { name = "textual", specifier = ">=8.2.4" },
+    { name = "textual", specifier = ">=8.2.6" },
     { name = "uvicorn", specifier = ">=0.46.0" },
     { name = "websockets", specifier = ">=16.0" },
 ]
