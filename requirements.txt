@@ -4,7 +4,7 @@ aiofiles==25.1.0
     # via xhs-downloader (pyproject.toml)
 aiosqlite==0.22.1
     # via xhs-downloader (pyproject.toml)
-click==8.3.2
+click==8.3.3
     # via xhs-downloader (pyproject.toml)
 emoji==2.15.0
     # via xhs-downloader (pyproject.toml)
