@@ -1259,9 +1259,9 @@ wheels = [
 
 [[package]]
 name = "nuitka"
-version = "4.0.8"
+version = "4.1"
 source = { registry = "https://mirrors.ustc.edu.cn/pypi/simple" }
-sdist = { url = "https://mirrors.ustc.edu.cn/pypi/packages/1c/48/e54130d57b89fc015d702e98a1a217b5757625d01a01cc07d29fd046d336/nuitka-4.0.8.tar.gz", hash = "sha256:3f87e87e4d3773997944ce401145ef21461337121d39ea0fbe678274005e60ba", size = 4422692, upload-time = "2026-04-10T07:18:15.109Z" }
+sdist = { url = "https://mirrors.ustc.edu.cn/pypi/packages/53/db/b7a344ad688cd6d8547746869f904b105674ff529a24fa5a3d7bdd95560a/nuitka-4.1.tar.gz", hash = "sha256:99092d26f5f8d5264186924451f7df5872bf6a922297062ace2798ecec7cfa0f", size = 4543258, upload-time = "2026-05-11T07:16:35.483Z" }
 
 [[package]]
 name = "openapi-pydantic"
@@ -2183,7 +2183,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "nuitka", specifier = ">=4.0" },
+    { name = "nuitka", specifier = ">=4.1" },
     { name = "pycryptodome", specifier = ">=3.23.0" },
     { name = "pyinstaller", specifier = ">=6.20.0" },
     { name = "textual-dev", specifier = ">=1.7.0" },
