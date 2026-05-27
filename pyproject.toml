@@ -21,7 +21,7 @@ dependencies = [
     "pyperclip>=1.11.0",
     "pyyaml>=6.0.3",
     "textual>=8.2.6",
-    "uvicorn>=0.46.0",
+    "uvicorn>=0.48.0",
     "websockets>=16.0",
 ]
 

@@ -22,7 +22,7 @@ pyyaml==6.0.3
     # via xhs-downloader (pyproject.toml)
 textual==8.2.6
     # via xhs-downloader (pyproject.toml)
-uvicorn==0.46.0
+uvicorn==0.48.0
     # via xhs-downloader (pyproject.toml)
 websockets==16.0
     # via xhs-downloader (pyproject.toml)
