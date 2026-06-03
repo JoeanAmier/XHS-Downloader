@@ -99,9 +99,14 @@ class XHS:
     VERSION_MAJOR = VERSION_MAJOR
     VERSION_MINOR = VERSION_MINOR
     VERSION_BETA = VERSION_BETA
-    LINK = compile(r"(?:https?://)?www\.xiaohongshu\.com/explore/\S+")
-    USER = compile(r"(?:https?://)?www\.xiaohongshu\.com/user/profile/[a-z0-9]+/\S+")
-    SHARE = compile(r"(?:https?://)?www\.xiaohongshu\.com/discovery/item/\S+")
+    LINK_XHS = compile(r"(?:https?://)?www\.xiaohongshu\.com/explore/\S+")
+    LINK_RN = compile(r"(?:https?://)?www\.rednote\.com/explore/\S+")
+    USER_XHS = compile(
+        r"(?:https?://)?www\.xiaohongshu\.com/user/profile/[a-z0-9]+/\S+"
+    )
+    USER_RN = compile(r"(?:https?://)?www\.rednote\.com/user/profile/[a-z0-9]+/\S+")
+    SHARE_XHS = compile(r"(?:https?://)?www\.xiaohongshu\.com/discovery/item/\S+")
+    SHARE_RN = compile(r"(?:https?://)?www\.rednote\.com/discovery/item/\S+")
     SHORT = compile(r"(?:https?://)?xhslink\.com/[^\s\"<>\\^`{|}，。；！？、【】《》]+")
     ID = compile(r"(?:explore|item)/(\S+)?\?")
     ID_USER = compile(r"user/profile/[a-z0-9]+/(\S+)?\?")
@@ -366,11 +371,17 @@ class XHS:
                     u.group(),
                     False,
                 )
-            if u := self.SHARE.search(i):
+            if u := self.SHARE_XHS.search(i):
                 urls.append(u.group())
-            elif u := self.LINK.search(i):
+            elif u := self.SHARE_RN.search(i):
                 urls.append(u.group())
-            elif u := self.USER.search(i):
+            elif u := self.LINK_XHS.search(i):
+                urls.append(u.group())
+            elif u := self.LINK_RN.search(i):
+                urls.append(u.group())
+            elif u := self.USER_XHS.search(i):
+                urls.append(u.group())
+            elif u := self.USER_RN.search(i):
                 urls.append(u.group())
         return urls
 
