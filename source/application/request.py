@@ -19,6 +19,7 @@ class Html:
     ):
         self.print = manager.print
         self.retry = manager.retry
+        self.retry_backoff = manager.retry_backoff
         self.client = manager.request_client
         self.headers = manager.blank_headers
         self.timeout = manager.timeout

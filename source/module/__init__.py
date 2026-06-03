@@ -30,7 +30,6 @@ from .static import (
     USERAGENT,
     FILE_SIGNATURES,
     FILE_SIGNATURES_LENGTH,
-    MAX_WORKERS,
     __VERSION__,
 )
 from .tools import (
