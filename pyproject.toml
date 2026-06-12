@@ -11,17 +11,17 @@ requires-python = ">=3.12"
 dependencies = [
     "aiofiles>=25.1.0",
     "aiosqlite>=0.22.1",
-    "click>=8.3.1",
+    "click>=8.3.3",
     "curl-cffi>=0.15.0",
     "emoji>=2.15.0",
-    "fastapi>=0.128.5",
-    "fastmcp>=2.14.5",
+    "fastapi>=0.136.3",
+    "fastmcp>=3.3.1",
     "httpx[http2,socks]>=0.28.1",
     "lxml>=6.1.0",
     "pyperclip>=1.11.0",
     "pyyaml>=6.0.3",
-    "textual>=7.5.0",
-    "uvicorn>=0.40.0",
+    "textual>=8.2.7",
+    "uvicorn>=0.48.0",
     "websockets>=16.0",
 ]
 
@@ -112,8 +112,8 @@ docstring-code-line-length = "dynamic"
 
 [dependency-groups]
 dev = [
-    "nuitka>=4.0",
+    "nuitka>=4.1.1",
     "pycryptodome>=3.23.0",
-    "pyinstaller>=6.17.0",
+    "pyinstaller>=6.20.0",
     "textual-dev>=1.7.0",
 ]

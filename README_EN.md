@@ -238,9 +238,10 @@ async def example_api():
 <hr>
 <img src="static/screenshot/MCP下载文件2.png" alt="MCP File Download">
 </details>
-<h1>📜 Others</h1>
+<h1>📜 Other instructions</h1>
 <ul>
 <li>Due to the date information carried in the links of RedNote notes, using links obtained from previous dates may be subject to risk control. It is recommended to use the latest RedNote notes links when downloading RedNote work files</li>
+<li>If you want the program to use a proxy to request data, set the <code>proxy</code> parameter in the configuration file <code>settings.json</code></li>
 <li><del>Windows system requires running programs as an administrator to read Chromium, Chrome, Edge browser cookies</del></li>
 <li>If the function to save notes data to a file is enabled, the notes data will be stored by default in the <code>./Volume/Download/ExploreData.db</code> file</li>
 <li>The program's download records will be stored in the <code>./Volume/ExploreID.db</code> file</li>
@@ -641,10 +642,19 @@ A: Due to permission restrictions, you cannot directly trigger Actions from the 
 repository to execute the build process
 
 </details>
-<h1>⭐ Star History</h1>
-<p>
-<img alt="Star History Chart" src="https://api.star-history.com/svg?repos=JoeanAmier/XHS-Downloader&amp;type=Timeline"/>
-</p>
+
+# 💝 Project Sponsorship
+
+## DartNode
+
+[![Powered by DartNode](static/other/DartNode_AD.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
+
+***
+
+## ZMTO
+
+<a href="https://www.zmto.com/"><img src="https://console.zmto.com/templates/2019/dist/images/logo_dark.svg" alt="ZMTO"></a>
+<p><a href="https://www.zmto.com/">ZMTO</a>: A professional cloud infrastructure provider offering sophisticated solutions with reliable technology and expert support. We also empower qualified open source initiatives with enterprise-grade VPS infrastructure, driving sustainable development and innovation in the open source ecosystem. </p>
 <h1>♥️ Support the Project</h1>
 <p>If <b>XHS-Downloader</b> has been helpful to you, please consider giving it a <b>Star</b> ⭐, Thank you for your support!</p>
 <table>
@@ -661,27 +671,6 @@ repository to execute the build process
 </tbody>
 </table>
 <p>If you are willing, you may consider making a donation to provide additional support for <b>XHS-Downloader</b>!</p>
-
-# 💰 Project Sponsorship
-
-## DartNode
-
-[![Powered by DartNode](static/other/DartNode_AD.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
-
-***
-
-## ZMTO
-
-<a href="https://www.zmto.com/"><img src="https://console.zmto.com/templates/2019/dist/images/logo_dark.svg" alt="ZMTO"></a>
-<p><a href="https://www.zmto.com/">ZMTO</a>: A professional cloud infrastructure provider offering sophisticated solutions with reliable technology and expert support. We also empower qualified open source initiatives with enterprise-grade VPS infrastructure, driving sustainable development and innovation in the open source ecosystem. </p>
-
-***
-
-## IPWO
-
-<p><a href="https://www.ipwo.net/?ref=githubJoeanAmier"><img src="static/other/IPWO_AD_LOGO.jpg" alt="IPWO"></a></p>
-<p><a href="https://www.ipwo.net/?ref=githubJoeanAmier">IPWO</a> is a world-leading residential proxy network for web scraping.
-It specializes in providing proxy services covering more than 195 countries worldwide, with a massive IP pool of over 100 million addresses to ensure fast and stable network connections. Featuring high availability and high concurrency, it easily handles large-scale crawling tasks, allowing even beginners to collect data efficiently.</p>
 <h1>🌟 Contribution Guidelines</h1>
 <p><strong>Welcome to contributing to this project! To keep the codebase clean, efficient, and easy to maintain, please read the following guidelines carefully to ensure that your contributions can be accepted and integrated smoothly.</strong></p>
 <ul>
@@ -710,6 +699,10 @@ It specializes in providing proxy services covering more than 195 countries worl
 <li><b>DouK-Downloader（抖音、TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
 <li><b>KS-Downloader（快手、KuaiShou）</b>：<a href="https://github.com/JoeanAmier/KS-Downloader">https://github.com/JoeanAmier/KS-Downloader</a></li>
 </ul>
+<h1>⭐ Star History</h1>
+<p>
+<img alt="Star History Chart" src="https://api.star-history.com/svg?repos=JoeanAmier/XHS-Downloader&amp;type=Timeline"/>
+</p>
 <h1>⚠️ Disclaimer</h1>
 <ol>
 <li>The user's use of this project is entirely at their own discretion and responsibility. The author assumes no liability for any losses, claims, or risks arising from the user's use of this project.</li>

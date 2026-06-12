@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.3.2
+// @version        2.3.3
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -332,7 +332,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             },
         }, // 位置配置
         position: {
-            bottom: '6rem', left: '1rem'
+            bottom: '10rem', left: '3rem'
         }, // 动画配置
         animation: {
             duration: 0.25, // 动画时长(s)
