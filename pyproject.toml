@@ -112,7 +112,7 @@ docstring-code-line-length = "dynamic"
 
 [dependency-groups]
 dev = [
-    "nuitka>=4.1.1",
+    "nuitka>=4.1.2",
     "pycryptodome>=3.23.0",
     "pyinstaller>=6.20.0",
     "textual-dev>=1.7.0",
