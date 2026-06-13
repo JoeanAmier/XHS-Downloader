@@ -14,7 +14,7 @@ fastmcp>=3.3.1
     # via xhs-downloader (pyproject.toml)
 httpx[http2,socks]==0.28.1
     # via xhs-downloader (pyproject.toml)
-lxml==6.1.0
+lxml==6.1.1
     # via xhs-downloader (pyproject.toml)
 pyperclip==1.11.0
     # via xhs-downloader (pyproject.toml)
