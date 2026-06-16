@@ -616,6 +616,14 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 
 # 💝 项目赞助
 
+## Bloome
+
+<p><a href="https://bloome.im/login?ref=KUyJQU6F"><img src="static/other/Bloome_AD.png" alt="Bloome"></a></p>
+<p>不想在本地折腾环境？可以把 XHS-Downloader 作为一个 Agent 接入 <a href="https://bloome.im/login?ref=KUyJQU6F">Bloome</a>：零配置，一键在云端运行，浏览器和手机都能用，还能把配置好的 Agent 直接分享给他人，无需各自部署！</p>
+<p>立即体验：<a href="https://bloome.im/login?ref=KUyJQU6F">https://bloome.im/login?ref=KUyJQU6F</a></p>
+
+***
+
 ## DartNode
 
 [![Powered by DartNode](static/other/DartNode_AD.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
@@ -624,7 +632,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 
 ## ZMTO
 
-<a href="https://www.zmto.com/"><img src="https://console.zmto.com/templates/2019/dist/images/logo_dark.svg" alt="ZMTO"></a>
+<p><a href="https://www.zmto.com/"><img src="https://console.zmto.com/templates/2019/dist/images/logo_dark.svg" alt="ZMTO"></a></p>
 <p><a href="https://www.zmto.com/">ZMTO</a>：一家专业的云基础设施提供商，以可靠的尖端技术与专业支持，提供高效的解决方案，并为符合条件的开源项目提供企业级VPS基础设施，支持开源生态系统的可持续发展与创新。</p>
 <h1>♥️ 支持项目</h1>
 <p>如果 <b>XHS-Downloader</b> 对您有帮助，请考虑为它点个 <b>Star</b> ⭐，感谢您的支持！</p>
