@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.3.3
+// @version        2.3.4
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -704,7 +704,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     };
 
     const extractName = () => {
-        let name = document.title.replace(/ - 小红书$/, "").replace(/ - RedNote$/, "")
+        let name = document.title.replace(/ - 小红书$/, "").replace(/ - rednote$/, "")
                            .replace(/[^\u4e00-\u9fa5a-zA-Z0-9 ~!@#$%&()_\-+=\[\];"',.！（）【】：“”，。《》？]/g, "");
         name = truncateString(name, 64,);
         let match = currentUrl.match(/\/([0-9a-z]+?)\?/);
