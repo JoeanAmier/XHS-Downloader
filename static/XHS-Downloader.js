@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.3.4
+// @version        2.3.5
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -464,7 +464,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         try {
             const key = note.video?.consumer?.originVideoKey;
             if (key) return [`https://sns-video-bd.xhscdn.com/${key}`];
-            const video = note.video.media.stream.h265;
+            const video = note.video.media.stream.h265 && note.video.media.stream.h264;
             return [video[video.length - 1].masterUrl];
         } catch (error) {
             console.error("Error deal video URL:", error);
