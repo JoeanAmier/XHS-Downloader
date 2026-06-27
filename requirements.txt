@@ -8,7 +8,7 @@ click==8.4.1
     # via xhs-downloader (pyproject.toml)
 emoji==2.15.0
     # via xhs-downloader (pyproject.toml)
-fastapi==0.136.3
+fastapi==0.138.1
     # via xhs-downloader (pyproject.toml)
 fastmcp>=3.4.2
     # via xhs-downloader (pyproject.toml)
