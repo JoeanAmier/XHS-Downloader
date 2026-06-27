@@ -1324,9 +1324,9 @@ wheels = [
 
 [[package]]
 name = "nuitka"
-version = "4.1.2"
+version = "4.1.3"
 source = { registry = "https://mirrors.ustc.edu.cn/pypi/simple" }
-sdist = { url = "https://mirrors.ustc.edu.cn/pypi/packages/e6/2e/9ea398ca1a4fc458958fdf477ae18d3395bee8c9f8950ca6f0f039ea2585/nuitka-4.1.2.tar.gz", hash = "sha256:efc2359b171d7b63046ca8ec8dee57015c3466a9df74b68a049c2c1a7e93ecee", size = 4561050, upload-time = "2026-05-28T08:26:07.947Z" }
+sdist = { url = "https://mirrors.ustc.edu.cn/pypi/packages/3f/d8/bdb7febea4b4fe5d3d6fe2610f946771f03e792e05a5e8ec00b62c00b265/nuitka-4.1.3.tar.gz", hash = "sha256:838ff8899dc2f0b652d4fcf6c5d7466cb7ad5abcb005668ac622d1e40f4d8a8d", size = 4565475, upload-time = "2026-06-21T10:48:04.369Z" }
 
 [[package]]
 name = "openapi-pydantic"
@@ -2248,7 +2248,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "nuitka", specifier = ">=4.1.2" },
+    { name = "nuitka", specifier = ">=4.1.3" },
     { name = "pycryptodome", specifier = ">=3.23.0" },
     { name = "pyinstaller", specifier = ">=6.20.0" },
     { name = "textual-dev", specifier = ">=1.7.0" },
