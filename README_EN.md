@@ -89,7 +89,7 @@
 <p><strong>Method 2:</strong> Download and extract the files (do not run the program), then copy all files and directly overwrite the old version.</p>
 <h2>⌨️ Run from Source Code</h2>
 <ol>
-<li>Install <a href="https://www.python.org/">Python</a> interpreter version <code>≥3.12</code></li>
+<li>Install <a href="https://www.python.org/">Python</a> interpreter version not lower than <code>3.12</code></li>
 <li>Download the latest source code or the source code released in <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to your local machine</li>
 <ol><b>Install project dependencies using pip</b>
 <li>Run the command <code>python -m venv venv</code> to create a virtual environment (optional)</li>

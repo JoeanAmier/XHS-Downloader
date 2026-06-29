@@ -88,7 +88,7 @@
 <p><strong>方案二：</strong>下载并解压文件（不要运行程序），复制全部文件，直接覆盖旧版本文件。</p>
 <h2>⌨️ 源码运行</h2>
 <ol>
-<li>安装 <code>≥3.12</code> 版本的 <a href="https://www.python.org/">Python</a> 解释器</li>
+<li>安装不低于 <code>3.12</code> 版本的 <a href="https://www.python.org/">Python</a> 解释器</li>
 <li>下载最新的源码或 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
 <ol><b>使用 pip 安装项目依赖</b>
 <li>运行 <code>python -m venv venv</code> 命令创建虚拟环境（可选）</li>
