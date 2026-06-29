@@ -1,5 +1,5 @@
 from asyncio import sleep
-from random import lognormvariate
+from random import lognormvariate, uniform
 from math import log
 from typing import Callable
 
@@ -14,7 +14,10 @@ def retry(function):
     async def inner(self, *args, **kwargs):
         if result := await function(self, *args, **kwargs):
             return result
-        for __ in range(self.retry):
+        for attempt in range(self.retry):
+            if getattr(self, "retry_backoff", True):
+                delay = 1 * (2**attempt) + uniform(0, 0.5)
+                await sleep(delay)
             if result := await function(self, *args, **kwargs):
                 return result
         return result

@@ -19,9 +19,12 @@ class Settings:
         # "b_user_agent": USERAGENT,  # 请求头
         "cookie": "",  # Cookie
         "proxy": None,  # 代理设置
-        "timeout": 10,  # 超时时间(秒)
+        "timeout": 10,  # 页面请求超时时间(秒)
+        "download_timeout": 30,  # 文件下载超时时间(秒)
         "chunk": 1024 * 1024 * 2,  # 下载块大小(字节)
         "max_retry": 5,  # 最大重试次数
+        "max_workers": 4,  # 同时下载文件的最大并发数
+        "retry_backoff": True,  # 重试时启用指数退避
         "record_data": False,  # 是否记录作品数据
         "image_format": "JPEG",  # 图文作品格式
         "image_download": True,  # 是否下载图文

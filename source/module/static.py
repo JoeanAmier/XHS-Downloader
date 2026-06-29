@@ -65,8 +65,5 @@ FILE_SIGNATURES: tuple[
 FILE_SIGNATURES_LENGTH = max(
     offset + len(signature) for offset, signature, _ in FILE_SIGNATURES
 )
-
-MAX_WORKERS: int = 4
-
 if __name__ == "__main__":
     print(__VERSION__)
