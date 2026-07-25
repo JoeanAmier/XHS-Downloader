@@ -40,3 +40,4 @@ from .tools import (
     retry_limited,
 )
 from .script import ScriptServer
+from .note_info import NoteGenerator

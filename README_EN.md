@@ -290,32 +290,33 @@ async def example_api():
 <p>If you have other needs, you can perform code calls or modifications based on the comments in <code>example.py</code>!</p>
 <pre>
 async def example():
-    """通过代码设置参数，适合二次开发"""
-    # 示例链接
+    """Set parameters via code, suitable for secondary development"""
+    # Example link
     demo_link = "https://www.xiaohongshu.com/explore/XXX?xsec_token=XXX"
-    # 实例对象
-    work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
-    folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
+    # Create instance
+    work_path = "D:\\"  # Root path for saving note data/files, default: project root path
+    folder_name = "Download"  # Folder name for storing note files (auto-created), default: Download
     name_format = "作品标题 作品描述"
     user_agent = ""  # User-Agent
-    cookie = ""  # 小红书网页版 Cookie，无需登录，可选参数，登录状态对数据采集有影响
-    proxy = None  # 网络代理
-    timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
-    chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
-    max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，默认值：5
-    record_data = False  # 是否保存作品数据至文件
-    image_format = "WEBP"  # 图文作品文件下载格式，支持：AUTO、PNG、WEBP、JPEG、HEIC
-    folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
-    image_download = True  # 图文、图集作品文件下载开关
-    video_download = True  # 视频作品文件下载开关
-    live_download = False  # 图文动图文件下载开关
-    download_record = True  # 是否记录下载成功的作品 ID
-    language = "zh_CN"  # 设置程序提示语言
-    author_archive = True  # 是否将每个作者的作品存至单独的文件夹
-    write_mtime = True  # 是否将作品文件的 修改时间 修改为作品的发布时间
-    # read_cookie = None  # 读取浏览器 Cookie，支持设置浏览器名称（字符串）或者浏览器序号（整数），设置为 None 代表不读取
+    cookie = ""  # Xiaohongshu web Cookie
+    proxy = None  # Network proxy
+    timeout = 5  # Request timeout limit, unit: seconds
+    chunk = 1024 * 1024 * 10  # Data chunk size fetched from server per download, unit: bytes
+    max_retry = 2  # Maximum retry count on request failure, unit: retries
+    record_data = False  # Whether to save note data to file
+    image_format = "WEBP"  # Image note download format, supports: AUTO, PNG, WEBP, JPEG, HEIC
+    folder_mode = False  # Whether to store each note's files in a separate folder
+    image_download = True  # Image/album note download switch
+    video_download = True  # Video note download switch
+    live_download = False  # Image GIF file download switch
+    download_record = True  # Whether to record successfully downloaded note IDs
+    language = "zh_CN"  # Set program prompt language
+    author_archive = True  # Whether to store each author's notes in a separate folder
+    write_mtime = True  # Whether to set file modification time to note publish time
+    note_format = ""  # Note info save format, supports: txt, md, all, empty means not saved
+    # read_cookie = None  # Read browser Cookie, supports browser name (string) or index (integer), set to None to disable
     # async with XHS() as xhs:
-    #     pass  # 使用默认参数
+    #     pass  # Use default parameters
     async with XHS(
         work_path=work_path,
         folder_name=folder_name,
@@ -337,10 +338,11 @@ async def example():
         # read_cookie=read_cookie,
         author_archive=author_archive,
         write_mtime=write_mtime,
-    ) as xhs:  # 使用自定义参数
-        download = True  # 是否下载作品文件，默认值：False
-        # 返回作品详细信息，包括下载地址
-        # 获取数据失败时返回空字典
+        note_format=note_format,
+    ) as xhs:  # Use custom parameters
+        download = True  # Whether to download note files, default: False
+        # Returns note details including download URLs
+        # Returns empty dict on data fetch failure
         print(
             await xhs.extract(
                 demo_link,
@@ -435,7 +437,7 @@ async def example():
 <tr>
 <td align="center">record_data</td>
 <td align="center">bool</td>
-<td align="center">Whether to save notes data to a file, saved in <code>SQLite</code> format</td>
+<td align="center">Whether to save notes data to <code>SQLite</code> database (all notes saved together)</td>
 <td align="center">false</td>
 </tr>
 <tr>
@@ -503,6 +505,12 @@ async def example():
 <td align="center">bool</td>
 <td align="center">Whether to enable the user script server for receiving download tasks from the browser user script (effective in TUI, MCP, and API modes)</td>
 <td align="center">false</td>
+</tr>
+<tr>
+<td align="center">note_format</td>
+<td align="center">str</td>
+<td align="center">Note info save format (each note saved individually); meaning: <code>txt</code>: plain text; <code>md</code>: Markdown; <code>all</code>: all formats; empty means not saved</td>
+<td align="center">Empty string</td>
 </tr>
 </tbody>
 </table>
@@ -657,12 +665,6 @@ repository to execute the build process
 
 [![Powered by DartNode](static/other/DartNode_AD.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
 
-***
-
-## ZMTO
-
-<p><a href="https://www.zmto.com/"><img src="https://console.zmto.com/templates/2019/dist/images/logo_dark.svg" alt="ZMTO"></a></p>
-<p><a href="https://www.zmto.com/">ZMTO</a>: A professional cloud infrastructure provider offering sophisticated solutions with reliable technology and expert support. We also empower qualified open source initiatives with enterprise-grade VPS infrastructure, driving sustainable development and innovation in the open source ecosystem. </p>
 <h1>♥️ Support the Project</h1>
 <p>If <b>XHS-Downloader</b> has been helpful to you, please consider giving it a <b>Star</b> ⭐, Thank you for your support!</p>
 <table>

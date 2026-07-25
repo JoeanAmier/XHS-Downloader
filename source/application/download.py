@@ -73,12 +73,11 @@ class Download:
         urls: list,
         lives: list,
         index: list | tuple | None,
-        nickname: str,
+        path: Path,
         filename: str,
         type_: str,
         mtime: int,
     ) -> tuple[Path, list[Any]]:
-        path = self.__generate_path(nickname, filename)
         if type_ == _("视频"):
             tasks = self.__ready_download_video(
                 urls,
@@ -109,9 +108,9 @@ class Download:
             for url, name, format_ in tasks
         ]
         tasks = await gather(*tasks)
-        return path, tasks  # 未解之谜
+        return tasks
 
-    def __generate_path(self, nickname: str, filename: str):
+    def generate_path(self, nickname: str, filename: str):
         if self.author_archive:
             folder = self.folder.joinpath(nickname)
             folder.mkdir(exist_ok=True)

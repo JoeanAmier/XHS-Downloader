@@ -184,6 +184,10 @@ class Setting(Screen):
                     _("视频下载偏好"),
                     classes="params",
                 ),
+                Label(
+                    _("作品信息格式"),
+                    classes="params",
+                ),
                 classes="horizontal-layout",
             ),
             Label(),
@@ -205,6 +209,17 @@ class Setting(Screen):
                     value=self.data["video_preference"],
                     allow_blank=False,
                     id="video_preference",
+                ),
+                Select(
+                    [
+                        (_("不保存"), ""),
+                        ("TXT", "txt"),
+                        ("MD", "md"),
+                        ("ALL", "all"),
+                    ],
+                    value=self.data["note_format"],
+                    allow_blank=False,
+                    id="note_format",
                 ),
                 classes="horizontal-layout",
             ),
@@ -256,6 +271,7 @@ class Setting(Screen):
                 "write_mtime": self.query_one("#write_mtime").value,
                 "script_server": self.query_one("#script_server").value,
                 "video_preference": self.query_one("#video_preference").value,
+                "note_format": self.query_one("#note_format").value,
             }
         )
 

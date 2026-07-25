@@ -313,6 +313,11 @@ class CLI:
     type=bool,
 )
 @option(
+    "--note_format",
+    "-nfmt",
+    type=Choice(["txt", "md", "all", ""]),
+)
+@option(
     "--language",
     "-l",
     type=Choice(["zh_CN", "en_US"]),

@@ -73,6 +73,7 @@ class Manager:
         author_archive: bool,
         write_mtime: bool,
         script_server: bool,
+        note_format: str,
         cleaner: "Cleaner",
         print_object,
     ):
@@ -129,6 +130,7 @@ class Manager:
         self.author_archive = self.check_bool(author_archive, False)
         self.write_mtime = self.check_bool(write_mtime, False)
         self.script_server = self.check_bool(script_server, False)
+        self.note_format = self.__check_note_format(note_format)
         self.create_folder()
 
     def __check_path(self, path: str) -> Path:
@@ -143,11 +145,11 @@ class Manager:
         return self.path.joinpath(folder)
 
     @staticmethod
-    def __check_root_again(root: Path) -> bool | Path:
+    def __check_root_again(root: Path) -> None | Path:
         if root.parent.is_dir():
             root.mkdir(exist_ok=True)
             return root
-        return False
+        return None
 
     @staticmethod
     def __check_image_format(image_format) -> str:
@@ -221,6 +223,12 @@ class Manager:
         if preference in {"resolution", "bitrate", "size"}:
             return preference
         return "resolution"
+
+    @staticmethod
+    def __check_note_format(note_format: str) -> str:
+        if note_format in {"txt", "md", "all"}:
+            return note_format
+        return ""
 
     def __check_proxy(
         self,

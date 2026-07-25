@@ -294,11 +294,11 @@ async def example():
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
     name_format = "作品标题 作品描述"
     user_agent = ""  # User-Agent
-    cookie = ""  # 小红书网页版 Cookie，无需登录，可选参数，登录状态对数据采集有影响
+    cookie = ""  # 小红书网页版 Cookie
     proxy = None  # 网络代理
-    timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
+    timeout = 5  # 请求数据超时限制，单位：秒
     chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
-    max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，默认值：5
+    max_retry = 2  # 请求数据失败时，重试的最大次数，单位：次
     record_data = False  # 是否保存作品数据至文件
     image_format = "WEBP"  # 图文作品文件下载格式，支持：AUTO、PNG、WEBP、JPEG、HEIC
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
@@ -309,6 +309,7 @@ async def example():
     language = "zh_CN"  # 设置程序提示语言
     author_archive = True  # 是否将每个作者的作品存至单独的文件夹
     write_mtime = True  # 是否将作品文件的 修改时间 修改为作品的发布时间
+    note_format = ""  # 作品信息保存格式，支持：txt、md、all，为空则不保存
     # read_cookie = None  # 读取浏览器 Cookie，支持设置浏览器名称（字符串）或者浏览器序号（整数），设置为 None 代表不读取
     # async with XHS() as xhs:
     #     pass  # 使用默认参数
@@ -333,6 +334,7 @@ async def example():
         # read_cookie=read_cookie,
         author_archive=author_archive,
         write_mtime=write_mtime,
+        note_format=note_format,
     ) as xhs:  # 使用自定义参数
         download = True  # 是否下载作品文件，默认值：False
         # 返回作品详细信息，包括下载地址
@@ -431,7 +433,7 @@ async def example():
 <tr>
 <td align="center">record_data</td>
 <td align="center">bool</td>
-<td align="center">是否保存作品数据至文件，保存格式：<code>SQLite</code></td>
+<td align="center">是否保存作品数据至 <code>SQLite</code> 数据库（所有作品统一保存）</td>
 <td align="center">false</td>
 </tr>
 <tr>
@@ -499,6 +501,12 @@ async def example():
 <td align="center">bool</td>
 <td align="center">是否开启用户脚本服务器，用于接收浏览器用户脚本的下载任务（TUI、MCP 和 API 模式生效）</td>
 <td align="center">false</td>
+</tr>
+<tr>
+<td align="center">note_format</td>
+<td align="center">str</td>
+<td align="center">作品信息保存格式（每个作品单独保存）；含义：<code>txt</code>：纯文本；<code>md</code>：Markdown；<code>all</code>：全部格式；为空则不保存</td>
+<td align="center">空字符串</td>
 </tr>
 </tbody>
 </table>
@@ -628,12 +636,6 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 
 [![Powered by DartNode](static/other/DartNode_AD.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
 
-***
-
-## ZMTO
-
-<p><a href="https://www.zmto.com/"><img src="https://console.zmto.com/templates/2019/dist/images/logo_dark.svg" alt="ZMTO"></a></p>
-<p><a href="https://www.zmto.com/">ZMTO</a>：一家专业的云基础设施提供商，以可靠的尖端技术与专业支持，提供高效的解决方案，并为符合条件的开源项目提供企业级VPS基础设施，支持开源生态系统的可持续发展与创新。</p>
 <h1>♥️ 支持项目</h1>
 <p>如果 <b>XHS-Downloader</b> 对您有帮助，请考虑为它点个 <b>Star</b> ⭐，感谢您的支持！</p>
 <table>
