@@ -48,6 +48,9 @@ class Video:
 
     @staticmethod
     def get_video_items(data: Namespace) -> list:
-        h264 = data.safe_extract("video.media.stream.h264", [])
-        h265 = data.safe_extract("video.media.stream.h265", [])
-        return [*h264, *h265]
+        keys = data.safe_extract("video.media.stream").__dict__.keys()
+        items = []
+        for key in keys:
+            item = data.safe_extract(f"video.media.stream.{key}", [])
+            items.extend(item)
+        return items
