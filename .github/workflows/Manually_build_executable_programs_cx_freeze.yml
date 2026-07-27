@@ -10,8 +10,10 @@ jobs:
   build:
     name: 构建于 ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+
     env:
       PYTHONUTF8: "1"
+
     strategy:
       fail-fast: false
       matrix:
@@ -19,12 +21,15 @@ jobs:
           - os: windows-latest
             executable: dist/XHS-Downloader/XHS-Downloader.exe
             artifact: XHS-Downloader_Windows_X64
+
           - os: windows-11-arm
             executable: dist/XHS-Downloader/XHS-Downloader.exe
             artifact: XHS-Downloader_Windows_ARM64
+
           - os: macos-15-intel
             executable: dist/XHS-Downloader/XHS-Downloader
             artifact: XHS-Downloader_macOS_X64
+
           - os: macos-latest
             executable: dist/XHS-Downloader/XHS-Downloader
             artifact: XHS-Downloader_macOS_ARM64
@@ -42,7 +47,7 @@ jobs:
         run: |
           uv python install 3.12
           uv sync --frozen --no-dev --no-install-project --python 3.12
-          uv pip install --upgrade cx_Freeze
+          uv pip install cx_Freeze
 
       - name: 获取构建日期
         run: >-
@@ -57,14 +62,9 @@ jobs:
           uv run --no-sync python -c
           "import subprocess; subprocess.run([r'${{ matrix.executable }}', '--version'], check=True)"
 
-      - name: 创建压缩包
-        run: >-
-          uv run --no-sync python -c
-          "import shutil; shutil.make_archive(r'${{ matrix.artifact }}_${{ env.DATE }}', 'zip', root_dir='dist', base_dir='XHS-Downloader')"
-
       - name: 上传便携式程序
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.artifact }}_${{ env.DATE }}
-          path: ${{ matrix.artifact }}_${{ env.DATE }}.zip
+          path: dist/XHS-Downloader
           if-no-files-found: error
