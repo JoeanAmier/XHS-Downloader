@@ -1,8 +1,14 @@
+from contextlib import suppress
 from gettext import translation
-from locale import getlocale
+from locale import Error, LC_ALL, getlocale, setlocale
 from pathlib import Path
+import sys
 
-ROOT = Path(__file__).resolve().parent.parent.parent
+ROOT = (
+    Path(sys.executable).resolve().parent
+    if getattr(sys, "frozen", False)
+    else Path(__file__).resolve().parent.parent.parent
+)
 
 
 class TranslationManager:
@@ -27,6 +33,8 @@ class TranslationManager:
     @staticmethod
     def get_language_code() -> str:
         # 获取当前系统的语言和区域设置
+        with suppress(Error):
+            setlocale(LC_ALL, "")
         language_code, __ = getlocale()
         if not language_code:
             return "en_US"
