@@ -22,7 +22,7 @@ dependencies = [
     "pyyaml>=6.0.3",
     "textual>=8.2.8",
     "uvicorn>=0.51.0",
-    "websockets>=16.1",
+    "websockets>=16.1.1",
 ]
 
 [project.urls]
