@@ -3,9 +3,6 @@ name: 构建可执行文件
 on:
   workflow_dispatch:
 
-permissions:
-  contents: read
-
 jobs:
   build:
     name: 构建于 ${{ matrix.os }}

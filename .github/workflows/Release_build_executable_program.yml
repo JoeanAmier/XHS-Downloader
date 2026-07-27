@@ -6,7 +6,6 @@ on:
 
 permissions:
   contents: write
-  discussions: write
 
 jobs:
   build:
@@ -22,19 +21,19 @@ jobs:
         include:
           - os: windows-latest
             executable: dist/XHS-Downloader/XHS-Downloader.exe
-            artifact: XHS-Downloader_Windows_X64
+            artifact: Windows_X64
 
           - os: windows-11-arm
             executable: dist/XHS-Downloader/XHS-Downloader.exe
-            artifact: XHS-Downloader_Windows_ARM64
+            artifact: Windows_ARM64
 
           - os: macos-15-intel
             executable: dist/XHS-Downloader/XHS-Downloader
-            artifact: XHS-Downloader_macOS_X64
+            artifact: macOS_X64
 
           - os: macos-latest
             executable: dist/XHS-Downloader/XHS-Downloader
-            artifact: XHS-Downloader_macOS_ARM64
+            artifact: macOS_ARM64
 
     steps:
       - name: 签出存储库
@@ -61,14 +60,34 @@ jobs:
 
       - name: 创建压缩包
         run: |
-          7z a "XHS-Downloader_V${{ github.event.release.tag_name }}_${{ matrix.artifact }}.zip" ./dist/XHS-Downloader/*
-        shell: bash
+          uv run --no-sync python -c "import shutil; shutil.make_archive('XHS-Downloader_V${{ github.event.release.tag_name }}_${{ matrix.artifact }}', 'zip', 'dist/XHS-Downloader')"
 
-      - name: 上传文件到 release
+      - name: 上传构建产物
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ./XHS-Downloader_V${{ github.event.release.tag_name }}_${{ matrix.artifact }}.zip
+          if-no-files-found: error
+
+  release:
+    name: 发布 Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 签出存储库
+        uses: actions/checkout@v4
+
+      - name: 下载构建产物
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: 发布文件到 Release
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            ./XHS-Downloader_V*.zip
+          files: ./release-assets/*.zip
           name: XHS-Downloader V${{ github.event.release.tag_name }}
           body_path: ./static/Release_Notes.md
           draft: ${{ github.event.release.draft }}
