@@ -49,15 +49,15 @@ jobs:
 
       - name: 获取构建日期
         run: >-
-          uv run --no-sync python -c
+          uv run python -c
           "from datetime import datetime; from os import environ; open(environ['GITHUB_ENV'], 'a', encoding='utf-8').write(f'DATE={datetime.now():%Y%m%d}\n')"
 
       - name: 构建可执行文件
-        run: uv run --no-sync python setup.py build_exe --build-exe dist/XHS-Downloader
+        run: uv run python setup.py build_exe --build-exe dist/XHS-Downloader
 
       - name: 验证可执行文件
         run: >-
-          uv run --no-sync python -c
+          uv run python -c
           "import subprocess; subprocess.run([r'${{ matrix.executable }}', '--version'], check=True)"
 
       - name: 上传构建产物

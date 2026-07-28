@@ -52,16 +52,16 @@ jobs:
           uv pip install cx_Freeze
 
       - name: 构建可执行文件
-        run: uv run --no-sync python setup.py build_exe --build-exe dist/XHS-Downloader
+        run: uv run python setup.py build_exe --build-exe dist/XHS-Downloader
 
       - name: 验证可执行文件
         run: >-
-          uv run --no-sync python -c
+          uv run python -c
           "import subprocess; subprocess.run([r'${{ matrix.executable }}', '--version'], check=True)"
 
       - name: 创建压缩包
         run: |
-          uv run --no-sync python -c "import shutil; shutil.make_archive('XHS-Downloader_V${{ github.event.release.tag_name }}_${{ matrix.artifact }}', 'zip', 'dist/XHS-Downloader')"
+          uv run python -c "import shutil; shutil.make_archive('XHS-Downloader_V${{ github.event.release.tag_name }}_${{ matrix.artifact }}', 'zip', 'dist/XHS-Downloader')"
 
       - name: 上传构建产物
         uses: actions/upload-artifact@v4
