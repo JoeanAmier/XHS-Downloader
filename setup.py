@@ -17,12 +17,14 @@ build_exe_options = {
     "packages": [
         "rich",
         "opentelemetry",
+        "uvicorn",
     ],
     "include_files": [
         ("static", "static"),
         ("locale", "locale"),
         include_distribution_metadata("opentelemetry-api"),
     ],
+    "include_msvcr": True,
 }
 
 executables = [
