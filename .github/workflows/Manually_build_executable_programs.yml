@@ -10,6 +10,7 @@ jobs:
 
     env:
       PYTHONUTF8: "1"
+      UV_DEFAULT_INDEX: https://pypi.org/simple
 
     strategy:
       fail-fast: false
