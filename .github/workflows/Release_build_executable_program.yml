@@ -38,10 +38,10 @@ jobs:
 
     steps:
       - name: 签出存储库
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: 设置 uv
-        uses: astral-sh/setup-uv@v9.0.0
+        uses: astral-sh/setup-uv@v9
         with:
           enable-cache: true
 
@@ -64,7 +64,7 @@ jobs:
           uv run python -c "import shutil; shutil.make_archive('XHS-Downloader_V${{ github.event.release.tag_name }}_${{ matrix.artifact }}', 'zip', 'dist/XHS-Downloader')"
 
       - name: 上传构建产物
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.artifact }}
           path: ./XHS-Downloader_V${{ github.event.release.tag_name }}_${{ matrix.artifact }}.zip
@@ -77,16 +77,16 @@ jobs:
 
     steps:
       - name: 签出存储库
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: 下载构建产物
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: release-assets
           merge-multiple: true
 
       - name: 发布文件到 Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: ./release-assets/*.zip
           name: XHS-Downloader V${{ github.event.release.tag_name }}
