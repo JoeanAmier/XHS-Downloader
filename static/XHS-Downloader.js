@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.4.0
+// @version        2.4.1
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -165,6 +165,7 @@ KS-Downloader（快手、KuaiShou）：https://github.com/JoeanAmier/KS-Download
             scriptServerError: '脚本服务器连接出错，请检查网络连接或脚本服务器状态是否正常！',
             pushTaskError: '脚本服务器未连接，请检查网络连接或脚本服务器状态是否正常！',
             pushTaskSuccess: "已向服务器发送下载请求",
+            resetIconPositionTip: '图标位置已重置',
             settingsTitle: '用户脚本设置',
             scriptInternalError: '脚本内部发生错误',
         }, 'EN': {
@@ -294,6 +295,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             scriptServerError: 'Server connection error. Please check your network or server status!',
             pushTaskError: 'Server not connected. Please check your network or server status!',
             pushTaskSuccess: "Download request sent to server successfully",
+            resetIconPositionTip: 'Icon position reset',
             settingsTitle: 'Script Settings',
             scriptInternalError: 'An internal error occurred in the script',
         },
@@ -372,6 +374,10 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         lang = lang === "CN" ? "EN" : "CN";
         GM_setValue("language", lang);
         t = i18n[lang];
+    });
+
+    GM_registerMenuCommand("重置图标位置/Reset icon position", function () {
+        resetIconPosition();
     });
 
     const updatePackageDownloadFiles = (value) => {
@@ -2009,6 +2015,57 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         });
     }
 
+    // 悬浮图标位置配置
+    const iconPositionStorageKey = "floatingIconPosition";
+    const iconViewportMargin = 8;
+    const menuViewportMargin = 8;
+    const menuGap = 12;
+    const iconDragThreshold = 4;
+
+    const clamp = (value, min, max) => {
+        const safeMax = Math.max(min, max);
+        return Math.min(Math.max(value, min), safeMax);
+    };
+
+    const getIconSize = () => config.icon[config.icon.type].size;
+
+    const clampIconPosition = (left, top) => {
+        const size = getIconSize();
+        return {
+            left: clamp(left, iconViewportMargin, window.innerWidth - size - iconViewportMargin),
+            top: clamp(top, iconViewportMargin, window.innerHeight - size - iconViewportMargin),
+        };
+    };
+
+    const applyIconPosition = (target, position) => {
+        target.style.left = `${position.left}px`;
+        target.style.top = `${position.top}px`;
+        target.style.right = 'auto';
+        target.style.bottom = 'auto';
+    };
+
+    const applyDefaultIconPosition = (target) => {
+        target.style.left = 'auto';
+        target.style.top = config.position.top;
+        target.style.right = config.position.right;
+        target.style.bottom = 'auto';
+    };
+
+    const getDefaultIconPosition = (target) => {
+        applyDefaultIconPosition(target);
+        const rect = target.getBoundingClientRect();
+        return clampIconPosition(rect.left, rect.top);
+    };
+
+    const getInitialIconPosition = (target) => {
+        const defaultPosition = getDefaultIconPosition(target);
+        const position = GM_getValue(iconPositionStorageKey, defaultPosition);
+        if (!position || typeof position.left !== 'number' || typeof position.top !== 'number') {
+            return defaultPosition;
+        }
+        return clampIconPosition(position.left, position.top);
+    };
+
     // 创建主图标
     const createIcon = () => {
         const icon = document.createElement('div');
@@ -2020,13 +2077,16 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             height: ${config.icon[config.icon.type].size}px;
             background: white;
             border-radius: ${config.icon.image.borderRadius || '8px'};
-            cursor: pointer;
+            cursor: grab;
             z-index: 9999;
             box-shadow: 0 3px 5px rgba(0,0,0,0.12), 0 3px 5px rgba(0,0,0,0.24);
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all ${config.animation.duration}s ${config.animation.easing};
+            transition: transform ${config.animation.duration}s ${config.animation.easing}, box-shadow ${config.animation.duration}s ${config.animation.easing};
+            touch-action: none;
+            user-select: none;
+            -webkit-user-drag: none;
         `;
 
         icon.style.backgroundImage = `url(${config.icon.image.url})`;
@@ -2039,8 +2099,8 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     const menu = document.createElement('div');
     menu.style = `
         position: fixed;
-        top: calc(${config.position.top} + ${config.icon[config.icon.type].size}px + 1rem);
-        right: 0;
+        top: 0;
+        left: 0;
         width: 255px;
         max-width: calc(100vw - 1rem);
         background: white;
@@ -2049,10 +2109,10 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         overflow: hidden;
         display: none;
         z-index: 9998;
-        transform-origin: top right;
+        transform-origin: top center;
         transition: all ${config.animation.duration}s ${config.animation.easing};
         opacity: 0;
-        transform: translateY(-10px) scaleY(0.95);
+        transform: translateY(var(--menu-hidden-translate, 10px)) scaleY(0.95);
         will-change: transform, opacity;
     `;
 
@@ -2064,6 +2124,91 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         overscroll-behavior: contain;
     `;
     menu.appendChild(menuContent);
+
+    let icon;
+    let hideTimeout;
+    let hideAnimationTimeout;
+    let isMenuVisible = false;
+    let isDraggingIcon = false;
+    let menuHiddenTranslate = '10px';
+
+    const getMenuMaxHeight = (availableSpace) => {
+        const viewportMaxHeight = Math.max(0, window.innerHeight - menuViewportMargin * 2);
+        const minimumVisibleHeight = Math.min(120, viewportMaxHeight);
+        return Math.min(400, viewportMaxHeight, Math.max(availableSpace, minimumVisibleHeight));
+    };
+
+    const positionMenu = () => {
+        if (!icon) {
+            return;
+        }
+        const iconRect = icon.getBoundingClientRect();
+        const iconCenterX = iconRect.left + iconRect.width / 2;
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        menuContent.style.maxHeight = '400px';
+        const naturalHeight = menu.offsetHeight;
+        const availableBelow = viewportHeight - iconRect.bottom - menuGap - menuViewportMargin;
+        const availableAbove = iconRect.top - menuGap - menuViewportMargin;
+        const openAbove = availableBelow < naturalHeight && availableAbove > availableBelow;
+        const availableHeight = openAbove ? availableAbove : availableBelow;
+        menuContent.style.maxHeight = `${getMenuMaxHeight(availableHeight)}px`;
+
+        const menuWidth = menu.offsetWidth;
+        const menuHeight = menu.offsetHeight;
+        const left = clamp(
+            iconCenterX - menuWidth / 2,
+            menuViewportMargin,
+            viewportWidth - menuWidth - menuViewportMargin
+        );
+        const top = clamp(
+            openAbove ? iconRect.top - menuGap - menuHeight : iconRect.bottom + menuGap,
+            menuViewportMargin,
+            viewportHeight - menuHeight - menuViewportMargin
+        );
+        const originX = clamp(iconCenterX - left, 16, menuWidth - 16);
+
+        menuHiddenTranslate = openAbove ? '-10px' : '10px';
+        menu.style.setProperty('--menu-hidden-translate', menuHiddenTranslate);
+        menu.style.left = `${left}px`;
+        menu.style.top = `${top}px`;
+        menu.style.right = 'auto';
+        menu.style.bottom = 'auto';
+        menu.style.transformOrigin = `${originX}px ${openAbove ? '100%' : '0'}`;
+    };
+
+    const saveIconPosition = () => {
+        const rect = icon.getBoundingClientRect();
+        const position = clampIconPosition(rect.left, rect.top);
+        applyIconPosition(icon, position);
+        GM_setValue(iconPositionStorageKey, position);
+    };
+
+    const syncFloatingControlsToViewport = () => {
+        const rect = icon.getBoundingClientRect();
+        const position = clampIconPosition(rect.left, rect.top);
+        applyIconPosition(icon, position);
+        if (isMenuVisible) {
+            positionMenu();
+        }
+    };
+
+    const initializeIconPosition = () => {
+        const position = getInitialIconPosition(icon);
+        applyIconPosition(icon, position);
+        GM_setValue(iconPositionStorageKey, position);
+    };
+
+    function resetIconPosition() {
+        const position = getDefaultIconPosition(icon);
+        applyIconPosition(icon, position);
+        GM_setValue(iconPositionStorageKey, position);
+        if (isMenuVisible) {
+            positionMenu();
+        }
+        showToast(t.resetIconPositionTip, 2000);
+    }
 
     // 初始化样式
     style = document.createElement('style');
@@ -2132,7 +2277,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: translateY(10px) scaleY(0.95);
+                transform: translateY(var(--menu-hidden-translate, 10px)) scaleY(0.95);
             }
             to {
                 opacity: 1;
@@ -2147,7 +2292,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             }
             to {
                 opacity: 0;
-                transform: translateY(10px) scaleY(0.95);
+                transform: translateY(var(--menu-hidden-translate, 10px)) scaleY(0.95);
             }
         }
 
@@ -2254,24 +2399,38 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     };
 
     // 隐藏菜单
-    let hideTimeout;
-
-    const hideMenu = () => {
-        if (config.keepMenuVisible) {
+    const hideMenu = (force = false) => {
+        force = force === true;
+        clearTimeout(hideTimeout);
+        clearTimeout(hideAnimationTimeout);
+        if (config.keepMenuVisible && !force) {
             return;
         }
-        hideTimeout = setTimeout(() => {
+        const runHide = () => {
             menu.classList.remove('menu-enter');
+            if (force) {
+                menu.classList.remove('menu-exit');
+                menu.style.display = 'none';
+                menu.style.opacity = 0;
+                menu.style.transform = `translateY(${menuHiddenTranslate}) scaleY(0.95)`;
+                isMenuVisible = false;
+                return;
+            }
             menu.classList.add('menu-exit');
             menu.style.opacity = 0;
-            menu.style.transform = 'translateY(10px) scaleY(0.95)';
+            menu.style.transform = `translateY(${menuHiddenTranslate}) scaleY(0.95)`;
 
-            setTimeout(() => {
+            hideAnimationTimeout = setTimeout(() => {
                 menu.style.display = 'none';
                 menu.classList.remove('menu-exit');
                 isMenuVisible = false;
             }, config.animation.duration * 1000);
-        }, 100);
+        };
+        if (force) {
+            runHide();
+        } else {
+            hideTimeout = setTimeout(runHide, 100);
+        }
     };
 
     let currentUrl, currentSite = null;
@@ -2401,7 +2560,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
     // URL监测相关
     let lastUrl = window.location.href;
-    let isMenuVisible = false;
     let currentSiteMatch = lastUrl.match(currentSitePattern);
     if (currentSiteMatch) {
         currentSite = currentSiteMatch[1];
@@ -2411,22 +2569,111 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
     // 显示菜单
     const showMenu = () => {
+        if (isDraggingIcon) {
+            return;
+        }
         clearTimeout(hideTimeout);
+        clearTimeout(hideAnimationTimeout);
+        updateMenuContent();
         menu.style.display = 'block';
+        menu.style.visibility = 'hidden';
+        menu.classList.remove('menu-enter', 'menu-exit');
+        menu.style.opacity = 0;
+        positionMenu();
+        menu.style.transform = `translateY(${menuHiddenTranslate}) scaleY(0.95)`;
         void menu.offsetHeight; // 触发重绘
+        menu.style.visibility = 'visible';
         menu.classList.add('menu-enter');
         menu.style.opacity = 1;
         menu.style.transform = 'translateY(0) scaleY(1)';
-        updateMenuContent();
         isMenuVisible = true;
     };
 
+    const setupIconDragging = () => {
+        let dragState = null;
+
+        const stopDrag = (event) => {
+            if (!dragState || event.pointerId !== dragState.pointerId) {
+                return;
+            }
+            const wasDragging = dragState.dragging;
+            dragState = null;
+            window.removeEventListener('pointermove', moveDrag);
+            window.removeEventListener('pointerup', stopDrag);
+            window.removeEventListener('pointercancel', stopDrag);
+            try {
+                icon.releasePointerCapture(event.pointerId);
+            } catch (_) {
+            }
+            icon.style.transition = '';
+            icon.style.cursor = 'grab';
+            isDraggingIcon = false;
+            if (wasDragging) {
+                saveIconPosition();
+                requestAnimationFrame(() => {
+                    if (config.keepMenuVisible || icon.matches(':hover')) {
+                        showMenu();
+                    }
+                });
+            }
+        };
+
+        const moveDrag = (event) => {
+            if (!dragState || event.pointerId !== dragState.pointerId) {
+                return;
+            }
+            const deltaX = event.clientX - dragState.startClientX;
+            const deltaY = event.clientY - dragState.startClientY;
+
+            if (!dragState.dragging) {
+                if (Math.hypot(deltaX, deltaY) < iconDragThreshold) {
+                    return;
+                }
+                dragState.dragging = true;
+                isDraggingIcon = true;
+                hideMenu(true);
+                icon.style.transition = 'none';
+                icon.style.cursor = 'grabbing';
+            }
+
+            event.preventDefault();
+            applyIconPosition(icon, clampIconPosition(
+                dragState.startLeft + deltaX,
+                dragState.startTop + deltaY
+            ));
+        };
+
+        icon.addEventListener('pointerdown', (event) => {
+            if (event.button !== 0) {
+                return;
+            }
+            const rect = icon.getBoundingClientRect();
+            dragState = {
+                pointerId: event.pointerId,
+                startClientX: event.clientX,
+                startClientY: event.clientY,
+                startLeft: rect.left,
+                startTop: rect.top,
+                dragging: false,
+            };
+            try {
+                icon.setPointerCapture(event.pointerId);
+            } catch (_) {
+            }
+            window.addEventListener('pointermove', moveDrag, {passive: false});
+            window.addEventListener('pointerup', stopDrag);
+            window.addEventListener('pointercancel', stopDrag);
+        });
+    };
+
     // 事件监听
-    const icon = createIcon();
+    icon = createIcon();
+    setupIconDragging();
     icon.addEventListener('mouseenter', showMenu);
     icon.addEventListener('mouseleave', hideMenu);
     menu.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
     menu.addEventListener('mouseleave', hideMenu);
+    window.addEventListener('resize', syncFloatingControlsToViewport);
 
     // URL变化监听
     const setupUrlListener = () => {
@@ -2438,6 +2685,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                     currentSite = currentSiteMatch[1];
                     if (isMenuVisible) {
                         updateMenuContent();
+                        positionMenu();
                     }
                 } else {
                     currentSite = null;
@@ -2453,6 +2701,8 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     document.body.appendChild(icon);
     document.body.appendChild(menu);
     document.head.appendChild(style);
+    initializeIconPosition();
+    syncFloatingControlsToViewport();
     setupUrlListener();
 
     if (config.keepMenuVisible) {
