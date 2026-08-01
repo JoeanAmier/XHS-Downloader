@@ -1796,7 +1796,9 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
             const header = document.createElement('div');
             header.className = 'modal-header';
-            header.innerHTML = `<span>${t.videoQualityTitle}</span>`;
+            const headerTitle = document.createElement('span');
+            headerTitle.textContent = t.videoQualityTitle;
+            header.appendChild(headerTitle);
 
             const body = document.createElement('div');
             body.className = 'modal-body';
@@ -1834,9 +1836,16 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
                 const info = document.createElement('div');
                 info.style.flex = '1';
-                const titleColor = stream.isOriginal ? 'color: #ff2442;' : '';
-                info.innerHTML = `<div style="font-weight: 600; font-size: 15px; margin-bottom: 4px; ${titleColor}">${titleParts.join(' ')}</div>` +
-                    (subParts.length ? `<div style="font-size: 13px; color: #666;">${subParts.join(' | ')}</div>` : '');
+                const titleDiv = document.createElement('div');
+                titleDiv.style.cssText = `font-weight: 600; font-size: 15px; margin-bottom: 4px;${stream.isOriginal ? ' color: #ff2442;' : ''}`;
+                titleDiv.textContent = titleParts.join(' ');
+                info.appendChild(titleDiv);
+                if (subParts.length) {
+                    const subDiv = document.createElement('div');
+                    subDiv.style.cssText = 'font-size: 13px; color: #666;';
+                    subDiv.textContent = subParts.join(' | ');
+                    info.appendChild(subDiv);
+                }
 
                 item.appendChild(radio);
                 item.appendChild(info);
