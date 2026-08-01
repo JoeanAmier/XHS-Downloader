@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.4.3
+// @version        2.4.4
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -137,6 +137,16 @@ KS-Downloader（快手、KuaiShou）：https://github.com/JoeanAmier/KS-Download
                 bitrate: '码率优先',
                 size: '文件大小优先',
             },
+            videoQualitySwitchLabel: '手动选择视频清晰度',
+            videoQualitySwitchDesc: '启用后，下载视频作品前可手动选择清晰度；关闭时按"视频下载偏好"自动选择',
+            videoQualityTitle: '选择视频清晰度',
+            videoQualityOriginal: '原画',
+            videoQualityUnknown: '未知',
+            videoQualityCodec: '编码',
+            videoQualityBitrate: '码率',
+            videoQualitySize: '大小',
+            videoQualityDownload: '下载',
+            videoQualityCancel: '取消',
             fileNameFormatLabel: '作品文件名称格式',
             fileNameFormatDesc: '点击可选字段添加，拖拽已选字段调整顺序',
             fileNameSelectedLabel: '已选字段',
@@ -300,6 +310,16 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                 bitrate: 'Bitrate priority',
                 size: 'File size priority',
             },
+            videoQualitySwitchLabel: 'Manually select video quality',
+            videoQualitySwitchDesc: 'When enabled, choose a video quality manually before downloading a video note; when disabled, the "Video download preference" is used automatically',
+            videoQualityTitle: 'Select Video Quality',
+            videoQualityOriginal: 'Original',
+            videoQualityUnknown: 'Unknown',
+            videoQualityCodec: 'Codec',
+            videoQualityBitrate: 'Bitrate',
+            videoQualitySize: 'Size',
+            videoQualityDownload: 'Download',
+            videoQualityCancel: 'Cancel',
             fileNameFormatLabel: 'Note File Name Format',
             fileNameFormatDesc: 'Click available fields to add them. Drag selected fields to reorder.',
             fileNameSelectedLabel: 'Selected Fields',
@@ -435,6 +455,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         imageCheckboxSwitch: GM_getValue("imageCheckboxSwitch", true),
         imageDownloadFormat: GM_getValue("imageDownloadFormat", "jpeg"),
         videoPreference: GM_getValue("videoPreference", "resolution"),
+        videoQualitySwitch: GM_getValue("videoQualitySwitch", false),
         scriptServerURL: GM_getValue("scriptServerURL", defaultsWebSocketURL),
         scriptServerSwitch: GM_getValue("scriptServerSwitch", false),
         fileNameFormatKeys: storedFileNameFormatKeys,
@@ -580,6 +601,11 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         GM_setValue("videoPreference", value);
     };
 
+    const updateVideoQualitySwitch = (value) => {
+        config.videoQualitySwitch = value;
+        GM_setValue("videoQualitySwitch", config.videoQualitySwitch);
+    };
+
     // 更新文件名格式配置。
     const updateFileNameFormat = (value) => {
         config.fileNameFormatKeys = parseFileNameFormat(value);
@@ -644,6 +670,46 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             return vB - vA;
         });
     }
+
+    // 收集所有可选视频流（原画 + 转码流），供"手动选择视频清晰度"使用
+    const generateVideoStreams = note => {
+        try {
+            const video = note.video;
+            if (!video) return [];
+            const renditions = Object.values(video.media?.stream || {})
+                .flat()
+                .filter(Boolean)
+                .map(s => ({
+                    url: s.backupUrls?.[0] || s.masterUrl,
+                    width: s.width,
+                    height: s.height,
+                    codec: s.videoCodec,
+                    bitrate: s.videoBitrate,
+                    size: s.size,
+                    qualityType: s.qualityType,
+                }))
+                .filter(s => s.url);
+            // 按分辨率降序，默认列出最高画质在前（原画已置于首位）
+            renditions.sort((a, b) => (b.height ?? 0) - (a.height ?? 0));
+            const streams = [];
+            const originKey = video?.consumer?.originVideoKey;
+            if (originKey) {
+                const originUrl = `https://sns-video-bd.xhscdn.com/${originKey}`;
+                if (!renditions.some(s => s.url === originUrl)) {
+                    streams.push({
+                        url: originUrl,
+                        qualityType: t.videoQualityOriginal,
+                        isOriginal: true,
+                    });
+                }
+            }
+            streams.push(...renditions);
+            return streams;
+        } catch (error) {
+            console.error("Error generate video streams:", error);
+            return [];
+        }
+    };
 
     const generateImageUrl = note => {
         let images = note.imageList;
@@ -735,6 +801,15 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                 links = generateImageUrl(note);
             } else {
                 links = generateVideoUrl(note);
+                // 开启"手动选择视频清晰度"时弹出选择窗口（仅本地下载；存在多个可选流时）
+                if (config.videoQualitySwitch && !server) {
+                    const streams = generateVideoStreams(note);
+                    if (streams.length > 1) {
+                        const selected = await showVideoStreamSelectionModal(streams);
+                        if (!selected) return; // 用户取消
+                        links = [selected.url];
+                    }
+                }
             }
             if (links.length > 0) {
                 // console.debug("下载链接", links);
@@ -1702,6 +1777,115 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         });
     }
 
+    /**
+     * 显示视频清晰度选择弹窗
+     * @param {Array<{url:string, width?:number, height?:number, codec?:string, bitrate?:number, size?:number, qualityType?:string, isOriginal?:boolean}>} streams
+     * @returns {Promise<Object|null>} 确认返回选中的流对象；取消或点击遮罩返回 null
+     */
+    function showVideoStreamSelectionModal(streams) {
+        if (document.getElementById('videoStreamOverlay')) return Promise.resolve(null);
+
+        return new Promise((resolve) => {
+            const overlay = document.createElement('div');
+            overlay.id = 'videoStreamOverlay';
+            overlay.style.cssText = `position: fixed; inset: 0; background: rgba(0,0,0,0.32); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 10000; animation: fadeIn 0.3s;`;
+
+            const modal = document.createElement('div');
+            modal.className = 'text-generic-modal';
+            modal.style.maxWidth = '500px';
+
+            const header = document.createElement('div');
+            header.className = 'modal-header';
+            header.innerHTML = `<span>${t.videoQualityTitle}</span>`;
+
+            const body = document.createElement('div');
+            body.className = 'modal-body';
+            body.style.cssText = 'max-height: 60vh; overflow-y: auto;';
+
+            streams.forEach((stream, index) => {
+                const item = document.createElement('label');
+                item.style.cssText = 'display: flex; align-items: center; padding: 12px; margin: 8px 0; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; transition: all 0.2s;';
+
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'xhsVideoStream';
+                radio.value = index;
+                radio.checked = index === 0;
+                radio.style.cssText = 'margin-right: 12px; width: 18px; height: 18px; cursor: pointer;';
+                radio.onchange = () => {
+                    body.querySelectorAll('label').forEach(l => l.style.borderColor = '#e0e0e0');
+                    item.style.borderColor = '#ff2442';
+                };
+
+                const titleParts = [];
+                if (stream.width && stream.height) {
+                    titleParts.push(`${stream.width}×${stream.height}`);
+                }
+                const qualityLabel = stream.qualityType
+                    || (stream.isOriginal ? t.videoQualityOriginal : t.videoQualityUnknown);
+                if (qualityLabel) {
+                    titleParts.push(qualityLabel);
+                }
+
+                const subParts = [];
+                if (stream.codec) subParts.push(`${t.videoQualityCodec}: ${stream.codec}`);
+                if (stream.bitrate) subParts.push(`${t.videoQualityBitrate}: ${(stream.bitrate / 1000).toFixed(0)}kbps`);
+                if (stream.size) subParts.push(`${t.videoQualitySize}: ${(stream.size / 1024 / 1024).toFixed(2)}MB`);
+
+                const info = document.createElement('div');
+                info.style.flex = '1';
+                const titleColor = stream.isOriginal ? 'color: #ff2442;' : '';
+                info.innerHTML = `<div style="font-weight: 600; font-size: 15px; margin-bottom: 4px; ${titleColor}">${titleParts.join(' ')}</div>` +
+                    (subParts.length ? `<div style="font-size: 13px; color: #666;">${subParts.join(' | ')}</div>` : '');
+
+                item.appendChild(radio);
+                item.appendChild(info);
+                body.appendChild(item);
+                if (index === 0) item.style.borderColor = '#ff2442';
+
+                item.onmouseenter = () => item.style.borderColor = '#ff2442';
+                item.onmouseleave = () => item.style.borderColor = radio.checked ? '#ff2442' : '#e0e0e0';
+            });
+
+            const footer = document.createElement('div');
+            footer.className = 'modal-footer';
+
+            const confirmBtn = document.createElement('button');
+            confirmBtn.className = 'primary-btn';
+            confirmBtn.textContent = t.videoQualityDownload;
+            confirmBtn.onclick = () => {
+                const selected = modal.querySelector('input[name="xhsVideoStream"]:checked');
+                close(selected ? streams[selected.value] : null);
+            };
+
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'secondary-btn';
+            cancelBtn.textContent = t.videoQualityCancel;
+            cancelBtn.onclick = () => close(null);
+
+            footer.appendChild(confirmBtn);
+            footer.appendChild(cancelBtn);
+
+            modal.appendChild(header);
+            modal.appendChild(body);
+            modal.appendChild(footer);
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+
+            function close(result) {
+                overlay.style.animation = 'fadeOut 0.2s';
+                setTimeout(() => {
+                    overlay.remove();
+                    resolve(result);
+                }, 200);
+            }
+
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) close(null);
+            });
+        });
+    }
+
     // 创建开关项
     const createSwitchItem = ({label, description, checked, disabled = false}) => {
         const item = document.createElement('div');
@@ -2076,6 +2260,12 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                                                      value: config.videoPreference,
                                                  });
 
+        const videoQualitySwitch = createSwitchItem({
+                                                        label: t.videoQualitySwitchLabel,
+                                                        description: t.videoQualitySwitchDesc,
+                                                        checked: GM_getValue("videoQualitySwitch", false),
+                                                    });
+
         const nameFormat = createFileNameFormatEditor({
                                                           label: t.fileNameFormatLabel,
                                                           description: t.fileNameFormatDesc,
@@ -2111,7 +2301,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         // 组合内容
         body.appendChild(createSettingsGroup(
             t.downloadSettingsGroup,
-            [filePack, imageCheckboxSwitch, imageDownloadFormat, videoPreference, nameFormat],
+            [filePack, imageCheckboxSwitch, imageDownloadFormat, videoPreference, videoQualitySwitch, nameFormat],
             true
         ));
         body.appendChild(createSettingsGroup(t.extractSettingsGroup, [autoScroll, scrollCount, linkCheckboxSwitch]));
@@ -2149,6 +2339,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             updateScriptServerSwitch(scriptServerSwitch.querySelector('input').checked);
             updateImageDownloadFormat(imageDownloadFormat.querySelector('select').value.trim() || "jpeg");
             updateVideoPreference(videoPreference.querySelector('select').value);
+            updateVideoQualitySwitch(videoQualitySwitch.querySelector('input').checked);
             updateFileNameFormat(nameFormat.getFileNameFormatKeys());
             closeSettingsModal();
         });
