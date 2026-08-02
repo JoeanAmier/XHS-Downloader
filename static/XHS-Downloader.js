@@ -683,7 +683,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                 if (!renditions.some(s => s.url === originUrl)) {
                     streams.push({
                         url: originUrl,
-                        qualityType: t.videoQualityOriginal,
                         isOriginal: true,
                     });
                 }
@@ -1768,6 +1767,64 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     }
 
     /**
+     * 创建单个视频流选项（供 showVideoStreamSelectionModal 使用）
+     * @param {Object} stream - 视频流描述符
+     * @param {number} index - 序号
+     * @param {(item: HTMLLabelElement) => void} onSelect - 选中回调
+     * @returns {HTMLLabelElement}
+     */
+    const createStreamOption = (stream, index, onSelect) => {
+        const item = document.createElement('label');
+        item.style.cssText = 'display: flex; align-items: center; padding: 12px; margin: 8px 0; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; transition: all 0.2s;';
+
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'xhsVideoStream';
+        radio.value = index;
+        radio.checked = index === 0;
+        radio.style.cssText = 'margin-right: 12px; width: 18px; height: 18px; cursor: pointer;';
+        radio.onchange = () => onSelect(item);
+
+        const titleParts = [];
+        if (stream.width && stream.height) {
+            titleParts.push(`${stream.width}×${stream.height}`);
+        }
+        if (stream.isOriginal) {
+            titleParts.push(t.videoQualityOriginal);
+        } else if (stream.qualityType) {
+            titleParts.push(stream.qualityType);
+        }
+
+        const subParts = [];
+        if (stream.bitrate) subParts.push(`${t.videoQualityBitrate}: ${(stream.bitrate / 1000).toFixed(0)}kbps`);
+        if (stream.size) subParts.push(`${t.videoQualitySize}: ${(stream.size / 1024 / 1024).toFixed(2)}MB`);
+
+        const info = document.createElement('div');
+        info.style.flex = '1';
+        const titleDiv = document.createElement('div');
+        titleDiv.style.cssText = `font-weight: 600; font-size: 15px; margin-bottom: 4px;${stream.isOriginal ? ' color: #ff2442;' : ''}`;
+        titleDiv.textContent = titleParts.join(' ');
+        info.appendChild(titleDiv);
+        const subDiv = document.createElement('div');
+        subDiv.style.cssText = 'font-size: 13px; color: #666;';
+        if (stream.isOriginal) {
+            subDiv.textContent = t.videoQualityOriginalHint;
+            info.appendChild(subDiv);
+        } else if (subParts.length) {
+            subDiv.textContent = subParts.join(' | ');
+            info.appendChild(subDiv);
+        }
+
+        item.appendChild(radio);
+        item.appendChild(info);
+
+        item.onmouseenter = () => item.style.borderColor = '#ff2442';
+        item.onmouseleave = () => item.style.borderColor = radio.checked ? '#ff2442' : '#e0e0e0';
+
+        return item;
+    };
+
+    /**
      * 显示视频清晰度选择弹窗
      * @param {Array<{url:string, width?:number, height?:number, codec?:string, bitrate?:number, size?:number, qualityType?:string, isOriginal?:boolean}>} streams
      * @returns {Promise<Object|null>} 确认返回选中的流对象；取消或点击遮罩返回 null
@@ -1794,58 +1851,16 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             body.className = 'modal-body';
             body.style.cssText = 'max-height: 60vh; overflow-y: auto;';
 
+            let selectedItem = null;
+            const selectItem = (item) => {
+                if (selectedItem) selectedItem.style.borderColor = '#e0e0e0';
+                selectedItem = item;
+                item.style.borderColor = '#ff2442';
+            };
             streams.forEach((stream, index) => {
-                const item = document.createElement('label');
-                item.style.cssText = 'display: flex; align-items: center; padding: 12px; margin: 8px 0; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; transition: all 0.2s;';
-
-                const radio = document.createElement('input');
-                radio.type = 'radio';
-                radio.name = 'xhsVideoStream';
-                radio.value = index;
-                radio.checked = index === 0;
-                radio.style.cssText = 'margin-right: 12px; width: 18px; height: 18px; cursor: pointer;';
-                radio.onchange = () => {
-                    body.querySelectorAll('label').forEach(l => l.style.borderColor = '#e0e0e0');
-                    item.style.borderColor = '#ff2442';
-                };
-
-                const titleParts = [];
-                if (stream.width && stream.height) {
-                    titleParts.push(`${stream.width}×${stream.height}`);
-                }
-                if (stream.isOriginal) {
-                    titleParts.push(t.videoQualityOriginal);
-                } else if (stream.qualityType) {
-                    titleParts.push(stream.qualityType);
-                }
-
-                const subParts = [];
-                if (stream.bitrate) subParts.push(`${t.videoQualityBitrate}: ${(stream.bitrate / 1000).toFixed(0)}kbps`);
-                if (stream.size) subParts.push(`${t.videoQualitySize}: ${(stream.size / 1024 / 1024).toFixed(2)}MB`);
-
-                const info = document.createElement('div');
-                info.style.flex = '1';
-                const titleDiv = document.createElement('div');
-                titleDiv.style.cssText = `font-weight: 600; font-size: 15px; margin-bottom: 4px;${stream.isOriginal ? ' color: #ff2442;' : ''}`;
-                titleDiv.textContent = titleParts.join(' ');
-                info.appendChild(titleDiv);
-                const subDiv = document.createElement('div');
-                subDiv.style.cssText = 'font-size: 13px; color: #666;';
-                if (stream.isOriginal) {
-                    subDiv.textContent = t.videoQualityOriginalHint;
-                    info.appendChild(subDiv);
-                } else if (subParts.length) {
-                    subDiv.textContent = subParts.join(' | ');
-                    info.appendChild(subDiv);
-                }
-
-                item.appendChild(radio);
-                item.appendChild(info);
+                const item = createStreamOption(stream, index, selectItem);
+                if (index === 0) selectItem(item);
                 body.appendChild(item);
-                if (index === 0) item.style.borderColor = '#ff2442';
-
-                item.onmouseenter = () => item.style.borderColor = '#ff2442';
-                item.onmouseleave = () => item.style.borderColor = radio.checked ? '#ff2442' : '#e0e0e0';
             });
 
             const footer = document.createElement('div');
