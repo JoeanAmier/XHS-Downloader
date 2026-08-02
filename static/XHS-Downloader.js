@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.4.3
+// @version        2.4.4
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -136,7 +136,13 @@ KS-Downloader（快手、KuaiShou）：https://github.com/JoeanAmier/KS-Download
                 resolution: '分辨率优先',
                 bitrate: '码率优先',
                 size: '文件大小优先',
+                manual: '手动选择',
             },
+            videoQualityTitle: '选择视频清晰度',
+            videoQualityOriginal: '原画',
+            videoQualityOriginalHint: '原始上传文件（未转码）',
+            videoQualityBitrate: '码率',
+            videoQualitySize: '大小',
             fileNameFormatLabel: '作品文件名称格式',
             fileNameFormatDesc: '点击可选字段添加，拖拽已选字段调整顺序',
             fileNameSelectedLabel: '已选字段',
@@ -299,7 +305,13 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                 resolution: 'Resolution priority',
                 bitrate: 'Bitrate priority',
                 size: 'File size priority',
+                manual: 'Manual select',
             },
+            videoQualityTitle: 'Select Video Quality',
+            videoQualityOriginal: 'Original',
+            videoQualityOriginalHint: 'Original upload (untranscoded)',
+            videoQualityBitrate: 'Bitrate',
+            videoQualitySize: 'Size',
             fileNameFormatLabel: 'Note File Name Format',
             fileNameFormatDesc: 'Click available fields to add them. Drag selected fields to reorder.',
             fileNameSelectedLabel: 'Selected Fields',
@@ -645,6 +657,45 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         });
     }
 
+    // 收集所有可选视频流（原画 + 转码流），供"手动选择视频清晰度"使用
+    const generateVideoStreams = note => {
+        try {
+            const video = note.video;
+            if (!video) return [];
+            const renditions = Object.values(video.media?.stream || {})
+                .flat()
+                .filter(Boolean)
+                .map(s => ({
+                    url: s.backupUrls?.[0] || s.masterUrl,
+                    width: s.width,
+                    height: s.height,
+                    bitrate: s.videoBitrate,
+                    size: s.size,
+                    qualityType: s.qualityType,
+                }))
+                .filter(s => s.url);
+            // 按分辨率降序，默认列出最高画质在前（原画已置于首位）
+            renditions.sort((a, b) => (b.height ?? 0) - (a.height ?? 0));
+            const streams = [];
+            const originKey = video?.consumer?.originVideoKey;
+            if (originKey) {
+                const originUrl = `https://sns-video-bd.xhscdn.com/${originKey}`;
+                if (!renditions.some(s => s.url === originUrl)) {
+                    streams.push({
+                        url: originUrl,
+                        qualityType: t.videoQualityOriginal,
+                        isOriginal: true,
+                    });
+                }
+            }
+            streams.push(...renditions);
+            return streams;
+        } catch (error) {
+            console.error("Error generate video streams:", error);
+            return [];
+        }
+    };
+
     const generateImageUrl = note => {
         let images = note.imageList;
         const regex = detailUrlPattern[currentSite]["normal"];
@@ -733,6 +784,20 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             let links;
             if (note.type === "normal") {
                 links = generateImageUrl(note);
+            } else if (config.videoPreference === "manual") {
+                // 手动选择：不调用 generateVideoUrl，直接基于全部可选流处理
+                const streams = generateVideoStreams(note);
+                if (streams.length === 0) {
+                    links = [];
+                } else {
+                    let selectedUrl = streams[0].url; // 默认最高画质（原画或最高转码流）
+                    if (!server && streams.length > 1) {
+                        const selected = await showVideoStreamSelectionModal(streams);
+                        if (!selected) return; // 用户取消
+                        selectedUrl = selected.url;
+                    }
+                    links = [selectedUrl];
+                }
             } else {
                 links = generateVideoUrl(note);
             }
@@ -1698,6 +1763,126 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) close(false);
+            });
+        });
+    }
+
+    /**
+     * 显示视频清晰度选择弹窗
+     * @param {Array<{url:string, width?:number, height?:number, codec?:string, bitrate?:number, size?:number, qualityType?:string, isOriginal?:boolean}>} streams
+     * @returns {Promise<Object|null>} 确认返回选中的流对象；取消或点击遮罩返回 null
+     */
+    function showVideoStreamSelectionModal(streams) {
+        if (document.getElementById('videoStreamOverlay')) return Promise.resolve(null);
+
+        return new Promise((resolve) => {
+            const overlay = document.createElement('div');
+            overlay.id = 'videoStreamOverlay';
+            overlay.style.cssText = `position: fixed; inset: 0; background: rgba(0,0,0,0.32); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 10000; animation: fadeIn 0.3s;`;
+
+            const modal = document.createElement('div');
+            modal.className = 'text-generic-modal';
+            modal.style.maxWidth = '500px';
+
+            const header = document.createElement('div');
+            header.className = 'modal-header';
+            const headerTitle = document.createElement('span');
+            headerTitle.textContent = t.videoQualityTitle;
+            header.appendChild(headerTitle);
+
+            const body = document.createElement('div');
+            body.className = 'modal-body';
+            body.style.cssText = 'max-height: 60vh; overflow-y: auto;';
+
+            streams.forEach((stream, index) => {
+                const item = document.createElement('label');
+                item.style.cssText = 'display: flex; align-items: center; padding: 12px; margin: 8px 0; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; transition: all 0.2s;';
+
+                const radio = document.createElement('input');
+                radio.type = 'radio';
+                radio.name = 'xhsVideoStream';
+                radio.value = index;
+                radio.checked = index === 0;
+                radio.style.cssText = 'margin-right: 12px; width: 18px; height: 18px; cursor: pointer;';
+                radio.onchange = () => {
+                    body.querySelectorAll('label').forEach(l => l.style.borderColor = '#e0e0e0');
+                    item.style.borderColor = '#ff2442';
+                };
+
+                const titleParts = [];
+                if (stream.width && stream.height) {
+                    titleParts.push(`${stream.width}×${stream.height}`);
+                }
+                if (stream.isOriginal) {
+                    titleParts.push(t.videoQualityOriginal);
+                } else if (stream.qualityType) {
+                    titleParts.push(stream.qualityType);
+                }
+
+                const subParts = [];
+                if (stream.bitrate) subParts.push(`${t.videoQualityBitrate}: ${(stream.bitrate / 1000).toFixed(0)}kbps`);
+                if (stream.size) subParts.push(`${t.videoQualitySize}: ${(stream.size / 1024 / 1024).toFixed(2)}MB`);
+
+                const info = document.createElement('div');
+                info.style.flex = '1';
+                const titleDiv = document.createElement('div');
+                titleDiv.style.cssText = `font-weight: 600; font-size: 15px; margin-bottom: 4px;${stream.isOriginal ? ' color: #ff2442;' : ''}`;
+                titleDiv.textContent = titleParts.join(' ');
+                info.appendChild(titleDiv);
+                const subDiv = document.createElement('div');
+                subDiv.style.cssText = 'font-size: 13px; color: #666;';
+                if (stream.isOriginal) {
+                    subDiv.textContent = t.videoQualityOriginalHint;
+                    info.appendChild(subDiv);
+                } else if (subParts.length) {
+                    subDiv.textContent = subParts.join(' | ');
+                    info.appendChild(subDiv);
+                }
+
+                item.appendChild(radio);
+                item.appendChild(info);
+                body.appendChild(item);
+                if (index === 0) item.style.borderColor = '#ff2442';
+
+                item.onmouseenter = () => item.style.borderColor = '#ff2442';
+                item.onmouseleave = () => item.style.borderColor = radio.checked ? '#ff2442' : '#e0e0e0';
+            });
+
+            const footer = document.createElement('div');
+            footer.className = 'modal-footer';
+
+            const confirmBtn = document.createElement('button');
+            confirmBtn.className = 'primary-btn';
+            confirmBtn.textContent = t.startDownloadButton;
+            confirmBtn.onclick = () => {
+                const selected = modal.querySelector('input[name="xhsVideoStream"]:checked');
+                close(selected ? streams[selected.value] : null);
+            };
+
+            const cancelBtn = document.createElement('button');
+            cancelBtn.className = 'secondary-btn';
+            cancelBtn.textContent = t.closeDownloadButton;
+            cancelBtn.onclick = () => close(null);
+
+            footer.appendChild(confirmBtn);
+            footer.appendChild(cancelBtn);
+
+            modal.appendChild(header);
+            modal.appendChild(body);
+            modal.appendChild(footer);
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+
+            function close(result) {
+                overlay.style.animation = 'fadeOut 0.2s';
+                setTimeout(() => {
+                    overlay.remove();
+                    resolve(result);
+                }, 200);
+            }
+
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) close(null);
             });
         });
     }
