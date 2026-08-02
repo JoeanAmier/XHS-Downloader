@@ -133,15 +133,16 @@ KS-Downloader（快手、KuaiShou）：https://github.com/JoeanAmier/KS-Download
             videoPreferenceLabel: '视频下载偏好',
             videoPreferenceDesc: '视频作品文件下载策略',
             videoPreferenceOptions: {
+                manual: '手动选择',
                 resolution: '分辨率优先',
                 bitrate: '码率优先',
                 size: '文件大小优先',
-                manual: '手动选择',
             },
-            videoQualityTitle: '选择视频清晰度',
+            videoQualityTitle: '选择视频下载质量',
             videoQualityOriginal: '原画',
-            videoQualityOriginalHint: '原始上传文件（未转码）',
+            videoQualityOriginalHint: '最高质量',
             videoQualityBitrate: '码率',
+            videoQualityFps: '帧率',
             videoQualitySize: '大小',
             fileNameFormatLabel: '作品文件名称格式',
             fileNameFormatDesc: '点击可选字段添加，拖拽已选字段调整顺序',
@@ -302,15 +303,16 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             videoPreferenceLabel: 'Video download preferences',
             videoPreferenceDesc: 'Video Notes File Download Strategy',
             videoPreferenceOptions: {
+                manual: 'Manual select',
                 resolution: 'Resolution priority',
                 bitrate: 'Bitrate priority',
                 size: 'File size priority',
-                manual: 'Manual select',
             },
-            videoQualityTitle: 'Select Video Quality',
+            videoQualityTitle: 'Select Video Download Quality',
             videoQualityOriginal: 'Original',
-            videoQualityOriginalHint: 'Original upload (untranscoded)',
+            videoQualityOriginalHint: 'Highest quality',
             videoQualityBitrate: 'Bitrate',
+            videoQualityFps: 'Frame rate',
             videoQualitySize: 'Size',
             fileNameFormatLabel: 'Note File Name Format',
             fileNameFormatDesc: 'Click available fields to add them. Drag selected fields to reorder.',
@@ -670,6 +672,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                     width: s.width,
                     height: s.height,
                     bitrate: s.videoBitrate,
+                    fps: s.fps,
                     size: s.size,
                     qualityType: s.qualityType,
                 }))
@@ -679,13 +682,10 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             const streams = [];
             const originKey = video?.consumer?.originVideoKey;
             if (originKey) {
-                const originUrl = `https://sns-video-bd.xhscdn.com/${originKey}`;
-                if (!renditions.some(s => s.url === originUrl)) {
-                    streams.push({
-                        url: originUrl,
-                        isOriginal: true,
-                    });
-                }
+                streams.push({
+                    url: `https://sns-video-bd.xhscdn.com/${originKey}`,
+                    isOriginal: true,
+                });
             }
             streams.push(...renditions);
             return streams;
@@ -1766,6 +1766,52 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         });
     }
 
+    (() => {
+        if (!document.getElementById('videoStreamStyle')) {
+            const style = document.createElement('style');
+            style.id = 'videoStreamStyle';
+            style.textContent = `
+            .video-quality-body {
+                max-height: 60vh;
+                overflow-y: auto;
+            }
+            .video-quality-item {
+                display: flex;
+                align-items: center;
+                padding: 12px;
+                margin: 8px 0;
+                border: 2px solid #e0e0e0;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.2s;
+            }
+            .video-quality-item:hover,
+            .video-quality-item.selected {
+                border-color: #ff2442;
+            }
+            .video-quality-radio {
+                margin-right: 12px;
+                width: 18px;
+                height: 18px;
+                cursor: pointer;
+            }
+            .video-quality-info {
+                flex: 1;
+            }
+            .video-quality-title {
+                font-weight: 600;
+                font-size: 15px;
+                margin-bottom: 4px;
+            }
+            .video-quality-sub {
+                font-size: 13px;
+                color: #666;
+            }
+            `;
+            document.head.appendChild(style);
+        }
+    })();
+
     /**
      * 创建单个视频流选项（供 showVideoStreamSelectionModal 使用）
      * @param {Object} stream - 视频流描述符
@@ -1775,14 +1821,14 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
      */
     const createStreamOption = (stream, index, onSelect) => {
         const item = document.createElement('label');
-        item.style.cssText = 'display: flex; align-items: center; padding: 12px; margin: 8px 0; border: 2px solid #e0e0e0; border-radius: 8px; cursor: pointer; transition: all 0.2s;';
+        item.className = 'video-quality-item';
 
         const radio = document.createElement('input');
         radio.type = 'radio';
         radio.name = 'xhsVideoStream';
         radio.value = index;
         radio.checked = index === 0;
-        radio.style.cssText = 'margin-right: 12px; width: 18px; height: 18px; cursor: pointer;';
+        radio.className = 'video-quality-radio';
         radio.onchange = () => onSelect(item);
 
         const titleParts = [];
@@ -1797,16 +1843,17 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
         const subParts = [];
         if (stream.bitrate) subParts.push(`${t.videoQualityBitrate}: ${(stream.bitrate / 1000).toFixed(0)}kbps`);
+        if (stream.fps) subParts.push(`${t.videoQualityFps}: ${stream.fps}fps`);
         if (stream.size) subParts.push(`${t.videoQualitySize}: ${(stream.size / 1024 / 1024).toFixed(2)}MB`);
 
         const info = document.createElement('div');
-        info.style.flex = '1';
+        info.className = 'video-quality-info';
         const titleDiv = document.createElement('div');
-        titleDiv.style.cssText = `font-weight: 600; font-size: 15px; margin-bottom: 4px;${stream.isOriginal ? ' color: #ff2442;' : ''}`;
+        titleDiv.className = 'video-quality-title';
         titleDiv.textContent = titleParts.join(' ');
         info.appendChild(titleDiv);
         const subDiv = document.createElement('div');
-        subDiv.style.cssText = 'font-size: 13px; color: #666;';
+        subDiv.className = 'video-quality-sub';
         if (stream.isOriginal) {
             subDiv.textContent = t.videoQualityOriginalHint;
             info.appendChild(subDiv);
@@ -1817,9 +1864,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
         item.appendChild(radio);
         item.appendChild(info);
-
-        item.onmouseenter = () => item.style.borderColor = '#ff2442';
-        item.onmouseleave = () => item.style.borderColor = radio.checked ? '#ff2442' : '#e0e0e0';
 
         return item;
     };
@@ -1848,14 +1892,13 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             header.appendChild(headerTitle);
 
             const body = document.createElement('div');
-            body.className = 'modal-body';
-            body.style.cssText = 'max-height: 60vh; overflow-y: auto;';
+            body.className = 'modal-body video-quality-body';
 
             let selectedItem = null;
             const selectItem = (item) => {
-                if (selectedItem) selectedItem.style.borderColor = '#e0e0e0';
+                if (selectedItem) selectedItem.classList.remove('selected');
                 selectedItem = item;
-                item.style.borderColor = '#ff2442';
+                item.classList.add('selected');
             };
             streams.forEach((stream, index) => {
                 const item = createStreamOption(stream, index, selectItem);
