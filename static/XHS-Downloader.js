@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.4.4
+// @version        2.4.5
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -657,41 +657,39 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         });
     }
 
-    // 收集所有可选视频流（原画 + 转码流），供"手动选择视频清晰度"使用
     const generateVideoStreams = note => {
-        const video = note.video;
-        if (!video) return [];
-        // 仅保护可能抛错的数据收集阶段，排序与原画拼不会抛错
+        const streams = [];
+        const originKey = note.video?.consumer?.originVideoKey;
+
+        if (originKey) {
+            streams.push({
+                             url: `https://sns-video-bd.xhscdn.com/${originKey}`, isOriginal: true,
+                         });
+        }
+
         let renditions;
         try {
-            renditions = Object.values(video.media?.stream || {})
-                .flat()
-                .filter(Boolean)
-                .map(s => ({
-                    url: s.backupUrls?.[0] || s.masterUrl,
-                    width: s.width,
-                    height: s.height,
-                    bitrate: s.videoBitrate,
-                    fps: s.fps,
-                    size: s.size,
-                    qualityType: s.qualityType,
-                }))
-                .filter(s => s.url);
+            renditions = Object.values(note.video.media?.stream || {})
+                               .flat()
+                               .filter(Boolean)
+                               .map(s => ({
+                                   url: s.backupUrls?.[0] || s.masterUrl,
+                                   width: s.width,
+                                   height: s.height,
+                                   bitrate: s.videoBitrate,
+                                   fps: s.fps,
+                                   size: s.size,
+                                   qualityType: s.qualityType,
+                               }))
+                               .filter(s => s.url);
         } catch (error) {
             console.error("Error generate video streams:", error);
             return [];
         }
-        // 按分辨率降序，默认列出最高画质在前（原画已置于首位）
+
         renditions.sort((a, b) => (b.height ?? 0) - (a.height ?? 0));
-        const streams = [];
-        const originKey = video?.consumer?.originVideoKey;
-        if (originKey) {
-            streams.push({
-                url: `https://sns-video-bd.xhscdn.com/${originKey}`,
-                isOriginal: true,
-            });
-        }
         streams.push(...renditions);
+
         return streams;
     };
 
@@ -784,15 +782,17 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         if (config.videoPreference !== "manual") {
             return generateVideoUrl(note);
         }
+
         const streams = generateVideoStreams(note);
         if (streams.length === 0) return [];
-        let selectedUrl = streams[0].url; // 默认最高画质（原画或最高转码流）
+
         if (!server && streams.length > 1) {
             const selected = await showVideoStreamSelectionModal(streams);
-            if (!selected) return null; // 用户取消
-            selectedUrl = selected.url;
+            if (!selected) return null;
+            return [selected.url];
         }
-        return [selectedUrl];
+
+        return [streams[0].url];
     };
 
     const exploreDeal = async (note, server = false,) => {
@@ -1875,8 +1875,17 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
     /**
      * 显示视频清晰度选择弹窗
-     * @param {Array<{url:string, width?:number, height?:number, codec?:string, bitrate?:number, size?:number, qualityType?:string, isOriginal?:boolean}>} streams
-     * @returns {Promise<Object|null>} 确认返回选中的流对象；取消或点击遮罩返回 null
+     * @param {Array<{
+     *   url:string,
+     *   width?:number,
+     *   height?:number,
+     *   bitrate?:number,
+     *   fps?:number,
+     *   size?:number,
+     *   qualityType?:string,
+     *   isOriginal?:boolean
+     * }>} streams - 可选视频流列表
+     * @returns {Promise<Object|null>} 选中的视频流对象，取消返回 null
      */
     function showVideoStreamSelectionModal(streams) {
         if (document.getElementById('videoStreamOverlay')) return Promise.resolve(null);
@@ -1936,7 +1945,12 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             overlay.appendChild(modal);
             document.body.appendChild(overlay);
 
+            let closed = false;
+
             function close(result) {
+                if (closed) return;
+                closed = true;
+
                 overlay.style.animation = 'fadeOut 0.2s';
                 setTimeout(() => {
                     overlay.remove();
