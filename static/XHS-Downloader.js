@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.4.5
+// @version        2.4.6
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -1258,9 +1258,9 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
     const generateNoteUrls = data => data.map(
         ([id, token,]) => `https://www.xiaohongshu.com/discovery/item/${id}?source=webshare&xhsshare=pc_web&xsec_token=${token}&xsec_source=pc_share`)
-                                         .join(" ");
+                                         .join("\n");
 
-    const generateUserUrls = data => data.map(id => `https://www.${currentSite}.com/user/profile/${id}`).join(" ");
+    const generateUserUrls = data => data.map(id => `https://www.${currentSite}.com/user/profile/${id}`).join("\n");
 
     const invalidDetection = data => data.every(([first]) => Boolean(first));
 

@@ -1,27 +1,28 @@
 from asyncio import (
+    CancelledError,
     Event,
+    Future,
     Queue,
     QueueEmpty,
     create_task,
     gather,
     sleep,
-    Future,
-    CancelledError,
 )
 from contextlib import suppress
 from datetime import datetime
 from re import compile
-from urllib.parse import urlparse
 from textwrap import dedent
+from types import SimpleNamespace
+from typing import Annotated, Callable
+from urllib.parse import urlparse
+
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from fastmcp import FastMCP
-from typing import Annotated
 from pydantic import Field
-from types import SimpleNamespace
 from pyperclip import copy, paste
+from rich import print
 from uvicorn import Config, Server
-from typing import Callable
 
 from ..expansion import (
     # BrowserCookie,
@@ -33,9 +34,11 @@ from ..expansion import (
 from ..module import (
     __VERSION__,
     ERROR,
+    INFO,
     MASTER,
     REPOSITORY,
     ROOT,
+    USERAGENT,
     VERSION_BETA,
     VERSION_MAJOR,
     VERSION_MINOR,
@@ -45,23 +48,19 @@ from ..module import (
     ExtractParams,
     IDRecorder,
     Manager,
+    Mapping,
     MapRecorder,
-    logging,
+    NoteGenerator,
     # sleep_time,
     ScriptServer,
-    INFO,
-    USERAGENT,
-    NoteGenerator,
+    logging,
 )
 from ..translation import _, switch_language
-
-from ..module import Mapping
 from .download import Download
 from .explore import Explore
 from .image import Image
 from .request import Html
 from .video import Video
-from rich import print
 
 __all__ = ["XHS"]
 
@@ -642,7 +641,7 @@ class XHS:
 
     async def __get_link(self, delay: int):
         while not self.event.is_set():
-            if (t := paste()).lower() == "close":
+            if (t := paste().replace("\n", " ")).lower() == "close":
                 self.stop_monitor()
             elif t != self.clipboard_cache:
                 self.clipboard_cache = t

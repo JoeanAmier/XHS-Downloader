@@ -104,7 +104,7 @@ class Index(Screen):
 
     @on(Button.Pressed, "#paste")
     def paste_button(self):
-        self.query_one(Input).value = paste()
+        self.query_one(Input).value = paste().replace("\n", " ")
 
     @work(exclusive=True)
     async def deal(self):

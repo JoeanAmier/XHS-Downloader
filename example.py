@@ -94,7 +94,7 @@ async def example_api():
 
 
 async def test():
-    url = "" or paste()
+    url = "" or paste().replace("\n", " ")
     if not url:
         return
     async with XHS(
