@@ -3,14 +3,14 @@ from contextlib import suppress
 from pathlib import Path as Root
 from textwrap import fill
 
-from click import Context
 from click import (
-    command,
-    option,
-    Path,
     Choice,
-    pass_context,
+    Context,
+    Path,
+    command,
     echo,
+    option,
+    pass_context,
 )
 from rich import print
 from rich.panel import Panel
@@ -20,11 +20,11 @@ from source.application import XHS
 
 # from source.expansion import BrowserCookie
 from source.module import (
-    ROOT,
     PROJECT,
+    VOLUME,
+    Settings,
 )
-from source.module import Settings
-from source.translation import switch_language, _
+from source.translation import _, switch_language
 
 __all__ = ["cli"]
 
@@ -69,8 +69,8 @@ class CLI:
 
     def __check_settings_path(self) -> Path:
         if not self.path:
-            return ROOT
-        return s.parent if (s := Root(self.path)).is_file() else ROOT
+            return VOLUME
+        return s.parent if (s := Root(self.path)).is_file() else VOLUME
 
     @staticmethod
     def __merge_cookie(data: dict) -> None:

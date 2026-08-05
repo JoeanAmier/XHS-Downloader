@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.4.6
+// @version        2.4.2
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -130,19 +130,6 @@ KS-Downloader（快手、KuaiShou）：https://github.com/JoeanAmier/KS-Download
             scriptServerSwitchDesc: '启用后，可以把作品下载任务推送至服务器',
             imageDownloadFormatLabel: '图片下载格式',
             imageDownloadFormatDesc: '图文作品文件下载格式',
-            videoPreferenceLabel: '视频下载偏好',
-            videoPreferenceDesc: '视频作品文件下载策略',
-            videoPreferenceOptions: {
-                manual: '手动选择',
-                resolution: '分辨率优先',
-                bitrate: '码率优先',
-                size: '文件大小优先',
-            },
-            videoQualityTitle: '选择视频下载质量',
-            videoQualityOriginal: '最高质量',
-            videoQualityBitrate: '码率',
-            videoQualityFps: '帧率',
-            videoQualitySize: '大小',
             fileNameFormatLabel: '作品文件名称格式',
             fileNameFormatDesc: '点击可选字段添加，拖拽已选字段调整顺序',
             fileNameSelectedLabel: '已选字段',
@@ -299,19 +286,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             scriptServerSwitchDesc: 'When enabled, download tasks can be pushed to the server',
             imageDownloadFormatLabel: 'Image Download Format',
             imageDownloadFormatDesc: 'Preferred file format for downloading images',
-            videoPreferenceLabel: 'Video download preferences',
-            videoPreferenceDesc: 'Video Notes File Download Strategy',
-            videoPreferenceOptions: {
-                manual: 'Manual select',
-                resolution: 'Resolution priority',
-                bitrate: 'Bitrate priority',
-                size: 'File size priority',
-            },
-            videoQualityTitle: 'Select Video Download Quality',
-            videoQualityOriginal: 'Highest quality',
-            videoQualityBitrate: 'Bitrate',
-            videoQualityFps: 'Frame rate',
-            videoQualitySize: 'Size',
             fileNameFormatLabel: 'Note File Name Format',
             fileNameFormatDesc: 'Click available fields to add them. Drag selected fields to reorder.',
             fileNameSelectedLabel: 'Selected Fields',
@@ -446,7 +420,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         linkCheckboxSwitch: GM_getValue("linkCheckboxSwitch", true),
         imageCheckboxSwitch: GM_getValue("imageCheckboxSwitch", true),
         imageDownloadFormat: GM_getValue("imageDownloadFormat", "jpeg"),
-        videoPreference: GM_getValue("videoPreference", "resolution"),
         scriptServerURL: GM_getValue("scriptServerURL", defaultsWebSocketURL),
         scriptServerSwitch: GM_getValue("scriptServerSwitch", false),
         fileNameFormatKeys: storedFileNameFormatKeys,
@@ -587,11 +560,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         GM_setValue("imageDownloadFormat", config.imageDownloadFormat);
     }
 
-    const updateVideoPreference = (value) => {
-        config.videoPreference = value;
-        GM_setValue("videoPreference", value);
-    };
-
     // 更新文件名格式配置。
     const updateFileNameFormat = (value) => {
         config.fileNameFormatKeys = parseFileNameFormat(value);
@@ -624,21 +592,13 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         }
     }
 
-    const preferenceKey = {
-        resolution: "height",
-        bitrate: "videoBitrate",
-        size: "size",
-    };
-
     const generateVideoUrl = note => {
         try {
             const key = note.video?.consumer?.originVideoKey;
             if (key) return [`https://sns-video-bd.xhscdn.com/${key}`];
             const allStreams = Object.values(note.video.media.stream).flat();
-            if (allStreams.length === 0) return [];
-            sortArray(allStreams, preferenceKey[config.videoPreference]);
-            const stream = allStreams[0];
-            return [stream.backupUrls[0] || stream.masterUrl];
+            sortArray(allStreams, "height");
+            return [allStreams[0].backupUrls[0] || allStreams[0].masterUrl];
         } catch (error) {
             console.error("Error deal video URL:", error);
             return [];
@@ -656,42 +616,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             return vB - vA;
         });
     }
-
-    const generateVideoStreams = note => {
-        const streams = [];
-        const originKey = note.video?.consumer?.originVideoKey;
-
-        if (originKey) {
-            streams.push({
-                             url: `https://sns-video-bd.xhscdn.com/${originKey}`, isOriginal: true,
-                         });
-        }
-
-        let renditions;
-        try {
-            renditions = Object.values(note.video.media?.stream || {})
-                               .flat()
-                               .filter(Boolean)
-                               .map(s => ({
-                                   url: s.backupUrls?.[0] || s.masterUrl,
-                                   width: s.width,
-                                   height: s.height,
-                                   bitrate: s.videoBitrate,
-                                   fps: s.fps,
-                                   size: s.size,
-                                   qualityType: s.qualityType,
-                               }))
-                               .filter(s => s.url);
-        } catch (error) {
-            console.error("Error generate video streams:", error);
-            return [];
-        }
-
-        renditions.sort((a, b) => (b.height ?? 0) - (a.height ?? 0));
-        streams.push(...renditions);
-
-        return streams;
-    };
 
     const generateImageUrl = note => {
         let images = note.imageList;
@@ -776,33 +700,13 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         }
     };
 
-    // 选择最终视频下载链接：手动模式下弹出选择窗口，其余沿用 generateVideoUrl 的自动选择
-    // 返回 null 表示用户取消（不下载也不报错），[] 表示无可用流，[url] 表示确定下载
-    const selectVideoStream = async (note, server) => {
-        if (config.videoPreference !== "manual") {
-            return generateVideoUrl(note);
-        }
-
-        const streams = generateVideoStreams(note);
-        if (streams.length === 0) return [];
-
-        if (!server && streams.length > 1) {
-            const selected = await showVideoStreamSelectionModal(streams);
-            if (!selected) return null;
-            return [selected.url];
-        }
-
-        return [streams[0].url];
-    };
-
     const exploreDeal = async (note, server = false,) => {
         try {
             let links;
             if (note.type === "normal") {
                 links = generateImageUrl(note);
             } else {
-                links = await selectVideoStream(note, server);
-                if (links === null) return; // 用户取消
+                links = generateVideoUrl(note);
             }
             if (links.length > 0) {
                 // console.debug("下载链接", links);
@@ -1258,9 +1162,9 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
     const generateNoteUrls = data => data.map(
         ([id, token,]) => `https://www.xiaohongshu.com/discovery/item/${id}?source=webshare&xhsshare=pc_web&xsec_token=${token}&xsec_source=pc_share`)
-                                         .join("\n");
+                                         .join(" ");
 
-    const generateUserUrls = data => data.map(id => `https://www.${currentSite}.com/user/profile/${id}`).join("\n");
+    const generateUserUrls = data => data.map(id => `https://www.${currentSite}.com/user/profile/${id}`).join(" ");
 
     const invalidDetection = data => data.every(([first]) => Boolean(first));
 
@@ -1538,8 +1442,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         box-shadow: 0 0 4px rgba(33, 150, 243, 0.3);
     }
     .select-input {
-        min-width: 130px;
-        width: auto;
+        width: 100px;
         padding: 8px 12px;
         border: 1px solid #ddd;
         border-radius: 4px;
@@ -1766,200 +1669,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
             overlay.addEventListener('click', (e) => {
                 if (e.target === overlay) close(false);
-            });
-        });
-    }
-
-    (() => {
-        if (!document.getElementById('videoStreamStyle')) {
-            const style = document.createElement('style');
-            style.id = 'videoStreamStyle';
-            style.textContent = `
-            .video-quality-body {
-                max-height: 60vh;
-                overflow-y: auto;
-            }
-            .video-quality-item {
-                display: flex;
-                align-items: center;
-                padding: 12px;
-                margin: 8px 0;
-                border: 2px solid #e0e0e0;
-                border-radius: 8px;
-                cursor: pointer;
-                transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
-            }
-            .video-quality-item:hover {
-                background: #fafafa;
-                border-color: #e6e6e6;
-            }
-            .video-quality-item.selected {
-                border-color: #2196F3;
-                box-shadow: 0 0 0 4px rgba(33,150,243,0.12) inset;
-            }
-            .video-quality-radio {
-                margin-right: 12px;
-                width: 18px;
-                height: 18px;
-                cursor: pointer;
-            }
-            .video-quality-info {
-                flex: 1;
-            }
-            .video-quality-title {
-                font-weight: 600;
-                font-size: 15px;
-                margin-bottom: 4px;
-            }
-            .video-quality-sub {
-                font-size: 13px;
-                color: #666;
-            }
-            `;
-            document.head.appendChild(style);
-        }
-    })();
-
-    /**
-     * 创建单个视频流选项（供 showVideoStreamSelectionModal 使用）
-     * @param {Object} stream - 视频流描述符
-     * @param {number} index - 序号
-     * @param {(item: HTMLLabelElement) => void} onSelect - 选中回调
-     * @returns {HTMLLabelElement}
-     */
-    const createStreamOption = (stream, index, onSelect) => {
-        const item = document.createElement('label');
-        item.className = 'video-quality-item';
-
-        const radio = document.createElement('input');
-        radio.type = 'radio';
-        radio.name = 'xhsVideoStream';
-        radio.value = index;
-        radio.checked = index === 0;
-        radio.className = 'video-quality-radio';
-        radio.onchange = () => onSelect(item);
-
-        const titleParts = [];
-        if (stream.width && stream.height) {
-            titleParts.push(`${stream.width}×${stream.height}`);
-        }
-        if (stream.isOriginal) {
-            titleParts.push(t.videoQualityOriginal);
-        } else if (stream.qualityType) {
-            titleParts.push(stream.qualityType);
-        }
-
-        const subParts = [];
-        if (stream.bitrate) subParts.push(`${t.videoQualityBitrate}: ${(stream.bitrate / 1000).toFixed(0)}kbps`);
-        if (stream.fps) subParts.push(`${t.videoQualityFps}: ${stream.fps}fps`);
-        if (stream.size) subParts.push(`${t.videoQualitySize}: ${(stream.size / 1024 / 1024).toFixed(2)}MB`);
-
-        const info = document.createElement('div');
-        info.className = 'video-quality-info';
-        const titleDiv = document.createElement('div');
-        titleDiv.className = 'video-quality-title';
-        titleDiv.textContent = titleParts.join(' ');
-        info.appendChild(titleDiv);
-        const subDiv = document.createElement('div');
-        subDiv.className = 'video-quality-sub';
-        if (subParts.length) {
-            subDiv.textContent = subParts.join(' | ');
-            info.appendChild(subDiv);
-        }
-
-        item.appendChild(radio);
-        item.appendChild(info);
-
-        return item;
-    };
-
-    /**
-     * 显示视频清晰度选择弹窗
-     * @param {Array<{
-     *   url:string,
-     *   width?:number,
-     *   height?:number,
-     *   bitrate?:number,
-     *   fps?:number,
-     *   size?:number,
-     *   qualityType?:string,
-     *   isOriginal?:boolean
-     * }>} streams - 可选视频流列表
-     * @returns {Promise<Object|null>} 选中的视频流对象，取消返回 null
-     */
-    function showVideoStreamSelectionModal(streams) {
-        if (document.getElementById('videoStreamOverlay')) return Promise.resolve(null);
-
-        return new Promise((resolve) => {
-            const overlay = document.createElement('div');
-            overlay.id = 'videoStreamOverlay';
-            overlay.style.cssText = `position: fixed; inset: 0; background: rgba(0,0,0,0.32); backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center; z-index: 10000; animation: fadeIn 0.3s;`;
-
-            const modal = document.createElement('div');
-            modal.className = 'text-generic-modal';
-            modal.style.maxWidth = '500px';
-
-            const header = document.createElement('div');
-            header.className = 'modal-header';
-            const headerTitle = document.createElement('span');
-            headerTitle.textContent = t.videoQualityTitle;
-            header.appendChild(headerTitle);
-
-            const body = document.createElement('div');
-            body.className = 'modal-body video-quality-body';
-
-            let selectedItem = null;
-            const selectItem = (item) => {
-                if (selectedItem) selectedItem.classList.remove('selected');
-                selectedItem = item;
-                item.classList.add('selected');
-            };
-            streams.forEach((stream, index) => {
-                const item = createStreamOption(stream, index, selectItem);
-                if (index === 0) selectItem(item);
-                body.appendChild(item);
-            });
-
-            const footer = document.createElement('div');
-            footer.className = 'modal-footer';
-
-            const confirmBtn = document.createElement('button');
-            confirmBtn.className = 'primary-btn';
-            confirmBtn.textContent = t.startDownloadButton;
-            confirmBtn.onclick = () => {
-                const selected = modal.querySelector('input[name="xhsVideoStream"]:checked');
-                close(selected ? streams[selected.value] : null);
-            };
-
-            const cancelBtn = document.createElement('button');
-            cancelBtn.className = 'secondary-btn';
-            cancelBtn.textContent = t.closeDownloadButton;
-            cancelBtn.onclick = () => close(null);
-
-            footer.appendChild(confirmBtn);
-            footer.appendChild(cancelBtn);
-
-            modal.appendChild(header);
-            modal.appendChild(body);
-            modal.appendChild(footer);
-            overlay.appendChild(modal);
-            document.body.appendChild(overlay);
-
-            let closed = false;
-
-            function close(result) {
-                if (closed) return;
-                closed = true;
-
-                overlay.style.animation = 'fadeOut 0.2s';
-                setTimeout(() => {
-                    overlay.remove();
-                    resolve(result);
-                }, 200);
-            }
-
-            overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) close(null);
             });
         });
     }
@@ -2210,11 +1919,8 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         item.style.opacity = disabled ? 0.6 : 1;
 
         // 生成选项HTML
-        const optionsHtml = options.map(option => {
-            const optionValue = typeof option === 'object' ? option.value : option;
-            const optionLabel = typeof option === 'object' ? option.label : option;
-            return `<option value="${optionValue}" ${optionValue === value ? 'selected' : ''}>${optionLabel}</option>`;
-        }).join('');
+        const optionsHtml = options.map(
+            option => `<option value="${option}" ${option === value ? 'selected' : ''}>${option}</option>`).join('');
 
         item.innerHTML = `
             <label>
@@ -2327,17 +2033,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                                                              .toUpperCase(),
                                                      });
 
-        const videoPreference = createSelectItem({
-                                                     label: t.videoPreferenceLabel,
-                                                     description: t.videoPreferenceDesc,
-                                                     options: Object.entries(t.videoPreferenceOptions)
-                                                                    .map(([value, label]) => ({
-                                                                        value,
-                                                                        label,
-                                                                    })),
-                                                     value: config.videoPreference,
-                                                 });
-
         const nameFormat = createFileNameFormatEditor({
                                                           label: t.fileNameFormatLabel,
                                                           description: t.fileNameFormatDesc,
@@ -2373,7 +2068,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         // 组合内容
         body.appendChild(createSettingsGroup(
             t.downloadSettingsGroup,
-            [filePack, imageCheckboxSwitch, imageDownloadFormat, videoPreference, nameFormat],
+            [filePack, imageCheckboxSwitch, imageDownloadFormat, nameFormat],
             true
         ));
         body.appendChild(createSettingsGroup(t.extractSettingsGroup, [autoScroll, scrollCount, linkCheckboxSwitch]));
@@ -2410,7 +2105,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             updateScriptServerURL(scriptServerURL.querySelector('.text-input').value.trim() || defaultsWebSocketURL);
             updateScriptServerSwitch(scriptServerSwitch.querySelector('input').checked);
             updateImageDownloadFormat(imageDownloadFormat.querySelector('select').value.trim() || "jpeg");
-            updateVideoPreference(videoPreference.querySelector('select').value);
             updateFileNameFormat(nameFormat.getFileNameFormatKeys());
             closeSettingsModal();
         });

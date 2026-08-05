@@ -192,10 +192,10 @@
 <td align="center">Settings proxy Value</td>
 </tr>
 <tr>
-<td align="center">skip</td>
+<td align="center">check_record</td>
 <td align="center">bool</td>
-<td align="center">Whether to skip notes with download records; set to <code>true</code> will not return notes data with download records; Optional parameter</td>
-<td align="center">false</td>
+<td align="center">Whether to skip notes with existing download records; Optional parameter</td>
+<td align="center">true</td>
 </tr>
 </tbody>
 </table>

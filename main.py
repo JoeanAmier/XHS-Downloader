@@ -3,13 +3,11 @@ from asyncio.exceptions import CancelledError
 from contextlib import suppress
 from sys import argv
 
-from source import Settings
-from source import XHS
-from source import XHSDownloader
-from source import cli
+from source import XHS, Settings, XHSDownloader, cli
+from source.GUI import launch
 
 
-async def app():
+async def tui():
     async with XHSDownloader() as xhs:
         await xhs.run_async()
 
@@ -47,9 +45,10 @@ if __name__ == "__main__":
         KeyboardInterrupt,
         CancelledError,
     ):
-        # TODO: 重构优化
         if len(argv) == 1:
-            run(app())
+            launch()
+        elif argv[1].upper() == "TUI":
+            run(tui())
         elif argv[1].upper() == "API":
             run(api_server())
         elif argv[1].upper() == "MCP":

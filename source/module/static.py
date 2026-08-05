@@ -1,16 +1,17 @@
-from pathlib import Path
 import sys
+from pathlib import Path
 
 VERSION_MAJOR = 2
 VERSION_MINOR = 8
 VERSION_BETA = True
 __VERSION__ = f"{VERSION_MAJOR}.{VERSION_MINOR}.{'beta' if VERSION_BETA else 'stable'}"
-ROOT = (
-    Path(sys.executable).resolve().parent.joinpath("Volume")
+ROOT: Path = (
+    Path(sys.executable).resolve().parent
     if getattr(sys, "frozen", False)
-    else Path(__file__).resolve().parent.parent.parent.joinpath("Volume")
+    else Path(__file__).resolve().parent.parent.parent
 )
-ROOT.mkdir(exist_ok=True)
+VOLUME: Path = ROOT / "Volume"
+VOLUME.mkdir(exist_ok=True)
 PROJECT = f"XHS-Downloader V{VERSION_MAJOR}.{VERSION_MINOR} {
     'Beta' if VERSION_BETA else 'Stable'
 }"

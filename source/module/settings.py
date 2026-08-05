@@ -2,7 +2,8 @@ from json import dump, load
 from pathlib import Path
 from platform import system
 from shutil import move
-from .static import ROOT, USERAGENT
+
+from .static import USERAGENT, VOLUME
 
 __all__ = ["Settings"]
 
@@ -35,15 +36,16 @@ class Settings:
         "language": "zh_CN",  # 语言设置
         "script_server": False,  # 是否启用脚本服务器
         "note_format": "",  # 作品信息格式(txt/md/all)
+        "disclaimer_accepted": False,  # 是否已同意免责声明
     }
     # 根据操作系统设置编码格式
     encode = "UTF-8-SIG" if system() == "Windows" else "UTF-8"
 
-    def __init__(self, root: Path = ROOT):
+    def __init__(self, root: Path = VOLUME):
         """初始化Settings类
 
         Args:
-            root: 设置文件的根目录路径,默认为ROOT
+            root: 设置文件的根目录路径，默认为 VOLUME
         """
         # 设置文件路径
         self.name = "settings.json"

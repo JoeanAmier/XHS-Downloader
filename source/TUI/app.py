@@ -3,6 +3,7 @@ from textual.app import App
 from ..application import XHS
 from ..module import (
     ROOT,
+    VOLUME,
     Settings,
 )
 from .about import About
@@ -16,8 +17,8 @@ __all__ = ["XHSDownloader"]
 
 
 class XHSDownloader(App):
-    CSS_PATH = ROOT.parent.joinpath("static/XHS-Downloader.tcss")
-    SETTINGS = Settings(ROOT)
+    CSS_PATH = ROOT.joinpath("static/XHS-Downloader.tcss")
+    SETTINGS = Settings(VOLUME)
 
     def __init__(self):
         super().__init__()

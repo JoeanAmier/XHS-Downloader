@@ -188,10 +188,10 @@
 <td align="center">配置文件 proxy 参数</td>
 </tr>
 <tr>
-<td align="center">skip</td>
+<td align="center">check_record</td>
 <td align="center">bool</td>
-<td align="center">是否跳过存在下载记录的作品；设置为 <code>true</code> 将不会返回存在下载记录的作品数据；可选参数</td>
-<td align="center">false</td>
+<td align="center">是否跳过已有下载记录的作品；可选参数</td>
+<td align="center">true</td>
 </tr>
 </tbody>
 </table>

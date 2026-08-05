@@ -14,6 +14,7 @@ from .static import (
     VERSION_MINOR,
     VERSION_BETA,
     ROOT,
+    VOLUME,
     REPOSITORY,
     LICENCE,
     RELEASES,
@@ -34,6 +35,7 @@ from .static import (
     __VERSION__,
 )
 from .tools import (
+    compare_versions,
     retry,
     logging,
     sleep_time,

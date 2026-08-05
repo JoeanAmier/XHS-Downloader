@@ -1,6 +1,6 @@
 from asyncio import Semaphore, gather
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Callable
 
 from aiofiles import open
 from httpx import HTTPError
@@ -77,7 +77,9 @@ class Download:
         filename: str,
         type_: str,
         mtime: int,
-    ) -> tuple[Path, list[Any]]:
+        progress: Callable[[dict], None] | None = None,
+        task_id: str | None = None,
+    ) -> list[Any]:
         if type_ == _("视频"):
             tasks = self.__ready_download_video(
                 urls,
@@ -104,6 +106,8 @@ class Download:
                 name,
                 format_,
                 mtime,
+                progress,
+                task_id,
             )
             for url, name, format_ in tasks
         ]
@@ -200,14 +204,29 @@ class Download:
         name: str,
         format_: str,
         mtime: int,
+        progress: Callable[[dict], None] | None,
+        task_id: str | None,
     ):
         async with self.SEMAPHORE:
             headers = self.headers.copy()
             temp = self.temp.joinpath(f"{name}.{format_}")
-            self.__update_headers_range(
+            completed = self.__update_headers_range(
                 headers,
                 temp,
             )
+
+            def report(state: str, total: int | None = None) -> None:
+                if progress:
+                    progress(
+                        {
+                            "task_id": task_id,
+                            "filename": f"{name}.{format_}",
+                            "completed_bytes": completed,
+                            "total_bytes": total,
+                            "state": state,
+                        }
+                    )
+
             try:
                 async with self.client.stream(
                     "GET",
@@ -226,10 +245,14 @@ class Download:
                     #         response.headers.get(
                     #             'content-length', 0)) or None,
                     # )
+                    content_length = int(response.headers.get("content-length", 0) or 0)
+                    total = completed + content_length if content_length else None
+                    report("downloading", total)
                     async with open(temp, "ab") as f:
                         async for chunk in response.aiter_bytes(self.chunk):
                             await f.write(chunk)
-                            # self.__update_progress(bar, len(chunk))
+                            completed += len(chunk)
+                            report("downloading", total)
                 real = await self.__suffix_with_file(
                     temp,
                     path,
@@ -243,11 +266,11 @@ class Download:
                     mtime,
                     self.write_mtime,
                 )
-                # self.__create_progress(bar, None)
+                report("completed", total)
                 logging(self.print, _("文件 {0} 下载成功").format(real.name))
                 return True
             except HTTPError as error:
-                # self.__create_progress(bar, None)
+                report("failed")
                 logging(
                     self.print,
                     _("网络异常，{0} 下载失败，错误信息: {1}").format(
@@ -257,6 +280,7 @@ class Download:
                 )
                 return False
             except CacheError as error:
+                report("failed")
                 self.manager.delete(temp)
                 logging(
                     self.print,

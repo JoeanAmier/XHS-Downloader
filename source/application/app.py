@@ -37,11 +37,11 @@ from ..module import (
     INFO,
     MASTER,
     REPOSITORY,
-    ROOT,
     USERAGENT,
     VERSION_BETA,
     VERSION_MAJOR,
     VERSION_MINOR,
+    VOLUME,
     WARNING,
     DataRecorder,
     ExtractData,
@@ -63,6 +63,17 @@ from .request import Html
 from .video import Video
 
 __all__ = ["XHS"]
+
+
+def new_statistics(total: int = 0) -> SimpleNamespace:
+    """创建一次处理调用专用的统计对象，避免复用可变默认参数。"""
+
+    return SimpleNamespace(
+        all=total,
+        success=0,
+        fail=0,
+        skip=0,
+    )
 
 
 def data_cache(function):
@@ -154,7 +165,7 @@ class XHS:
         switch_language(language)
         self.print = Print()
         self.manager = Manager(
-            ROOT,
+            VOLUME,
             work_path,
             folder_name,
             name_format,
@@ -227,6 +238,8 @@ class XHS:
         download: bool,
         index,
         count: SimpleNamespace,
+        progress_callback: Callable[[dict], None] | None = None,
+        task_id: str | None = None,
     ):
         nickname = (
             f"{container['作者ID']}_{self.CLEANER.filter_name(container['作者昵称'])}"
@@ -234,28 +247,27 @@ class XHS:
         filename = self.__naming_rules(container)
         path = self.downloader.generate_path(nickname, filename)
         if (u := container["下载地址"]) and download:
-            if await self.skip_download(i := container["作品ID"]):
-                self.logging(_("作品 {0} 存在下载记录，跳过下载").format(i))
+            i = container["作品ID"]
+            result = await self.downloader.run(
+                u,
+                container["动图地址"],
+                index,
+                path,
+                filename,
+                container["作品类型"],
+                container["时间戳"],
+                progress=progress_callback,
+                task_id=task_id,
+            )
+            if not result:
                 count.skip += 1
-            else:
-                result = await self.downloader.run(
-                    u,
-                    container["动图地址"],
-                    index,
-                    path,
-                    filename,
-                    container["作品类型"],
-                    container["时间戳"],
+            elif all(result):
+                count.success += 1
+                await self.__add_record(
+                    i,
                 )
-                if not result:
-                    count.skip += 1
-                elif all(result):
-                    count.success += 1
-                    await self.__add_record(
-                        i,
-                    )
-                else:
-                    count.fail += 1
+            else:
+                count.fail += 1
         elif not u:
             self.logging(_("提取作品文件下载地址失败"), ERROR)
             count.fail += 1
@@ -284,7 +296,10 @@ class XHS:
         url: str,
         download=False,
         index: list | tuple | None = None,
-        data=True,
+        check_record: bool = True,
+        progress_callback: Callable[[dict], None] | None = None,
+        task_id: str | None = None,
+        result_callback: Callable[[dict], None] | None = None,
     ) -> list[dict]:
         if not (
             urls := await self.extract_links(
@@ -293,26 +308,33 @@ class XHS:
         ):
             self.logging(_("提取小红书作品链接失败"), WARNING)
             return []
-        statistics = SimpleNamespace(
-            all=len(urls),
-            success=0,
-            fail=0,
-            skip=0,
-        )
+        statistics = new_statistics(len(urls))
         self.logging(_("共 {0} 个小红书作品待处理...").format(statistics.all))
         result = [
             await self.__deal_extract(
                 i,
                 download,
                 index,
-                data,
+                check_record=check_record,
                 count=statistics,
+                progress_callback=progress_callback,
+                task_id=task_id,
             )
             for i in urls
         ]
         self.show_statistics(
             statistics,
         )
+        if result_callback:
+            result_callback(
+                {
+                    "task_id": task_id,
+                    "all": statistics.all,
+                    "success": statistics.success,
+                    "fail": statistics.fail,
+                    "skip": statistics.skip,
+                }
+            )
         return result
 
     def show_statistics(
@@ -333,7 +355,7 @@ class XHS:
         url: str,
         download=True,
         index: list | tuple = None,
-        data=False,
+        check_record: bool = True,
     ) -> None:
         url = await self.extract_links(
             url,
@@ -346,21 +368,16 @@ class XHS:
                 url[0],
                 download,
                 index,
-                data,
+                check_record=check_record,
             )
         else:
-            statistics = SimpleNamespace(
-                all=len(url),
-                success=0,
-                fail=0,
-                skip=0,
-            )
+            statistics = new_statistics(len(url))
             [
                 await self.__deal_extract(
                     u,
                     download,
                     index,
-                    data,
+                    check_record=check_record,
                     count=statistics,
                 )
                 for u in url
@@ -372,7 +389,7 @@ class XHS:
     async def extract_links(
         self,
         url: str,
-    ) -> list:
+    ) -> list[str]:
         urls = []
         for i in url.split():
             if u := self.SHORT.search(i):
@@ -406,21 +423,11 @@ class XHS:
     async def _get_html_data(
         self,
         url: str,
-        data: bool,
+        id_: str,
+        count: SimpleNamespace,
         cookie: str = None,
         proxy: str = None,
-        count=SimpleNamespace(
-            all=0,
-            success=0,
-            fail=0,
-            skip=0,
-        ),
-    ) -> tuple[str, Namespace | dict]:
-        if await self.skip_download(id_ := self.__extract_link_id(url)) and not data:
-            msg = _("作品 {0} 存在下载记录，跳过处理").format(id_)
-            self.logging(msg)
-            count.skip += 1
-            return id_, {"message": msg}
+    ) -> Namespace | dict:
         self.logging(_("开始处理作品：{0}").format(id_))
         html = await self.html.request_url(
             url,
@@ -431,8 +438,22 @@ class XHS:
         if not namespace:
             self.logging(_("{0} 获取数据失败").format(id_), ERROR)
             count.fail += 1
-            return id_, {}
-        return id_, namespace
+            return {}
+        return namespace
+
+    async def _check_existing_record(
+        self,
+        id_: str,
+        count: SimpleNamespace,
+    ) -> str | None:
+        """根据作品 ID 查询下载记录，存在记录时返回跳过提示。"""
+
+        if not await self.has_download_record(id_):
+            return None
+        msg = _("作品 {0} 存在下载记录，跳过处理").format(id_)
+        self.logging(msg)
+        count.skip += 1
+        return msg
 
     def _extract_data(
         self,
@@ -455,6 +476,8 @@ class XHS:
         download: bool,
         index: list | tuple | None,
         count: SimpleNamespace,
+        progress_callback: Callable[[dict], None] | None = None,
+        task_id: str | None = None,
     ):
         if data["作品类型"] == _("视频"):
             self.__extract_video(data, namespace)
@@ -472,9 +495,11 @@ class XHS:
         )
         await self.__download_files(
             data,
-            download,
-            index,
-            count,
+            download=download,
+            index=index,
+            count=count,
+            progress_callback=progress_callback,
+            task_id=task_id,
         )
         # await sleep_time()
         return data
@@ -484,22 +509,26 @@ class XHS:
         url: str,
         download: bool,
         index: list | tuple | None,
-        data: bool,
+        check_record: bool,
         cookie: str | None = None,
         proxy: str | None = None,
-        count=SimpleNamespace(
-            all=0,
-            success=0,
-            fail=0,
-            skip=0,
-        ),
+        progress_callback: Callable[[dict], None] | None = None,
+        task_id: str | None = None,
+        count: SimpleNamespace | None = None,
     ):
-        id_, namespace = await self._get_html_data(
+        """提取并处理一个作品；记录只在进入流程时检查一次。"""
+
+        if count is None:
+            count = new_statistics()
+        id_ = self.extract_link_id(url)
+        if check_record and (msg := await self._check_existing_record(id_, count)):
+            return {"message": msg}
+        namespace = await self._get_html_data(
             url,
-            data,
-            cookie,
-            proxy,
-            count,
+            id_=id_,
+            count=count,
+            cookie=cookie,
+            proxy=proxy,
         )
         if not isinstance(namespace, Namespace):
             return namespace
@@ -518,9 +547,11 @@ class XHS:
             },
             namespace,
             id_,
-            download,
-            index,
-            count,
+            download=download,
+            index=index,
+            count=count,
+            progress_callback=progress_callback,
+            task_id=task_id,
         )
         self.logging(_("作品处理完成：{0}").format(id_))
         return data
@@ -529,15 +560,14 @@ class XHS:
         self,
         data: dict,
         index: list | tuple | None,
-        count=SimpleNamespace(
-            all=0,
-            success=0,
-            fail=0,
-            skip=0,
-        ),
+        count: SimpleNamespace | None = None,
     ):
+        if count is None:
+            count = new_statistics()
         namespace = self.json_to_namespace(data)
         id_ = namespace.safe_extract("noteId", "")
+        if msg := await self._check_existing_record(id_, count):
+            return {"message": msg}
         if not (
             data := self._extract_data(
                 namespace,
@@ -550,9 +580,9 @@ class XHS:
             data,
             namespace,
             id_,
-            True,
-            index,
-            count,
+            download=True,
+            index=index,
+            count=count,
         )
 
     @staticmethod
@@ -575,9 +605,11 @@ class XHS:
         )
 
     @staticmethod
-    def __extract_link_id(url: str) -> str:
+    def extract_link_id(url: str) -> str:
+        """从已提取的作品链接中获取作品 ID。"""
+
         link = urlparse(url)
-        return link.path.split("/")[-1]
+        return link.path.rstrip("/").split("/")[-1]
 
     def __generate_data_object(self, html: str) -> Namespace:
         data = self.convert.run(html)
@@ -624,7 +656,7 @@ class XHS:
         self,
         delay=1,
         download=True,
-        data=False,
+        check_record: bool = True,
     ) -> None:
         self.logging(
             _(
@@ -636,12 +668,17 @@ class XHS:
         copy("")
         await gather(
             self.__get_link(delay),
-            self.__receive_link(delay, download=download, index=None, data=data),
+            self.__receive_link(
+                delay,
+                download=download,
+                index=None,
+                check_record=check_record,
+            ),
         )
 
     async def __get_link(self, delay: int):
         while not self.event.is_set():
-            if (t := paste().replace("\n", " ")).lower() == "close":
+            if (t := paste()).lower() == "close":
                 self.stop_monitor()
             elif t != self.clipboard_cache:
                 self.clipboard_cache = t
@@ -670,7 +707,7 @@ class XHS:
     def stop_monitor(self):
         self.event.set()
 
-    async def skip_download(self, id_: str) -> bool:
+    async def has_download_record(self, id_: str) -> bool:
         return bool(await self.id_recorder.select(id_))
 
     async def __aenter__(self):
@@ -748,7 +785,7 @@ class XHS:
                 - **index**: 下载指定序号的图片文件，仅对图文作品生效；download 参数设置为 false 时不生效；可选参数
                 - **cookie**: 请求数据时使用的 Cookie；可选参数
                 - **proxy**: 请求数据时使用的代理；可选参数
-                - **skip**: 是否跳过存在下载记录的作品；设置为 true 将不会返回存在下载记录的作品数据；可选参数
+                - **check_record**: 是否跳过已有下载记录的作品；可选参数
                 """)
             ),
             tags=["API"],
@@ -766,9 +803,9 @@ class XHS:
                     url[0],
                     extract.download,
                     extract.index,
-                    not extract.skip,
-                    extract.cookie,
-                    extract.proxy,
+                    check_record=extract.check_record,
+                    cookie=extract.cookie,
+                    proxy=extract.proxy,
                 ):
                     msg = _("获取小红书作品数据成功")
                 else:
@@ -952,7 +989,7 @@ class XHS:
             url[0],
             download,
             index,
-            True,
+            check_record=True,
         ):
             msg = _("获取小红书作品数据成功")
         else:

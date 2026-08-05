@@ -1,6 +1,6 @@
 from asyncio import sleep
-from random import lognormvariate
 from math import log
+from random import lognormvariate
 from typing import Callable
 
 from rich import print
@@ -49,6 +49,22 @@ def logging(log: Callable, text, style=INFO):
             string,
             scroll_end=True,
         )
+
+
+def compare_versions(
+    current_version: str,
+    target_version: str,
+    is_development: bool,
+) -> int:
+    """比较两个主版本号，返回正式版更新状态码。"""
+
+    current = tuple(map(int, current_version.removeprefix("v").split(".")[:2]))
+    target = tuple(map(int, target_version.removeprefix("v").split(".")[:2]))
+    if target > current:
+        return 4
+    if target == current:
+        return 3 if is_development else 1
+    return 2
 
 
 def get_wait_time(

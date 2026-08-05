@@ -1,8 +1,10 @@
+from http.cookies import SimpleCookie
+from os import utime
 from pathlib import Path
 from re import compile, sub
 from shutil import move, rmtree
-from os import utime
-from http.cookies import SimpleCookie
+from typing import TYPE_CHECKING
+
 from httpx import (
     AsyncClient,
     AsyncHTTPTransport,
@@ -17,7 +19,6 @@ from source.expansion import remove_empty_directories
 from ..translation import _
 from .static import HEADERS, USERAGENT, WARNING
 from .tools import logging
-from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from ..expansion import Cleaner
@@ -87,8 +88,8 @@ class Manager:
         self.blank_headers = HEADERS | {
             "user-agent": user_agent or USERAGENT,
         }
-        self.retry = retry
-        self.chunk = chunk
+        self.retry = self.__check_integer(retry, 5, 0)
+        self.chunk = self.__check_integer(chunk, 2 * 1024 * 1024, 1024 * 1024)
         self.name_format = self.__check_name_format(name_format)
         self.record_data = self.check_bool(record_data, False)
         self.image_format = self.__check_image_format(image_format)
@@ -97,7 +98,7 @@ class Manager:
         self.proxy_tip = None
         self.proxy = self.__check_proxy(proxy)
         self.print_proxy_tip()
-        self.timeout = timeout
+        self.timeout = self.__check_integer(timeout, 10, 1)
         self.request_client = AsyncClient(
             headers=self.blank_headers
             | {
@@ -203,6 +204,15 @@ class Manager:
     @staticmethod
     def check_bool(value: bool, default: bool) -> bool:
         return value if isinstance(value, bool) else default
+
+    @staticmethod
+    def __check_integer(value: int, default: int, minimum: int) -> int:
+        """将配置中的整数参数限制在下载器可接受的范围内。"""
+
+        try:
+            return max(minimum, value)
+        except (TypeError, ValueError):
+            return default
 
     async def close(self):
         await self.request_client.aclose()

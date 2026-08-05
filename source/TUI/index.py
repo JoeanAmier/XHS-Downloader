@@ -104,7 +104,7 @@ class Index(Screen):
 
     @on(Button.Pressed, "#paste")
     def paste_button(self):
-        self.query_one(Input).value = paste().replace("\n", " ")
+        self.query_one(Input).value = paste()
 
     @work(exclusive=True)
     async def deal(self):
@@ -113,7 +113,7 @@ class Index(Screen):
             await self.xhs.extract(
                 self.url.value,
                 True,
-                data=False,
+                check_record=True,
             )
         ):
             self.url.value = ""

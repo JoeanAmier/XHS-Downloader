@@ -7,7 +7,7 @@ class ExtractParams(BaseModel):
     index: list[str | int] | None = None
     cookie: str = None
     proxy: str = None
-    skip: bool = False
+    check_record: bool = True
 
 
 class ExtractData(BaseModel):
