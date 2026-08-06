@@ -11,24 +11,29 @@ jobs:
     env:
       PYTHONUTF8: "1"
       UV_DEFAULT_INDEX: https://pypi.org/simple
+      SIGNPATH_AVAILABLE: ${{ secrets.SIGNPATH_API_TOKEN != '' }}
 
     strategy:
       fail-fast: false
       matrix:
         include:
           - os: windows-latest
+            sign: true
             executable: dist/XHS-Downloader/XHS-Downloader.exe
             artifact: XHS-Downloader_Windows_X64
 
           - os: windows-11-arm
+            sign: true
             executable: dist/XHS-Downloader/XHS-Downloader.exe
             artifact: XHS-Downloader_Windows_ARM64
 
           - os: macos-15-intel
+            sign: false
             executable: dist/XHS-Downloader/XHS-Downloader
             artifact: XHS-Downloader_macOS_X64
 
           - os: macos-latest
+            sign: false
             executable: dist/XHS-Downloader/XHS-Downloader
             artifact: XHS-Downloader_macOS_ARM64
 
@@ -60,7 +65,46 @@ jobs:
           uv run python -c
           "import subprocess; subprocess.run([r'${{ matrix.executable }}', '--version'], check=True)"
 
-      - name: 上传构建产物
+      - name: 上传待签名构建产物
+        if: matrix.sign && env.SIGNPATH_AVAILABLE == 'true'
+        id: upload-artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.artifact }}_${{ env.DATE }}
+          path: dist/XHS-Downloader
+          if-no-files-found: error
+
+      - name: SignPath 签名
+        if: matrix.sign && env.SIGNPATH_AVAILABLE == 'true'
+        uses: signpath/github-action-submit-signing-request@v2
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: bddfd48a-44b7-4ab4-a51c-cd6e84db7534
+          project-slug: XHS-Downloader
+          signing-policy-slug: test-signing
+          github-artifact-id: ${{ steps.upload-artifact.outputs.artifact-id }}
+          wait-for-completion: true
+          output-artifact-directory: signed
+
+      - name: 上传签名版本
+        if: matrix.sign && env.SIGNPATH_AVAILABLE == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.artifact }}_${{ env.DATE }}
+          path: signed
+          overwrite: true
+          if-no-files-found: error
+
+      - name: 上传未签名 Windows 版本
+        if: matrix.sign && env.SIGNPATH_AVAILABLE != 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.artifact }}_${{ env.DATE }}
+          path: dist/XHS-Downloader
+          if-no-files-found: error
+
+      - name: 上传 macOS 构建产物
+        if: ${{ !matrix.sign }}
         uses: actions/upload-artifact@v7
         with:
           name: ${{ matrix.artifact }}_${{ env.DATE }}
