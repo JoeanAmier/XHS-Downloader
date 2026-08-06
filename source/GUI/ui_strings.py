@@ -93,7 +93,6 @@ def get_ui_messages() -> dict[str, str]:
         "history.disabled": _("下载记录功能已关闭"),
         "history.disabled_description": _("在程序设置中开启“作品下载记录开关”后可用"),
         "history.query_id": _("查询 ExploreID.db 中成功下载的作品 ID"),
-        "history.query_disabled": _("下载记录已关闭，当前不可用"),
         "history.found": _("找到 {0} 条记录"),
         "history.range": _("第 {0}–{1} 条，共 {2} 条{3}"),
         "history.search_results": _("搜索结果"),

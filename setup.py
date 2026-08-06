@@ -1,6 +1,7 @@
 from importlib.metadata import distribution
+from sys import platform
 
-from cx_Freeze import setup, Executable
+from cx_Freeze import Executable, setup
 
 
 def include_distribution_metadata(distribution_name):
@@ -34,6 +35,16 @@ executables = [
         target_name="XHS-Downloader",
     )
 ]
+
+if platform == "win32":
+    executables.append(
+        Executable(
+            script="main.py",
+            base="gui",
+            icon="./static/XHS-Downloader",
+            target_name="XHS-Downloader-GUI",
+        )
+    )
 
 setup(
     name="XHS-Downloader",

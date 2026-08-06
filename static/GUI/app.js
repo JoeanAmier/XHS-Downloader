@@ -11,20 +11,20 @@
 
     // 页面标题和副标题保存语言键，具体文本由后端加载的翻译包提供。
     const viewCopy = {
-        "new-task": ["nav.new_task", "page.new_task"],
-        monitor: ["nav.monitor", "monitor.description"],
-        queue: ["nav.queue", "page.queue"],
-        history: ["nav.history", "history.query_id"],
-        logs: ["nav.logs", "page.logs"],
-        settings: ["nav.settings", "page.settings"],
-        about: ["nav.about", ""],
+        "new-task": {title: "nav.new_task", meta: "page.new_task"},
+        monitor: {title: "nav.monitor", meta: "monitor.description"},
+        queue: {title: "nav.queue", meta: "page.queue"},
+        history: {title: "nav.history", meta: "history.query_id"},
+        logs: {title: "nav.logs", meta: "page.logs"},
+        settings: {title: "nav.settings", meta: "page.settings"},
+        about: {title: "nav.about"},
     };
 
     let uiTranslations = Object.create(null);
+    let translatedUiInitialized = false;
 
     function translateText(key) {
-        // 翻译包尚未加载时返回空字符串，避免将语言键直接呈现给用户。
-        return uiTranslations[key] || "";
+        return uiTranslations[key];
     }
 
     function formatTranslated(key, values = []) {
@@ -32,11 +32,6 @@
         return translateText(key).replace(/\{(\d+)}/g, (match, index) => (
             values[Number(index)] ?? match
         ));
-    }
-
-    function resolveText(value) {
-        // 动态消息通常传入语言键；后端返回的错误文本不属于语言包时保留原文。
-        return uiTranslations[value] ?? value;
     }
 
     function applyStaticTranslations() {
@@ -65,7 +60,7 @@
         toast.className = `toast ${type}`;
         toast.innerHTML = `
             <span class="toast-icon">${icon(type === "warning" ? "info" : "check")}</span>
-            <div><strong>${resolveText(title)}</strong><span>${resolveText(message)}</span></div>
+            <div><strong>${title}</strong><span>${message}</span></div>
         `;
         toastRegion.appendChild(toast);
         window.setTimeout(() => {
@@ -81,10 +76,18 @@
 
     let monitorMode = false;
 
+    function updateViewHeader(name) {
+        const copy = viewCopy[name];
+        const metaKey = copy.meta;
+        viewTitle.textContent = translateText(copy.title);
+        viewMeta.textContent = metaKey ? translateText(metaKey) : "";
+    }
+
     function setView(name, options = {}) {
         // 监听运行期间锁定其他页面，避免在监听模式下修改配置或创建冲突任务。
         if (monitorMode && name !== "monitor" && !options.force) {
-            showToast("toast.exit_monitor_first", "toast.monitor_switch_locked", "warning");
+            showToast(
+                translateText("toast.exit_monitor_first"), translateText("toast.monitor_switch_locked"), "warning");
             return;
         }
         const page = document.querySelector(`.view[data-page="${name}"]`);
@@ -93,7 +96,7 @@
         document.querySelectorAll(".view").forEach((item) => item.classList.toggle("active", item === page));
         document.querySelectorAll(".nav-item")
                 .forEach((item) => item.classList.toggle("active", item.dataset.view === name));
-        [viewTitle.textContent, viewMeta.textContent] = viewCopy[name].map(translateText);
+        updateViewHeader(name);
         if (window.location.hash !== `#${name}`) {
             window.history.replaceState(null, "", `#${name}`);
         }
@@ -129,7 +132,7 @@
         if (document.querySelector(".view.active")?.dataset.page === "monitor") {
             viewMeta.textContent = active
                                    ? translateText("monitor.reading")
-                                   : translateText(viewCopy.monitor[1]);
+                                   : translateText(viewCopy.monitor.meta);
         }
         monitorState.classList.toggle("inactive", !active);
         monitorState.innerHTML = `<i></i><span>${translateText(active ? "monitor.active" : "monitor.inactive")}</span>`;
@@ -380,11 +383,6 @@
         historyEnabled = Boolean(enabled);
         historyView.classList.toggle("is-disabled", !historyEnabled);
         historySearch.disabled = !historyEnabled;
-        viewCopy.history[1] = historyEnabled
-                              ? "history.query_id"
-                              : "history.query_disabled";
-        if (document.querySelector(".view.active") === historyView) viewMeta.textContent = translateText(
-            viewCopy.history[1]);
         if (!historyEnabled) {
             historyRequestId += 1;
             historyBody.replaceChildren();
@@ -447,7 +445,8 @@
             if (requestId !== historyRequestId) return;
             renderNativeHistoryPage(result);
         } catch (error) {
-            if (requestId === historyRequestId) showToast("history.read_failed", String(error), "warning");
+            if (requestId === historyRequestId) showToast(
+                translateText("history.read_failed"), String(error), "warning");
         }
     }
 
@@ -666,14 +665,17 @@
         });
     });
 
-    applyNameFormat("");
-
-    refreshQueue();
-    refreshMonitorQueue();
-    updateRecordSelection();
-    renderMonitorState(false);
-    const initialView = window.location.hash.slice(1);
-    if (viewCopy[initialView]) setView(initialView);
+    function initializeTranslatedUi() {
+        refreshQueue();
+        refreshMonitorQueue();
+        updateRecordSelection();
+        renderMonitorState(monitorMode);
+        if (!translatedUiInitialized) {
+            const initialView = window.location.hash.slice(1);
+            if (viewCopy[initialView]) setView(initialView);
+            translatedUiInitialized = true;
+        }
+    }
 
     // PyWebView 负责所有数据变更，DOM 仅渲染快照；以下变量用于控制轮询和请求去重。
     let nativeApi = null;
@@ -736,9 +738,9 @@
         stateLine.className = "queue-state-line";
         const state = document.createElement("span");
         state.className = `status-text ${statusClass(task.state)}`;
-        state.textContent = translateText(statusLabels[task.state] || task.state);
+        state.textContent = translateText(statusLabels[task.state]);
         const message = document.createElement("span");
-        message.textContent = task.error || translateText(statusDetails[task.state] || "");
+        message.textContent = task.error ? task.error : translateText(statusDetails[task.state]);
         stateLine.append(state, message);
         detail.append(link, stateLine);
         item.append(symbol, detail);
@@ -772,7 +774,7 @@
         state.className = `status-text ${statusClass(task.state)}`;
         if (task.state === "success") state.innerHTML = icon("check");
         else state.append(document.createElement("i"));
-        state.append(document.createTextNode(translateText(statusLabels[task.state] || task.state)));
+        state.append(document.createTextNode(translateText(statusLabels[task.state])));
         item.append(symbol, primary, state);
         return item;
     }
@@ -900,8 +902,9 @@
         applyNameFormat(nameFormat);
         const activeView = document.querySelector(".view.active")?.dataset.page;
         if (viewCopy[activeView]) {
-            [viewTitle.textContent, viewMeta.textContent] = viewCopy[activeView].map(translateText);
+            updateViewHeader(activeView);
         }
+        initializeTranslatedUi();
     }
 
     function collectNativeSettings() {
@@ -956,8 +959,7 @@
         // 关于页的版本、发布类型和仓库信息均来自后端常量，避免在 HTML 中固化。
         const version = String(about.version);
         const release = String(about.release);
-        const displayVersion = [version, release].filter(Boolean).join(" ");
-        document.getElementById("aboutVersion").textContent = displayVersion;
+        document.getElementById("aboutVersion").textContent = [version, release].filter(Boolean).join(" ");
         document.getElementById("aboutAuthor").textContent = about.author;
         document.getElementById("aboutLicense").textContent = about.license;
         document.getElementById("aboutRepository").textContent = String(about.repository).replace(/^https?:\/\//, "");
@@ -990,7 +992,7 @@
             applyNativeState(await nativeApi.get_state());
             return true;
         } catch (error) {
-            showToast("update.failed", String(error), "warning");
+            showToast(translateText("update.failed"), String(error), "warning");
             return false;
         } finally {
             bridgeRefreshBusy = false;
@@ -1004,7 +1006,7 @@
             await refreshNativeState();
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
-            showToast(message || translateText("toast.operation_failed"), "", "warning");
+            showToast(message, "", "warning");
         }
     }
 
@@ -1031,7 +1033,7 @@
                 startStatePolling();
             } catch (error) {
                 const message = error instanceof Error ? error.message : String(error);
-                showToast(message || translateText("toast.operation_failed"), "", "warning");
+                showToast(message, "", "warning");
             }
         })();
     });
@@ -1042,7 +1044,7 @@
                 await nativeApi.decline_disclaimer();
             } catch (error) {
                 const message = error instanceof Error ? error.message : String(error);
-                showToast(message || translateText("toast.operation_failed"), "", "warning");
+                showToast(message, "", "warning");
             }
         })();
     });
@@ -1060,7 +1062,8 @@
             event.stopImmediatePropagation();
             void runNativeAction(async () => {
                 const cancelled = await nativeApi.cancel_task(taskId);
-                if (!cancelled) showToast("toast.cannot_cancel", "toast.started_task", "warning");
+                if (!cancelled) showToast(
+                    translateText("toast.cannot_cancel"), translateText("toast.started_task"), "warning");
             });
             return;
         }
@@ -1104,7 +1107,7 @@
                 if (!result.ok) throw new Error(result.error);
                 settingsLoaded = false;
                 await refreshUiTranslations();
-                showToast("settings.saved", "settings.reloaded");
+                showToast(translateText("settings.saved"), translateText("settings.reloaded"));
             });
         } else if (id === "discardSettings") {
             event.preventDefault();
@@ -1112,7 +1115,7 @@
             void runNativeAction(async () => {
                 settingsLoaded = false;
                 applyNativeSettings(await nativeApi.get_settings());
-                showToast("settings.discarded");
+                showToast(translateText("settings.discarded"));
             });
         } else if (id === "openRepository") {
             event.preventDefault();
@@ -1130,7 +1133,11 @@
             void (async () => {
                 try {
                     const result = await nativeApi.check_update();
-                    if (result.status !== "ok") throw new Error(result.message);
+                    if (result.status !== "ok") {
+                        setUpdateResult(result.message, "warning");
+                        showToast(translateText("update.failed"), result.message, "warning");
+                        return;
+                    }
                     const updateAvailable = ["update_available", "stable_available"].includes(result.kind);
                     const tone = updateAvailable ? "warning" : "success";
                     const title = result.title;
@@ -1139,7 +1146,7 @@
                 } catch (error) {
                     const message = error?.message || String(error);
                     setUpdateResult(`${translateText("update.failed")}: ${message}`, "error");
-                    showToast("update.failed", message, "warning");
+                    showToast(translateText("update.failed"), message, "warning");
                 } finally {
                     setUpdateChecking(false);
                 }
@@ -1162,7 +1169,7 @@
             startStatePolling();
         })().catch((error) => {
             startupScreen.hidden = true;
-            showToast("toast.language_load_failed", String(error), "warning");
+            showToast(translateText("toast.language_load_failed"), String(error), "warning");
         });
     }
 
