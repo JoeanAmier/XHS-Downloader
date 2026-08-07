@@ -172,7 +172,6 @@ class GuiBackend:
             "active": False,
             "state": "stopped",
             "started_at": None,
-            "detected": 0,
             "created": 0,
         }
 
@@ -436,7 +435,6 @@ class GuiBackend:
                 "active": True,
                 "state": "running",
                 "started_at": now_text(),
-                "detected": 0,
                 "created": 0,
             }
         )
@@ -470,7 +468,6 @@ class GuiBackend:
             if content and content != clipboard_cache:
                 clipboard_cache = content
                 created = await self._enqueue_links(content, "monitor")
-                self.monitor["detected"] += len(created)
                 self.monitor["created"] += len(created)
             await asyncio.sleep(1)
 

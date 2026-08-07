@@ -92,7 +92,7 @@
         </div>
 
         <nav class="primary-nav">
-            <button class="nav-item active" type="button" data-view="new-task">
+            <button class="nav-item active" type="button" data-view="new_task">
                 <svg>
                     <use href="#plus"/>
                 </svg>
@@ -149,13 +149,12 @@
                 </button>
                 <div>
                     <h1 id="viewTitle"></h1>
-                    <p id="viewMeta"></p>
                 </div>
             </div>
         </header>
 
         <main class="content" id="mainContent">
-            <section class="view active" data-page="new-task">
+            <section class="view active" data-page="new_task">
                 <section class="surface composer">
                     <div class="composer-head">
                         <span class="composer-hint"><svg><use href="#link"/></svg><span
@@ -210,7 +209,6 @@
                     <div><span data-i18n="monitor.status"></span><strong class="monitoring-value inactive"
                                                                          id="monitorState"><i></i><span
                             data-i18n="monitor.inactive"></span></strong></div>
-                    <div><span data-i18n="monitor.detected"></span><strong id="monitorDetected"></strong></div>
                     <div><span data-i18n="monitor.created"></span><strong id="monitorCreated"></strong></div>
                     <div class="monitor-action">
                         <button class="primary-button" id="monitorToggleButton" type="button">
@@ -311,8 +309,7 @@
 
             <section class="view history-view" data-page="history">
                 <div class="page-heading">
-                    <div><h2 data-i18n="nav.history"></h2>
-                        <p id="recordSummary"></p></div>
+                    <div><h2 data-i18n="nav.history"></h2></div>
                     <button class="secondary-button danger-subtle" id="deleteSelectedRecords" type="button" disabled>
                         <span data-i18n="history.delete_selected"></span></button>
                 </div>
@@ -387,7 +384,6 @@
                     <nav class="settings-nav">
                         <button class="active" type="button" data-setting="download-settings"
                                 data-i18n="settings.download"></button>
-                        <button type="button" data-setting="format-settings" data-i18n="settings.format"></button>
                         <button type="button" data-setting="archive-settings" data-i18n="settings.archive"></button>
                         <button type="button" data-setting="network-settings" data-i18n="settings.network"></button>
                         <button type="button" data-setting="general-settings" data-i18n="settings.general"></button>
@@ -423,9 +419,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </section>
-                        <section class="setting-group" id="format-settings">
-                            <div class="group-heading"><h3 data-i18n="settings.format"></h3></div>
                             <div class="setting-rows">
                                 <div class="setting-row">
                                     <div><strong data-i18n="settings.image_download"></strong><span
@@ -451,21 +444,21 @@
                                     <option value="webp">WEBP</option>
                                     <option value="jpeg">JPEG</option>
                                     <option value="heic">HEIC</option>
-                                </select><small data-i18n="settings.image_format_help"></small></label>
+                                </select></label>
                                 <label class="field"><span data-i18n="settings.video_preference"></span><select
                                         id="settingsVideoPreference">
                                     <option value="resolution"
                                             data-i18n="settings.video_preference_resolution"></option>
                                     <option value="bitrate" data-i18n="settings.video_preference_bitrate"></option>
                                     <option value="size" data-i18n="settings.video_preference_size"></option>
-                                </select><small data-i18n="settings.video_preference_help"></small></label>
+                                </select></label>
                                 <label class="field"><span data-i18n="settings.note_format"></span><select
                                         id="settingsNoteFormat">
                                     <option value="" data-i18n="settings.note_format_none"></option>
                                     <option value="txt">TXT</option>
                                     <option value="md">Markdown</option>
                                     <option value="all" data-i18n="settings.note_format_all"></option>
-                                </select><small data-i18n="settings.note_format_help"></small></label>
+                                </select></label>
                             </div>
                         </section>
                         <section class="setting-group" id="archive-settings">
@@ -502,16 +495,13 @@
                             <div class="group-heading"><h3 data-i18n="settings.network"></h3></div>
                             <div class="field-grid">
                                 <label class="field full"><span data-i18n="settings.cookie"></span><textarea
-                                        id="settingsCookie" rows="4" spellcheck="false" autocomplete="off"
-                                        data-i18n-placeholder="settings.cookie_placeholder"></textarea><small
-                                        data-i18n="settings.cookie_help"></small></label>
+                                        id="settingsCookie" rows="4" spellcheck="false"
+                                        autocomplete="off"></textarea></label>
                                 <label class="field full"><span>User-Agent</span><input id="settingsUserAgent"
-                                                                                        type="text"><small
-                                        data-i18n="settings.user_agent_help"></small></label>
+                                                                                        type="text"></label>
                                 <label class="field"><span data-i18n="settings.proxy"></span><input id="settingsProxy"
                                                                                                     type="text"
-                                                                                                    data-i18n-placeholder="settings.proxy_placeholder"><small
-                                        data-i18n="settings.proxy_help"></small></label>
+                                                                                                    data-i18n-placeholder="settings.proxy_placeholder"></label>
                                 <label class="field"><span data-i18n="settings.timeout"></span>
                                     <div class="suffix-input"><input id="settingsTimeout" type="number" min="1"><span
                                             data-i18n="settings.second"></span>
@@ -536,7 +526,7 @@
                                         id="settingsLanguage">
                                     <option value="zh_CN" data-i18n="settings.chinese"></option>
                                     <option value="en_US" data-i18n="settings.english"></option>
-                                </select><small data-i18n="settings.language_help"></small></label>
+                                </select></label>
                             </div>
                             <div class="setting-rows standalone">
                                 <div class="setting-row">
@@ -609,8 +599,7 @@
 
 <dialog class="modal compact-modal" id="recordModal">
     <div class="modal-head">
-        <div><strong data-i18n="modal.delete_history"></strong><span data-i18n="modal.delete_history_detail"></span>
-        </div>
+        <div><strong data-i18n="modal.delete_history"></strong></div>
         <button class="icon-button" type="button" data-close-modal>
             <svg>
                 <use href="#x"/>

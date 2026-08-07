@@ -5,20 +5,10 @@
     const body = document.body;
     const content = document.getElementById("mainContent");
     const viewTitle = document.getElementById("viewTitle");
-    const viewMeta = document.getElementById("viewMeta");
     const toastRegion = document.getElementById("toastRegion");
     const startupScreen = document.getElementById("startupScreen");
 
-    // 页面标题和副标题保存语言键，具体文本由后端加载的翻译包提供。
-    const viewCopy = {
-        "new-task": {title: "nav.new_task", meta: "page.new_task"},
-        monitor: {title: "nav.monitor", meta: "monitor.description"},
-        queue: {title: "nav.queue", meta: "page.queue"},
-        history: {title: "nav.history", meta: "history.query_id"},
-        logs: {title: "nav.logs", meta: "page.logs"},
-        settings: {title: "nav.settings", meta: "page.settings"},
-        about: {title: "nav.about"},
-    };
+    const viewNames = new Set(["new_task", "monitor", "queue", "history", "logs", "settings", "about"]);
 
     let uiTranslations = Object.create(null);
     let translatedUiInitialized = false;
@@ -54,14 +44,15 @@
         return `<svg><use href="#${name}"/></svg>`;
     }
 
-    function showToast(title, message = "", type = "success") {
+    function showToast(text, type = "success") {
         // 提示消息仅用于短暂反馈，不保存业务状态；业务状态由后端快照负责同步。
         const toast = document.createElement("div");
         toast.className = `toast ${type}`;
         toast.innerHTML = `
             <span class="toast-icon">${icon(type === "warning" ? "info" : "check")}</span>
-            <div><strong>${title}</strong><span>${message}</span></div>
+            <span class="toast-message"></span>
         `;
+        toast.querySelector(".toast-message").textContent = text;
         toastRegion.appendChild(toast);
         window.setTimeout(() => {
             toast.classList.add("out");
@@ -77,17 +68,13 @@
     let monitorMode = false;
 
     function updateViewHeader(name) {
-        const copy = viewCopy[name];
-        const metaKey = copy.meta;
-        viewTitle.textContent = translateText(copy.title);
-        viewMeta.textContent = metaKey ? translateText(metaKey) : "";
+        viewTitle.textContent = translateText(`nav.${name}`);
     }
 
     function setView(name, options = {}) {
+        if (!viewNames.has(name)) return;
         // 监听运行期间锁定其他页面，避免在监听模式下修改配置或创建冲突任务。
         if (monitorMode && name !== "monitor" && !options.force) {
-            showToast(
-                translateText("toast.exit_monitor_first"), translateText("toast.monitor_switch_locked"), "warning");
             return;
         }
         const page = document.querySelector(`.view[data-page="${name}"]`);
@@ -124,16 +111,11 @@
     const monitorFileDownloadList = document.getElementById("monitorFileDownloadList");
 
     function renderMonitorState(active) {
-        // 监听页始终显示当前状态；active 仅控制按钮、状态指示和说明文本，不影响队列展示。
+        // 监听页始终显示当前状态；active 仅控制按钮和状态指示，不影响队列展示。
         monitorToggleButton.className = active ? "secondary-button danger-subtle" : "primary-button";
         monitorToggleButton.innerHTML = active
                                         ? `${icon("x")}${translateText("monitor.stop")}`
                                         : `${icon("play")}${translateText("monitor.start")}`;
-        if (document.querySelector(".view.active")?.dataset.page === "monitor") {
-            viewMeta.textContent = active
-                                   ? translateText("monitor.reading")
-                                   : translateText(viewCopy.monitor.meta);
-        }
         monitorState.classList.toggle("inactive", !active);
         monitorState.innerHTML = `<i></i><span>${translateText(active ? "monitor.active" : "monitor.inactive")}</span>`;
     }
@@ -340,12 +322,8 @@
         const rows = recordRows();
         const start = historyTotal ? ((historyPage - 1) * historyPageSize) + 1 : 0;
         const end = historyTotal ? start + rows.length - 1 : 0;
-        document.getElementById("recordSummary").textContent = historyEnabled
-                                                               ? formatTranslated(
-                historyQuery ? "history.found" : "history.summary", [historyTotal])
-                                                               : translateText("history.disabled");
         document.getElementById("recordRange").textContent = !historyEnabled
-                                                             ? translateText("history.disabled_description")
+                                                             ? ""
                                                              : historyTotal
                                                                ? formatTranslated(
                     "history.range",
@@ -354,7 +332,7 @@
                          "history.search_results") : ""]
                 )
                                                                : historyQuery ? translateText("history.no_match") :
-                                                                 translateText("history.no_records");
+                                                                 translateText("history.empty");
         historyPageLabel.textContent = historyPageCount ? `${historyPage} / ${historyPageCount}` : "0 / 0";
         historyPrev.disabled = !historyEnabled || !historyPageCount || historyPage <= 1;
         historyNext.disabled = !historyEnabled || !historyPageCount || historyPage >= historyPageCount;
@@ -446,7 +424,7 @@
             renderNativeHistoryPage(result);
         } catch (error) {
             if (requestId === historyRequestId) showToast(
-                translateText("history.read_failed"), String(error), "warning");
+                translateText("history.read_failed"), "warning");
         }
     }
 
@@ -672,7 +650,7 @@
         renderMonitorState(monitorMode);
         if (!translatedUiInitialized) {
             const initialView = window.location.hash.slice(1);
-            if (viewCopy[initialView]) setView(initialView);
+            setView(viewNames.has(initialView) ? initialView : "new_task");
             translatedUiInitialized = true;
         }
     }
@@ -690,15 +668,6 @@
         success: "queue.success",
         failed: "queue.failed",
         skipped: "queue.skipped",
-        cancelled: "queue.cancelled",
-    };
-
-    const statusDetails = {
-        processing: "state.processing_detail",
-        pending: "state.pending_detail",
-        success: "state.success_detail",
-        failed: "state.failed_detail",
-        skipped: "state.skipped_detail",
         cancelled: "queue.cancelled",
     };
 
@@ -739,9 +708,12 @@
         const state = document.createElement("span");
         state.className = `status-text ${statusClass(task.state)}`;
         state.textContent = translateText(statusLabels[task.state]);
-        const message = document.createElement("span");
-        message.textContent = task.error ? task.error : translateText(statusDetails[task.state]);
-        stateLine.append(state, message);
+        stateLine.append(state);
+        if (task.error) {
+            const message = document.createElement("span");
+            message.textContent = task.error;
+            stateLine.append(message);
+        }
         detail.append(link, stateLine);
         item.append(symbol, detail);
         if (task.state === "pending") {
@@ -901,7 +873,7 @@
             .join(" ");
         applyNameFormat(nameFormat);
         const activeView = document.querySelector(".view.active")?.dataset.page;
-        if (viewCopy[activeView]) {
+        if (viewNames.has(activeView)) {
             updateViewHeader(activeView);
         }
         initializeTranslatedUi();
@@ -949,8 +921,6 @@
         });
         if (active !== wasActive) setView("monitor", {force: true});
         renderMonitorState(active);
-        document.getElementById("monitorDetected").innerHTML = `${monitor.detected} <small>${translateText(
-            "unit.link")}</small>`;
         document.getElementById("monitorCreated").innerHTML = `${monitor.created} <small>${translateText(
             "unit.item")}</small>`;
     }
@@ -992,7 +962,7 @@
             applyNativeState(await nativeApi.get_state());
             return true;
         } catch (error) {
-            showToast(translateText("update.failed"), String(error), "warning");
+            showToast(translateText("update.failed"), "warning");
             return false;
         } finally {
             bridgeRefreshBusy = false;
@@ -1006,7 +976,7 @@
             await refreshNativeState();
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
-            showToast(message, "", "warning");
+            showToast(message, "warning");
         }
     }
 
@@ -1033,7 +1003,7 @@
                 startStatePolling();
             } catch (error) {
                 const message = error instanceof Error ? error.message : String(error);
-                showToast(message, "", "warning");
+                showToast(message, "warning");
             }
         })();
     });
@@ -1044,7 +1014,7 @@
                 await nativeApi.decline_disclaimer();
             } catch (error) {
                 const message = error instanceof Error ? error.message : String(error);
-                showToast(message, "", "warning");
+                showToast(message, "warning");
             }
         })();
     });
@@ -1063,7 +1033,7 @@
             void runNativeAction(async () => {
                 const cancelled = await nativeApi.cancel_task(taskId);
                 if (!cancelled) showToast(
-                    translateText("toast.cannot_cancel"), translateText("toast.started_task"), "warning");
+                    translateText("toast.cannot_cancel"), "warning");
             });
             return;
         }
@@ -1107,7 +1077,7 @@
                 if (!result.ok) throw new Error(result.error);
                 settingsLoaded = false;
                 await refreshUiTranslations();
-                showToast(translateText("settings.saved"), translateText("settings.reloaded"));
+                showToast(translateText("settings.saved"));
             });
         } else if (id === "discardSettings") {
             event.preventDefault();
@@ -1135,18 +1105,18 @@
                     const result = await nativeApi.check_update();
                     if (result.status !== "ok") {
                         setUpdateResult(result.message, "warning");
-                        showToast(translateText("update.failed"), result.message, "warning");
+                        showToast(translateText("update.failed"), "warning");
                         return;
                     }
                     const updateAvailable = ["update_available", "stable_available"].includes(result.kind);
                     const tone = updateAvailable ? "warning" : "success";
                     const title = result.title;
                     setUpdateResult(`${title}: ${result.message}`, tone);
-                    showToast(title, result.message, tone);
+                    showToast(title, tone);
                 } catch (error) {
                     const message = error?.message || String(error);
                     setUpdateResult(`${translateText("update.failed")}: ${message}`, "error");
-                    showToast(translateText("update.failed"), message, "warning");
+                    showToast(translateText("update.failed"), "warning");
                 } finally {
                     setUpdateChecking(false);
                 }
@@ -1169,7 +1139,7 @@
             startStatePolling();
         })().catch((error) => {
             startupScreen.hidden = true;
-            showToast(translateText("toast.language_load_failed"), String(error), "warning");
+            showToast(translateText("toast.language_load_failed"), "warning");
         });
     }
 
