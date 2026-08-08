@@ -170,7 +170,7 @@ def get_ui_messages() -> dict[str, str]:
         "toast.folder_unavailable": _("无法打开下载文件夹"),
         "toast.language_load_failed": _("语言文件加载失败"),
         "toast.operation_failed": _("操作失败"),
-        "toast.no_supported_link": _("未识别到支持的作品链接"),
+        "toast.no_supported_link": _("提取小红书作品链接失败"),
         "name.drag_disable": _("拖动调整顺序，点击停用"),
         "name.drag_enable": _("拖动或点击启用"),
     }

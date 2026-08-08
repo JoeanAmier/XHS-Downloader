@@ -64,7 +64,7 @@ def compare_versions(
         return 4
     if target == current:
         return 3 if is_development else 1
-    return 2
+    return 2 if is_development else 1
 
 
 def get_wait_time(

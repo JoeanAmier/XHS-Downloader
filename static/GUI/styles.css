@@ -20,7 +20,8 @@
     --amber: #ac6e17;
     --amber-soft: #fff7e9;
     --shadow: 0 8px 24px rgba(24, 28, 35, 0.07);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+    --font-ui: "Noto Sans SC", sans-serif;
+    font-family: var(--font-ui);
     font-size: 15px;
     font-synthesis: none;
 }
@@ -227,8 +228,10 @@ svg {
 }
 
 .nav-item:disabled .nav-badge {
-    background: #555960;
-    color: #a9adb4;
+    background: #4a4245;
+    color: #8b8185;
+    border-color: #62575b;
+    box-shadow: none;
 }
 
 .nav-item.active:disabled {
@@ -238,15 +241,22 @@ svg {
 }
 
 .nav-badge {
-    min-width: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: end;
+    min-width: 22px;
     height: 20px;
     padding: 0 6px;
-    border-radius: 10px;
-    background: var(--red);
-    color: #ffffff;
-    font-size: 11px;
+    border: 1px solid #a9c9df;
+    border-radius: 4px;
+    background: #dceaf4;
+    color: #285f96;
+    font-size: 12px;
     font-weight: 650;
     line-height: 20px;
+    font-variant-numeric: tabular-nums;
+    box-shadow: none;
     text-align: center;
 }
 
@@ -563,7 +573,7 @@ svg {
     border: 1px solid var(--border-strong);
     border-radius: 6px;
     background: #fbfbfc;
-    font-family: "Cascadia Mono", Consolas, monospace;
+    font-family: var(--font-ui);
     font-size: 13px;
     line-height: 22px;
 }
@@ -735,7 +745,7 @@ input:checked + .checkmark {
 .task-primary code {
     overflow: hidden;
     color: #3e4249;
-    font-family: "Cascadia Mono", Consolas, monospace;
+    font-family: var(--font-ui);
     font-size: 13px;
     line-height: 20px;
     text-overflow: ellipsis;
@@ -831,7 +841,7 @@ input:checked + .checkmark {
 .metric-strip strong {
     margin-top: 3px;
     font-size: 22px;
-    font-weight: 680;
+    font-weight: 500;
     line-height: 27px;
 }
 
@@ -857,6 +867,7 @@ input:checked + .checkmark {
     gap: 3px;
     margin-top: 0;
     font-size: 18px;
+    font-weight: 500;
     line-height: 20px;
 }
 
@@ -1013,7 +1024,7 @@ input:checked + .checkmark {
 .queue-detail code {
     overflow: hidden;
     color: #3e4249;
-    font-family: "Cascadia Mono", Consolas, monospace;
+    font-family: var(--font-ui);
     font-size: 13px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -1129,7 +1140,7 @@ input:checked + .checkmark {
 .file-download-head strong {
     min-width: 0;
     color: var(--text);
-    font-family: "Cascadia Mono", Consolas, monospace;
+    font-family: var(--font-ui);
     font-size: 13px;
     font-weight: 600;
     line-height: 19px;
@@ -1137,13 +1148,17 @@ input:checked + .checkmark {
     white-space: normal;
 }
 
-.file-download-head span {
+.file-download-meta {
+    display: flex;
     flex: none;
+    flex-direction: column;
+    align-items: flex-end;
     color: var(--blue);
-    font-family: "Cascadia Mono", Consolas, monospace;
+    font-family: var(--font-ui);
     font-size: 13px;
     font-weight: 650;
     line-height: 19px;
+    text-align: right;
     white-space: nowrap;
 }
 
@@ -1449,7 +1464,7 @@ input:checked + .checkmark {
 .history-record code {
     overflow: hidden;
     color: #3e4249;
-    font-family: "Cascadia Mono", Consolas, monospace;
+    font-family: var(--font-ui);
     font-size: 13px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -1563,7 +1578,7 @@ input:checked + .checkmark {
     border-radius: 8px;
     background: #1b1d21;
     color: #d9dce1;
-    font-family: "Cascadia Mono", Consolas, monospace;
+    font-family: var(--font-ui);
     font-size: 11px;
     line-height: 21px;
 }
@@ -1575,7 +1590,7 @@ input:checked + .checkmark {
 
 .log-console > div {
     display: grid;
-    grid-template-columns: 70px 44px minmax(0, 1fr);
+    grid-template-columns: 128px 44px minmax(0, 1fr);
     gap: 10px;
     min-height: 25px;
     align-items: start;
@@ -1583,6 +1598,7 @@ input:checked + .checkmark {
 
 .log-console time {
     color: #727780;
+    white-space: nowrap;
 }
 
 .log-console p {
@@ -1690,7 +1706,7 @@ input:checked + .checkmark {
 
 .group-heading p {
     color: var(--muted);
-    font-family: "Cascadia Mono", Consolas, monospace;
+    font-family: var(--font-ui);
     font-size: 11px;
     line-height: 18px;
     text-align: right;
@@ -1730,7 +1746,7 @@ input:checked + .checkmark {
     min-height: 92px;
     padding: 10px 11px;
     resize: vertical;
-    font-family: "Cascadia Mono", Consolas, monospace;
+    font-family: var(--font-ui);
     font-size: 12px;
     line-height: 19px;
 }
@@ -2325,7 +2341,9 @@ dialog.disclaimer-modal .modal-footer button:focus-visible {
 }
 
 .nav-badge {
-    box-shadow: 0 0 0 2px #5c3541;
+    border-color: #b9d5e7;
+    background: #e6f1f8;
+    color: #285f96;
 }
 
 .topbar {
@@ -2520,7 +2538,7 @@ dialog.disclaimer-modal .modal-footer button:focus-visible {
     color: #49373d;
 }
 
-.file-download-head span {
+.file-download-meta {
     color: #2e6fba;
 }
 
@@ -3075,7 +3093,7 @@ dialog.modal {
     }
 
     .log-console > div {
-        grid-template-columns: 62px 40px minmax(0, 1fr);
+        grid-template-columns: 124px 40px minmax(0, 1fr);
         gap: 5px;
     }
 

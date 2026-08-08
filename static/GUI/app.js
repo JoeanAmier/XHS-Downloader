@@ -170,7 +170,30 @@
         return hasContent;
     }
 
+    function insertTextAtCursor(input, text) {
+        const start = input.selectionStart ?? input.value.length;
+        const end = input.selectionEnd ?? start;
+        input.value = `${input.value.slice(0, start)}${text}${input.value.slice(end)}`;
+        const cursor = start + text.length;
+        input.setSelectionRange(cursor, cursor);
+        updateCreateButton();
+    }
+
     urlInput.addEventListener("input", updateCreateButton);
+
+    urlInput.addEventListener("keydown", (event) => {
+        if (!(event.key?.toLowerCase() === "v" && (event.ctrlKey || event.metaKey))) return;
+        const previousValue = urlInput.value;
+        window.setTimeout(() => {
+            if (urlInput.value !== previousValue) return;
+            void runNativeAction(async () => {
+                const content = await nativeApi.paste_content();
+                if (!content) return;
+                insertTextAtCursor(urlInput, content);
+                urlInput.focus();
+            });
+        });
+    });
 
     document.getElementById("clearInput").addEventListener("click", () => {
         urlInput.value = "";
@@ -180,8 +203,8 @@
 
     document.getElementById("pasteButton").addEventListener("click", () => {
         void runNativeAction(async () => {
-            urlInput.value = await nativeApi.paste_content();
-            updateCreateButton();
+            const content = await nativeApi.paste_content();
+            if (content) insertTextAtCursor(urlInput, content);
             urlInput.focus();
         });
     });
@@ -211,6 +234,28 @@
     const queueEmpty = document.getElementById("queueEmpty");
     const fileDownloadList = document.getElementById("fileDownloadList");
     let currentQueueFilter = "all";
+
+    const listScrollStates = new WeakMap();
+
+    function isNearBottom(target, threshold = 2) {
+        return target.scrollHeight - target.scrollTop - target.clientHeight <= threshold;
+    }
+
+    function followsBottom(target) {
+        let state = listScrollStates.get(target);
+        if (state) return state.followBottom;
+        state = {followBottom: true};
+        target.addEventListener("scroll", () => {
+            state.followBottom = isNearBottom(target);
+        });
+        listScrollStates.set(target, state);
+        return state.followBottom;
+    }
+
+    function stickToBottom(target, enabled) {
+        if (!enabled) return;
+        target.scrollTop = target.scrollHeight;
+    }
 
     function matchesQueueFilter(state, filter = currentQueueFilter) {
         // 筛选仅修改当前视图的 hidden 状态，不会从后端任务集合中删除任务。
@@ -681,11 +726,9 @@
     }
 
     function formatBytes(value) {
-        // 文件进度使用可读单位显示；总大小未知时由调用方显示“未知大小”。
-        if (!Number.isFinite(value) || value <= 0) return "0 B";
-        const units = ["B", "KB", "MB", "GB"];
-        const index = Math.min(Math.floor(Math.log(value) / Math.log(1024)), units.length - 1);
-        return `${(value / (1024 ** index)).toFixed(index ? 1 : 0)} ${units[index]}`;
+        // 文件进度固定使用 MB；总大小未知时由调用方显示“未知大小”。
+        if (!Number.isFinite(value) || value <= 0) return "0.00MB";
+        return `${(value / (1024 ** 2)).toFixed(2)} MB`;
     }
 
     function createNativeQueueItem(task) {
@@ -709,11 +752,6 @@
         state.className = `status-text ${statusClass(task.state)}`;
         state.textContent = translateText(statusLabels[task.state]);
         stateLine.append(state);
-        if (task.error) {
-            const message = document.createElement("span");
-            message.textContent = task.error;
-            stateLine.append(message);
-        }
         detail.append(link, stateLine);
         item.append(symbol, detail);
         if (task.state === "pending") {
@@ -753,6 +791,7 @@
 
     function renderNativeFiles(target, files) {
         // 每个文件独立显示名称、已完成大小、总大小和实时进度条；列表容器负责滚动。
+        const shouldStickToBottom = followsBottom(target);
         target.replaceChildren();
         if (!files.length) {
             const empty = document.createElement("div");
@@ -768,14 +807,18 @@
             const name = document.createElement("strong");
             name.textContent = file.filename;
             name.title = file.filename;
+            const meta = document.createElement("div");
+            meta.className = "file-download-meta";
             const size = document.createElement("span");
             const completed = formatBytes(Number(file.completed_bytes));
             const total = file.total_bytes ? formatBytes(Number(file.total_bytes)) :
                           translateText("download.unknown_size");
             const percent = file.total_bytes ? Math.min(100, (file.completed_bytes / file.total_bytes) * 100) : 0;
-            const progress = file.total_bytes ? ` · ${Math.round(percent)}%` : "";
-            size.textContent = `${completed} / ${total}${progress}`;
-            head.append(name, size);
+            const progress = document.createElement("span");
+            size.textContent = file.total_bytes ? `${completed}/${total}` : completed;
+            progress.textContent = file.total_bytes ? `${Math.round(percent)}%` : "";
+            meta.append(size, progress);
+            head.append(name, meta);
             const line = document.createElement("div");
             line.className = `progress-line file ${file.state === "completed" ? "completed" : ""}`;
             const fill = document.createElement("i");
@@ -786,13 +829,17 @@
         });
         const count = target.closest(".file-download-section")?.querySelector(".section-heading span");
         if (count) count.textContent = `${files.length} ${translateText("unit.file")}`;
+        stickToBottom(target, shouldStickToBottom);
     }
 
     function renderNativeTaskLists(tasks, files) {
         // 使用一次状态快照同时刷新主队列、监听队列及两个文件下载区域。
         const visibleTasks = tasks.filter((task) => task.state !== "cancelled");
+        const queueShouldStickToBottom = followsBottom(queueList);
+        const monitorShouldStickToBottom = followsBottom(monitorEvents);
         queueList.replaceChildren(...visibleTasks.map(createNativeQueueItem));
         const dashboardTasks = document.getElementById("dashboardTasks");
+        const dashboardShouldStickToBottom = followsBottom(dashboardTasks);
         if (visibleTasks.length) {
             dashboardTasks.replaceChildren(...visibleTasks.map(createNativeCompactTask));
         } else {
@@ -801,6 +848,7 @@
             empty.textContent = translateText("task.queue_empty");
             dashboardTasks.replaceChildren(empty);
         }
+        stickToBottom(dashboardTasks, dashboardShouldStickToBottom);
         document.getElementById("dashboardTaskCount").textContent = `${visibleTasks.length} ${translateText(
             "unit.item")}`;
         const monitorTasks = visibleTasks.filter((task) => task.source === "monitor");
@@ -810,6 +858,8 @@
         renderNativeFiles(monitorFileDownloadList, files.filter((file) => monitorIds.has(file.task_id)));
         refreshQueue();
         refreshMonitorQueue();
+        stickToBottom(queueList, queueShouldStickToBottom && !queueList.hidden);
+        stickToBottom(monitorEvents, monitorShouldStickToBottom && !monitorEvents.hidden);
     }
 
     function renderNativeLogs(logs) {
@@ -1108,7 +1158,8 @@
                         showToast(translateText("update.failed"), "warning");
                         return;
                     }
-                    const updateAvailable = ["update_available", "stable_available"].includes(result.kind);
+                    const updateAvailable = ["update_available", "stable_available", "development_current"].includes(
+                        result.kind);
                     const tone = updateAvailable ? "warning" : "success";
                     const title = result.title;
                     setUpdateResult(`${title}: ${result.message}`, tone);

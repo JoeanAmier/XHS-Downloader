@@ -3,6 +3,8 @@
 import sys
 from pathlib import Path
 
+import webview
+
 from ..module import PROJECT, ROOT
 from .backend import GuiApi, GuiBackend
 
@@ -11,10 +13,10 @@ INDEX_PATH = ROOT.joinpath("static", "GUI", "index.html")
 
 
 def get_index_path() -> Path:
-    """返回 GUI 入口 HTML 的绝对路径，并在文件缺失时尽早报错。"""
+    """返回 GUI 入口页面的绝对路径，并在文件缺失时尽早报错。"""
 
     if not INDEX_PATH.is_file():
-        raise FileNotFoundError(f"GUI entry document was not found: {INDEX_PATH}")
+        raise FileNotFoundError(f"GUI 入口文件不存在：{INDEX_PATH}")
     return INDEX_PATH
 
 
@@ -28,28 +30,19 @@ def get_icon_path(platform_name: str | None = None) -> Path:
     }.get(platform_name, ".png")
     icon_path = ROOT.joinpath("static", f"XHS-Downloader{suffix}")
     if not icon_path.is_file():
-        raise FileNotFoundError(f"GUI icon was not found: {icon_path}")
+        raise FileNotFoundError(f"GUI 图标文件不存在：{icon_path}")
     return icon_path
 
 
 def launch() -> None:
     """创建并启动静态 GUI 窗口；窗口关闭后再释放后台下载器。"""
 
-    try:
-        import webview
-    except ImportError as error:
-        raise RuntimeError(
-            "PyWebView is required to launch the GUI. "
-            "Install project dependencies first (for example: pip install -e .)."
-        ) from error
-
-    # 先启动后端，确保窗口加载完成后 JavaScript 可以立即调用 API。
+    # 先创建窗口，再异步启动后端，让启动加载层尽早显示。
     backend = GuiBackend()
-    backend.start()
     index_url = get_index_path().as_uri()
     icon_path = get_icon_path()
     api = GuiApi(backend)
-    # 1280x720 为桌面端默认及最小尺寸，前端 CSS 负责更窄窗口的响应式布局。
+    # 1280x720 为桌面端默认及最小尺寸，前端样式负责更窄窗口的响应式布局。
     window = webview.create_window(
         PROJECT,
         index_url,
@@ -61,6 +54,7 @@ def launch() -> None:
         js_api=api,
     )
     api._bind_window(window)
+    backend.start(wait=False)
     try:
         webview.start(
             icon=str(icon_path),
@@ -70,7 +64,7 @@ def launch() -> None:
 
 
 def main() -> None:
-    """``python -m source.GUI.launcher`` 使用的命令行入口。"""
+    """命令行入口。"""
 
     launch()
 
