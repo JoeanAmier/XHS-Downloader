@@ -36,6 +36,7 @@ def get_ui_messages() -> dict[str, str]:
         "nav.history": _("下载记录"),
         "nav.logs": _("运行日志"),
         "nav.settings": _("程序设置"),
+        "nav.disclaimer": _("免责声明"),
         "nav.about": _("关于项目"),
         "task.link": _("请输入小红书图文/视频作品链接"),
         "task.link_placeholder": _("多个链接之间使用空格或换行分隔"),
@@ -148,12 +149,20 @@ def get_ui_messages() -> dict[str, str]:
         ),
         "settings.saved": _("程序配置已保存"),
         "settings.discarded": _("已放弃未保存更改"),
-        "about.description": _("小红书作品链接提取、作品数据采集与文件下载工具"),
+        "about.description": _("小红书（XiaoHongShu、RedNote）作品采集工具"),
         "about.version": _("程序版本"),
         "about.author": _("项目作者"),
         "about.license": _("开源协议"),
         "about.repository": _("项目仓库"),
         "about.open_repository": _("跳转至项目 GitHub 仓库"),
+        "about.support": _(
+            "如果 XHS-Downloader 对您有帮助，请考虑为它点个 Star，感谢您的支持！"
+        ),
+        "about.community": _("Discord 社区"),
+        "about.invite_link": _("邀请链接"),
+        "about.other_projects": _("作者的其他开源项目"),
+        "about.project_tk": _("DouK-Downloader (抖音 / TikTok)"),
+        "about.project_ks": _("KS-Downloader (快手)"),
         "update.check": _("检查更新"),
         "update.checking": _("正在检查新版本，请稍等..."),
         "update.failed": _("检测新版本失败"),
@@ -183,9 +192,7 @@ def get_ui_translations(language: str) -> dict[str, str]:
     if language != _UI_LANGUAGE:
         switch_language(language)
         _UI_LANGUAGE = language
-    messages = get_ui_messages()
-    messages.update(_build_name_format_labels(language))
-    return messages
+    return get_ui_messages() | _build_name_format_labels(language)
 
 
 def _build_name_format_labels(language: str) -> dict[str, str]:

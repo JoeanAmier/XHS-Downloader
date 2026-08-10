@@ -9,9 +9,11 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 from re import search
+from subprocess import DEVNULL, Popen
 from threading import Event, Thread
 from typing import Any
 from uuid import uuid4
+from webbrowser import open as open_browser
 
 import webview
 from pyperclip import copy, paste
@@ -37,6 +39,12 @@ from .ui_strings import (
 
 # 下载记录固定按每页 100 条返回，前端仅负责渲染当前页。
 HISTORY_PAGE_SIZE = 100
+ABOUT_URLS = {
+    "repository": REPOSITORY,
+    "discord": "https://discord.com/invite/ZYtmgKud9Y",
+    "tk": "https://github.com/JoeanAmier/TikTokDownloader",
+    "ks": "https://github.com/JoeanAmier/KS-Downloader",
+}
 
 
 def now_text() -> str:
@@ -189,9 +197,9 @@ class GuiBackend:
         """等待 GUI 后端线程完成初始化，以便处理接口调用。"""
 
         if not self.ready.wait(timeout):
-            raise RuntimeError(_("GUI 后端初始化超时"))
+            raise RuntimeError("GUI 后端初始化超时")
         if self.start_error:
-            raise RuntimeError(_("GUI 后端初始化失败")) from self.start_error
+            raise RuntimeError("GUI 后端初始化失败") from self.start_error
 
     def _thread_main(self) -> None:
         """创建后台事件循环，并在初始化完成后持续处理异步任务。"""
@@ -272,10 +280,10 @@ class GuiBackend:
 
         try:
             if self.closed:
-                raise RuntimeError(_("GUI 后端未运行"))
+                raise RuntimeError("GUI 后端未运行")
             self.wait_until_ready(timeout=30)
             if not self.loop:
-                raise RuntimeError(_("GUI 后端未运行"))
+                raise RuntimeError("GUI 后端未运行")
             return asyncio.run_coroutine_threadsafe(coroutine, self.loop).result(
                 timeout=30
             )
@@ -654,12 +662,13 @@ class GuiBackend:
                 "message": _("无法获取最新版本，请检查网络连接后重试"),
             }
 
-    async def open_repository(self) -> bool:
-        """在线程池中调用系统浏览器打开项目仓库。"""
+    async def open_url(self, url: str) -> bool:
+        """在线程池中调用系统浏览器打开关于页允许展示的外部链接。"""
 
-        import webbrowser
+        if url not in ABOUT_URLS.values():
+            return False
 
-        return await asyncio.to_thread(webbrowser.open, REPOSITORY)
+        return await asyncio.to_thread(open_browser, url)
 
     async def open_download_folder(self) -> bool:
         """打开当前配置实际生效的作品文件储存目录。"""
@@ -675,8 +684,6 @@ class GuiBackend:
 
                     startfile(str(path))
                 else:
-                    from subprocess import DEVNULL, Popen
-
                     command = "open" if sys.platform == "darwin" else "xdg-open"
                     Popen([command, str(path)], stdout=DEVNULL, stderr=DEVNULL)
                 return True
@@ -706,6 +713,7 @@ class GuiBackend:
                 "license": LICENCE,
                 "repository": REPOSITORY,
                 "author": "JoeanAmier",
+                "links": dict(ABOUT_URLS),
             },
         }
 
@@ -738,7 +746,7 @@ class GuiApi:
         """打开系统目录选择器并返回用户选中的路径。"""
 
         if not self._window:
-            raise RuntimeError(_("GUI 窗口尚未就绪"))
+            raise RuntimeError("GUI 窗口尚未就绪")
 
         initial = Path(str(directory or ""))
         dialog_directory = str(initial) if initial.is_dir() else ""
@@ -834,10 +842,10 @@ class GuiApi:
 
         return self._backend.call(self._backend.check_update())
 
-    def open_repository(self) -> bool:
-        """请求系统浏览器打开项目仓库。"""
+    def open_url(self, url: str) -> bool:
+        """请求系统浏览器打开关于页允许展示的外部链接。"""
 
-        return self._backend.call(self._backend.open_repository())
+        return self._backend.call(self._backend.open_url(url))
 
     def open_download_folder(self) -> bool:
         """请求系统文件管理器打开当前下载目录。"""

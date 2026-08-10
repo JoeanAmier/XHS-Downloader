@@ -8,10 +8,11 @@
     const toastRegion = document.getElementById("toastRegion");
     const startupScreen = document.getElementById("startupScreen");
 
-    const viewNames = new Set(["new_task", "monitor", "queue", "history", "logs", "settings", "about"]);
+    const viewNames = new Set(["new_task", "monitor", "queue", "history", "logs", "settings", "disclaimer", "about"]);
 
     let uiTranslations = Object.create(null);
     let translatedUiInitialized = false;
+    let aboutLinks = Object.create(null);
 
     function translateText(key) {
         return uiTranslations[key];
@@ -88,6 +89,9 @@
             window.history.replaceState(null, "", `#${name}`);
         }
         content.scrollTop = 0;
+        if (name === "settings") {
+            window.requestAnimationFrame(updateSettingsNavigation);
+        }
         closeSidebar();
     }
 
@@ -539,16 +543,67 @@
 
     // 设置导航仅滚动设置面板，避免改变整个窗口的滚动位置。
     const settingsPanel = document.getElementById("settingsPanel");
+    const settingsNavButtons = [...document.querySelectorAll(".settings-nav button")];
+    const settingsGroups = settingsNavButtons
+        .map((button) => document.getElementById(button.dataset.setting))
+        .filter(Boolean);
+    let settingsScrollTarget = null;
 
-    document.querySelectorAll(".settings-nav button").forEach((button) => {
+    function setActiveSettingsGroup(groupId) {
+        settingsNavButtons.forEach((button) => {
+            button.classList.toggle("active", button.dataset.setting === groupId);
+        });
+    }
+
+    function updateSettingsNavigation() {
+        if (!settingsPanel || settingsGroups.length === 0 || settingsPanel.clientHeight === 0) return;
+
+        const panelTop = settingsPanel.getBoundingClientRect().top;
+        const atBottom = settingsPanel.scrollTop
+            >= settingsPanel.scrollHeight - settingsPanel.clientHeight - 1;
+
+        if (settingsScrollTarget) {
+            const targetTop = settingsScrollTarget.getBoundingClientRect().top - panelTop;
+            const targetIsLast = settingsScrollTarget === settingsGroups[settingsGroups.length - 1];
+            if (Math.abs(targetTop) <= 1 || (targetIsLast && atBottom)) {
+                settingsScrollTarget = null;
+            } else {
+                return;
+            }
+        }
+
+        let activeGroup = settingsGroups[0];
+
+        if (atBottom) {
+            activeGroup = settingsGroups[settingsGroups.length - 1];
+        } else {
+            settingsGroups.forEach((group) => {
+                if (group.getBoundingClientRect().top <= panelTop + 24) {
+                    activeGroup = group;
+                }
+            });
+        }
+        setActiveSettingsGroup(activeGroup.id);
+    }
+
+    settingsNavButtons.forEach((button) => {
         button.addEventListener("click", () => {
-            document.querySelectorAll(".settings-nav button")
-                    .forEach((item) => item.classList.toggle("active", item === button));
             const target = document.getElementById(button.dataset.setting);
+            if (!target) return;
+            settingsScrollTarget = target;
+            setActiveSettingsGroup(button.dataset.setting);
             const top = target.getBoundingClientRect().top - settingsPanel.getBoundingClientRect().top + settingsPanel.scrollTop;
             settingsPanel.scrollTo({top, behavior: "smooth"});
         });
     });
+    settingsPanel?.addEventListener("wheel", () => {
+        settingsScrollTarget = null;
+    }, {passive: true});
+    settingsPanel?.addEventListener("touchstart", () => {
+        settingsScrollTarget = null;
+    }, {passive: true});
+    settingsPanel?.addEventListener("scroll", updateSettingsNavigation, {passive: true});
+    window.addEventListener("resize", updateSettingsNavigation);
 
     // 文件命名字段可在“启用”和“未启用”两栏之间拖拽，启用栏顺序即配置保存顺序。
     let NAME_FORMAT_FIELDS = [];
@@ -983,6 +1038,16 @@
         document.getElementById("aboutAuthor").textContent = about.author;
         document.getElementById("aboutLicense").textContent = about.license;
         document.getElementById("aboutRepository").textContent = String(about.repository).replace(/^https?:\/\//, "");
+        aboutLinks = about.links || Object.create(null);
+        document.querySelectorAll("[data-about-key]").forEach((button) => {
+            const key = button.dataset.aboutKey;
+            const link = aboutLinks[key];
+            if (!link) return;
+            const value = button.querySelector("strong");
+            if (value) {
+                value.textContent = link.replace(/^https?:\/\//, "");
+            }
+        });
     }
 
     function applyNativeState(state) {
@@ -1019,7 +1084,9 @@
         }
     }
 
-    async function runNativeAction(action) {
+    async function runNativeAction(action, options = {}) {
+        const showLoading = options.loading === true;
+        if (showLoading) startupScreen.hidden = false;
         // 写操作完成后立即刷新状态；异常直接显示实际原因，避免误用更新检查提示。
         try {
             await action();
@@ -1027,6 +1094,8 @@
         } catch (error) {
             const message = error instanceof Error ? error.message : String(error);
             showToast(message, "warning");
+        } finally {
+            if (showLoading) startupScreen.hidden = true;
         }
     }
 
@@ -1087,6 +1156,15 @@
             });
             return;
         }
+        if (button.dataset.aboutKey) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            void runNativeAction(async () => {
+                const opened = await nativeApi.open_url(aboutLinks[button.dataset.aboutKey]);
+                if (!opened) throw new Error(translateText("toast.browser_unavailable"));
+            });
+            return;
+        }
         if (id === "browseWorkPath") {
             event.preventDefault();
             event.stopImmediatePropagation();
@@ -1128,7 +1206,7 @@
                 settingsLoaded = false;
                 await refreshUiTranslations();
                 showToast(translateText("settings.saved"));
-            });
+            }, {loading: true});
         } else if (id === "discardSettings") {
             event.preventDefault();
             event.stopImmediatePropagation();
@@ -1136,13 +1214,6 @@
                 settingsLoaded = false;
                 applyNativeSettings(await nativeApi.get_settings());
                 showToast(translateText("settings.discarded"));
-            });
-        } else if (id === "openRepository") {
-            event.preventDefault();
-            event.stopImmediatePropagation();
-            void runNativeAction(async () => {
-                const opened = await nativeApi.open_repository();
-                if (!opened) throw new Error(translateText("toast.browser_unavailable"));
             });
         } else if (id === "pageCheckUpdate") {
             event.preventDefault();

@@ -182,9 +182,15 @@
                 </svg>
                 <span data-i18n="nav.settings"></span>
             </button>
-            <button class="nav-item" type="button" data-view="about">
+            <button class="nav-item" type="button" data-view="disclaimer">
                 <svg>
                     <use href="#info"/>
+                </svg>
+                <span data-i18n="nav.disclaimer"></span>
+            </button>
+            <button class="nav-item" type="button" data-view="about">
+                <svg>
+                    <use href="#external"/>
                 </svg>
                 <span data-i18n="nav.about"></span>
             </button>
@@ -594,8 +600,14 @@
                 </div>
             </section>
 
+            <section class="view disclaimer-view" data-page="disclaimer">
+                <section class="surface disclaimer-panel">
+                    <pre class="disclaimer-text" data-i18n="disclaimer.content"></pre>
+                </section>
+            </section>
+
             <section class="view about-view" data-page="about">
-                <section class="surface about-panel">
+                <section class="about-panel">
                     <div class="about-identity">
                         <img src="../XHS-Downloader.png" alt="XHS-Downloader">
                         <div class="about-copy">
@@ -607,8 +619,45 @@
                         <div><span data-i18n="about.version"></span><strong id="aboutVersion">-</strong></div>
                         <div><span data-i18n="about.author"></span><strong id="aboutAuthor">-</strong></div>
                         <div><span data-i18n="about.license"></span><strong id="aboutLicense">-</strong></div>
-                        <div><span data-i18n="about.repository"></span><strong id="aboutRepository">-</strong>
+                        <div><span data-i18n="about.repository"></span>
+                            <button class="about-detail-link" type="button"
+                                    data-about-key="repository">
+                                <strong id="aboutRepository">-</strong>
+                                <svg>
+                                    <use href="#external"/>
+                                </svg>
+                            </button>
                         </div>
+                    </div>
+                    <div class="about-community">
+                        <p class="about-support" data-i18n="about.support"></p>
+                        <section class="about-link-group">
+                            <h3 data-i18n="about.community"></h3>
+                            <button class="about-link" type="button" data-about-key="discord">
+                                <span data-i18n="about.invite_link"></span>
+                                <strong>-</strong>
+                                <svg>
+                                    <use href="#external"/>
+                                </svg>
+                            </button>
+                        </section>
+                        <section class="about-link-group">
+                            <h3 data-i18n="about.other_projects"></h3>
+                            <button class="about-link" type="button" data-about-key="tk">
+                                <span data-i18n="about.project_tk"></span>
+                                <strong>-</strong>
+                                <svg>
+                                    <use href="#external"/>
+                                </svg>
+                            </button>
+                            <button class="about-link" type="button" data-about-key="ks">
+                                <span data-i18n="about.project_ks"></span>
+                                <strong>-</strong>
+                                <svg>
+                                    <use href="#external"/>
+                                </svg>
+                            </button>
+                        </section>
                     </div>
                     <div class="about-actions">
                         <div class="about-update-result" id="aboutUpdateResult" hidden>
@@ -617,7 +666,7 @@
                             </svg>
                             <span></span>
                         </div>
-                        <button class="secondary-button" id="openRepository" type="button">
+                        <button class="secondary-button" type="button" data-about-key="repository">
                             <svg>
                                 <use href="#external"/>
                             </svg>
