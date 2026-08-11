@@ -799,8 +799,8 @@
         const detail = document.createElement("div");
         detail.className = "queue-detail";
         const link = document.createElement("code");
-        link.textContent = task.url;
-        link.title = task.url;
+        link.textContent = task.display_text;
+        link.title = task.url || task.display_text;
         const stateLine = document.createElement("div");
         stateLine.className = "queue-state-line";
         const state = document.createElement("span");
@@ -833,7 +833,8 @@
         const primary = document.createElement("div");
         primary.className = "task-primary";
         const link = document.createElement("code");
-        link.textContent = task.url;
+        link.textContent = task.display_text;
+        link.title = task.url || task.display_text;
         primary.append(link);
         const state = document.createElement("span");
         state.className = `status-text ${statusClass(task.state)}`;

@@ -13,7 +13,7 @@ from datetime import datetime
 from re import compile
 from textwrap import dedent
 from types import SimpleNamespace
-from typing import Annotated, Callable
+from typing import Annotated, Awaitable, Callable
 from urllib.parse import urlparse
 
 from fastapi import FastAPI
@@ -209,6 +209,7 @@ class XHS:
         self.queue = Queue()
         self.event = Event()
         self.script = None
+        self.script_task_handler: Callable[..., Awaitable[object]] | None = None
         self.init_script_server(
             script_host,
             script_port,
@@ -561,29 +562,51 @@ class XHS:
         data: dict,
         index: list | tuple | None,
         count: SimpleNamespace | None = None,
+        progress_callback: Callable[[dict], None] | None = None,
+        task_id: str | None = None,
+        result_callback: Callable[[dict], None] | None = None,
     ):
         if count is None:
-            count = new_statistics()
+            count = new_statistics(1)
         namespace = self.json_to_namespace(data)
         id_ = namespace.safe_extract("noteId", "")
         if msg := await self._check_existing_record(id_, count):
-            return {"message": msg}
-        if not (
+            result = {"message": msg}
+        elif not (
             data := self._extract_data(
                 namespace,
                 id_,
                 count,
             )
         ):
-            return data
-        return await self._deal_download_tasks(
-            data,
-            namespace,
-            id_,
-            download=True,
-            index=index,
-            count=count,
-        )
+            result = data
+        else:
+            result = await self._deal_download_tasks(
+                data,
+                namespace,
+                id_,
+                download=True,
+                index=index,
+                count=count,
+                progress_callback=progress_callback,
+                task_id=task_id,
+            )
+        if result_callback:
+            result_callback(
+                {
+                    "task_id": task_id,
+                    "all": count.all,
+                    "success": count.success,
+                    "fail": count.fail,
+                    "skip": count.skip,
+                }
+            )
+        return result
+
+    async def process_script_task(self, **kwargs):
+        if self.script_task_handler:
+            return await self.script_task_handler(**kwargs)
+        return await self.deal_script_tasks(**kwargs)
 
     @staticmethod
     def json_to_namespace(data: dict) -> Namespace:

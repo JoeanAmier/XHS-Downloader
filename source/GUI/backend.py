@@ -12,6 +12,7 @@ from re import search
 from subprocess import DEVNULL, Popen
 from threading import Event, Thread
 from typing import Any
+from urllib.parse import urlsplit
 from uuid import uuid4
 from webbrowser import open as open_browser
 
@@ -51,6 +52,11 @@ def now_text() -> str:
     """返回用于界面显示的本地时间。"""
 
     return datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+def task_display_id(url: str) -> str:
+    parts = urlsplit(url)
+    return parts.path.rstrip("/").rsplit("/", 1)[-1]
 
 
 def build_update_result(release_url: str) -> dict[str, Any]:
@@ -121,6 +127,9 @@ class TaskState:
     url: str
     source: str = "manual"
     state: str = "pending"
+    script_data: dict[str, Any] | None = None
+    index: list | tuple | None = None
+    display_text: str | None = None
 
     def as_dict(self) -> dict[str, Any]:
         """转换为可通过 PyWebView 序列化给 JavaScript 的普通字典。"""
@@ -128,6 +137,7 @@ class TaskState:
         return {
             "task_id": self.task_id,
             "url": self.url,
+            "display_text": self.display_text or self.url,
             "source": self.source,
             "state": self.state,
         }
@@ -239,6 +249,7 @@ class GuiBackend:
 
         self.xhs = XHS(**self.settings, _print=False)
         self.xhs.print.func = GuiLogSink(self)
+        self.xhs.script_task_handler = self.create_script_task
         await self.xhs.__aenter__()
 
     async def _close_xhs(self) -> None:
@@ -320,6 +331,7 @@ class GuiBackend:
                 task_id,
                 link,
                 source=source,
+                display_text=task_display_id(link),
             )
             self.task_queue.put_nowait(task_id)
             ids.append(task_id)
@@ -335,6 +347,25 @@ class GuiBackend:
         if not ids:
             self.add_log(_("提取小红书作品链接失败"), "warning")
         return [self.tasks[i].as_dict() for i in ids]
+
+    async def create_script_task(
+        self,
+        data: dict,
+        index: list | tuple | None,
+    ) -> dict[str, Any] | None:
+        if not self.task_queue:
+            return None
+        task_id = uuid4().hex
+        task = TaskState(
+            task_id,
+            "",
+            script_data=data,
+            index=index,
+            display_text=data.get("noteId", ""),
+        )
+        self.tasks[task_id] = task
+        self.task_queue.put_nowait(task_id)
+        return task.as_dict()
 
     async def _worker_loop(self) -> None:
         """串行消费任务队列；任务进入 processing 后不再允许取消。"""
@@ -361,14 +392,23 @@ class GuiBackend:
             def capture_statistics(value: dict[str, Any]) -> None:
                 statistics.update(value)
 
-            await self.xhs.extract(
-                task.url,
-                True,
-                check_record=True,
-                progress_callback=self.on_file_progress,
-                task_id=task.task_id,
-                result_callback=capture_statistics,
-            )
+            if task.script_data is None:
+                await self.xhs.extract(
+                    task.url,
+                    True,
+                    check_record=True,
+                    progress_callback=self.on_file_progress,
+                    task_id=task.task_id,
+                    result_callback=capture_statistics,
+                )
+            else:
+                await self.xhs.deal_script_tasks(
+                    task.script_data,
+                    task.index,
+                    progress_callback=self.on_file_progress,
+                    task_id=task.task_id,
+                    result_callback=capture_statistics,
+                )
             if statistics.get("success", 0):
                 task.state = "success"
             elif statistics.get("skip", 0):
