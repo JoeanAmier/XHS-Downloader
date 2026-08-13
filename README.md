@@ -686,7 +686,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 </ul>
 <h1>⭐ Star 趋势</h1>
 <p>
-<img alt="Star History Chart" src="https://api.star-history.com/svg?repos=JoeanAmier/XHS-Downloader&amp;type=Timeline"/>
+<img alt="Star History Chart" src="https://api.star-history.com/chart?repos=JoeanAmier/XHS-Downloader&type=timeline&legend=bottom-right&sealed_token=ZDTLh76ddaIS6ETR6NSuijagJA79HsTOsW-cTmNd8i7MHejvjsI_D6UaNW2JU-H4gEbmrNOPDssMQpIRvGh8dfn6Gz-QmUnD3BhdMbpcet3YWyisu2sJOq4VGJzyVTf78-JfuKGfbJvH-NEUtu5qQDvypXM9O6kP8i1K27YE9ZoTpYnmKKlHfTMNoDXT" />
 </p>
 <h1>⚠️ 免责声明</h1>
 <ol>
@@ -715,8 +715,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 * https://github.com/encode/httpx/
 * https://github.com/tiangolo/fastapi
 * https://github.com/textualize/textual/
-* https://github.com/pyinstaller/pyinstaller
-* https://github.com/zbowling/beartype-pyinstaller-repro
+* https://github.com/marcelotduarte/cx_Freeze/
 * https://github.com/jlowin/fastmcp
 * https://github.com/omnilib/aiosqlite
 * https://github.com/carpedm20/emoji/
