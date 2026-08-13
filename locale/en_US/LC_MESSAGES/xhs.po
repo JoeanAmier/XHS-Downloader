@@ -452,7 +452,7 @@ msgstr "Clipboard mode"
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:36
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:32
 msgid "下载记录"
-msgstr "Download Records"
+msgstr "Records"
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:37
 msgid "运行日志"
@@ -1241,7 +1241,3 @@ msgstr "RedNote web cookie, no login required, parameters have been set"
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:243
 msgid "小红书网页版 Cookie，无需登录，参数未设置"
 msgstr "RedNote web cookie, no login required, parameters not set"
-
-#, python-brace-format
-#~ msgid "作品 {0} 存在下载记录，跳过下载"
-#~ msgstr "notes {0} has a download record, skip download"
