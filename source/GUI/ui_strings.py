@@ -141,8 +141,8 @@ def get_ui_messages() -> dict[str, str]:
         "settings.byte": _("字节"),
         "settings.chunk_help": _("每次从下载响应中读取并写入临时文件的数据量"),
         "settings.language": _("程序语言"),
-        "settings.chinese": _("简体中文"),
-        "settings.english": _("English"),
+        "settings.chinese": "简体中文",
+        "settings.english": "English",
         "settings.script_server": _("脚本服务器开关"),
         "settings.script_server_help": _(
             "启动 WebSocket 服务，接收来自用户脚本的下载任务"
