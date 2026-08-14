@@ -686,7 +686,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 </ul>
 <h1>⭐ Star 趋势</h1>
 <p>
-<img alt="Star History Chart" src="https://api.star-history.com/svg?repos=JoeanAmier/XHS-Downloader&amp;type=Timeline"/>
+<img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=JoeanAmier/XHS-Downloader&amp;type=Timeline"/>
 </p>
 <h1>⚠️ 免责声明</h1>
 <ol>

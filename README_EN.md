@@ -711,7 +711,7 @@ repository to execute the build process
 </ul>
 <h1>⭐ Star History</h1>
 <p>
-<img alt="Star History Chart" src="https://api.star-history.com/svg?repos=JoeanAmier/XHS-Downloader&amp;type=Timeline"/>
+<img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=JoeanAmier/XHS-Downloader&amp;type=Timeline"/>
 </p>
 <h1>⚠️ Disclaimer</h1>
 <ol>
