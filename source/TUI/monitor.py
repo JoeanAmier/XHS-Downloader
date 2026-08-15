@@ -27,6 +27,7 @@ class Monitor(Screen):
     ):
         super().__init__()
         self.xhs = app
+        self._previous_print_func = None
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -46,12 +47,21 @@ class Monitor(Screen):
 
     def on_mount(self) -> None:
         self.title = PROJECT
+        self._previous_print_func = self.xhs.print.func
         self.xhs.print.func = self.query_one(RichLog)
         self.run_monitor()
 
+    def _restore_print_func(self) -> None:
+        if self._previous_print_func is not None:
+            self.xhs.print.func = self._previous_print_func
+
     async def action_close(self):
         self.xhs.stop_monitor()
+        self._restore_print_func()
         await self.app.action_back()
+
+    def on_unmount(self) -> None:
+        self._restore_print_func()
 
     async def action_quit(self) -> None:
         await self.action_close()
