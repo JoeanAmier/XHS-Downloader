@@ -1,5 +1,6 @@
-from typing import Union
 from re import compile
+from typing import Union
+
 from lxml.etree import HTML
 from yaml import safe_load
 
@@ -34,6 +35,7 @@ class Converter:
     @classmethod
     def _convert_object(cls, text: str) -> dict:
         cleaned = cls.YAML_ILLEGAL.sub("", text.lstrip("window.__INITIAL_STATE__="))
+        cleaned = cleaned.replace("new Map([])", "[]").replace("undefined", "null")
         return safe_load(cleaned)
 
     @classmethod
