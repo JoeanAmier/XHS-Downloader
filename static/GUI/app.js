@@ -264,7 +264,6 @@
     function matchesQueueFilter(state, filter = currentQueueFilter) {
         // 筛选仅修改当前视图的 hidden 状态，不会从后端任务集合中删除任务。
         if (filter === "all") return true;
-        if (filter === "processing") return state === "processing";
         return state === filter;
     }
 
