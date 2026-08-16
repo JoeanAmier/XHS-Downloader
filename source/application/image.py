@@ -55,12 +55,15 @@ class Image:
 
     @staticmethod
     def __get_live_link(items: list) -> list:
-        return [
-            (
-                Html.format_url(
-                    Namespace.object_extract(item, "stream.h264[0].masterUrl")
-                )
-                or None
-            )
-            for item in items
-        ]
+        result = []
+        for item in items:
+            url = None
+            stream = Namespace.object_extract(item, "stream", {})
+            for key in vars(stream):
+                url = Namespace.object_extract(
+                    stream, f"{key}[0].backupUrls[0]"
+                ) or Namespace.object_extract(stream, f"{key}[0].masterUrl")
+                if url := Html.format_url(url):
+                    break
+            result.append(url)
+        return result
