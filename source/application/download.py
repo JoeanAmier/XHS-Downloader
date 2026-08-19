@@ -3,7 +3,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable
 
 from aiofiles import open
-from httpx import HTTPError
+from curl_cffi.requests.exceptions import RequestException
 
 from ..expansion import CacheError
 
@@ -20,7 +20,7 @@ from ..module import retry as re_download
 from ..translation import _
 
 if TYPE_CHECKING:
-    from httpx import AsyncClient
+    from curl_cffi.requests import AsyncSession
 
     from ..module import Manager
 
@@ -48,7 +48,7 @@ class Download:
         self.folder = manager.folder
         self.temp = manager.temp
         self.chunk = manager.chunk
-        self.client: "AsyncClient" = manager.download_client
+        self.client: "AsyncSession" = manager.download_client
         self.headers = manager.blank_headers
         self.retry = manager.retry
         self.folder_mode = manager.folder_mode
@@ -249,7 +249,7 @@ class Download:
                     total = completed + content_length if content_length else None
                     report("downloading", total)
                     async with open(temp, "ab") as f:
-                        async for chunk in response.aiter_bytes(self.chunk):
+                        async for chunk in response.aiter_content(self.chunk):
                             await f.write(chunk)
                             completed += len(chunk)
                             report("downloading", total)
@@ -269,7 +269,7 @@ class Download:
                 report("completed", total)
                 logging(self.print, _("文件 {0} 下载成功").format(real.name))
                 return True
-            except HTTPError as error:
+            except RequestException as error:
                 report("failed")
                 logging(
                     self.print,

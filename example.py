@@ -1,6 +1,7 @@
 from asyncio import run
+
+from curl_cffi.requests import post
 from pyperclip import paste
-from httpx import post
 from rich import print
 
 from source import XHS
@@ -15,7 +16,7 @@ async def example():
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
     name_format = "作品标题 作品描述"
-    user_agent = ""  # User-Agent
+    impersonate = "chrome146"  # curl_cffi impersonate
     cookie = ""  # 小红书网页版 Cookie
     proxy = None  # 网络代理
     timeout = 5  # 请求数据超时限制，单位：秒
@@ -41,7 +42,7 @@ async def example():
         work_path=work_path,
         folder_name=folder_name,
         name_format=name_format,
-        user_agent=user_agent,
+        impersonate=impersonate,
         cookie=cookie,
         proxy=proxy,
         timeout=timeout,

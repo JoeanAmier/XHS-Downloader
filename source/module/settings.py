@@ -3,7 +3,7 @@ from pathlib import Path
 from platform import system
 from shutil import move
 
-from .static import USERAGENT, VOLUME
+from .static import IMPERSONATE, VOLUME
 
 __all__ = ["Settings"]
 
@@ -15,9 +15,7 @@ class Settings:
         "work_path": "",  # 工作目录路径
         "folder_name": "Download",  # 下载文件夹名称
         "name_format": "发布时间 作者昵称 作品标题",  # 文件命名格式
-        "user_agent": USERAGENT,  # 请求头
-        # "a_user_agent": USERAGENT,  # 请求头
-        # "b_user_agent": USERAGENT,  # 请求头
+        "impersonate": IMPERSONATE,  # 浏览器指纹
         "cookie": "",  # Cookie
         "proxy": None,  # 代理设置
         "timeout": 10,  # 超时时间(秒)

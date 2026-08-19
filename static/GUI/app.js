@@ -1074,7 +1074,7 @@
         document.getElementById("settingsRecordData").checked = Boolean(settings.record_data);
         document.getElementById("settingsWriteMtime").checked = Boolean(settings.write_mtime);
         document.getElementById("settingsCookie").value = settings.cookie || "";
-        document.getElementById("settingsUserAgent").value = settings.user_agent || "";
+        document.getElementById("settingsImpersonate").value = settings.impersonate || "";
         document.getElementById("settingsProxy").value = settings.proxy || "";
         document.getElementById("settingsTimeout").value = String(settings.timeout);
         document.getElementById("settingsMaxRetry").value = String(settings.max_retry);
@@ -1124,7 +1124,7 @@
             record_data: document.getElementById("settingsRecordData").checked,
             write_mtime: document.getElementById("settingsWriteMtime").checked,
             cookie: document.getElementById("settingsCookie").value.trim(),
-            user_agent: document.getElementById("settingsUserAgent").value.trim(),
+            impersonate: document.getElementById("settingsImpersonate").value.trim(),
             proxy: document.getElementById("settingsProxy").value.trim() || null,
             timeout: Number(document.getElementById("settingsTimeout").value || 10),
             max_retry: Number(document.getElementById("settingsMaxRetry").value || 5),

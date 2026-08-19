@@ -5,8 +5,8 @@ class ExtractParams(BaseModel):
     url: str
     download: bool = False
     index: list[str | int] | None = None
-    cookie: str = None
-    proxy: str = None
+    cookie: str | None = None
+    proxy: str | None = None
     check_record: bool = True
 
 

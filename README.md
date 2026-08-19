@@ -293,7 +293,7 @@ async def example():
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
     name_format = "作品标题 作品描述"
-    user_agent = ""  # User-Agent
+    impersonate = "chrome146"  # 浏览器信息，参考 curl_cffi impersonate
     cookie = ""  # 小红书网页版 Cookie
     proxy = None  # 网络代理
     timeout = 5  # 请求数据超时限制，单位：秒
@@ -317,7 +317,7 @@ async def example():
         work_path=work_path,
         folder_name=folder_name,
         name_format=name_format,
-        user_agent=user_agent,
+        impersonate=impersonate,
         cookie=cookie,
         proxy=proxy,
         timeout=timeout,
@@ -395,10 +395,10 @@ async def example():
 <td align="center"><code>发布时间 作者昵称 作品标题</code></td>
 </tr>
 <tr>
-<td align="center">user_agent</td>
+<td align="center">impersonate</td>
 <td align="center">str</td>
-<td align="center">浏览器 User Agent</td>
-<td align="center">内置 Chrome User Agent</td>
+<td align="center">浏览器信息，参考 <a href="https://curl-cffi.readthedocs.io/en/latest/impersonate/targets.html">curl_cffi 文档</a></td>
+<td align="center">chrome146</td>
 </tr>
 <tr>
 <td align="center">cookie</td>
@@ -515,9 +515,6 @@ async def example():
 <p>如果 <code>author_archive</code> 参数设置为 <code>true</code>，程序会把每个作者的作品储存至单独的文件夹；当作者的昵称发生变化时，程序会自动更新已下载作品文件名称中的作者昵称部分！</p>
 <p>除此之外，你还可以通过设置 <code>mapping_data</code> 参数为某个作者设置别名；如果对某个作者设置了别名，程序会使用你设置的作者别名去替代作者昵称！</p>
 </div>
-<hr>
-<p><b>其他说明：<code>user_agent</code>参数获取示例；强烈建议根据实际浏览器信息进行设置！</b></p>
-<img src="static/screenshot/请求头示例图.png" alt="">
 <h1 id="cookie">🌐 Cookie</h1>
 <ol>
 <li>打开浏览器（可选无痕模式启动），访问 <code>https://www.xiaohongshu.com/explore</code></li>
@@ -712,7 +709,7 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 
 # 💡 项目参考
 
-* https://github.com/encode/httpx/
+* https://github.com/lexiforest/curl_cffi
 * https://github.com/tiangolo/fastapi
 * https://github.com/textualize/textual/
 * https://github.com/marcelotduarte/cx_Freeze/

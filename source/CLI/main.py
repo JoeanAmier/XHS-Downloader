@@ -7,11 +7,13 @@ from typing import Callable
 from click import (
     Choice,
     Context,
-    Path as ClickPath,
     command,
     echo,
     option,
     pass_context,
+)
+from click import (
+    Path as ClickPath,
 )
 from rich import print
 from rich.panel import Panel
@@ -140,7 +142,7 @@ class CLI:
             ("--work_path", "-wp", "str", _("作品数据/文件保存根路径")),
             ("--folder_name", "-fn", "str", _("作品文件储存文件夹名称")),
             ("--name_format", "-nf", "str", _("作品文件名称格式")),
-            ("--user_agent", "-ua", "str", "User-Agent"),
+            ("--impersonate", "-im", "str", "curl_cffi impersonate"),
             ("--cookie", "-ck", "str", _("小红书网页版 Cookie，无需登录")),
             ("--proxy", "-p", "str", _("网络代理")),
             ("--timeout", "-t", "int", _("请求数据超时限制，单位：秒")),
@@ -257,8 +259,8 @@ class CLI:
     "-nf",
 )
 @option(
-    "--user_agent",
-    "-ua",
+    "--impersonate",
+    "-im",
 )
 @option(
     "--cookie",

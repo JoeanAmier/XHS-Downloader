@@ -6,13 +6,13 @@ aiosqlite==0.22.1
     # via xhs-downloader (pyproject.toml)
 click==8.4.2
     # via xhs-downloader (pyproject.toml)
+curl-cffi==0.15.0
+    # via xhs-downloader (pyproject.toml)
 emoji==2.15.0
     # via xhs-downloader (pyproject.toml)
 fastapi==0.139.0
     # via xhs-downloader (pyproject.toml)
 fastmcp>=3.4.4
-    # via xhs-downloader (pyproject.toml)
-httpx[http2,socks]==0.28.1
     # via xhs-downloader (pyproject.toml)
 lxml==6.1.1
     # via xhs-downloader (pyproject.toml)

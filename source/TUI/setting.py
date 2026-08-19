@@ -5,6 +5,7 @@ from textual.containers import Container, ScrollableContainer
 from textual.screen import Screen
 from textual.widgets import Button, Checkbox, Footer, Header, Input, Label, Select
 
+from ..module import IMPERSONATE
 from ..translation import _
 
 __all__ = ["Setting"]
@@ -56,14 +57,14 @@ class Setting(Screen):
                 id="name_format",
             ),
             Label(
-                "User-Agent",
+                "impersonate",
                 classes="params",
             ),
             Input(
-                self.data["user_agent"],
-                placeholder=_("内置 Chrome User Agent"),
+                self.data["impersonate"],
+                placeholder=IMPERSONATE,
                 valid_empty=True,
-                id="user_agent",
+                id="impersonate",
             ),
             Label(
                 _("小红书网页版 Cookie"),
@@ -253,7 +254,7 @@ class Setting(Screen):
                 "work_path": self.query_one("#work_path").value,
                 "folder_name": self.query_one("#folder_name").value,
                 "name_format": self.query_one("#name_format").value,
-                "user_agent": self.query_one("#user_agent").value,
+                "impersonate": self.query_one("#impersonate").value,
                 "cookie": self.query_one("#cookie").value or self.data["cookie"],
                 "proxy": self.query_one("#proxy").value or None,
                 "timeout": int(self.query_one("#timeout").value),

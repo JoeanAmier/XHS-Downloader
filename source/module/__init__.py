@@ -27,8 +27,8 @@ from .static import (
     INFO,
     USERSCRIPT,
     HEADERS,
+    IMPERSONATE,
     PROJECT,
-    USERAGENT,
     FILE_SIGNATURES,
     FILE_SIGNATURES_LENGTH,
     MAX_WORKERS,
@@ -38,6 +38,7 @@ from .tools import (
     compare_versions,
     retry,
     logging,
+    get_site_referer,
     sleep_time,
     retry_limited,
 )

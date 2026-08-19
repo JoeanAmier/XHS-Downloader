@@ -51,6 +51,12 @@ def logging(log: Callable, text, style=INFO):
         )
 
 
+def get_site_referer(url: str | None) -> str:
+    if "rednote" in (url or "").lower():
+        return "https://www.rednote.com/"
+    return "https://www.xiaohongshu.com/"
+
+
 def compare_versions(
     current_version: str,
     target_version: str,

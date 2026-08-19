@@ -297,7 +297,7 @@ async def example():
     work_path = "D:\\"  # Root path for saving note data/files, default: project root path
     folder_name = "Download"  # Folder name for storing note files (auto-created), default: Download
     name_format = "作品标题 作品描述"
-    user_agent = ""  # User-Agent
+    impersonate = "chrome146"  # Browser information, refer to curl_cffi impersonate
     cookie = ""  # Xiaohongshu web Cookie
     proxy = None  # Network proxy
     timeout = 5  # Request timeout limit, unit: seconds
@@ -321,7 +321,7 @@ async def example():
         work_path=work_path,
         folder_name=folder_name,
         name_format=name_format,
-        user_agent=user_agent,
+        impersonate=impersonate,
         cookie=cookie,
         proxy=proxy,
         timeout=timeout,
@@ -399,10 +399,10 @@ async def example():
 <td align="center"><code>发布时间 作者昵称 作品标题</code></td>
 </tr>
 <tr>
-<td align="center">user_agent</td>
+<td align="center">impersonate</td>
 <td align="center">str</td>
-<td align="center">Browser User Agent</td>
-<td align="center">Built-in Chrome User Agent</td>
+<td align="center">Browser information, refer to <a href="https://curl-cffi.readthedocs.io/en/latest/impersonate/targets.html">curl_cffi documentation</a></td>
+<td align="center">chrome146</td>
 </tr>
 <tr>
 <td align="center">cookie</td>
@@ -538,9 +538,6 @@ async def example():
 <p>When <code>author_archive</code> is set to <code>true</code>, the program will store each author's notes in dedicated folders. If an author's nickname changes, the program automatically updates the nickname portion in existing downloaded filenames!</p>
 <p>Additionally, you can configure author aliases through the <code>mapping_data</code> parameter. When an alias is set, the program will use your custom alias instead of the original nickname in filenames!</p>
 </div>
-<hr>
-<p><b>Additional Notes: The parameters <code>user_agent</code> examples are provided for reference; Strongly recommend setting according to actual browser information!</b></p>
-<img src="static/screenshot/请求头示例图.png" alt="">
 <h1 id="cookie">🌐 Cookie</h1>
 <ol>
 <li>Open the browser (optional: start in incognito mode) and visit <code>https://www.xiaohongshu.com/explore</code></li>
@@ -733,7 +730,7 @@ repository to execute the build process
 
 # 💡 Project References
 
-* https://github.com/encode/httpx/
+* https://github.com/lexiforest/curl_cffi
 * https://github.com/tiangolo/fastapi
 * https://github.com/textualize/textual/
 * https://github.com/marcelotduarte/cx_Freeze/

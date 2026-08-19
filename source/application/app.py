@@ -34,10 +34,10 @@ from ..expansion import (
 from ..module import (
     __VERSION__,
     ERROR,
+    IMPERSONATE,
     INFO,
     MASTER,
     REPOSITORY,
-    USERAGENT,
     VERSION_BETA,
     VERSION_MAJOR,
     VERSION_MINOR,
@@ -138,9 +138,9 @@ class XHS:
         work_path="",
         folder_name="Download",
         name_format="发布时间 作者昵称 作品标题",
-        user_agent: str = USERAGENT,
+        impersonate: str = IMPERSONATE,
         cookie: str = "",
-        proxy: str | dict | None = None,
+        proxy: str | None = None,
         timeout=10,
         chunk=1024 * 1024,
         max_retry=5,
@@ -170,7 +170,7 @@ class XHS:
             folder_name,
             name_format,
             chunk,
-            user_agent,
+            impersonate,
             cookie,
             # self.read_browser_cookie(read_cookie) or cookie,
             proxy,
@@ -301,10 +301,12 @@ class XHS:
         progress_callback: Callable[[dict], None] | None = None,
         task_id: str | None = None,
         result_callback: Callable[[dict], None] | None = None,
+        proxy: str | None = None,
     ) -> list[dict]:
         if not (
             urls := await self.extract_links(
                 url,
+                proxy=proxy,
             )
         ):
             self.logging(_("提取小红书作品链接失败"), WARNING)
@@ -317,6 +319,7 @@ class XHS:
                 download,
                 index,
                 check_record=check_record,
+                proxy=proxy,
                 count=statistics,
                 progress_callback=progress_callback,
                 task_id=task_id,
@@ -390,6 +393,7 @@ class XHS:
     async def extract_links(
         self,
         url: str,
+        proxy: str | None = None,
     ) -> list[str]:
         urls = []
         for i in url.split():
@@ -397,6 +401,7 @@ class XHS:
                 i = await self.html.request_url(
                     u.group(),
                     False,
+                    proxy=proxy,
                 )
             if u := self.SHARE_XHS.search(i):
                 urls.append(u.group())
@@ -426,8 +431,8 @@ class XHS:
         url: str,
         id_: str,
         count: SimpleNamespace,
-        cookie: str = None,
-        proxy: str = None,
+        cookie: str | None = None,
+        proxy: str | None = None,
     ) -> Namespace | dict:
         self.logging(_("开始处理作品：{0}").format(id_))
         html = await self.html.request_url(
@@ -818,6 +823,7 @@ class XHS:
             data = None
             url = await self.extract_links(
                 extract.url,
+                proxy=extract.proxy,
             )
             if not url:
                 msg = _("提取小红书作品链接失败")

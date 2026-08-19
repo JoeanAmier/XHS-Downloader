@@ -16,7 +16,6 @@ dependencies = [
     "emoji>=2.15.0",
     "fastapi>=0.139.0",
     "fastmcp>=3.4.4",
-    "httpx[http2,socks]>=0.28.1",
     "lxml>=6.1.1",
     "pyperclip>=1.11.0",
     "pywebview>=6.2.1",
