@@ -57,7 +57,7 @@ class Setting(Screen):
                 id="name_format",
             ),
             Label(
-                "impersonate",
+                _("浏览器模拟目标"),
                 classes="params",
             ),
             Input(

@@ -293,7 +293,7 @@ async def example():
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
     name_format = "作品标题 作品描述"
-    impersonate = "chrome146"  # 浏览器信息，参考 curl_cffi impersonate
+    impersonate = "chrome146"  # 浏览器模拟目标
     cookie = ""  # 小红书网页版 Cookie
     proxy = None  # 网络代理
     proxy_download = False  # 下载文件时，是否使用 proxy 参数的网络代理
@@ -399,7 +399,7 @@ async def example():
 <tr>
 <td align="center">impersonate</td>
 <td align="center">str</td>
-<td align="center">浏览器信息，参考 <a href="https://curl-cffi.readthedocs.io/en/latest/impersonate/targets.html">curl_cffi 文档</a></td>
+<td align="center">浏览器模拟目标；参考 <a href="https://curl-cffi.readthedocs.io/en/latest/impersonate/targets.html">curl_cffi 文档</a></td>
 <td align="center">chrome146</td>
 </tr>
 <tr>

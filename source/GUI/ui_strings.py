@@ -130,6 +130,7 @@ def get_ui_messages() -> dict[str, str]:
         "settings.write_mtime_help": _(
             "开启后，作品文件属性的修改时间会被设置为作品发布时间"
         ),
+        "settings.impersonate": _("浏览器模拟目标"),
         "settings.cookie": _("Cookie"),
         "settings.proxy": _("网络代理"),
         "settings.proxy_placeholder": _("不使用代理"),

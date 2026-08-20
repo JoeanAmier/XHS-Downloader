@@ -297,7 +297,7 @@ async def example():
     work_path = "D:\\"  # Root path for saving note data/files, default: project root path
     folder_name = "Download"  # Folder name for storing note files (auto-created), default: Download
     name_format = "作品标题 作品描述"
-    impersonate = "chrome146"  # Browser information, refer to curl_cffi impersonate
+    impersonate = "chrome146"  # Browser Impersonate Targets
     cookie = ""  # Xiaohongshu web Cookie
     proxy = None  # Network proxy
     proxy_download = False  # Whether to use the network proxy from the proxy parameter when downloading files
@@ -403,7 +403,7 @@ async def example():
 <tr>
 <td align="center">impersonate</td>
 <td align="center">str</td>
-<td align="center">Browser information, refer to <a href="https://curl-cffi.readthedocs.io/en/latest/impersonate/targets.html">curl_cffi documentation</a></td>
+<td align="center">Browser Impersonate Targets, refer to <a href="https://curl-cffi.readthedocs.io/en/latest/impersonate/targets.html">curl_cffi documentation</a></td>
 <td align="center">chrome146</td>
 </tr>
 <tr>

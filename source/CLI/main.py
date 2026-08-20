@@ -142,7 +142,7 @@ class CLI:
             ("--work_path", "-wp", "str", _("作品数据/文件保存根路径")),
             ("--folder_name", "-fn", "str", _("作品文件储存文件夹名称")),
             ("--name_format", "-nf", "str", _("作品文件名称格式")),
-            ("--impersonate", "-im", "str", "curl_cffi impersonate"),
+            ("--impersonate", "-im", "str", _("浏览器模拟目标")),
             ("--cookie", "-ck", "str", _("小红书网页版 Cookie，无需登录")),
             ("--proxy", "-p", "str", _("网络代理")),
             (

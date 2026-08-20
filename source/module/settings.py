@@ -15,7 +15,7 @@ class Settings:
         "work_path": "",  # 工作目录路径
         "folder_name": "Download",  # 下载文件夹名称
         "name_format": "发布时间 作者昵称 作品标题",  # 文件命名格式
-        "impersonate": IMPERSONATE,  # 浏览器指纹
+        "impersonate": IMPERSONATE,  # 浏览器模拟目标
         "cookie": "",  # Cookie
         "proxy": None,  # 代理设置
         "proxy_download": False,  # 下载文件时使用网络代理
