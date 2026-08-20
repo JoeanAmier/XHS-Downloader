@@ -300,6 +300,7 @@ async def example():
     impersonate = "chrome146"  # Browser information, refer to curl_cffi impersonate
     cookie = ""  # Xiaohongshu web Cookie
     proxy = None  # Network proxy
+    proxy_download = False  # Whether to use the network proxy from the proxy parameter when downloading files
     timeout = 5  # Request timeout limit, unit: seconds
     chunk = 1024 * 1024 * 10  # Data chunk size fetched from server per download, unit: bytes
     max_retry = 2  # Maximum retry count on request failure, unit: retries
@@ -324,6 +325,7 @@ async def example():
         impersonate=impersonate,
         cookie=cookie,
         proxy=proxy,
+        proxy_download=proxy_download,
         timeout=timeout,
         chunk=chunk,
         max_retry=max_retry,
@@ -415,6 +417,12 @@ async def example():
 <td align="center">str</td>
 <td align="center">Set program proxy</td>
 <td align="center">null</td>
+</tr>
+<tr>
+<td align="center">proxy_download</td>
+<td align="center">bool</td>
+<td align="center">Whether to use the network proxy from the proxy parameter when downloading files</td>
+<td align="center">false</td>
 </tr>
 <tr>
 <td align="center">timeout</td>

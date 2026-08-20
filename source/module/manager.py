@@ -55,6 +55,7 @@ class Manager:
         impersonate: str,
         cookie: str,
         proxy: str | None,
+        proxy_download: bool,
         timeout: int,
         retry: int,
         record_data: bool,
@@ -90,6 +91,7 @@ class Manager:
         self.download_record = self.check_bool(download_record, True)
         self.timeout = self.__check_integer(timeout, 10, 1)
         self.proxy_tip = None
+        self.proxy_download = self.check_bool(proxy_download, False)
         self.proxy = self.__check_proxy(proxy)
         self.print_proxy_tip()
         self.request_client = AsyncSession(
@@ -102,11 +104,10 @@ class Manager:
             impersonate=self.impersonate,
         )
         self.download_client = AsyncSession(
-            headers=self.blank_headers,
             timeout=self.timeout,
             verify=False,
             allow_redirects=True,
-            proxy=self.proxy,
+            proxy=self.proxy if self.proxy_download else None,
             impersonate=self.impersonate,
         )
         self.image_download = self.check_bool(image_download, True)

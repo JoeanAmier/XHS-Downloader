@@ -296,6 +296,7 @@ async def example():
     impersonate = "chrome146"  # 浏览器信息，参考 curl_cffi impersonate
     cookie = ""  # 小红书网页版 Cookie
     proxy = None  # 网络代理
+    proxy_download = False  # 下载文件时，是否使用 proxy 参数的网络代理
     timeout = 5  # 请求数据超时限制，单位：秒
     chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
     max_retry = 2  # 请求数据失败时，重试的最大次数，单位：次
@@ -320,6 +321,7 @@ async def example():
         impersonate=impersonate,
         cookie=cookie,
         proxy=proxy,
+        proxy_download=proxy_download,
         timeout=timeout,
         chunk=chunk,
         max_retry=max_retry,
@@ -411,6 +413,12 @@ async def example():
 <td align="center">str</td>
 <td align="center">设置程序代理</td>
 <td align="center">null</td>
+</tr>
+<tr>
+<td align="center">proxy_download</td>
+<td align="center">bool</td>
+<td align="center">下载文件时，是否使用 proxy 参数的网络代理</td>
+<td align="center">false</td>
 </tr>
 <tr>
 <td align="center">timeout</td>

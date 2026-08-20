@@ -634,6 +634,7 @@ class GuiBackend:
                     "image_format": manager.image_format,
                     "video_preference": manager.video_preference,
                     "proxy": manager.proxy,
+                    "proxy_download": manager.proxy_download,
                     "impersonate": manager.impersonate,
                     "record_data": manager.record_data,
                     "folder_mode": manager.folder_mode,

@@ -18,6 +18,7 @@ class Settings:
         "impersonate": IMPERSONATE,  # 浏览器指纹
         "cookie": "",  # Cookie
         "proxy": None,  # 代理设置
+        "proxy_download": False,  # 下载文件时使用网络代理
         "timeout": 10,  # 超时时间(秒)
         "chunk": 1024 * 1024 * 2,  # 下载块大小(字节)
         "max_retry": 5,  # 最大重试次数

@@ -170,6 +170,11 @@ class Setting(Screen):
                     id="script_server",
                     value=self.data["script_server"],
                 ),
+                Checkbox(
+                    _("下载文件使用代理"),
+                    id="proxy_download",
+                    value=self.data["proxy_download"],
+                ),
                 classes="horizontal-layout",
             ),
             Container(
@@ -271,6 +276,7 @@ class Setting(Screen):
                 "author_archive": self.query_one("#author_archive").value,
                 "write_mtime": self.query_one("#write_mtime").value,
                 "script_server": self.query_one("#script_server").value,
+                "proxy_download": self.query_one("#proxy_download").value,
                 "video_preference": self.query_one("#video_preference").value,
                 "note_format": self.query_one("#note_format").value,
             }

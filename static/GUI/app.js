@@ -1081,6 +1081,7 @@
         document.getElementById("settingsChunkSize").value = String(settings.chunk);
         document.getElementById("settingsLanguage").value = settings.language;
         document.getElementById("settingsScriptServer").checked = Boolean(settings.script_server);
+        document.getElementById("settingsProxyDownload").checked = Boolean(settings.proxy_download);
         settingsLoaded = true;
     }
 
@@ -1131,6 +1132,7 @@
             chunk: chunkSize,
             language: document.getElementById("settingsLanguage").value,
             script_server: document.getElementById("settingsScriptServer").checked,
+            proxy_download: document.getElementById("settingsProxyDownload").checked,
         };
     }
 

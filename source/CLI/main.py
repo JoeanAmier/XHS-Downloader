@@ -145,6 +145,12 @@ class CLI:
             ("--impersonate", "-im", "str", "curl_cffi impersonate"),
             ("--cookie", "-ck", "str", _("小红书网页版 Cookie，无需登录")),
             ("--proxy", "-p", "str", _("网络代理")),
+            (
+                "--proxy_download",
+                "-pd",
+                "bool",
+                _("下载文件时，是否使用 proxy 参数的网络代理"),
+            ),
             ("--timeout", "-t", "int", _("请求数据超时限制，单位：秒")),
             (
                 "--chunk",
@@ -269,6 +275,11 @@ class CLI:
 @option(
     "--proxy",
     "-p",
+)
+@option(
+    "--proxy_download",
+    "-pd",
+    type=bool,
 )
 @option(
     "--timeout",

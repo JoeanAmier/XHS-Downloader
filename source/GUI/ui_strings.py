@@ -126,13 +126,14 @@ def get_ui_messages() -> dict[str, str]:
         "settings.record_data_help": _(
             "开启后，处理成功的作品数据会写入 ExploreData.db（SQLite 数据库）"
         ),
-        "settings.write_mtime": _("文件修改时间"),
+        "settings.write_mtime": _("同步文件修改时间"),
         "settings.write_mtime_help": _(
             "开启后，作品文件属性的修改时间会被设置为作品发布时间"
         ),
         "settings.cookie": _("Cookie"),
         "settings.proxy": _("网络代理"),
         "settings.proxy_placeholder": _("不使用代理"),
+        "settings.proxy_download": _("下载文件时使用网络代理"),
         "settings.timeout": _("请求超时时间"),
         "settings.second": _("秒"),
         "settings.retry": _("请求数据失败时，重试的最大次数"),
