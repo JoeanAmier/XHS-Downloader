@@ -56,7 +56,7 @@
 </ul>
 </details>
 <h1>📸 程序截图</h1>
-<p><a href="https://www.bilibili.com/video/BV1Fcb3zWEjt/">前往 bilibili 观看演示</a>；<a href="https://youtu.be/VIjDytHaopg">前往 YouTube 观看演示</a></p>
+<p><a href="https://www.bilibili.com/video/BV1Rv8z62Ebx/">前往 bilibili 观看演示</a>；<a href="https://youtu.be/1WBKuLlOeNw">前往 YouTube 观看演示</a></p>
 <img src="static/screenshot/程序运行截图CN1.png" alt="">
 <hr>
 <img src="static/screenshot/程序运行截图CN2.png" alt="">

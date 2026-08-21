@@ -12,17 +12,17 @@ dependencies = [
     "aiofiles>=25.1.0",
     "aiosqlite>=0.22.1",
     "click>=8.4.2",
-    "curl-cffi>=0.15.0",
+    "curl-cffi>=0.16.0",
     "emoji>=2.15.0",
-    "fastapi>=0.139.0",
-    "fastmcp>=3.4.4",
-    "lxml>=6.1.1",
+    "fastapi>=0.141.1",
+    "fastmcp>=3.4.7",
+    "lxml>=6.1.2",
     "pyperclip>=1.11.0",
     "pywebview>=6.2.1",
     "pyyaml>=6.0.3",
     "textual>=8.2.8",
-    "uvicorn>=0.51.0",
-    "websockets>=16.1.1",
+    "uvicorn>=0.52.4",
+    "websockets>=17.0.1",
 ]
 
 [project.urls]

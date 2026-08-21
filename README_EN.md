@@ -57,7 +57,7 @@
 </ul>
 </details>
 <h1>📸 Program Screenshots</h1>
-<p><a href="https://www.bilibili.com/video/BV1Fcb3zWEjt/">Watch Demo on Bilibili</a>；<a href="https://youtu.be/VIjDytHaopg">Watch Demo on YouTube</a></p>
+<p><a href="https://www.bilibili.com/video/BV1Rv8z62Ebx/">Watch Demo on Bilibili</a>；<a href="https://youtu.be/1WBKuLlOeNw">Watch Demo on YouTube</a></p>
 <img src="static/screenshot/程序运行截图EN1.png" alt="">
 <hr>
 <img src="static/screenshot/程序运行截图EN2.png" alt="">
