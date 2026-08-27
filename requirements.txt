@@ -6,7 +6,7 @@ aiosqlite==0.22.1
     # via xhs-downloader (pyproject.toml)
 click==8.4.2
     # via xhs-downloader (pyproject.toml)
-curl-cffi==0.16.0
+curl-cffi==0.16.2
     # via xhs-downloader (pyproject.toml)
 emoji==2.15.0
     # via xhs-downloader (pyproject.toml)
