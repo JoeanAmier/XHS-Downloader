@@ -586,8 +586,28 @@ textarea::placeholder {
 .composer-footer {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 14px 20px 17px;
+    gap: 12px;
+}
+
+.composer-footer .composer-index {
+    width: auto;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.composer-footer .composer-index > .composer-hint {
+    color: #59454c;
+    font-size: 14px;
+    font-weight: 650;
+    line-height: 18px;
+}
+
+.composer-footer .composer-index input {
+    width: 296px;
 }
 
 .composer-actions {

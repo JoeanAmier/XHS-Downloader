@@ -318,12 +318,15 @@ class GuiBackend:
         self,
         content: str,
         source: str,
+        index: list | tuple | None = None,
     ) -> list[str]:
         """提取文本中的作品链接，为每个链接建立 pending 任务并放入队列。"""
 
         if not self.xhs or not self.task_queue:
             return []
         links = await self.xhs.extract_links(content)
+        if index:
+            links = links[:1]
         ids = []
         for link in links:
             task_id = uuid4().hex
@@ -331,6 +334,7 @@ class GuiBackend:
                 task_id,
                 link,
                 source=source,
+                index=index,
                 display_text=task_display_id(link),
             )
             self.task_queue.put_nowait(task_id)
@@ -340,10 +344,11 @@ class GuiBackend:
     async def create_tasks(
         self,
         content: str,
+        index: list | tuple | None = None,
     ) -> list[dict[str, Any]]:
         """创建手动任务并返回本次新建的任务；完整队列由状态快照提供。"""
 
-        ids = await self._enqueue_links(content, "manual")
+        ids = await self._enqueue_links(content, "manual", index)
         if not ids:
             self.add_log(_("提取小红书作品链接失败"), "warning")
         return [self.tasks[i].as_dict() for i in ids]
@@ -396,6 +401,7 @@ class GuiBackend:
                 await self.xhs.extract(
                     task.url,
                     True,
+                    index=task.index,
                     check_record=True,
                     progress_callback=self.on_file_progress,
                     task_id=task.task_id,
@@ -803,10 +809,11 @@ class GuiApi:
     def create_tasks(
         self,
         content: str,
+        index: list | tuple | None = None,
     ) -> list[dict[str, Any]]:
         """通过桥接创建任务。"""
 
-        return self._backend.call(self._backend.create_tasks(content))
+        return self._backend.call(self._backend.create_tasks(content, index))
 
     def cancel_task(self, task_id: str) -> bool:
         """取消一个仍处于 pending 状态的任务。"""

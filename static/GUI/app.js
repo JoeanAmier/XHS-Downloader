@@ -164,14 +164,24 @@
         pageCheckUpdate.innerHTML = `${icon("refresh")}${translateText("update.check")}`;
     }
 
-    // 创建任务区域只提交原始输入，作品链接提取和下载规则均由后端处理。
+    // 创建任务区域提交原始输入，作品链接提取和下载规则均由后端处理。
     const urlInput = document.getElementById("urlInput");
+    const indexInput = document.getElementById("indexInput");
     const createTask = document.getElementById("createTask");
 
     function updateCreateButton() {
         const hasContent = Boolean(urlInput.value.trim());
         createTask.disabled = !hasContent;
         return hasContent;
+    }
+
+    function getImageIndex() {
+        const values = indexInput.value
+                                 .trim()
+                                 .split(/[\s,，]+/)
+                                 .filter((value) => /^\d+$/.test(value))
+                                 .map((value) => Number.parseInt(value, 10));
+        return values.length ? values : null;
     }
 
     function insertTextAtCursor(input, text) {
@@ -201,6 +211,7 @@
 
     document.getElementById("clearInput").addEventListener("click", () => {
         urlInput.value = "";
+        indexInput.value = "";
         updateCreateButton();
         urlInput.focus();
     });
@@ -215,9 +226,10 @@
 
     createTask.addEventListener("click", () => {
         void runNativeAction(async () => {
-            const created = await nativeApi.create_tasks(urlInput.value);
+            const created = await nativeApi.create_tasks(urlInput.value, getImageIndex());
             if (!created.length) throw new Error(translateText("toast.no_supported_link"));
             urlInput.value = "";
+            indexInput.value = "";
             updateCreateButton();
         });
     });
@@ -226,9 +238,10 @@
             const content = await nativeApi.paste_content();
             urlInput.value = content;
             updateCreateButton();
-            const created = await nativeApi.create_tasks(content);
+            const created = await nativeApi.create_tasks(content, getImageIndex());
             if (!created.length) throw new Error(translateText("toast.no_supported_link"));
             urlInput.value = "";
+            indexInput.value = "";
             updateCreateButton();
         });
     });
