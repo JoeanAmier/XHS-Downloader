@@ -29,6 +29,7 @@ __all__ = ["Download"]
 
 class Download:
     SEMAPHORE = Semaphore(MAX_WORKERS)
+    WRITE_BUFFER_SIZE = 1024 * 1024 * 100
     CONTENT_TYPE_MAP = {
         "image/png": "png",
         "image/jpeg": "jpeg",
@@ -248,11 +249,17 @@ class Download:
                     content_length = int(response.headers.get("content-length", 0) or 0)
                     total = completed + content_length if content_length else None
                     report("downloading", total)
+                    buffer = bytearray()
                     async with open(temp, "ab") as f:
                         async for chunk in response.aiter_content(self.chunk):
-                            await f.write(chunk)
+                            buffer.extend(chunk)
+                            if len(buffer) >= self.WRITE_BUFFER_SIZE:
+                                await f.write(bytes(buffer))
+                                buffer.clear()
                             completed += len(chunk)
                             report("downloading", total)
+                        if buffer:
+                            await f.write(bytes(buffer))
                 real = await self.__suffix_with_file(
                     temp,
                     path,
