@@ -879,6 +879,18 @@ msgstr ""
 "Amount of data read from download response and written to temporary file "
 "each time"
 
+msgid "单个文件下载间隔"
+msgstr "Per-file download interval"
+
+msgid "每个文件下载完成后等待的时长，用于降低风控风险"
+msgstr "Wait time after each file finishes downloading, to reduce risk-control risk"
+
+msgid "单个作品处理间隔"
+msgstr "Per-note processing interval"
+
+msgid "每个作品处理完成后等待的时长，用于降低风控风险"
+msgstr "Wait time after each note finishes processing, to reduce risk-control risk"
+
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:145
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:186
 msgid "程序语言"

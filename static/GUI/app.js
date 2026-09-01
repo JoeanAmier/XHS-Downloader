@@ -1092,6 +1092,8 @@
         document.getElementById("settingsTimeout").value = String(settings.timeout);
         document.getElementById("settingsMaxRetry").value = String(settings.max_retry);
         document.getElementById("settingsChunkSize").value = String(settings.chunk);
+        document.getElementById("settingsFileDelay").value = String(settings.file_delay ?? 5);
+        document.getElementById("settingsNoteInterval").value = String(settings.note_interval ?? 8);
         document.getElementById("settingsLanguage").value = settings.language;
         document.getElementById("settingsScriptServer").checked = Boolean(settings.script_server);
         document.getElementById("settingsProxyDownload").checked = Boolean(settings.proxy_download);
@@ -1143,6 +1145,8 @@
             timeout: Number(document.getElementById("settingsTimeout").value || 10),
             max_retry: Number(document.getElementById("settingsMaxRetry").value || 5),
             chunk: chunkSize,
+            file_delay: Math.max(0, Number(document.getElementById("settingsFileDelay").value || 0)),
+            note_interval: Math.max(0, Number(document.getElementById("settingsNoteInterval").value || 0)),
             language: document.getElementById("settingsLanguage").value,
             script_server: document.getElementById("settingsScriptServer").checked,
             proxy_download: document.getElementById("settingsProxyDownload").checked,

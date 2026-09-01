@@ -1,4 +1,4 @@
-from asyncio import Semaphore, gather
+from asyncio import Semaphore, gather, sleep
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable
 
@@ -68,6 +68,8 @@ class Download:
         self.live_download = manager.live_download
         self.author_archive = manager.author_archive
         self.write_mtime = manager.write_mtime
+        # 每个文件下载完成后的间隔(秒)，来自程序设置，用于降低风控风险。
+        self.file_delay = manager.file_delay
 
     async def run(
         self,
@@ -275,6 +277,10 @@ class Download:
                 )
                 report("completed", total)
                 logging(self.print, _("文件 {0} 下载成功").format(real.name))
+                # 下载后延迟，避免请求过于密集触发风控；间隔可在设置中配置。
+                delay = self.manager.jittered_delay(self.file_delay)
+                if delay > 0:
+                    await sleep(delay)
                 return True
             except RequestException as error:
                 report("failed")

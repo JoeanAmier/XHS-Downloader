@@ -1,6 +1,7 @@
 from http.cookies import SimpleCookie
 from os import utime
 from pathlib import Path
+from random import uniform
 from re import compile, sub
 from shutil import move, rmtree
 from typing import TYPE_CHECKING, get_args
@@ -58,6 +59,8 @@ class Manager:
         proxy_download: bool,
         timeout: int,
         retry: int,
+        file_delay: int,
+        note_interval: int,
         record_data: bool,
         image_format: str,
         image_download: bool,
@@ -83,6 +86,8 @@ class Manager:
         self.blank_headers = HEADERS.copy()
         self.impersonate = self.__check_impersonate(impersonate)
         self.retry = self.__check_integer(retry, 5, 0)
+        self.file_delay = self.__check_integer(file_delay, 5, 0)
+        self.note_interval = self.__check_integer(note_interval, 8, 0)
         self.chunk = self.__check_integer(chunk, 2 * 1024 * 1024, 1024 * 1024)
         self.name_format = self.__check_name_format(name_format)
         self.record_data = self.check_bool(record_data, False)
@@ -322,3 +327,11 @@ class Manager:
         cookie = SimpleCookie()
         cookie.load(cookie_str)
         return {key: morsel.value for key, morsel in cookie.items()}
+
+    @staticmethod
+    def jittered_delay(base: float) -> float:
+        """在基础间隔上叠加 1~3 秒随机值，让请求节奏更不规律以降低风控风险。"""
+
+        if base <= 0:
+            return 0.0
+        return base + uniform(1, 3)

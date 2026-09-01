@@ -145,6 +145,8 @@ class XHS:
         timeout=10,
         chunk=1024 * 1024,
         max_retry=5,
+        file_delay=5,
+        note_interval=8,
         record_data=False,
         image_format="JPEG",
         image_download=True,
@@ -178,6 +180,8 @@ class XHS:
             proxy_download,
             timeout,
             max_retry,
+            file_delay,
+            note_interval,
             record_data,
             image_format,
             image_download,
@@ -315,19 +319,25 @@ class XHS:
             return []
         statistics = new_statistics(len(urls))
         self.logging(_("共 {0} 个小红书作品待处理...").format(statistics.all))
-        result = [
-            await self.__deal_extract(
-                i,
-                download,
-                index,
-                check_record=check_record,
-                proxy=proxy,
-                count=statistics,
-                progress_callback=progress_callback,
-                task_id=task_id,
+        result = []
+        for index_, i in enumerate(urls):
+            result.append(
+                await self.__deal_extract(
+                    i,
+                    download,
+                    index,
+                    check_record=check_record,
+                    proxy=proxy,
+                    count=statistics,
+                    progress_callback=progress_callback,
+                    task_id=task_id,
+                )
             )
-            for i in urls
-        ]
+            # 每个作品处理完后延迟，避免请求过于密集触发风控；间隔可在设置中配置。
+            if download and index_ < len(urls) - 1:
+                delay = self.manager.jittered_delay(self.manager.note_interval)
+                if delay > 0:
+                    await sleep(delay)
         self.show_statistics(
             statistics,
         )

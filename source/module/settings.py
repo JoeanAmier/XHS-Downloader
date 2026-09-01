@@ -22,6 +22,8 @@ class Settings:
         "timeout": 10,  # 超时时间(秒)
         "chunk": 1024 * 1024 * 2,  # 下载块大小(字节)
         "max_retry": 5,  # 最大重试次数
+        "file_delay": 5,  # 单个文件下载完成后的间隔(秒)，用于降低风控风险
+        "note_interval": 8,  # 单个作品处理完成后的间隔(秒)，用于降低风控风险
         "record_data": False,  # 是否记录作品数据
         "image_format": "JPEG",  # 图文作品格式
         "image_download": True,  # 是否下载图文
