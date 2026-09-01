@@ -102,6 +102,27 @@ class Download:
             )
         else:
             raise ValueError
+        if self.file_delay > 0:
+            # 需要控制请求节奏：顺序下载每个文件，并在文件之间应用延迟，
+            # 确保 file_delay 真正生效（并发下载会令间隔失效）。
+            results = []
+            for i, (url, name, format_) in enumerate(tasks):
+                results.append(
+                    await self.__download(
+                        url,
+                        path,
+                        name,
+                        format_,
+                        mtime,
+                        progress,
+                        task_id,
+                    )
+                )
+                # 最后一个文件之后不再等待。
+                if i < len(tasks) - 1:
+                    await sleep(self.manager.jittered_delay(self.file_delay))
+            return results
+        # 未设置间隔：保持并发下载以提升速度。
         tasks = [
             self.__download(
                 url,
@@ -277,10 +298,6 @@ class Download:
                 )
                 report("completed", total)
                 logging(self.print, _("文件 {0} 下载成功").format(real.name))
-                # 下载后延迟，避免请求过于密集触发风控；间隔可在设置中配置。
-                delay = self.manager.jittered_delay(self.file_delay)
-                if delay > 0:
-                    await sleep(delay)
                 return True
             except RequestException as error:
                 report("failed")
