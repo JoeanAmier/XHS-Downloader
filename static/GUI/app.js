@@ -1359,7 +1359,6 @@
                     const result = await nativeApi.check_update();
                     if (result.status !== "ok") {
                         setUpdateResult(result.message, "warning");
-                        showToast(translateText("update.failed"), "warning");
                         return;
                     }
                     const updateAvailable = ["update_available", "stable_available", "development_current"].includes(
@@ -1367,11 +1366,9 @@
                     const tone = updateAvailable ? "warning" : "success";
                     const title = result.title;
                     setUpdateResult(`${title}: ${result.message}`, tone);
-                    showToast(title, tone);
                 } catch (error) {
                     const message = error?.message || String(error);
                     setUpdateResult(`${translateText("update.failed")}: ${message}`, "error");
-                    showToast(translateText("update.failed"), "warning");
                 } finally {
                     setUpdateChecking(false);
                 }
