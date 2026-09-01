@@ -94,9 +94,18 @@ class Manager:
         self.proxy_download = self.check_bool(proxy_download, False)
         self.proxy = self.__check_proxy(proxy)
         self.print_proxy_tip()
+        # 支持多个 Cookie：按换行分隔解析成列表，请求时严格轮流选用，失败时切换到下一个。
+        self.cookies = self.__parse_cookies(cookie)
+        self.cookie = self.cookies[0] if self.cookies else ""
+        # 轮流指针：指向下一次要使用的 Cookie 下标。
+        self._cookie_index = 0
+        # 单 Cookie 保持原有烘焙行为；多 Cookie 时不烘焙，改为每次请求通过 header 精确指定。
+        jar_cookies = (
+            self.cookie_str_to_dict(self.cookie) if len(self.cookies) <= 1 else {}
+        )
         self.request_client = AsyncSession(
             headers=self.blank_headers,
-            cookies=self.cookie_str_to_dict(cookie),
+            cookies=jar_cookies,
             timeout=self.timeout,
             verify=False,
             allow_redirects=True,
@@ -322,3 +331,31 @@ class Manager:
         cookie = SimpleCookie()
         cookie.load(cookie_str)
         return {key: morsel.value for key, morsel in cookie.items()}
+
+    @staticmethod
+    def __parse_cookies(cookie_str: str) -> list[str]:
+        """把配置中的 Cookie 文本按换行拆分为多个有效 Cookie。"""
+
+        if not cookie_str:
+            return []
+        return [part.strip() for part in cookie_str.splitlines() if part.strip()]
+
+    def pick_cookie(self, exclude: str | None = None) -> str:
+        """严格轮流（round-robin）取下一个 Cookie；若正好是上次失败的 exclude，则再跳一个。"""
+
+        if not self.cookies:
+            return ""
+        if len(self.cookies) == 1:
+            return self.cookies[0]
+        count = len(self.cookies)
+        selected = self.cookies[self._cookie_index % count]
+        self._cookie_index = (self._cookie_index + 1) % count
+        # 如果选中的正好是上次失败的 Cookie，跳过一个改用下一个。
+        if exclude is not None and selected == exclude:
+            selected = self.cookies[self._cookie_index % count]
+            self._cookie_index = (self._cookie_index + 1) % count
+        return selected
+
+    @property
+    def cookie_count(self) -> int:
+        return len(self.cookies)

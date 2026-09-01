@@ -134,6 +134,7 @@ def get_ui_messages() -> dict[str, str]:
         ),
         "settings.impersonate": _("浏览器模拟目标"),
         "settings.cookie": _("Cookie"),
+        "settings.cookie_placeholder": _("可填入多个 Cookie，每行一个，下载时将轮流选用；单个失败会自动切换另一个"),
         "settings.proxy": _("网络代理"),
         "settings.proxy_placeholder": _("不使用代理"),
         "settings.proxy_download": _("下载文件时使用网络代理"),

@@ -1,6 +1,5 @@
 from typing import TYPE_CHECKING
 
-from curl_cffi.requests import get
 from curl_cffi.requests.exceptions import RequestException
 
 from ..module import ERROR, logging, retry, sleep_time
@@ -24,6 +23,8 @@ class Html:
         self.timeout = manager.timeout
         self.proxy = manager.proxy
         self.impersonate = manager.impersonate
+        # 记录上次使用的 Cookie，重试时优先切换到下一个。
+        self._last_cookie: str | None = None
 
     @retry
     async def request_url(
@@ -37,22 +38,21 @@ class Html:
         if not url.startswith("http"):
             url = f"https://{url}"
         headers = self.manager.get_headers(url)
+        # 多 Cookie 支持：显式传入优先，否则从 Cookie 池轮流挑选（避开上次失败的）。
+        use_cookie = cookie if cookie else self.manager.pick_cookie(
+            exclude=self._last_cookie
+        )
+        self._last_cookie = use_cookie
+        if use_cookie:
+            # 通过 header 精确指定 Cookie，避免与会话 cookie jar 合并冲突。
+            headers["cookie"] = use_cookie
         try:
-            if cookie:
-                response = self.__request_url_with_cookie(
-                    url,
-                    headers,
-                    cookie,
-                    proxy=proxy,
-                    **kwargs,
-                )
-            else:
-                response = await self.__request_url_get(
-                    url,
-                    headers,
-                    proxy=proxy,
-                    **kwargs,
-                )
+            response = await self.__request_url_get(
+                url,
+                headers,
+                proxy=proxy,
+                **kwargs,
+            )
             await sleep_time()
             response.raise_for_status()
             return response.text if content else str(response.url)
@@ -67,26 +67,6 @@ class Html:
     @staticmethod
     def format_url(url: str) -> str:
         return bytes(url, "utf-8").decode("unicode_escape")
-
-    def __request_url_with_cookie(
-            self,
-            url: str,
-            headers: dict,
-            cookie: str,
-            proxy: str | None = None,
-            **kwargs,
-    ):
-        return get(
-            url,
-            headers=headers,
-            cookies=self.manager.cookie_str_to_dict(cookie),
-            timeout=self.timeout,
-            verify=False,
-            allow_redirects=True,
-            proxy=self.proxy if proxy is None else proxy,
-            impersonate=self.impersonate,
-            **kwargs,
-        )
 
     async def __request_url_get(
         self,

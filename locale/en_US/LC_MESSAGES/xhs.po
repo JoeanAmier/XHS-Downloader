@@ -844,6 +844,9 @@ msgstr ""
 msgid "Cookie"
 msgstr "Cookie"
 
+msgid "可填入多个 Cookie，每行一个，下载时将轮流选用；单个失败会自动切换另一个"
+msgstr "Enter one or more Cookies, one per line; they are used in rotation and a failure auto-switches to the next"
+
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:136
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:84
 msgid "不使用代理"
