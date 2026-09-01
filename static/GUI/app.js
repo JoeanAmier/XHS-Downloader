@@ -251,6 +251,7 @@
     const queueEmpty = document.getElementById("queueEmpty");
     const fileDownloadList = document.getElementById("fileDownloadList");
     let currentQueueFilter = "all";
+    let queuePaused = false;
 
     const listScrollStates = new WeakMap();
 
@@ -354,6 +355,17 @@
         );
         queueList.hidden = visible === 0;
         queueEmpty.hidden = visible !== 0;
+    }
+
+    function updatePauseButton(paused) {
+        // 根据后端暂停状态切换按钮图标与文案，保持与队列实际状态一致。
+        queuePaused = Boolean(paused);
+        const icon = document.getElementById("pauseQueueIcon");
+        const label = document.getElementById("pauseQueueLabel");
+        if (!icon || !label) return;
+        const use = icon.querySelector("use");
+        if (use) use.setAttribute("href", queuePaused ? "#play" : "#pause");
+        label.textContent = translateText(queuePaused ? "queue.resume" : "queue.pause");
     }
 
     document.getElementById("queueFilters").addEventListener("click", (event) => {
@@ -1186,6 +1198,7 @@
     function applyNativeState(state) {
         // 应用一次完整状态快照；仅在 revision 变化时重新查询下载记录数据库。
         renderNativeTaskLists(state.tasks, state.files);
+        updatePauseButton(state.paused);
         const enabled = Boolean(state.history_enabled);
         const revision = Number(state.history_revision);
         const shouldRefreshHistory = enabled && (lastHistoryRevision !== revision || !historyEnabled);
@@ -1316,6 +1329,16 @@
                 recordModal.close();
                 renderNativeHistoryPage(result);
                 showToast(formatTranslated("history.deleted_selected", [ids.length]));
+            });
+        } else if (id === "togglePauseQueue") {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            void runNativeAction(async () => {
+                if (queuePaused) {
+                    await nativeApi.resume_queue();
+                } else {
+                    await nativeApi.pause_queue();
+                }
             });
         } else if (id === "clearFinished") {
             event.preventDefault();

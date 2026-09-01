@@ -58,6 +58,8 @@ def get_ui_messages() -> dict[str, str]:
         "monitor.queue_empty": _("监听任务队列为空"),
         "queue.clear_finished": _("清理已结束任务"),
         "queue.open_folder": _("打开下载文件夹"),
+        "queue.pause": _("暂停队列"),
+        "queue.resume": _("恢复队列"),
         "queue.pending": _("待处理"),
         "queue.processing": _("处理中"),
         "queue.success": _("成功"),

@@ -179,6 +179,9 @@ class GuiBackend:
         self.task_queue: asyncio.Queue[str] | None = None
         self.worker: asyncio.Task | None = None
         self.monitor_task: asyncio.Task | None = None
+        # 队列暂停开关；事件被置位时表示“允许继续”，worker 消费前会先等待它。
+        self.resume_event: asyncio.Event | None = None
+        self.paused = False
         self.tasks: dict[str, TaskState] = {}
         self.files: dict[str, dict[str, Any]] = {}
         self.history_revision = 0
@@ -241,6 +244,9 @@ class GuiBackend:
         if self.xhs:
             return
         self.task_queue = asyncio.Queue()
+        # 默认置位（不暂停）；暂停时调用 clear()，恢复时调用 set()。
+        self.resume_event = asyncio.Event()
+        self.resume_event.set()
         await self._create_xhs()
         self.worker = asyncio.create_task(self._worker_loop())
 
@@ -373,9 +379,11 @@ class GuiBackend:
         return task.as_dict()
 
     async def _worker_loop(self) -> None:
-        """串行消费任务队列；任务进入 processing 后不再允许取消。"""
+        """串行消费任务队列；暂停时阻塞在 resume_event，任务进入 processing 后不再允许取消。"""
 
         while True:
+            # 队列暂停时在此阻塞，直到恢复后才继续拉取新任务。
+            await self.resume_event.wait()
             task_id = await self.task_queue.get()
             try:
                 task = self.tasks.get(task_id)
@@ -467,6 +475,26 @@ class GuiBackend:
         if not task or task.state != "pending":
             return False
         task.state = "cancelled"
+        return True
+
+    async def pause_queue(self) -> bool:
+        """暂停任务队列；正在下载的作品会继续完成，仅停止拉取新任务。"""
+
+        if not self.resume_event:
+            return False
+        self.resume_event.clear()
+        self.paused = True
+        self.add_log(_("已暂停任务队列，正在下载的作品完成后才会停止"), "info")
+        return True
+
+    async def resume_queue(self) -> bool:
+        """恢复任务队列，继续按顺序处理待下载任务。"""
+
+        if not self.resume_event:
+            return False
+        self.resume_event.set()
+        self.paused = False
+        self.add_log(_("已恢复任务队列"), "success")
         return True
 
     async def clear_finished(self) -> int:
@@ -749,6 +777,7 @@ class GuiBackend:
             "disclaimer_accepted": self.settings["disclaimer_accepted"],
             "tasks": tasks,
             "files": list(self.files.values()),
+            "paused": self.paused,
             "history_enabled": history_enabled,
             "history_revision": self.history_revision,
             "logs": list(self.logs),
@@ -819,6 +848,16 @@ class GuiApi:
         """取消一个仍处于 pending 状态的任务。"""
 
         return self._backend.call(self._backend.cancel_task(task_id))
+
+    def pause_queue(self) -> bool:
+        """暂停任务队列，正在下载的作品会继续完成。"""
+
+        return self._backend.call(self._backend.pause_queue())
+
+    def resume_queue(self) -> bool:
+        """恢复任务队列，继续处理待下载任务。"""
+
+        return self._backend.call(self._backend.resume_queue())
 
     def clear_finished(self) -> int:
         """清理已完成、失败、跳过或取消的任务。"""

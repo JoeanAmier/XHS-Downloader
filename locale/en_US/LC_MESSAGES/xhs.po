@@ -565,6 +565,18 @@ msgstr "Clear finished tasks"
 msgid "打开下载文件夹"
 msgstr "Open download folder"
 
+msgid "暂停队列"
+msgstr "Pause queue"
+
+msgid "恢复队列"
+msgstr "Resume queue"
+
+msgid "已暂停任务队列，正在下载的作品完成后才会停止"
+msgstr "Queue paused; in-progress downloads will stop only after they finish"
+
+msgid "已恢复任务队列"
+msgstr "Queue resumed"
+
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:59
 msgid "待处理"
 msgstr "Pending"
