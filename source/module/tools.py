@@ -1,5 +1,7 @@
 from asyncio import sleep
-from random import uniform
+from math import log
+from random import lognormvariate
+from typing import Callable
 
 from rich import print
 from rich.text import Text
@@ -37,19 +39,47 @@ def retry_limited(function):
     return inner
 
 
-def logging(log, text, style=INFO):
+def logging(log: Callable, text, style=INFO):
     string = Text(text, style=style)
-    if log:
-        log.write(
+    func = log()
+    if func is print:
+        func(string)
+    else:
+        func.write(
             string,
             scroll_end=True,
         )
-    else:
-        print(string)
 
 
-async def sleep_time(
-    min_time: int | float = 1.0,
-    max_time: int | float = 2.5,
-):
-    await sleep(uniform(min_time, max_time))
+def get_site_referer(url: str | None) -> str:
+    if "rednote" in (url or "").lower():
+        return "https://www.rednote.com/"
+    return "https://www.xiaohongshu.com/"
+
+
+def compare_versions(
+    current_version: str,
+    target_version: str,
+    is_development: bool,
+) -> int:
+    """比较两个主版本号，返回正式版更新状态码。"""
+
+    current = tuple(map(int, current_version.removeprefix("v").split(".")[:2]))
+    target = tuple(map(int, target_version.removeprefix("v").split(".")[:2]))
+    if target > current:
+        return 4
+    if target == current:
+        return 3 if is_development else 1
+    return 2 if is_development else 1
+
+
+def get_wait_time(
+    avg_delay: float | int = 6.0,
+    sigma: float = 0.6,
+) -> float:
+    mu = log(avg_delay) - (sigma**2 / 2)
+    return max(0.5, lognormvariate(mu, sigma))
+
+
+async def sleep_time():
+    await sleep(get_wait_time())

@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light">
+    <title>XHS-Downloader</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@5.3.0/400.css">
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@5.3.0/600.css">
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@5.3.0/700.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@5.3.0/400.css" media="print"
+          onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@5.3.0/600.css" media="print"
+          onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@5.3.0/700.css" media="print"
+          onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@5.3.0/400.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@5.3.0/600.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc@5.3.0/700.css">
+    </noscript>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background: #f1f3f6;
+        }
+
+        .startup-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: grid;
+            place-items: center;
+            background: #f1f3f6;
+        }
+
+        .startup-content {
+            display: grid;
+            justify-items: center;
+        }
+
+        .startup-spinner {
+            width: 72px;
+            height: 72px;
+            border: 5px solid #d4c3c9;
+            border-top-color: #e13b43;
+            border-radius: 50%;
+            animation: startup-spin 0.8s linear infinite;
+        }
+
+        @keyframes startup-spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+<svg class="icon-sprite">
+    <symbol id="plus" viewBox="0 0 24 24">
+        <path d="M5 12h14M12 5v14"/>
+    </symbol>
+    <symbol id="list" viewBox="0 0 24 24">
+        <path d="M8 6h13M8 12h13M8 18h13"/>
+        <path d="M3 6h.01M3 12h.01M3 18h.01"/>
+    </symbol>
+    <symbol id="history" viewBox="0 0 24 24">
+        <path d="M3 12a9 9 0 1 0 3-6.7L3 8"/>
+        <path d="M3 3v5h5M12 7v5l3 2"/>
+    </symbol>
+    <symbol id="terminal" viewBox="0 0 24 24">
+        <path d="m4 17 6-6-6-6M12 19h8"/>
+    </symbol>
+    <symbol id="sliders" viewBox="0 0 24 24">
+        <path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>
+    </symbol>
+    <symbol id="clipboard" viewBox="0 0 24 24">
+        <rect width="14" height="16" x="5" y="4" rx="2"/>
+        <path d="M9 4V2h6v2M9 9h6M9 13h6"/>
+    </symbol>
+    <symbol id="download" viewBox="0 0 24 24">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+    </symbol>
+    <symbol id="link" viewBox="0 0 24 24">
+        <path d="M10 13a5 5 0 0 0 7.1.1l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1M14 11a5 5 0 0 0-7.1-.1l-2 2A5 5 0 0 0 12 20l1.1-1.1"/>
+    </symbol>
+    <symbol id="trash" viewBox="0 0 24 24">
+        <path d="M3 6h18M8 6V4h8v2M19 6l-1 15H6L5 6M10 11v6M14 11v6"/>
+    </symbol>
+    <symbol id="play" viewBox="0 0 24 24">
+        <path d="m6 3 14 9-14 9Z"/>
+    </symbol>
+    <symbol id="x" viewBox="0 0 24 24">
+        <path d="M18 6 6 18M6 6l12 12"/>
+    </symbol>
+    <symbol id="check" viewBox="0 0 24 24">
+        <path d="m5 12 4 4L19 6"/>
+    </symbol>
+    <symbol id="search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7"/>
+        <path d="m20 20-4-4"/>
+    </symbol>
+    <symbol id="refresh" viewBox="0 0 24 24">
+        <path d="M20 7h-5V2M4 17h5v5"/>
+        <path d="M5.1 9a8 8 0 0 1 13.3-3L20 7M4 17l1.6 1A8 8 0 0 0 19 15"/>
+    </symbol>
+    <symbol id="external" viewBox="0 0 24 24">
+        <path d="M15 3h6v6M10 14 21 3M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+    </symbol>
+    <symbol id="info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 11v5M12 8h.01"/>
+    </symbol>
+    <symbol id="menu" viewBox="0 0 24 24">
+        <path d="M4 6h16M4 12h16M4 18h16"/>
+    </symbol>
+    <symbol id="chevron" viewBox="0 0 24 24">
+        <path d="m9 18 6-6-6-6"/>
+    </symbol>
+</svg>
+
+<div class="startup-screen" id="startupScreen">
+    <div class="startup-content">
+        <span class="startup-spinner"></span>
+    </div>
+</div>
+
+<div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <img src="../XHS-Downloader.png" alt="" class="brand-mark">
+            <div class="brand-copy">
+                <strong>XHS-Downloader</strong>
+            </div>
+            <button class="icon-button sidebar-close" id="sidebarClose" type="button">
+                <svg>
+                    <use href="#x"/>
+                </svg>
+            </button>
+        </div>
+
+        <nav class="primary-nav">
+            <button class="nav-item active" type="button" data-view="new_task">
+                <svg>
+                    <use href="#plus"/>
+                </svg>
+                <span data-i18n="nav.new_task"></span>
+            </button>
+            <button class="nav-item" type="button" data-view="queue">
+                <svg>
+                    <use href="#list"/>
+                </svg>
+                <span data-i18n="nav.queue"></span><span class="nav-badge" id="queueBadge">0</span>
+            </button>
+            <button class="nav-item" type="button" data-view="monitor">
+                <svg>
+                    <use href="#clipboard"/>
+                </svg>
+                <span data-i18n="nav.monitor"></span>
+            </button>
+            <button class="nav-item" type="button" data-view="history">
+                <svg>
+                    <use href="#history"/>
+                </svg>
+                <span data-i18n="nav.history"></span>
+            </button>
+            <button class="nav-item" type="button" data-view="logs">
+                <svg>
+                    <use href="#terminal"/>
+                </svg>
+                <span data-i18n="nav.logs"></span>
+            </button>
+            <button class="nav-item" type="button" data-view="settings">
+                <svg>
+                    <use href="#sliders"/>
+                </svg>
+                <span data-i18n="nav.settings"></span>
+            </button>
+            <button class="nav-item" type="button" data-view="disclaimer">
+                <svg>
+                    <use href="#info"/>
+                </svg>
+                <span data-i18n="nav.disclaimer"></span>
+            </button>
+            <button class="nav-item" type="button" data-view="about">
+                <svg>
+                    <use href="#external"/>
+                </svg>
+                <span data-i18n="nav.about"></span>
+            </button>
+        </nav>
+    </aside>
+
+    <div class="sidebar-scrim" id="sidebarScrim"></div>
+
+    <section class="workspace">
+        <header class="topbar">
+            <div class="topbar-title">
+                <button class="icon-button mobile-menu" id="mobileMenu" type="button">
+                    <svg>
+                        <use href="#menu"/>
+                    </svg>
+                </button>
+                <div>
+                    <h1 id="viewTitle"></h1>
+                </div>
+            </div>
+        </header>
+
+        <main class="content" id="mainContent">
+            <section class="view active" data-page="new_task">
+                <section class="surface composer">
+                    <div class="composer-head">
+                        <span class="composer-hint"><svg><use href="#link"/></svg><span
+                                data-i18n="task.link"></span></span>
+                    </div>
+                    <textarea id="urlInput" rows="5" spellcheck="false"
+                              data-i18n-placeholder="task.link_placeholder"></textarea>
+                    <div class="composer-footer">
+                        <label class="field composer-index">
+                            <span class="composer-hint" data-i18n="task.index"></span>
+                            <input id="indexInput" type="text" inputmode="numeric" spellcheck="false"
+                                   data-i18n-placeholder="task.index_placeholder">
+                        </label>
+                        <div class="composer-actions">
+                            <button class="secondary-button" id="pasteButton" type="button">
+                                <svg>
+                                    <use href="#clipboard"/>
+                                </svg>
+                                <span data-i18n="task.paste"></span></button>
+                            <button class="secondary-button" id="pasteAndProcess" type="button">
+                                <svg>
+                                    <use href="#play"/>
+                                </svg>
+                                <span data-i18n="task.paste_process"></span></button>
+                            <button class="secondary-button" id="clearInput" type="button">
+                                <svg>
+                                    <use href="#x"/>
+                                </svg>
+                                <span data-i18n="task.clear"></span></button>
+                            <button class="primary-button" id="createTask" type="button" disabled>
+                                <svg>
+                                    <use href="#play"/>
+                                </svg>
+                                <span data-i18n="task.start"></span></button>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="activity-section">
+                    <div class="section-heading">
+                        <div><h3 data-i18n="nav.queue"></h3><span id="dashboardTaskCount"></span></div>
+                        <button class="text-button" type="button" data-go="queue"><span
+                                data-i18n="task.view_queue"></span>
+                            <svg>
+                                <use href="#chevron"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="surface compact-task-list" id="dashboardTasks">
+                        <div class="dashboard-empty" data-i18n="task.queue_empty"></div>
+                    </div>
+                </section>
+            </section>
+
+            <section class="view monitor-view" data-page="monitor">
+                <div class="metric-strip monitor-metrics">
+                    <div><span data-i18n="monitor.status"></span><strong class="monitoring-value inactive"
+                                                                         id="monitorState"><i></i><span
+                            data-i18n="monitor.inactive"></span></strong></div>
+                    <div><span data-i18n="monitor.created"></span><strong id="monitorCreated"></strong></div>
+                    <div class="monitor-action">
+                        <button class="primary-button" id="monitorToggleButton" type="button">
+                            <svg>
+                                <use href="#play"/>
+                            </svg>
+                            <span data-i18n="monitor.start"></span></button>
+                    </div>
+                </div>
+                <div class="processing-layout monitor-processing-layout">
+                    <section class="file-download-section monitor-file-download">
+                        <div class="section-heading">
+                            <div><h3 data-i18n="download.files"></h3><span></span></div>
+                        </div>
+                        <div class="surface file-download-list" id="monitorFileDownloadList">
+                            <div class="file-download-empty">
+                                <svg>
+                                    <use href="#download"/>
+                                </svg>
+                                <span data-i18n="download.empty"></span></div>
+                        </div>
+                    </section>
+                    <section class="queue-panel monitor-panel">
+                        <div class="queue-toolbar monitor-queue-toolbar">
+                            <h3 data-i18n="monitor.queue"></h3>
+                            <div class="segmented" id="monitorQueueFilters">
+                                <button class="active" type="button" data-filter="all" data-i18n="queue.all"></button>
+                                <!--
+                                <button type="button" data-filter="processing" data-i18n="queue.processing"></button>
+                                -->
+                                <button type="button" data-filter="pending" data-i18n="queue.pending"></button>
+                                <button type="button" data-filter="success" data-i18n="queue.success"></button>
+                                <button type="button" data-filter="failed" data-i18n="queue.failed"></button>
+                                <button type="button" data-filter="skipped" data-i18n="queue.skipped"></button>
+                            </div>
+                        </div>
+                        <div class="surface queue-results">
+                            <div class="queue-list monitor-queue-list" id="monitorEvents" hidden></div>
+                            <div class="empty-state monitor-queue-empty" id="monitorQueueEmpty"><span><svg><use
+                                    href="#list"/></svg></span><strong data-i18n="monitor.queue_empty"></strong></div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <section class="view" data-page="queue">
+                <div class="page-heading queue-heading">
+                    <div class="heading-actions">
+                        <button class="secondary-button" id="openDownloadFolder" type="button">
+                            <svg>
+                                <use href="#external"/>
+                            </svg>
+                            <span data-i18n="queue.open_folder"></span></button>
+                        <button class="secondary-button danger-subtle" id="clearFinished" type="button">
+                            <svg>
+                                <use href="#trash"/>
+                            </svg>
+                            <span data-i18n="queue.clear_finished"></span></button>
+                    </div>
+                </div>
+                <div class="metric-strip">
+                    <div><span data-i18n="queue.pending"></span><strong id="pendingMetric"></strong></div>
+                    <div><span data-i18n="queue.success"></span><strong id="successMetric"></strong></div>
+                    <div><span data-i18n="queue.failed"></span><strong id="failedMetric"></strong></div>
+                    <div><span data-i18n="queue.skipped"></span><strong id="skippedMetric"></strong></div>
+                </div>
+                <div class="processing-layout queue-processing-layout">
+                    <section class="file-download-section">
+                        <div class="section-heading">
+                            <div><h3 data-i18n="download.files"></h3><span></span></div>
+                        </div>
+                        <div class="surface file-download-list" id="fileDownloadList">
+                            <div class="file-download-empty">
+                                <svg>
+                                    <use href="#download"/>
+                                </svg>
+                                <span data-i18n="download.empty"></span></div>
+                        </div>
+                    </section>
+                    <section class="queue-panel">
+                        <div class="queue-toolbar">
+                            <h3 data-i18n="nav.queue"></h3>
+                            <div class="segmented" id="queueFilters">
+                                <button class="active" type="button" data-filter="all" data-i18n="queue.all"></button>
+                                <!--
+                                <button type="button" data-filter="processing" data-i18n="queue.processing"></button>
+                                -->
+                                <button type="button" data-filter="pending" data-i18n="queue.pending"></button>
+                                <button type="button" data-filter="success" data-i18n="queue.success"></button>
+                                <button type="button" data-filter="failed" data-i18n="queue.failed"></button>
+                                <button type="button" data-filter="skipped" data-i18n="queue.skipped"></button>
+                            </div>
+                        </div>
+                        <div class="surface queue-results">
+                            <div class="queue-list" id="queueList" hidden></div>
+                            <div class="empty-state" id="queueEmpty"><span><svg><use href="#list"/></svg></span><strong
+                                    data-i18n="task.queue_empty"></strong></div>
+                        </div>
+                    </section>
+                </div>
+            </section>
+
+            <section class="view history-view" data-page="history">
+                <div class="page-heading">
+                    <div><h2 data-i18n="nav.history"></h2></div>
+                    <button class="secondary-button danger-subtle" id="deleteSelectedRecords" type="button" disabled>
+                        <span data-i18n="history.delete_selected"></span></button>
+                </div>
+                <div class="history-tools">
+                    <div class="search-box">
+                        <svg>
+                            <use href="#search"/>
+                        </svg>
+                        <input id="historySearch" type="search"
+                               data-i18n-placeholder="history.search_placeholder">
+                    </div>
+                    <div class="record-selection-tools">
+                        <label><input id="selectAllRecords" type="checkbox"><span class="checkmark"><svg><use
+                                href="#check"/></svg></span><span data-i18n="history.select_page"></span></label>
+                        <button class="icon-text-button" id="invertRecordSelection" type="button">
+                            <svg>
+                                <use href="#refresh"/>
+                            </svg>
+                            <span data-i18n="history.invert_page"></span></button>
+                        <span id="selectedRecordCount"></span>
+                    </div>
+                </div>
+                <div class="surface history-list-wrap">
+                    <ul class="history-list" id="historyBody" hidden></ul>
+                    <div class="table-empty" id="historyEmpty">
+                        <svg>
+                            <use href="#search"/>
+                        </svg>
+                        <strong data-i18n="history.empty"></strong></div>
+                </div>
+                <div class="pagination">
+                    <span id="recordRange"></span>
+                    <div>
+                        <button class="icon-button" id="historyPrev" type="button"
+                                data-i18n-title="history.previous" disabled>
+                            <svg class="flip">
+                                <use href="#chevron"/>
+                            </svg>
+                        </button>
+                        <span class="pagination-page" id="historyPage">0 / 0</span>
+                        <button class="icon-button" id="historyNext" type="button" data-i18n-title="history.next"
+                                disabled>
+                            <svg>
+                                <use href="#chevron"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="view" data-page="logs">
+                <div class="log-console" id="logConsole"></div>
+            </section>
+
+            <section class="view settings-view" data-page="settings">
+                <div class="page-heading settings-heading">
+                    <div><h2 data-i18n="nav.settings"></h2></div>
+                    <div class="heading-actions">
+                        <button class="secondary-button" id="discardSettings" type="button">
+                            <svg>
+                                <use href="#x"/>
+                            </svg>
+                            <span data-i18n="settings.discard"></span></button>
+                        <button class="primary-button" id="saveSettings" type="button">
+                            <svg>
+                                <use href="#check"/>
+                            </svg>
+                            <span data-i18n="settings.save"></span></button>
+                    </div>
+                </div>
+                <div class="settings-layout">
+                    <nav class="settings-nav">
+                        <button class="active" type="button" data-setting="download-settings"
+                                data-i18n="settings.download"></button>
+                        <button type="button" data-setting="archive-settings" data-i18n="settings.archive"></button>
+                        <button type="button" data-setting="network-settings" data-i18n="settings.network"></button>
+                        <button type="button" data-setting="general-settings" data-i18n="settings.general"></button>
+                    </nav>
+                    <div class="surface settings-panel" id="settingsPanel">
+                        <section class="setting-group" id="download-settings">
+                            <div class="group-heading"><h3 data-i18n="settings.download"></h3></div>
+                            <div class="field-grid">
+                                <label class="field full"><span data-i18n="settings.work_path"></span>
+                                    <div class="input-action"><input id="settingsWorkPath" type="text">
+                                        <button id="browseWorkPath" type="button" data-i18n="settings.browse"></button>
+                                    </div>
+                                    <small data-i18n="settings.work_path_help"></small></label>
+                                <label class="field full"><span data-i18n="settings.folder_name"></span><input
+                                        id="settingsFolderName" type="text"><small
+                                        data-i18n="settings.folder_name_help"></small></label>
+                                <div class="field full name-format-field">
+                                    <span data-i18n="settings.name_format"></span>
+                                    <small data-i18n="settings.name_format_help"></small>
+                                    <div class="name-format-editor">
+                                        <section class="name-format-group">
+                                            <header><strong data-i18n="settings.enabled_fields"></strong><span
+                                                    id="enabledNameFieldCount">0</span></header>
+                                            <div class="name-format-zone enabled" id="enabledNameFields"
+                                                 data-name-state="enabled"></div>
+                                        </section>
+                                        <section class="name-format-group">
+                                            <header><strong data-i18n="settings.disabled_fields"></strong><span
+                                                    id="disabledNameFieldCount">0</span></header>
+                                            <div class="name-format-zone" id="disabledNameFields"
+                                                 data-name-state="disabled"></div>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-rows">
+                                <div class="setting-row">
+                                    <div><strong data-i18n="settings.image_download"></strong><span
+                                            data-i18n="settings.image_download_help"></span></div>
+                                    <label class="toggle"><input id="settingsImageDownload" type="checkbox"><span
+                                            class="switch"></span></label></div>
+                                <div class="setting-row">
+                                    <div><strong data-i18n="settings.video_download"></strong><span
+                                            data-i18n="settings.video_download_help"></span></div>
+                                    <label class="toggle"><input id="settingsVideoDownload" type="checkbox"><span
+                                            class="switch"></span></label></div>
+                                <div class="setting-row">
+                                    <div><strong data-i18n="settings.live_download"></strong><span
+                                            data-i18n="settings.live_download_help"></span></div>
+                                    <label class="toggle"><input id="settingsLiveDownload" type="checkbox"><span
+                                            class="switch"></span></label></div>
+                            </div>
+                            <div class="field-grid select-grid">
+                                <label class="field"><span data-i18n="settings.image_format"></span><select
+                                        id="settingsImageFormat">
+                                    <option value="auto">AUTO</option>
+                                    <option value="png">PNG</option>
+                                    <option value="webp">WEBP</option>
+                                    <option value="jpeg">JPEG</option>
+                                    <option value="heic">HEIC</option>
+                                </select></label>
+                                <label class="field"><span data-i18n="settings.video_preference"></span><select
+                                        id="settingsVideoPreference">
+                                    <option value="resolution"
+                                            data-i18n="settings.video_preference_resolution"></option>
+                                    <option value="bitrate" data-i18n="settings.video_preference_bitrate"></option>
+                                    <option value="size" data-i18n="settings.video_preference_size"></option>
+                                </select></label>
+                                <label class="field"><span data-i18n="settings.note_format"></span><select
+                                        id="settingsNoteFormat">
+                                    <option value="" data-i18n="settings.note_format_none"></option>
+                                    <option value="txt">TXT</option>
+                                    <option value="md">Markdown</option>
+                                    <option value="all" data-i18n="settings.note_format_all"></option>
+                                </select></label>
+                            </div>
+                        </section>
+                        <section class="setting-group" id="archive-settings">
+                            <div class="group-heading"><h3 data-i18n="settings.archive"></h3></div>
+                            <div class="setting-rows">
+                                <div class="setting-row">
+                                    <div><strong data-i18n="settings.folder_mode"></strong><span
+                                            data-i18n="settings.folder_mode_help"></span></div>
+                                    <label class="toggle"><input id="settingsFolderMode" type="checkbox"><span
+                                            class="switch"></span></label></div>
+                                <div class="setting-row">
+                                    <div><strong data-i18n="settings.author_archive"></strong><span
+                                            data-i18n="settings.author_archive_help"></span></div>
+                                    <label class="toggle"><input id="settingsAuthorArchive" type="checkbox"><span
+                                            class="switch"></span></label></div>
+                                <div class="setting-row">
+                                    <div><strong data-i18n="settings.download_record"></strong><span
+                                            data-i18n="settings.download_record_help"></span></div>
+                                    <label class="toggle"><input id="settingsDownloadRecord" type="checkbox"><span
+                                            class="switch"></span></label></div>
+                                <div class="setting-row">
+                                    <div><strong data-i18n="settings.record_data"></strong><span
+                                            data-i18n="settings.record_data_help"></span></div>
+                                    <label class="toggle"><input id="settingsRecordData" type="checkbox"><span
+                                            class="switch"></span></label></div>
+                                <div class="setting-row">
+                                    <div><strong data-i18n="settings.write_mtime"></strong><span
+                                            data-i18n="settings.write_mtime_help"></span></div>
+                                    <label class="toggle"><input id="settingsWriteMtime" type="checkbox"><span
+                                            class="switch"></span></label></div>
+                            </div>
+                        </section>
+                        <section class="setting-group" id="network-settings">
+                            <div class="group-heading"><h3 data-i18n="settings.network"></h3></div>
+                            <div class="field-grid">
+                                <label class="field full"><span data-i18n="settings.cookie"></span><textarea
+                                        id="settingsCookie" rows="4" spellcheck="false"
+                                        autocomplete="off"></textarea></label>
+                                <label class="field full"><span data-i18n="settings.impersonate"></span><input
+                                        id="settingsImpersonate"
+                                                                                         type="text"></label>
+                                <label class="field"><span data-i18n="settings.proxy"></span><input id="settingsProxy"
+                                                                                                    type="text"
+                                                                                                    data-i18n-placeholder="settings.proxy_placeholder"></label>
+                                <label class="field"><span data-i18n="settings.timeout"></span>
+                                    <div class="suffix-input"><input id="settingsTimeout" type="number" min="1"><span
+                                            data-i18n="settings.second"></span>
+                                    </div>
+                                </label>
+                                <label class="field"><span data-i18n="settings.retry"></span>
+                                    <div class="suffix-input"><input id="settingsMaxRetry" type="number" min="0"><span
+                                            data-i18n="settings.times"></span>
+                                    </div>
+                                </label>
+                                <label class="field"><span data-i18n="settings.chunk"></span>
+                                    <div class="suffix-input wide-suffix"><input id="settingsChunkSize" type="number"
+                                                                                 min="1" step="1"><span
+                                            data-i18n="settings.byte"></span></div>
+                                    <small data-i18n="settings.chunk_help"></small></label>
+                            </div>
+                            <div class="setting-rows standalone">
+                                <div class="setting-row">
+                                    <div><strong data-i18n="settings.proxy_download"></strong></div>
+                                    <label class="toggle"><input id="settingsProxyDownload" type="checkbox"><span
+                                            class="switch"></span></label>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="setting-group" id="general-settings">
+                            <div class="group-heading"><h3 data-i18n="settings.general"></h3></div>
+                            <div class="field-grid select-grid general-grid">
+                                <label class="field"><span data-i18n="settings.language"></span><select
+                                        id="settingsLanguage">
+                                    <option value="zh_CN" data-i18n="settings.chinese"></option>
+                                    <option value="en_US" data-i18n="settings.english"></option>
+                                </select></label>
+                            </div>
+                            <div class="setting-rows standalone">
+                                <div class="setting-row">
+                                    <div><strong data-i18n="settings.script_server"></strong><span
+                                            data-i18n="settings.script_server_help"></span></div>
+                                    <label class="toggle"><input id="settingsScriptServer" type="checkbox"><span
+                                            class="switch"></span></label></div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </section>
+
+            <section class="view disclaimer-view" data-page="disclaimer">
+                <section class="surface disclaimer-panel">
+                    <pre class="disclaimer-text" data-i18n="disclaimer.content"></pre>
+                </section>
+            </section>
+
+            <section class="view about-view" data-page="about">
+                <section class="about-panel">
+                    <div class="about-identity">
+                        <img src="../XHS-Downloader.png" alt="XHS-Downloader">
+                        <div class="about-copy">
+                            <h2>XHS-Downloader</h2>
+                            <p data-i18n="about.description"></p>
+                        </div>
+                    </div>
+                    <div class="about-details">
+                        <div><span data-i18n="about.version"></span><strong id="aboutVersion">-</strong></div>
+                        <div><span data-i18n="about.author"></span><strong id="aboutAuthor">-</strong></div>
+                        <div><span data-i18n="about.license"></span><strong id="aboutLicense">-</strong></div>
+                        <div><span data-i18n="about.repository"></span>
+                            <button class="about-detail-link" type="button"
+                                    data-about-key="repository">
+                                <strong id="aboutRepository">-</strong>
+                                <svg>
+                                    <use href="#external"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="about-community">
+                        <p class="about-support" data-i18n="about.support"></p>
+                        <section class="about-link-group">
+                            <h3 data-i18n="about.community"></h3>
+                            <button class="about-link" type="button" data-about-key="discord">
+                                <span data-i18n="about.invite_link"></span>
+                                <strong>-</strong>
+                                <svg>
+                                    <use href="#external"/>
+                                </svg>
+                            </button>
+                        </section>
+                        <section class="about-link-group">
+                            <h3 data-i18n="about.other_projects"></h3>
+                            <button class="about-link" type="button" data-about-key="tk">
+                                <span data-i18n="about.project_tk"></span>
+                                <strong>-</strong>
+                                <svg>
+                                    <use href="#external"/>
+                                </svg>
+                            </button>
+                            <button class="about-link" type="button" data-about-key="ks">
+                                <span data-i18n="about.project_ks"></span>
+                                <strong>-</strong>
+                                <svg>
+                                    <use href="#external"/>
+                                </svg>
+                            </button>
+                        </section>
+                    </div>
+                    <div class="about-actions">
+                        <div class="about-update-result" id="aboutUpdateResult" hidden>
+                            <svg>
+                                <use href="#info"/>
+                            </svg>
+                            <span></span>
+                        </div>
+                        <button class="secondary-button" type="button" data-about-key="repository">
+                            <svg>
+                                <use href="#external"/>
+                            </svg>
+                            <span data-i18n="about.open_repository"></span></button>
+                        <button class="primary-button" id="pageCheckUpdate" type="button">
+                            <svg>
+                                <use href="#refresh"/>
+                            </svg>
+                            <span data-i18n="update.check"></span></button>
+                    </div>
+                </section>
+            </section>
+        </main>
+    </section>
+</div>
+
+<div class="toast-region" id="toastRegion"></div>
+
+<dialog class="modal disclaimer-modal" id="disclaimerModal" data-blocking="true">
+    <div class="modal-body">
+        <pre class="disclaimer-text" data-i18n="disclaimer.content"></pre>
+    </div>
+    <div class="modal-footer">
+        <button class="primary-button" type="button" id="acceptDisclaimer">
+            <svg>
+                <use href="#check"/>
+            </svg>
+            <span data-i18n="disclaimer.confirm"></span></button>
+        <button class="secondary-button" type="button" id="declineDisclaimer"
+                data-i18n="disclaimer.decline"></button>
+    </div>
+</dialog>
+
+<dialog class="modal compact-modal" id="recordModal">
+    <div class="modal-head">
+        <div><strong data-i18n="modal.delete_history"></strong></div>
+        <button class="icon-button" type="button" data-close-modal>
+            <svg>
+                <use href="#x"/>
+            </svg>
+        </button>
+    </div>
+    <div class="modal-body record-confirmation"><span class="confirm-icon"><svg><use href="#trash"/></svg></span>
+        <div><strong id="recordDeletePrompt"></strong>
+            <p data-i18n="modal.delete_history_warning"></p></div>
+    </div>
+    <div class="modal-footer">
+        <button class="secondary-button" type="button" data-close-modal data-i18n="modal.cancel"></button>
+        <button class="primary-button danger-button" type="button" id="confirmDeleteHistory">
+            <svg>
+                <use href="#trash"/>
+            </svg>
+            <span data-i18n="modal.confirm_delete"></span></button>
+    </div>
+</dialog>
+
+<script src="./app.js"></script>
+</body>
+</html>

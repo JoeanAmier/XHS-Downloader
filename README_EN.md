@@ -10,54 +10,53 @@
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/JoeanAmier/XHS-Downloader?style=flat-square&color=a29bfe">
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/XHS-Downloader?style=flat-square&color=48dbfb">
 <br>
-<img alt="Static Badge" src="https://img.shields.io/badge/Python-3.12-b8e994?style=flat-square&logo=python&labelColor=3dc1d3">
+<img alt="Static Badge" src="https://img.shields.io/badge/Python-≥3.12-b8e994?style=flat-square&logo=python&labelColor=3dc1d3">
 <img alt="Static Badge" src="https://img.shields.io/badge/UserScript-ffec3d?style=flat-square&logo=tampermonkey&logoColor=%2300485B">
 <img src="https://img.shields.io/badge/Sourcery-enabled-884898?style=flat-square&color=1890ff" alt="">
 <img alt="Static Badge" src="https://img.shields.io/badge/Docker-badc58?style=flat-square&logo=docker">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/XHS-Downloader/total?style=flat-square&color=ffdd59">
-</div>
 <br>
-<p>🔥 <b>RedNote Link Extraction/Content Collection Tool</b>：Extract account-published, favorites, and liked works links; extract search result works links and user links; collect RedNote works information; extract RedNote works download addresses; download RedNote watermark-free works files!</p>
-<p>🔥 "RedNote", "XiaoHongShu" and "小红书" have the same meaning, and this project is collectively referred to as "RedNote".</p>
-<p>⭐ Due to the author's limited energy, I was unable to update the English document in a timely manner, and the content may have become outdated, partial translation is machine translation, the translation result may be incorrect, Suggest referring to Chinese documentation. If you want to contribute to translation, we warmly welcome you.</p>
+<p>🔥 <b>XiaoHongShu (RedNote) link extraction / content collection tool!</b></p>
+</div>
+<hr>
 <h1>📑 Project Features</h1>
 <details>
 <summary>Program Features and User Script Features (Click to Expand)</summary>
 <ul><b>Program Features</b>
-<li>✅ Collect RedNote works information</li>
-<li>✅ Extract RedNote works download addresses</li>
-<li>✅ Download RedNote watermark-free works files</li>
-<li>✅ Download RedNote livePhoto files (watermark)</li>
-<li>✅ Automatically skip already downloaded works files</li>
-<li>✅ works file integrity handling mechanism</li>
-<li>✅ Customizable image works file download format</li>
-<li>✅ Persistently store works information to files</li>
-<li>✅ Store works files to a separate folder</li>
-<li>✅ Background clipboard monitoring for works download</li>
-<li>✅ Record downloaded works IDs</li>
-<li>✅ Support command line for downloading works files</li>
-<li>✅ Read cookies from browser</li>
+<li>✅ Collect RedNote notes information</li>
+<li>✅ Extract RedNote notes download addresses</li>
+<li>✅ Download RedNote notes files</li>
+<li>✅ Download RedNote livePhoto files</li>
+<li>✅ Automatically skip already downloaded notes files</li>
+<li>✅ notes file integrity handling mechanism</li>
+<li>✅ Customizable image notes file download format</li>
+<li>✅ Persistently store notes information to files</li>
+<li>✅ Store notes files to a separate folder</li>
+<li>✅ Background clipboard monitoring for notes download</li>
+<li>✅ Record downloaded notes IDs</li>
+<li>✅ Support command line for downloading notes files</li>
+<li>☑️ Read cookies from browser</li>
 <li>✅ Customizable file name format</li>
 <li>✅ Support API call functionality</li>
 <li>✅ Support MCP call functionality</li>
 <li>✅ Support file breakpoint resume download</li>
-<li>✅ Intelligent recognition of works file types</li>
+<li>✅ Intelligent recognition of notes file types</li>
 <li>✅ Supports author alias configuration</li>
 <li>✅ Automatic author nickname updates</li>
 </ul>
 <ul><a href="#user-scripts"><b>Script Features</b></a>
-<li>✅ Download RedNote watermark-free works files</li>
-<li>✅ Extract discovery page works links</li>
-<li>✅ Extract account-published works links</li>
-<li>✅ Extract account-favorited works links</li>
-<li>✅ Extract account-liked works links</li>
-<li>✅ Extract account-board works links</li>
-<li>✅ Extract search result works links</li>
+<li>✅ Download RedNote notes files</li>
+<li>✅ Extract discovery page notes links</li>
+<li>✅ Extract account-published notes links</li>
+<li>✅ Extract account-favorited notes links</li>
+<li>✅ Extract account-liked notes links</li>
+<li>✅ Extract account-board notes links</li>
+<li>✅ Extract search result notes links</li>
 <li>✅ Extract search result user links</li>
 </ul>
 </details>
 <h1>📸 Program Screenshots</h1>
-<p><a href="https://www.bilibili.com/video/BV1Fcb3zWEjt/">Watch Demo on Bilibili</a>；<a href="https://youtu.be/VIjDytHaopg">Watch Demo on YouTube</a></p>
+<p><a href="https://www.bilibili.com/video/BV1Rv8z62Ebx/">Watch Demo on Bilibili</a>；<a href="https://youtu.be/1WBKuLlOeNw">Watch Demo on YouTube</a></p>
 <img src="static/screenshot/程序运行截图EN1.png" alt="">
 <hr>
 <img src="static/screenshot/程序运行截图EN2.png" alt="">
@@ -65,27 +64,43 @@
 <img src="static/screenshot/程序运行截图EN3.png" alt="">
 <h1>🔗 Supported Links</h1>
 <ul>
-<li><code>https://www.xiaohongshu.com/explore/WorksID?xsec_token=XXX</code></li>
-<li><code>https://www.xiaohongshu.com/discovery/item/WorksID?xsec_token=XXX</code></li>
-<li><code>https://www.xiaohongshu.com/user/profile/AuthorID/WorksID?xsec_token=XXX</code></li>
+<li><code>https://www.xiaohongshu.com/explore/NoteID?xsec_token=XXX</code></li>
+<li><code>https://www.xiaohongshu.com/discovery/item/NoteID?xsec_token=XXX</code></li>
+<li><code>https://www.xiaohongshu.com/user/profile/AuthorID/NoteID?xsec_token=XXX</code></li>
 <li><code>https://xhslink.com/ShareCode</code></li>
 <br/>
-<p><b>Supports entering multiple works links at once, separated by spaces; the program will automatically extract valid links without additional processing!</b></p>
+<p><b>Supports entering multiple notes links at once, separated by spaces; the program will automatically extract valid links without additional processing!</b></p>
 </ul>
 <h1>🪟 About the Terminal</h1>
 <p>⭐ It is recommended to use the <a href="https://learn.microsoft.com/en-us/windows/terminal/install">Windows Terminal</a> (default terminal for Windows 11) to run the program for the best display effect!</p>
 <h1>🥣 Usage</h1>
-<p>If you only need to download watermark-free works files, it is recommended to choose <b>Program Run</b>; if you have other needs, it is recommended to choose <b>Source Code Run</b>!</p>
-<p>Starting from version <code>2.2</code>, if there are no abnormalities in project functionality, there is no need to handle cookies separately!</p>
+<p>If you only need to download notes files, it is recommended to choose <b>Program Run</b>; if you have other needs, it is recommended to choose <b>Source Code Run</b>!</p>
+<p>⚠️ Cookies are optional. If issues occur, please try configuring or updating them and retry!</p>
+<p>⚠️ When Cookie is not set, video works can only be downloaded in low resolution; it is recommended to configure Cookie to obtain higher quality (no need to log in to the account)!</p>
 <h2>🖱 Program Run</h2>
 <p>⭐ Mac OS, Windows 10 and above users can go to <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> or <a href="https://github.com/JoeanAmier/XHS-Downloader/actions">Actions</a> to download the program package, unzip it, open the program folder, and double-click to run <code>main</code> to use.</p>
 <p>⭐ This project includes GitHub Actions for automatic building executable files. Users can use GitHub Actions to build the latest source code into executable files at any time!</p>
 <p>⭐ For the automatic building executable files tutorial, please refer to the <code>Build of Executable File Guide</code> section of this document. If you need a more detailed step-by-step tutorial with illustrations, please <a href="https://mp.weixin.qq.com/s/TorfoZKkf4-x8IBNLImNuw">check out this article</a>!</p>
-<p><strong>Note: The executable file <code>main</code> for Mac OS may need to be launched from the terminal command line; Due to device limitations, the Mac OS executable file has not been tested and its availability cannot be guaranteed!</strong></p>
-<p>If you use the program in this way, the default download path for files is: <code>.\_internal\Volume\Download</code>; the configuration file path is: <code>.\_internal\Volume\settings.json</code></p>
+<p><strong>Note: Due to the macOS platform's executable file <code>main</code> not being code-signed, it will be restricted by system security measures on first run. Please execute the command <code>xattr -cr project_folder_path</code> in the terminal to remove the security flag, after which it can run normally.</strong></p>
+<p>If you use the program in this way, the default download path for files is: <code>.\Volume\Download</code>; the configuration file path is: <code>.\Volume\settings.json</code></p>
 <h3>Update Methods</h3>
-<p><strong>Method 1:</strong> Download and extract the files, then copy the old version of the <code>_internal\Volume</code> folder into the new version's <code>_internal</code> folder.</p>
+<p><strong>Method 1:</strong> Download and extract the files, then copy the old version's <code>Volume</code> folder into the new version's program root directory.</p>
 <p><strong>Method 2:</strong> Download and extract the files (do not run the program), then copy all files and directly overwrite the old version.</p>
+<h2>⌨️ Run from Source Code</h2>
+<ol>
+<li>Install <a href="https://www.python.org/">Python</a> interpreter version not lower than <code>3.12</code></li>
+<li>Download the latest source code or the source code released in <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to your local machine</li>
+<ol><b>Install project dependencies using pip</b>
+<li>Run the command <code>python -m venv venv</code> to create a virtual environment (optional)</li>
+<li>Run the command <code>.\venv\Scripts\activate.ps1</code> or <code>venv\Scripts\activate</code> to activate the virtual environment (optional)</li>
+<li>Run the command <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> to install the required modules for the program</li>
+<li>Run the command <code>python .\main.py</code> or <code>python main.py</code> to start XHS-Downloader</li>
+</ol>
+<ol><b>Install project dependencies using uv (recommended)</b>
+<li>Run the command <code>uv sync --no-dev</code> to synchronize environment dependencies</li>
+<li>Run the command <code>uv run main.py</code> to start XHS-Downloader</li>
+</ol>
+</ol>
 <h2>⌨️ Docker Run</h2>
 <ol>
 <li>Get Image</li>
@@ -108,23 +123,16 @@
 </ul>
 </li>
 </ol>
-<p>When running the project via Docker, the <b>command line call mode</b> is not supported. The <b>clipboard reading</b> and <b>clipboard monitoring</b> functions are unavailable, but pasting content works fine. Please provide feedback if other features are not functioning properly!</p>
-<h2>⌨️ Source Code Run</h2>
-<ol>
-
-[//]: # (<li>Install the Python interpreter with a version no lower than <code>3.12</code></li>)
-<li>Install Python interpreter with version <code>3.12</code></li>
-<li>Download the latest source code of this project or the source code released in <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> to your local machine</li>
-<li>Open the terminal and switch to the root path of the project</li>
-<li>Run the command <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> to install the required modules</li>
-<li>Run <code>main.py</code> to use</li>
-</ol>
+<p>When running the project via Docker, the <b>command line call mode</b> is not supported. The <b>clipboard reading</b> and <b>clipboard monitoring</b> functions are unavailable, but pasting content notes fine. Please provide feedback if other features are not functioning properly!</p>
 <h1>🛠 Command Line Mode</h1>
-<p>The project supports command line mode. If you want to download specific images from a text and image works, you can use this mode to set the image sequence number you want to download!</p>
-<p><strong>Note:</strong> When the <code>--index</code> parameter is not set, multiple works links can be passed in. All links must be enclosed in quotation marks and separated by spaces. When the <code>--index</code> parameter is set, multiple works links are not supported. Even if multiple links are passed in, the program will only process the first link!</p>
-<p>You can use the command line to <b>read cookies from the browser and write to the configuration file!</b></p>
-<p>Command example: <code>python .\main.py --browser_cookie Chrome --update_settings</code></p>
+<p>The project supports command line mode. If you want to download specific images from a text and image notes, you can use this mode to set the image sequence number you want to download!</p>
+<p><strong>Note:</strong> When the <code>--index</code> parameter is not set, multiple notes links can be passed in. All links must be enclosed in quotation marks and separated by spaces. When the <code>--index</code> parameter is set, multiple notes links are not supported. Even if multiple links are passed in, the program will only process the first link!</p>
 <p>The <code>bool</code> type parameters support setting with <code>true</code>, <code>false</code>, <code>1</code>, <code>0</code>, <code>yes</code>, <code>no</code>, <code>on</code> or <code>off</code> (case insensitive).</p>
+<h2>Read Browser Cookies</h2>
+<p>This feature is no longer available. Please refer to the <a href="#cookie">Obtain Cookie</a> tutorial!</p>
+<p><del>You can use the command line to <b>read cookies from browser and write them to the configuration file!</b></del></p>
+<p><del>Command example: <code>python .\main.py --browser_cookie Chrome --update_settings</code></del></p>
+<p><del>Compatibility note: The third-party module this feature depends on has not been updated for a long time and may not properly support the latest browser versions. If the feature is not working properly, please try obtaining cookies manually!</del></p>
 <hr>
 <img src="static/screenshot/命令行模式截图EN1.png" alt="">
 <hr>
@@ -155,19 +163,19 @@
 <tr>
 <td align="center">url</td>
 <td align="center">str</td>
-<td align="center">RedNote works link, auto-extraction, does not support multiple links; Required parameter</td>
+<td align="center">RedNote notes link, auto-extraction, does not support multiple links; Required parameter</td>
 <td align="center">None</td>
 </tr>
 <tr>
 <td align="center">download</td>
 <td align="center">bool</td>
-<td align="center">Whether to download the works file; set to <code>true</code> will take more time; Optional parameter</td>
+<td align="center">Whether to download the notes file; set to <code>true</code> will take more time; Optional parameter</td>
 <td align="center">false</td>
 </tr>
 <tr>
 <td align="center">index</td>
 <td align="center">list[int]</td>
-<td align="center">Download specific image files by index, only effective for text and image works; not effective when the <code>download</code> parameter is set to <code>false</code>; Optional parameter</td>
+<td align="center">Download specific image files by index, only effective for text and image notes; not effective when the <code>download</code> parameter is set to <code>false</code>; Optional parameter</td>
 <td align="center">null</td>
 </tr>
 <tr>
@@ -183,10 +191,10 @@
 <td align="center">Settings proxy Value</td>
 </tr>
 <tr>
-<td align="center">skip</td>
+<td align="center">check_record</td>
 <td align="center">bool</td>
-<td align="center">Whether to skip works with download records; set to <code>true</code> will not return works data with download records; Optional parameter</td>
-<td align="center">false</td>
+<td align="center">Whether to skip notes with existing download records; Optional parameter</td>
+<td align="center">true</td>
 </tr>
 </tbody>
 </table>
@@ -220,20 +228,21 @@ async def example_api():
 <h3>MCP Invocation Example</h3>
 <details>
 <summary>MCP Function and Call Example (Click to Expand)</summary>
-<h4><strong>Retrieve RedNote Works Information</strong></h4>
+<h4><strong>Retrieve RedNote Notes Information</strong></h4>
 <img src="static/screenshot/MCP获取数据.png" alt="MCP Data Retrieval">
 <hr>
-<h4><strong>Download RedNote Works Files</strong></h4>
+<h4><strong>Download RedNote Notes Files</strong></h4>
 <p>When downloading images, you can specify the sequence numbers of the images to download. By default, post information is not returned. If you need the post information, please explicitly state so during the conversation.</p>
 <img src="static/screenshot/MCP下载文件1.png" alt="MCP File Download">
 <hr>
 <img src="static/screenshot/MCP下载文件2.png" alt="MCP File Download">
 </details>
-<h1>📜 Others</h1>
+<h1>📜 Other instructions</h1>
 <ul>
-<li>Due to the date information carried in the links of RedNote works, using links obtained from previous dates may be subject to risk control. It is recommended to use the latest RedNote works links when downloading RedNote work files</li>
-<li>Windows system requires running programs as an administrator to read Chromium, Chrome, Edge browser cookies</li>
-<li>If the function to save works data to a file is enabled, the works data will be stored by default in the <code>./Volume/Download/ExploreData.db</code> file</li>
+<li>Due to the date information carried in the links of RedNote notes, using links obtained from previous dates may be subject to risk control. It is recommended to use the latest RedNote notes links when downloading RedNote work files</li>
+<li>If you want the program to use a proxy to request data, set the <code>proxy</code> parameter in the configuration file <code>settings.json</code></li>
+<li><del>Windows system requires running programs as an administrator to read Chromium, Chrome, Edge browser cookies</del></li>
+<li>If the function to save notes data to a file is enabled, the notes data will be stored by default in the <code>./Volume/Download/ExploreData.db</code> file</li>
 <li>The program's download records will be stored in the <code>./Volume/ExploreID.db</code> file</li>
 <li>To prevent high-frequency requests from impacting the platform's servers, this project includes a built-in request delay mechanism</li>
 </ul>
@@ -252,57 +261,70 @@ async def example_api():
 <hr>
 <img src="static/screenshot/用户脚本截图4.png" alt="">
 </details>
-<p>Note: Using the XHS-Downloader user script to batch extract works links, in combination with the XHS-Downloader program, can achieve batch downloading of watermark-free works files!</p>
+<p>Note: Using the XHS-Downloader user script to batch extract notes links, in combination with the XHS-Downloader program, can achieve batch downloading of notes files!</p>
+<p><b>Modify user script language</b></p>
+<img src="static/screenshot/脚本切换语言.png" alt="切换语言">
+<h2>🌐 Connect to Server</h2>
+<p>⭐ This project supports interaction with the main program through a browser userscript, enabling one-click push of download tasks.</p>
+<ul><b>Function Description:</b>
+<li>In the project program's configuration file, you need to set the <code>script_server</code> parameter to <code>true</code></li>
+<li>Keep the project program running in the background, where it will act as a server to receive commands from the userscript (TUI, MCP, and API modes are all supported)</li>
+<li>When you visit a post page in your browser, click the <code>Push Download Task</code> option in the userscript menu</li>
+<li>The userscript will send the download task to the project program, which will handle and download the files</li>
+</ul>
 <h2>📜 Script Instructions</h2>
 <ul>
-<li>When downloading watermark-free works from Xiaohongshu, the script requires time to process the files. Please wait for a moment and do not click the download button multiple times.</li>
-<li>Watermark-free image files are in PNG format; watermark-free video files are larger and may take longer to process. Page redirects may cause download failures.</li>
-<li>When extracting links for posts, collects, likes, and board from an account, the script can automatically scroll the page until all works are loaded.</li>
-<li>When extracting recommended works links, search works, and user links, the script can automatically scroll a specified number of times to load more content. The default number of page scrolls is 50.</li>
+<li>When downloading notes from RedNote, the script requires time to process the files. Please wait for a moment and do not click the download button multiple times.</li>
+<li>When extracting links for posts, collects, likes, and board from an account, the script can automatically scroll the page until all notes are loaded.</li>
+<li>When extracting recommended notes links, search notes, and user links, the script can automatically scroll a specified number of times to load more content. The default number of page scrolls is 50.</li>
 <li>The automatic scrolling page function is turned off by default; Users can freely open and modify the number of times the page is scrolled, and the modification will take effect immediately.</li>
 <li>If the automatic page scroll feature is not enabled, users need to manually scroll the page to load more content before performing other actions.</li>
-<li>Support packaging and downloading of work files; This feature is enabled by default, and works from multiple files will be downloaded in compressed file format</li>
+<li>Support packaging and downloading of work files; This feature is enabled by default, and notes from multiple files will be downloaded in compressed file format</li>
+<li>When pushing download tasks to the server, the file format, name rules, etc. settings will be based on the server configuration file settings</li>
 <li>Using global proxy tools may cause script download failures. If there are issues, please try disabling the proxy tool. If necessary, contact the author for feedback.</li>
 <li>XHS-Downloader userscript only implements the data collection functionality for visible content and does not include any paid or cracked features.</li>
 </ul>
-<p><strong>The automatic page scroll feature has been refactored and is turned off by default! Enabling this feature may be detected as automated behavior by Xiaohongshu, potentially resulting in account risk control or banning.</strong></p>
+<p><strong>The automatic page scroll feature has been refactored and is turned off by default! Enabling this feature may be detected as automated behavior by RedNote, potentially resulting in account risk control or banning.</strong></p>
 <h1>💻 Secondary Development</h1>
 <p>If you have other needs, you can perform code calls or modifications based on the comments in <code>example.py</code>!</p>
 <pre>
 async def example():
-    """通过代码设置参数，适合二次开发"""
-    # 示例链接
+    """Set parameters via code, suitable for secondary development"""
+    # Example link
     demo_link = "https://www.xiaohongshu.com/explore/XXX?xsec_token=XXX"
-    # 实例对象
-    work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
-    folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
+    # Create instance
+    work_path = "D:\\"  # Root path for saving note data/files, default: project root path
+    folder_name = "Download"  # Folder name for storing note files (auto-created), default: Download
     name_format = "作品标题 作品描述"
-    user_agent = ""  # User-Agent
-    cookie = ""  # 小红书网页版 Cookie，无需登录，可选参数，登录状态对数据采集有影响
-    proxy = None  # 网络代理
-    timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
-    chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
-    max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，默认值：5
-    record_data = False  # 是否保存作品数据至文件
-    image_format = "WEBP"  # 图文作品文件下载格式，支持：AUTO、PNG、WEBP、JPEG、HEIC
-    folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
-    image_download = True  # 图文、图集作品文件下载开关
-    video_download = True  # 视频作品文件下载开关
-    live_download = False  # 图文动图文件下载开关
-    download_record = True  # 是否记录下载成功的作品 ID
-    language = "zh_CN"  # 设置程序提示语言
-    author_archive = True  # 是否将每个作者的作品存至单独的文件夹
-    write_mtime = True  # 是否将作品文件的 修改时间 修改为作品的发布时间
-    read_cookie = None  # 读取浏览器 Cookie，支持设置浏览器名称（字符串）或者浏览器序号（整数），设置为 None 代表不读取
+    impersonate = "chrome146"  # Browser Impersonate Targets
+    cookie = ""  # Xiaohongshu web Cookie
+    proxy = None  # Network proxy
+    proxy_download = False  # Whether to use the network proxy from the proxy parameter when downloading files
+    timeout = 5  # Request timeout limit, unit: seconds
+    chunk = 1024 * 1024 * 10  # Data chunk size fetched from server per download, unit: bytes
+    max_retry = 2  # Maximum retry count on request failure, unit: retries
+    record_data = False  # Whether to save note data to file
+    image_format = "WEBP"  # Image note download format, supports: AUTO, PNG, WEBP, JPEG, HEIC
+    folder_mode = False  # Whether to store each note's files in a separate folder
+    image_download = True  # Image/album note download switch
+    video_download = True  # Video note download switch
+    live_download = False  # Image GIF file download switch
+    download_record = True  # Whether to record successfully downloaded note IDs
+    language = "zh_CN"  # Set program prompt language
+    author_archive = True  # Whether to store each author's notes in a separate folder
+    write_mtime = True  # Whether to set file modification time to note publish time
+    note_format = ""  # Note info save format, supports: txt, md, all, empty means not saved
+    # read_cookie = None  # Read browser Cookie, supports browser name (string) or index (integer), set to None to disable
     # async with XHS() as xhs:
-    #     pass  # 使用默认参数
+    #     pass  # Use default parameters
     async with XHS(
         work_path=work_path,
         folder_name=folder_name,
         name_format=name_format,
-        user_agent=user_agent,
+        impersonate=impersonate,
         cookie=cookie,
         proxy=proxy,
+        proxy_download=proxy_download,
         timeout=timeout,
         chunk=chunk,
         max_retry=max_retry,
@@ -314,13 +336,14 @@ async def example():
         live_download=live_download,
         download_record=download_record,
         language=language,
-        read_cookie=read_cookie,
+        # read_cookie=read_cookie,
         author_archive=author_archive,
         write_mtime=write_mtime,
-    ) as xhs:  # 使用自定义参数
-        download = True  # 是否下载作品文件，默认值：False
-        # 返回作品详细信息，包括下载地址
-        # 获取数据失败时返回空字典
+        note_format=note_format,
+    ) as xhs:  # Use custom parameters
+        download = True  # Whether to download note files, default: False
+        # Returns note details including download URLs
+        # Returns empty dict on data fetch failure
         print(
             await xhs.extract(
                 demo_link,
@@ -340,8 +363,8 @@ async def example():
 <p>On Linux, this module makes use of the xclip or xsel commands, which should come with the os. Otherwise run "sudo apt-get install xclip" or "sudo apt-get install xsel" (Note: xsel does not always seem to work.)</p>
 <p>Otherwise on Linux, you will need the qtpy or PyQT5 modules installed.</p>
 <h1>⚙️ Configuration File</h1>
-<p>The <code>settings.json</code> file in the root directory of the project is automatically generated on the first run and allows customization of some runtime parameters.</p>
-<p>If invalid parameter values are set, the program will use the default values!</p>
+<p>The <code>./Volume/settings.json</code> file in the project's root directory is automatically generated on the first run. You can use it to customize the program's operating parameters. If an invalid parameter value is set, the program will revert to its default value.</p>
+<p>If you are unable to modify settings through the program's interface, you can edit this configuration file directly. If your computer lacks a suitable program for editing JSON files, we recommend using an <a href="https://www.toolhelper.cn/JSON/JSONFormat">online tool</a>. Remember to restart the software after making changes for them to take effect.</p>
 <table>
 <thead>
 <tr>
@@ -361,26 +384,26 @@ async def example():
 <tr>
 <td align="center">work_path</td>
 <td align="center">str</td>
-<td align="center">Root path for saving works data/files</td>
+<td align="center">Root path for saving notes data/files</td>
 <td align="center">Project root path/Volume</td>
 </tr>
 <tr>
 <td align="center">folder_name</td>
 <td align="center">str</td>
-<td align="center">Name of the folder for storing works files</td>
+<td align="center">Name of the folder for storing notes files</td>
 <td align="center">Download</td>
 </tr>
 <tr>
 <td align="center">name_format</td>
 <td align="center">str</td>
-<td align="center"><sup><a href="#fields">#</a></sup>Format of works file name, separated by spaces between fields, supports fields: <code>收藏数量</code>、<code>评论数量</code>、<code>分享数量</code>、<code>点赞数量</code>、<code>作品标签</code>、<code>作品ID</code>、<code>作品标题</code>、<code>作品描述</code>、<code>作品类型</code>、<code>发布时间</code>、<code>最后更新时间</code>、<code>作者昵称</code>、<code>作者ID</code></td>
+<td align="center"><sup><a href="#fields">#</a></sup>Format of notes file name, separated by spaces between fields, supports fields: <code>收藏数量</code>、<code>评论数量</code>、<code>分享数量</code>、<code>点赞数量</code>、<code>作品标签</code>、<code>作品ID</code>、<code>作品标题</code>、<code>作品描述</code>、<code>作品类型</code>、<code>发布时间</code>、<code>最后更新时间</code>、<code>作者昵称</code>、<code>作者ID</code></td>
 <td align="center"><code>发布时间 作者昵称 作品标题</code></td>
 </tr>
 <tr>
-<td align="center">user_agent</td>
+<td align="center">impersonate</td>
 <td align="center">str</td>
-<td align="center">Browser User Agent</td>
-<td align="center">Built-in Chrome User Agent</td>
+<td align="center">Browser Impersonate Targets, refer to <a href="https://curl-cffi.readthedocs.io/en/latest/impersonate/targets.html">curl_cffi documentation</a></td>
+<td align="center">chrome146</td>
 </tr>
 <tr>
 <td align="center">cookie</td>
@@ -393,6 +416,12 @@ async def example():
 <td align="center">str</td>
 <td align="center">Set program proxy</td>
 <td align="center">null</td>
+</tr>
+<tr>
+<td align="center">proxy_download</td>
+<td align="center">bool</td>
+<td align="center">Whether to use the network proxy from the proxy parameter when downloading files</td>
+<td align="center">false</td>
 </tr>
 <tr>
 <td align="center">timeout</td>
@@ -415,25 +444,25 @@ async def example():
 <tr>
 <td align="center">record_data</td>
 <td align="center">bool</td>
-<td align="center">Whether to save works data to a file, saved in <code>SQLite</code> format</td>
+<td align="center">Whether to save notes data to <code>SQLite</code> database (all notes saved together)</td>
 <td align="center">false</td>
 </tr>
 <tr>
 <td align="center">image_format</td>
 <td align="center">str</td>
-<td align="center">Download format for image works files, supported: <code>AUTO</code>、<code>PNG</code>、<code>WEBP</code>、<code>JPEG</code>、<code>HEIC</code><br><strong>Some works do not have files in HEIC format, and the downloaded files may be in WEBP format</strong><br><strong>When set to<code>AUTO</code>, it represents dynamic format, and the actual format depends on the server's response data</strong></td>
-<td align="center">PNG</td>
+<td align="center">Download format for image notes files, supported: <code>AUTO</code>、<code>PNG</code>、<code>WEBP</code>、<code>JPEG</code>、<code>HEIC</code><br><strong>Some notes do not have files in HEIC format, and the downloaded files may be in WEBP format</strong><br><strong>When set to<code>AUTO</code>, it represents dynamic format, and the actual format depends on the server's response data</strong></td>
+<td align="center">JPEG</td>
 </tr>
 <tr>
 <td align="center">image_download</td>
 <td align="center">bool</td>
-<td align="center">Switch for downloading image and atlas works files</td>
+<td align="center">Switch for downloading image and atlas notes files</td>
 <td align="center">true</td>
 </tr>
 <tr>
 <td align="center">video_download</td>
 <td align="center">bool</td>
-<td align="center">Switch for downloading video works files</td>
+<td align="center">Switch for downloading video notes files</td>
 <td align="center">true</td>
 </tr>
 <tr>
@@ -443,27 +472,33 @@ async def example():
 <td align="center">false</td>
 </tr>
 <tr>
+<td align="center">video_preference</td>
+<td align="center">str</td>
+<td align="center">Video notes file download preference; Meaning: <code>resolution</code>: resolution priority; <code>bitrate</code>: bitrate priority; <code>size</code>: file size priority</td>
+<td align="center">resolution</td>
+</tr>
+<tr>
 <td align="center">folder_mode</td>
 <td align="center">bool</td>
-<td align="center">Whether to store each works files in a separate folder; the folder name matches the file name</td>
+<td align="center">Whether to store each notes files in a separate folder; the folder name matches the file name</td>
 <td align="center">false</td>
 </tr>
 <tr>
 <td align="center">download_record</td>
 <td align="center">bool</td>
-<td align="center">Do record the ID of successfully downloaded works? If enabled, the program will automatically skip downloading works with records</td>
+<td align="center">Do record the ID of successfully downloaded notes? If enabled, the program will automatically skip downloading notes with records</td>
 <td align="center">true</td>
 </tr>
 <tr>
 <td align="center">author_archive</td>
 <td align="center">bool</td>
-<td align="center"><sup><a href="#author_archive">#</a></sup>Whether to save each author's works into a separate folder; The folder name is <code>authorID_nickname</code></td>
+<td align="center"><sup><a href="#author_archive">#</a></sup>Whether to save each author's notes into a separate folder; The folder name is <code>authorID_nickname</code></td>
 <td align="center">false</td>
 </tr>
 <tr>
 <td align="center">write_mtime</td>
 <td align="center">bool</td>
-<td align="center">Whether to modify the <code>modified time</code> attribute of the works file to the publication time of the works.</td>
+<td align="center">Whether to modify the <code>modified time</code> attribute of the notes file to the publication time of the notes.</td>
 <td align="center">false</td>
 </tr>
 <tr>
@@ -471,6 +506,18 @@ async def example():
 <td align="center">str</td>
 <td align="center">Set program language. Currently supported: <code>zh_CN</code>, <code>en_US</code></td>
 <td align="center">zh_CN</td>
+</tr>
+<tr>
+<td align="center">script_server</td>
+<td align="center">bool</td>
+<td align="center">Whether to enable the user script server for receiving download tasks from the browser user script (effective in TUI, MCP, and API modes)</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">note_format</td>
+<td align="center">str</td>
+<td align="center">Note info save format (each note saved individually); meaning: <code>txt</code>: plain text; <code>md</code>: Markdown; <code>all</code>: all formats; empty means not saved</td>
+<td align="center">Empty string</td>
 </tr>
 </tbody>
 </table>
@@ -482,11 +529,11 @@ async def example():
 <li><code>评论数量</code>: Number of Comments</li>
 <li><code>分享数量</code>: Number of Shares</li>
 <li><code>点赞数量</code>: Number of Likes</li>
-<li><code>作品标签</code>: Works Tags</li>
-<li><code>作品ID</code>: Works ID</li>
-<li><code>作品标题</code>: Works Title</li>
-<li><code>作品描述</code>: Works Description</li>
-<li><code>作品类型</code>: Works Type</li>
+<li><code>作品标签</code>: Notes Tags</li>
+<li><code>作品ID</code>: Notes ID</li>
+<li><code>作品标题</code>: Notes Title</li>
+<li><code>作品描述</code>: Notes Description</li>
+<li><code>作品类型</code>: Notes Type</li>
 <li><code>发布时间</code>: Publish Time</li>
 <li><code>最后更新时间</code>: Last Updated Time</li>
 <li><code>作者昵称</code>: Author Nickname</li>
@@ -495,14 +542,10 @@ async def example():
 </div>
 <hr>
 <div id="author_archive">
-<p>When <code>author_archive</code> is set to <code>true</code>, the program will store each author's works in dedicated folders. If an author's nickname changes, the program automatically updates the nickname portion in existing downloaded filenames!</p>
+<p>When <code>author_archive</code> is set to <code>true</code>, the program will store each author's notes in dedicated folders. If an author's nickname changes, the program automatically updates the nickname portion in existing downloaded filenames!</p>
 <p>Additionally, you can configure author aliases through the <code>mapping_data</code> parameter. When an alias is set, the program will use your custom alias instead of the original nickname in filenames!</p>
 </div>
-<hr>
-<p><b>Additional Notes: The parameters <code>user_agent</code> examples are provided for reference; Strongly recommend setting according to actual browser information!</b></p>
-<img src="static/screenshot/请求头示例图.png" alt="">
-<h1>🌐 Cookie</h1>
-<p>Starting from version <code>2.2</code>, if there are no abnormalities in project functionality, there is no need to handle cookies separately!</p>
+<h1 id="cookie">🌐 Cookie</h1>
 <ol>
 <li>Open the browser (optional: start in incognito mode) and visit <code>https://www.xiaohongshu.com/explore</code></li>
 <li>Log in to your RedNote account (can be skipped)</li>
@@ -511,14 +554,14 @@ async def example():
 <li>Check <code>Preserve log</code></li>
 <li>In the <code>Filter</code> input box, enter <code>cookie-name:web_session</code></li>
 <li>Select the <code>Fetch/XHR</code> filter</li>
-<li>Click on any piece of works on the RedNote page</li>
+<li>Click on any piece of notes on the RedNote page</li>
 <li>In the <code>Network</code> tab, select any data packet (if no packets appear, repeat step 7)</li>
 <li>Copy and paste the entire Cookie into the program or configuration file</li>
 </ol>
 <br>
 <img src="static/screenshot/获取Cookie示意图.png" alt="">
 <h1>🗳 Download Records</h1>
-<p>XHS-Downloader will store the IDs of downloaded works in a database. When downloading the same works again, XHS-Downloader will automatically skip the file download (even if the works file does not exist). If you want to re-download the works file, please delete the corresponding works ID from the database and then use XHS-Downloader to download the works file again!</p>
+<p>XHS-Downloader will store the IDs of downloaded notes in a database. When downloading the same notes again, XHS-Downloader will automatically skip the file download (even if the notes file does not exist). If you want to re-download the notes file, please delete the corresponding notes ID from the database and then use XHS-Downloader to download the notes file again!</p>
 <p>This feature is enabled by default. If it is turned off, XHS-Downloader will check if the file exists. If the file exists, it will skip the download!</p>
 <h2>Build of Executable File Guide</h2>
 <details>
@@ -611,12 +654,15 @@ A: Due to permission restrictions, you cannot directly trigger Actions from the 
 repository to execute the build process
 
 </details>
-<h1>⭐ Star History</h1>
-<p>
-<img alt="Star History Chart" src="https://api.star-history.com/svg?repos=JoeanAmier/XHS-Downloader&amp;type=Timeline"/>
-</p>
+
+# 💝 Project Sponsorship
+
+## DartNode
+
+[![Powered by DartNode](static/other/DartNode_AD.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
+
 <h1>♥️ Support the Project</h1>
-<p>If <b>XHS-Downloader</b> has been helpful to you, please consider giving it a <b>Star</b> ⭐. Thank you for your support!</p>
+<p>If <b>XHS-Downloader</b> has been helpful to you, please consider giving it a <b>Star</b> ⭐, Thank you for your support!</p>
 <table>
 <thead>
 <tr>
@@ -659,19 +705,10 @@ repository to execute the build process
 <li><b>DouK-Downloader（抖音、TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
 <li><b>KS-Downloader（快手、KuaiShou）</b>：<a href="https://github.com/JoeanAmier/KS-Downloader">https://github.com/JoeanAmier/KS-Downloader</a></li>
 </ul>
-
-# 💰 Project Sponsorship
-
-## DartNode
-
-[![Powered by DartNode](https://dartnode.com/branding/DN-Open-Source-sm.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
-
-***
-
-## ZMTO
-
-<a href="https://www.zmto.com/"><img src="https://console.zmto.com/templates/2019/dist/images/logo_dark.svg" alt="ZMTO"></a>
-<p><a href="https://www.zmto.com/">ZMTO</a>: A professional cloud infrastructure provider offering sophisticated solutions with reliable technology and expert support. We also empower qualified open source initiatives with enterprise-grade VPS infrastructure, driving sustainable development and innovation in the open source ecosystem. </p>
+<h1>⭐ Star History</h1>
+<p>
+<img alt="Star History Chart" src="https://api.star-history.com/chart?repos=JoeanAmier/XHS-Downloader&type=timeline&legend=bottom-right&sealed_token=ZDTLh76ddaIS6ETR6NSuijagJA79HsTOsW-cTmNd8i7MHejvjsI_D6UaNW2JU-H4gEbmrNOPDssMQpIRvGh8dfn6Gz-QmUnD3BhdMbpcet3YWyisu2sJOq4VGJzyVTf78-JfuKGfbJvH-NEUtu5qQDvypXM9O6kP8i1K27YE9ZoTpYnmKKlHfTMNoDXT" />
+</p>
 <h1>⚠️ Disclaimer</h1>
 <ol>
 <li>The user's use of this project is entirely at their own discretion and responsibility. The author assumes no liability for any losses, claims, or risks arising from the user's use of this project.</li>
@@ -685,19 +722,19 @@ repository to execute the build process
 <li>The author of this project will not provide a paid version of the XHS-Downloader project, nor will they offer any commercial services related to the XHS-Downloader project.</li>
 <li>Any secondary development, modification, or compilation based on this project is unrelated to the original author. The original author assumes no liability for any consequences resulting from such secondary development. Users bear full responsibility for all outcomes arising from such modifications.</li>
 <li>This project grants no patent licenses; if the use of this project leads to patent disputes or infringement, the user bears all associated risks and responsibilities. Without written authorization from the author or rights holder, users may not use this project for any commercial promotion, marketing, or re-licensing.</li>
-<li>The author reserves the right to terminate service to any user who violates this disclaimer at any time and may require them to destroy all obtained code and derivative works.</li>
+<li>The author reserves the right to terminate service to any user who violates this disclaimer at any time and may require them to destroy all obtained code and derivative notes.</li>
 <li>The author reserves the right to update this disclaimer at any time without prior notice. Continued use of the project constitutes acceptance of the revised terms.</li>
 </ol>
 <b>Before using the code and functionalities of this project, please carefully consider and accept the above disclaimer. If you have any questions or disagree with the statement, please do not use the code and functionalities of this project. If you use the code and functionalities of this project, it is considered that you fully understand and accept the above disclaimer, and willingly assume all risks and consequences associated with the use of this project.</b>
 
 # 💡 Project References
 
-* https://github.com/encode/httpx/
+* https://github.com/lexiforest/curl_cffi
 * https://github.com/tiangolo/fastapi
 * https://github.com/textualize/textual/
+* https://github.com/marcelotduarte/cx_Freeze/
 * https://github.com/jlowin/fastmcp
 * https://github.com/omnilib/aiosqlite
-* https://github.com/thewh1teagle/rookie
 * https://github.com/carpedm20/emoji/
 * https://github.com/asweigart/pyperclip
 * https://github.com/lxml/lxml

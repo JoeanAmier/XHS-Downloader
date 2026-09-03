@@ -5,9 +5,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: XHS-Downloader 2.6\n"
+"Project-Id-Version: XHS-Downloader 2.8\n"
 "Report-Msgid-Bugs-To: <yonglelolu@foxmail.com>\n"
-"POT-Creation-Date: 2025-08-10 23:34+0800\n"
+"POT-Creation-Date: 2026-08-21 19:27+0800\n"
 "PO-Revision-Date: 2024-12-22 14:14+0800\n"
 "Last-Translator: <yonglelolu@foxmail.com>\n"
 "Language-Team: English\n"
@@ -17,146 +17,148 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:181
-#, python-brace-format
-msgid "作品 {0} 存在下载记录，跳过下载"
-msgstr "works {0} has a download record, skip download"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:198
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:275
 msgid "提取作品文件下载地址失败"
-msgstr "Failed to extract the download address for the RedNote works files"
+msgstr "Failed to extract the download address for the RedNote notes files"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:228
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:255
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:598
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:785
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:314
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:370
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:831
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:1018
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:348
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:184
 msgid "提取小红书作品链接失败"
-msgstr "Failed to extract the links for RedNote works"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:230
-#, python-brace-format
-msgid "共 {0} 个小红书作品待处理..."
-msgstr "{0} works from RedNote are awaiting processing..."
+msgstr "Failed to extract the links for RedNote notes"
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:317
 #, python-brace-format
-msgid "作品 {0} 存在下载记录，跳过处理"
-msgstr "Works {0} has a download record, skip processing"
+msgid "共 {0} 个小红书作品待处理..."
+msgstr "{0} notes from RedNote are awaiting processing..."
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:320
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:351
+#, python-brace-format
+msgid "共处理 {0} 个作品，成功 {1} 个，失败 {2} 个，跳过 {3} 个"
+msgstr "Processed a total of {0} notes: {1} succeeded, {2} failed, {3} skipped"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:439
 #, python-brace-format
 msgid "开始处理作品：{0}"
-msgstr "Start processing the works: {0}"
+msgstr "Start processing note: {0}"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:329
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:447
 #, python-brace-format
 msgid "{0} 获取数据失败"
 msgstr "{0} failed to retrieve data"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:334
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:461
+#, python-brace-format
+msgid "作品 {0} 存在下载记录，跳过处理"
+msgstr "Note {0} has a download record, skip processing"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:474
 #, python-brace-format
 msgid "{0} 提取数据失败"
 msgstr "{0} failed to extract data"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:336
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:490
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:83
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:79
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:81
 msgid "视频"
 msgstr "video"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:339
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:91
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:80
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:493
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:90
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:82
 msgid "图文"
 msgstr "image"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:340
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:92
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:79
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:494
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:91
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:81
 msgid "图集"
-msgstr "LivePhoto"
+msgstr "album"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:344
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:498
 #, python-brace-format
 msgid "未知的作品类型：{0}"
-msgstr "Unknown works type: {0}"
+msgstr "Unknown note type: {0}"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:349
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:564
 #, python-brace-format
 msgid "作品处理完成：{0}"
-msgstr "works processing completed: {0}"
+msgstr "Note processing completed: {0}"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:427
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:57
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:693
 msgid ""
 "程序会自动读取并提取剪贴板中的小红书作品链接，并自动下载链接对应的作品文件，"
 "如需关闭，请点击关闭按钮，或者向剪贴板写入 “close” 文本！"
 msgstr ""
-"The program will automatically read and extract the link to RedNote works "
+"The program will automatically read and extract the link to RedNote notes "
 "from the clipboard, and automatically download the corresponding work file. "
 "If you want to close it, please click the close button or write the "
 "\"close\" text to the clipboard!"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:569
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:799
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:159
 msgid "跳转至项目 GitHub 仓库"
 msgstr "Jump to the project's GitHub repository"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:570
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:800
 msgid "重定向至项目 GitHub 仓库主页"
 msgstr "Redirect to the project's GitHub repository homepage"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:578
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:808
 msgid "获取作品数据及下载地址"
-msgstr "Fetch works data and download links"
+msgstr "Fetch note data and download links"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:610
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:795
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:841
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:1025
 msgid "获取小红书作品数据成功"
-msgstr "Successfully obtained data on RedNote works"
+msgstr "Successfully obtained data on RedNote note"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:612
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:797
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:843
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:1027
 msgid "获取小红书作品数据失败"
-msgstr "Failed to obtain data on RedNote works"
+msgstr "Failed to obtain data on RedNote note"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:682
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:727
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:913
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:958
 msgid "小红书作品链接"
-msgstr "Link to RedNote works"
+msgstr "Link to RedNote notes"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:730
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:961
 msgid "指定需要下载的图文作品序号"
-msgstr "Specify the serial number of the images works to be downloaded"
+msgstr "Specify the serial number of the images notes to be downloaded"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:734
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:965
 msgid "是否需要返回作品信息数据"
-msgstr "Whether to return works information data"
+msgstr "Whether to return notes information data"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:748
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:753
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:979
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:984
 msgid "作品文件下载任务执行完毕"
-msgstr "Works file download task completed"
+msgstr "Note file download task completed"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:758
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:763
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:989
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\app.py:994
 msgid "作品文件下载任务未执行"
-msgstr "Works file download task not executed"
+msgstr "Note file download task not executed"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:133
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:134
 msgid "视频作品下载功能已关闭，跳过下载"
-msgstr "The video download function has been turned off, skip download"
+msgstr "Video download function is disabled, skipping download"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:150
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:153
 msgid "图文作品下载功能已关闭，跳过下载"
-msgstr "The image download function has been turned off, skip download"
+msgstr "Image download function is disabled, skipping download"
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:185
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:196
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:195
 #, python-brace-format
 msgid "{0} 文件已存在，跳过下载"
 msgstr "{0} already exists, skipping download"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:242
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:239
 #, python-brace-format
 msgid "文件 {0} 缓存异常，重新下载"
 msgstr "File {0} cache exception, download again"
@@ -164,135 +166,151 @@ msgstr "File {0} cache exception, download again"
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:270
 #, python-brace-format
 msgid "文件 {0} 下载成功"
-msgstr "file {0} download successful"
+msgstr "File {0} downloaded successfully"
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:276
 #, python-brace-format
 msgid "网络异常，{0} 下载失败，错误信息: {1}"
 msgstr "Network error, {0} download failed, error message: {1}"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:353
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\download.py:355
 #, python-brace-format
 msgid "文件 {0} 格式判断失败，错误信息：{1}"
 msgstr "Format recognition failed for file {0}, error message: {1}"
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:53
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:58
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:77
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\explore.py:79
 msgid "未知"
-msgstr "unknown"
+msgstr "Unknown"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\request.py:65
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\application\request.py:62
 #, python-brace-format
 msgid "网络异常，{0} 请求失败: {1}"
 msgstr "Network error, {0} request failed: {1}"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:124
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:130
 msgid "小红书作品链接，多个链接使用空格分隔"
-msgstr "RedNote works links, separate multiple links with spaces"
+msgstr "RedNote notes links, separate multiple links with spaces"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:131
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:137
 msgid ""
 "下载指定序号的图片文件，仅对图文/图集作品生效；多个序号输入示例：\"1 3 5 7\""
 msgstr ""
-"Download images files with specified serial numbers, only effective for images "
-"works; Example of multiple serial numbers input: \"1 3 5 7\""
+"Download images files with specified serial numbers, only effective for "
+"images notes; Example of multiple serial numbers input: \"1 3 5 7\""
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:136
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:142
 msgid "作品数据/文件保存根路径"
-msgstr "Root path for saving works data / files"
+msgstr "Root path for saving notes data / files"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:137
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:40
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:143
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:41
 msgid "作品文件储存文件夹名称"
-msgstr "Name of the folder for storing works files"
+msgstr "Name of the folder for storing note files"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:138
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:49
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:144
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:97
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:50
 msgid "作品文件名称格式"
-msgstr "Format of works file name"
+msgstr "Format of note file name"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:140
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:145
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:133
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:60
+msgid "浏览器模拟目标"
+msgstr "Browser Impersonate Targets"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:146
 msgid "小红书网页版 Cookie，无需登录"
-msgstr "RedNote web version cookie, no need to log in"
+msgstr "RedNote web cookie, no login required"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:141
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:78
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:147
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:135
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:79
 msgid "网络代理"
 msgstr "Network proxy"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:142
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:88
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:152
+msgid "下载文件时，是否使用 proxy 参数的网络代理"
+msgstr "Whether to use the network proxy from the proxy parameter when downloading files"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:154
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:89
 msgid "请求数据超时限制，单位：秒"
 msgstr "Network request timeout limit, in seconds"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:148
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:98
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:160
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:99
 msgid "下载文件时，每次从服务器获取的数据块大小，单位：字节"
 msgstr ""
 "When downloading a file, the size of the data block obtained from the server "
 "each time, in bytes"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:151
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:108
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:163
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:140
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:109
 msgid "请求数据失败时，重试的最大次数"
 msgstr "The maximum number of retries when data request fails"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:152
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:164
 msgid "是否记录作品数据至文件"
-msgstr "Record works data to file"
+msgstr "Record notes data to file"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:157
-msgid "图文作品文件下载格式，支持：PNG、WEBP"
-msgstr "Image works file download format, supporting: PNG, WEBP"
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:169
+msgid "图文作品文件下载格式，支持：PNG、WEBP、JPEG、HEIC、AUTO"
+msgstr ""
+"Image note file download format, supporting: PNG, WEBP, JPEG, HEIC, AUTO"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:159
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:171
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:105
 msgid "动态图片下载开关"
 msgstr "LivePhoto download switch"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:160
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:149
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:176
+msgid "视频下载偏好，支持：resolution、bitrate、size"
+msgstr "Video download preference, supports: resolution, bitrate, size"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:178
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:121
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:150
 msgid "作品下载记录开关"
 msgstr "Download record switch"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:165
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:183
 msgid "是否将每个作品的文件储存至单独的文件夹"
-msgstr "Whether to save each work's files into separate folders"
+msgstr "Whether to save each note's files into separate folders"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:171
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:189
 msgid "是否将每个作者的作品储存至单独的文件夹"
-msgstr "Whether to save each author's works into separate folders"
+msgstr "Whether to save each author's notes into separate folders"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:178
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:196
 msgid "是否将作品文件的修改时间属性修改为作品的发布时间"
 msgstr ""
-"Would you like to set the file's modified time attribute to match the work's "
-"publication time"
+"Whether to set the file's modification time to the note's publication time"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:182
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:204
+msgid "作品信息保存格式，支持：txt、md、all"
+msgstr "Note information save format, supports: txt, md, all"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:206
 msgid "设置程序语言，目前支持：zh_CN、en_US"
-msgstr "Set the programming language, currently supports: zh_CN、en_US"
+msgstr "Set the program language, currently supports: zh_CN, en_US"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:183
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:207
 msgid "读取指定配置文件"
 msgstr "Read specified configuration file"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:190
-#, python-brace-format
-msgid "从指定的浏览器读取小红书网页版 Cookie，支持：{0}; 输入浏览器名称或序号"
-msgstr ""
-"Read RedNote web version cookies from the specified browser, supporting: "
-"{0}; Enter browser name or serial number"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:203
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:227
 msgid "是否更新配置文件"
-msgstr "Do you need to update the configuration file"
+msgstr "Whether to update the configuration file"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:204
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:228
 msgid "查看详细参数说明"
 msgstr "View detailed parameter descriptions"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:205
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\CLI\main.py:229
 msgid "查看 XHS-Downloader 版本"
 msgstr "View XHS Downloader Version"
 
@@ -336,173 +354,622 @@ msgstr ""
 "Unsupported operating system type, may not be able to remove illegal "
 "characters properly!"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:232
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:70
 #, python-brace-format
-msgid "代理 {0} 测试成功"
-msgstr "Agent {0} tested successfully"
+msgid "无法解析版本号：{0}"
+msgstr "Unable to parse version number: {0}"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:236
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:87
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:47
 #, python-brace-format
-msgid "代理 {0} 测试超时"
-msgstr "Agent {0} test timeout"
+msgid "检测到新版本：{0}.{1}"
+msgstr "Detected new version: {0}.{1}"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:244
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:91
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:101
 #, python-brace-format
-msgid "代理 {0} 测试失败：{1}"
-msgstr "Agent {0} test failed: {1}"
+msgid "当前版本为 {0}"
+msgstr "Current version is {0}"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:57
-#, python-brace-format
-msgid "{old_folder} 文件夹不存在，跳过处理"
-msgstr "{old_folder} directory does not exist, skipping processing"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:86
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:108
-msgid "文件夹"
-msgstr "folder"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:91
-#, python-brace-format
-msgid "文件夹 {old_folder} 已重命名为 {new_folder}"
-msgstr "The folder {old_folder} has been renamed to {new_folder}"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:113
-#, python-brace-format
-msgid "文件夹 {old_} 重命名为 {new_}"
-msgstr "The folder {old_} has been renamed to {new_}"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:186
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:201
-msgid "文件"
-msgstr "file"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:191
-#, python-brace-format
-msgid "文件 {old_file} 重命名为 {new_file}"
-msgstr "The file {old_file} has been renamed to {new_file}"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:210
-#, python-brace-format
-msgid "{type} {old}被占用，重命名失败: {error}"
-msgstr "{type} {old} is occupied, renaming failed: {error}"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:219
-#, python-brace-format
-msgid "{type} {new}名称重复，重命名失败: {error}"
-msgstr "{type} {new} already exists, renaming failed: {error}"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:228
-#, python-brace-format
-msgid "处理{type} {old}时发生预期之外的错误: {error}"
-msgstr "An unexpected error occurred while processing {type} {old}: {error}"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\tools.py:31
-msgid ""
-"如需重新尝试处理该对象，请关闭所有正在访问该对象的窗口或程序，然后直接按下回"
-"车键！\n"
-"如需跳过处理该对象，请输入任意字符后按下回车键！"
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:94
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:55
+msgid "当前版本为开发版, 可更新至正式版"
 msgstr ""
-"If you want to retry processing this object, please close all windows or "
-"programs currently accessing it, then press Enter directly!\n"
-"If you want to skip processing this object, please enter any character and "
-"then press Enter!"
+"Current version is a development version, Can update to the official version"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:20
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:29
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:95
+#, python-brace-format
+msgid "{0} 正式版已发布，当前版本为 {1}"
+msgstr "{0} official version released, current version is {1}"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:100
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:65
+msgid "当前已是最新正式版"
+msgstr "You are already using the latest official version"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:104
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:60
+msgid "当前已是最新开发版"
+msgstr "You are already using the latest development version"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:105
+#, python-brace-format
+msgid "当前版本为 {0}，最新正式版为 {1}"
+msgstr "Current version is {0}, latest official version is {1}"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:111
+msgid "版本比较结果无效"
+msgstr "Version comparison result is invalid"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:495
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:34
+msgid "已启动监听剪贴板模式"
+msgstr "Currently in monitoring clipboard mode"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:507
+msgid "已停止读取剪贴板，队列中的任务继续处理"
+msgstr "Stopped reading clipboard, tasks in queue will continue processing"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:518
+msgid "读取剪贴板失败"
+msgstr "Failed to read clipboard"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:584
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\record.py:46
+msgid "删除下载记录成功"
+msgstr "Successfully deleted download record"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:661
+msgid "请等待正在处理的任务结束后再保存配置"
+msgstr "Please wait for the current task to finish before saving configuration"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:663
+msgid "请先关闭剪贴板监听再保存配置"
+msgstr "Please close clipboard monitoring before saving configuration"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:683
+msgid "配置已保存，下载器已重新加载"
+msgstr "Configuration saved, downloader has been reloaded"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:690
+msgid "下载器尚未初始化"
+msgstr "Downloader not initialized"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:700
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:170
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:72
+msgid "检测新版本失败"
+msgstr "Failed to check for a new version"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:703
+msgid "无法获取最新版本，请检查网络连接后重试"
+msgstr ""
+"Unable to get the latest version, please check your network connection and "
+"try again"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\backend.py:732
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:181
+msgid "无法打开下载文件夹"
+msgstr "Unable to open download folder"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:33
+msgid "创建任务"
+msgstr "Create Task"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:34
+msgid "任务队列"
+msgstr "Task Queue"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:35
+msgid "剪贴板模式"
+msgstr "Clipboard mode"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:36
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:32
+msgid "下载记录"
+msgstr "Records"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:37
+msgid "运行日志"
+msgstr "Run Log"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:38
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:31
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:252
+msgid "程序设置"
+msgstr "Settings"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:39
+msgid "免责声明"
+msgstr "Disclaimer"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:40
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:34
+msgid "关于项目"
+msgstr "About"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:41
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:59
+msgid "请输入小红书图文/视频作品链接"
+msgstr "Please enter the link to the RedNote image or video notes"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:42
+msgid "多个链接之间使用空格或换行分隔"
+msgstr "Separate multiple links with spaces or newlines"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:43
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:65
+msgid "读取剪贴板"
+msgstr "Read the clipboard"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:44
+msgid "读取剪贴板并处理"
+msgstr "Read clipboard and process"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:45
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:66
+msgid "清空输入框"
+msgstr "Clear the input box"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:46
+msgid "处理任务"
+msgstr "Process Task"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:47
+msgid "任务队列为空"
+msgstr "Task queue is empty"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:48
+msgid "查看任务队列"
+msgstr "View Task Queue"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:49
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:33
+msgid "开启监听"
+msgstr "Monitor"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:50
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:21
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:15
-msgid "退出程序"
-msgstr "Quit"
+msgid "关闭监听"
+msgstr "Close"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:21
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:30
-msgid "检查更新"
-msgstr "Update"
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:51
+msgid "运行状态"
+msgstr "Running Status"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:22
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\record.py:35
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:16
-msgid "返回首页"
-msgstr "Return"
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:52
+msgid "未开启"
+msgstr "Not started"
 
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:53
+msgid "监听中"
+msgstr "Monitoring"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:54
+msgid "处理任务数量"
+msgstr "Tasks processed"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:55
+msgid "监听任务队列"
+msgstr "Monitor queue"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:56
+msgid "监听任务队列为空"
+msgstr "Monitor queue is empty"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:57
+msgid "清理已结束任务"
+msgstr "Clear finished tasks"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:58
+msgid "打开下载文件夹"
+msgstr "Open download folder"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:59
+msgid "待处理"
+msgstr "Pending"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:60
+msgid "处理中"
+msgstr "Processing"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:61
+msgid "成功"
+msgstr "Success"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:62
+msgid "失败"
+msgstr "Failed"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:63
+msgid "跳过"
+msgstr "Skipped"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:64
+msgid "已取消"
+msgstr "Cancelled"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:65
+msgid "全部"
+msgstr "All"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:66
+msgid "当前筛选结果为空"
+msgstr "No filter results"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:67
+msgid "文件下载进度"
+msgstr "File download progress"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:68
+msgid "暂无文件下载"
+msgstr "No file downloads"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:69
+msgid "未知大小"
+msgstr "Unknown size"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:70
+msgid "项"
+msgstr "items"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:71
+msgid "个文件"
+msgstr "files"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:72
+msgid "删除选中记录"
+msgstr "Delete selected records"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:73
+msgid "搜索作品 ID"
+msgstr "Search note ID"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:74
+msgid "全选本页"
+msgstr "Select all on this page"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:75
+msgid "反选本页"
+msgstr "Invert selection on this page"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:76
+#, python-brace-format
+msgid "已选 {0} 条"
+msgstr "{0} selected"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:77
+msgid "暂无下载记录"
+msgstr "No download records"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:78
+msgid "上一页"
+msgstr "Previous page"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:79
+msgid "下一页"
+msgstr "Next page"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:80
+msgid "作品下载记录功能已关闭"
+msgstr "Note download record feature is disabled"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:81
+#, python-brace-format
+msgid "第 {0}–{1} 条，共 {2} 条{3}"
+msgstr "Items {0}–{1} of {2}{3}"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:82
+msgid "搜索结果"
+msgstr "Search results"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:83
+msgid "未找到匹配的作品 ID"
+msgstr "No matching note ID found"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:84
+msgid "读取下载记录失败"
+msgstr "Failed to read download records"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:85
+#, python-brace-format
+msgid "已删除 {0} 条下载记录"
+msgstr "Deleted {0} download records"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:86
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:238
+msgid "放弃更改"
+msgstr "Discard changes"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:87
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:234
+msgid "保存配置"
+msgstr "Save settings"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:88
+msgid "下载设置"
+msgstr "Download settings"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:89
+msgid "归档与记录"
+msgstr "Archives & Records"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:90
+msgid "网络与请求"
+msgstr "Network & requests"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:91
+msgid "通用设置"
+msgstr "General settings"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:92
+msgid "工作目录"
+msgstr "Working directory"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:93
+msgid "浏览"
+msgstr "Browse"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:94
+msgid "保存作品文件和作品数据的根目录"
+msgstr "Root directory for saving note files and data"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:95
+msgid "作品文件夹"
+msgstr "Download notes folder"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:96
+msgid "工作目录下用于保存作品文件的文件夹名称"
+msgstr "Name of the folder under working directory for storing note files"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:98
+msgid "已启用字段按顺序以下划线拼接为作品文件名称"
+msgstr "Enabled fields are joined with underscores as the note file name"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:99
+msgid "已启用字段"
+msgstr "Enabled fields"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:100
+msgid "未启用字段"
+msgstr "Disabled fields"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:101
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:136
+msgid "图文作品下载开关"
+msgstr "Image download switch"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:102
+msgid "关闭后，跳过下载图文和图集作品文件"
+msgstr "When disabled, skip downloading image and album note files"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:103
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:131
+msgid "视频作品下载开关"
+msgstr "Video download switch"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:104
+msgid "关闭后，跳过下载视频作品文件"
+msgstr "When disabled, skip downloading video note files"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:107
+msgid "关闭后，跳过下载图文和图集作品的动态图片文件，需同时开启图文作品下载"
+msgstr ""
+"When disabled, skip downloading LivePhoto files from image and album notes; "
+"requires image download to be enabled"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:109
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:182
+msgid "图片下载格式"
+msgstr "Image download format"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:110
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:190
+msgid "视频下载偏好"
+msgstr "Video preferences"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:111
+msgid "分辨率优先"
+msgstr "Resolution priority"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:112
+msgid "码率优先"
+msgstr "Bitrate priority"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:113
+msgid "文件大小优先"
+msgstr "File size priority"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:114
+msgid "作品信息保存格式"
+msgstr "Note information save format"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:115
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:221
+msgid "不保存"
+msgstr "Do not save"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:116
+msgid "全部格式"
+msgstr "All formats"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:117
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:126
+msgid "作品归档保存模式"
+msgstr "notes Archiving Mode"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:118
+msgid "开启后，每个作品的文件使用独立的文件夹保存"
+msgstr "When enabled, each note's files are saved in a separate folder"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:119
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:155
+msgid "作者归档保存模式"
+msgstr "Author Archiving Mode"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:120
+msgid "开启后，每个作者的作品使用独立的文件夹保存"
+msgstr "When enabled, each author's notes are saved in a separate folder"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:123
+msgid ""
+"开启后，下载成功的作品 ID 会写入 ExploreID.db（SQLite 数据库）；再次处理相同"
+"作品时跳过"
+msgstr ""
+"When enabled, successfully downloaded note IDs will be written to "
+"ExploreID.db (SQLite database); same notes will be skipped on subsequent "
+"processing"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:125
+msgid "作品数据记录开关"
+msgstr "Note Data Record Switch"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:127
+msgid "开启后，处理成功的作品数据会写入 ExploreData.db（SQLite 数据库）"
+msgstr ""
+"When enabled, successfully processed note data will be written to "
+"ExploreData.db (SQLite database)"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:129
+msgid "同步文件修改时间"
+msgstr "Sync file modification time"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:131
+msgid "开启后，作品文件属性的修改时间会被设置为作品发布时间"
+msgstr ""
+"When enabled, the note file's modification time will be set to the note's "
+"publication time"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:134
+msgid "Cookie"
+msgstr "Cookie"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:136
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:84
+msgid "不使用代理"
+msgstr "No proxy"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:137
+msgid "下载文件时使用网络代理"
+msgstr "Use network proxy when downloading files"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:138
+msgid "请求超时时间"
+msgstr "Request timeout"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:139
+msgid "秒"
+msgstr "seconds"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:141
+msgid "次"
+msgstr "times"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:142
+msgid "下载数据块大小"
+msgstr "Download chunk size"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:143
+msgid "字节"
+msgstr "bytes"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:144
+msgid "每次从下载响应中读取并写入临时文件的数据量"
+msgstr ""
+"Amount of data read from download response and written to temporary file "
+"each time"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:145
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:186
+msgid "程序语言"
+msgstr "Program language"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:148
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:169
+msgid "脚本服务器开关"
+msgstr "Script server switch"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:150
+msgid "启动 WebSocket 服务，接收来自用户脚本的下载任务"
+msgstr "Start WebSocket service to receive download tasks from user scripts"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:152
+msgid "程序配置已保存"
+msgstr "Program configuration saved"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:153
+msgid "已放弃未保存更改"
+msgstr "Unsaved changes discarded"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:154
+msgid "小红书（XiaoHongShu、RedNote）作品采集工具"
+msgstr "XiaoHongShu (RedNote) note extraction tool"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:155
+msgid "程序版本"
+msgstr "Program version"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:156
+msgid "项目作者"
+msgstr "Project author"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:157
+msgid "开源协议"
+msgstr "Open source license"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:158
+msgid "项目仓库"
+msgstr "Project repository"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:161
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:35
 msgid "如果 XHS-Downloader 对您有帮助，请考虑为它点个 Star，感谢您的支持！"
 msgstr ""
 "If XHS-Downloader is helpful to you, please consider giving it Star. Thank "
 "you for your support!"
 
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:163
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:42
 msgid "Discord 社区"
 msgstr "Discord Community"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:46
-msgid "邀请链接："
-msgstr "Invitation link: "
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:164
+msgid "邀请链接"
+msgstr "Invitation link"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:48
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:61
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:70
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:56
-msgid "点击访问"
-msgstr "Click to visit"
-
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:165
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:51
 msgid "作者的其他开源项目"
 msgstr "Other open-source projects of the author"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:31
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:212
-msgid "程序设置"
-msgstr "Settings"
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:166
+msgid "DouK-Downloader (抖音 / TikTok)"
+msgstr "DouK-Downloader (Douyin / TikTok)"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:32
-msgid "下载记录"
-msgstr "Record"
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:167
+msgid "KS-Downloader (快手)"
+msgstr "KS-Downloader (Kuaishou)"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:33
-msgid "开启监听"
-msgstr "Monitor"
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:168
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:21
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:30
+msgid "检查更新"
+msgstr "Update"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:34
-msgid "关于项目"
-msgstr "About"
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:169
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:27
+msgid "正在检查新版本，请稍等..."
+msgstr "Checking for new version, please wait..."
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:49
-msgid "开源协议: "
-msgstr "Open source protocol: "
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:52
-msgid "项目地址: "
-msgstr "Repository link: "
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:59
-msgid "请输入小红书图文/视频作品链接"
-msgstr "Please enter the link to the RedNote image or video works"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:62
-msgid "多个链接之间使用空格分隔"
-msgstr "Separate multiple links with spaces"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:64
-msgid "下载无水印作品文件"
-msgstr "Download images/video files"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:65
-msgid "读取剪贴板"
-msgstr "Read the clipboard"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:66
-msgid "清空输入框"
-msgstr "Clear the input box"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:81
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:171
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:82
 msgid "免责声明\n"
 msgstr ""
 "Disclaimer for XHS-Downloader:\n"
 "\n"
-"1.The use of this project is entirely at the user's own discretion and "
-"risk. The author assumes no responsibility or liability of any kind for any "
-"loss, damage, or risk arising from the user's use of this project.\n"
+"1.The use of this project is entirely at the user's own discretion and risk. "
+"The author assumes no responsibility or liability of any kind for any loss, "
+"damage, or risk arising from the user's use of this project.\n"
 "2.The code and functionalities provided by the author of this project are "
 "developed based on current knowledge and technology. The author makes every "
 "effort to ensure the correctness and security of the code according to "
@@ -542,8 +1009,8 @@ msgstr ""
 "liability for any consequences resulting from such secondary development. "
 "Users bear full responsibility for all outcomes arising from such "
 "modifications.\n"
-"11.This project does not grant users any patent licenses. If the use of "
-"this project leads to patent disputes or infringement, the user assumes all "
+"11.This project does not grant users any patent licenses. If the use of this "
+"project leads to patent disputes or infringement, the user assumes all "
 "associated risks and responsibilities. Without written authorization from "
 "the author or rights holder, users may not use this project for any "
 "commercial promotion, advertising, or re-licensing.\n"
@@ -562,25 +1029,188 @@ msgstr ""
 "accepted the above disclaimer and voluntarily assume all risks and "
 "consequences associated with its use.\n"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:94
-msgid "未输入任何小红书作品链接"
-msgstr "No RedNote works links provided"
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:172
+msgid "已阅读并同意"
+msgstr "I have read and agree"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:124
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:173
+msgid "不同意并退出"
+msgstr "Disagree and exit"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:174
+msgid "删除下载记录"
+msgstr "Delete download records"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:175
+#, python-brace-format
+msgid "确定删除选中的 {0} 条记录？"
+msgstr "Are you sure you want to delete the selected {0} records?"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:176
+msgid "此操作无法撤销，但不会删除已经下载的文件。"
+msgstr ""
+"This action cannot be undone, but already downloaded files will not be "
+"deleted."
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:177
+msgid "取消"
+msgstr "Cancel"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:178
+msgid "确认删除"
+msgstr "Confirm delete"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:179
+msgid "无法取消任务"
+msgstr "Unable to cancel task"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:180
+msgid "无法打开系统浏览器"
+msgstr "Unable to open system browser"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:182
+msgid "语言文件加载失败"
+msgstr "Language file load failed"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:183
+msgid "操作失败"
+msgstr "Operation failed"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:185
+msgid "拖动调整顺序，点击停用"
+msgstr "Drag to adjust order, click to disable"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\GUI\ui_strings.py:186
+msgid "拖动或点击启用"
+msgstr "Drag or click to enable"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:243
+#, python-brace-format
+msgid "代理 {0} 测试成功"
+msgstr "Proxy {0} test successful"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:247
+#, python-brace-format
+msgid "代理 {0} 测试超时"
+msgstr "Proxy {0} test timeout"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:252
+#, python-brace-format
+msgid "代理 {0} 测试失败：{1}"
+msgstr "Proxy {0} test failed: {1}"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\manager.py:273
+#, python-brace-format
+msgid "impersonate 参数错误，使用默认值: {0}"
+msgstr "Invalid impersonate parameter, using default value: {0}"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:55
+#, python-brace-format
+msgid "{old_folder} 文件夹不存在，跳过处理"
+msgstr "{old_folder} directory does not exist, skipping processing"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:81
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:101
+msgid "文件夹"
+msgstr "folder"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:85
+#, python-brace-format
+msgid "文件夹 {old_folder} 已重命名为 {new_folder}"
+msgstr "The folder {old_folder} has been renamed to {new_folder}"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:105
+#, python-brace-format
+msgid "文件夹 {old_} 重命名为 {new_}"
+msgstr "The folder {old_} has been renamed to {new_}"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:171
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:185
+msgid "文件"
+msgstr "file"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:175
+#, python-brace-format
+msgid "文件 {old_file} 重命名为 {new_file}"
+msgstr "The file {old_file} has been renamed to {new_file}"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:193
+#, python-brace-format
+msgid "{type} {old}被占用，重命名失败: {error}"
+msgstr "{type} {old} is occupied, renaming failed: {error}"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:202
+#, python-brace-format
+msgid "{type} {new}名称重复，重命名失败: {error}"
+msgstr "{type} {new} already exists, renaming failed: {error}"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\mapping.py:211
+#, python-brace-format
+msgid "处理{type} {old}时发生预期之外的错误: {error}"
+msgstr "An unexpected error occurred while processing {type} {old}: {error}"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\module\tools.py:33
+msgid ""
+"如需重新尝试处理该对象，请关闭所有正在访问该对象的窗口或程序，然后直接按下回"
+"车键！\n"
+"如需跳过处理该对象，请输入任意字符后按下回车键！"
+msgstr ""
+"If you want to retry processing this object, please close all windows or "
+"programs currently accessing it, then press Enter directly!\n"
+"If you want to skip processing this object, please enter any character and "
+"then press Enter!"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:20
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:29
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:20
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:16
+msgid "退出程序"
+msgstr "Quit"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:22
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\record.py:35
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:17
+msgid "返回首页"
+msgstr "Return"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:46
+msgid "邀请链接："
+msgstr "Invitation link: "
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:48
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:61
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\about.py:70
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:56
+msgid "点击访问"
+msgstr "Click to visit"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:49
+msgid "开源协议: "
+msgstr "Open source license: "
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:52
+msgid "项目地址: "
+msgstr "Repository link: "
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:62
+msgid "多个链接之间使用空格分隔"
+msgstr "Separate multiple links with spaces"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:64
+msgid "下载作品文件"
+msgstr "Download notes files"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:93
+msgid "未输入任何小红书作品链接"
+msgstr "No RedNote notes links provided"
+
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\index.py:122
 msgid "下载小红书作品文件失败"
-msgstr "Failed to download the RedNote works files"
+msgstr "Failed to download the RedNote notes files"
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\loading.py:19
 msgid "程序处理中..."
 msgstr "Processing..."
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:22
-msgid "关闭监听"
-msgstr "Close"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:34
-msgid "已启动监听剪贴板模式"
-msgstr "Currently in monitoring clipboard mode"
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\monitor.py:36
 msgid "退出监听剪贴板模式"
@@ -588,117 +1218,71 @@ msgstr "Exit monitoring clipboard mode"
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\record.py:23
 msgid "请输入待删除的小红书作品链接或作品 ID"
-msgstr "Please enter the link or ID of the RedNote works to be deleted"
+msgstr "Please enter the link or ID of the RedNote notes to be deleted"
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\record.py:26
 msgid ""
 "支持输入作品 ID 或包含作品 ID 的作品链接，多个链接或 ID 之间使用空格分隔"
 msgstr ""
-"Support input of works ID or links containing works ID, with multiple links "
+"Support input of notes ID or links containing notes ID, with multiple links "
 "or IDs separated by spaces"
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\record.py:32
 msgid "删除指定作品 ID"
-msgstr "Delete specified works ID"
+msgstr "Delete specified note ID"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\record.py:47
-msgid "删除下载记录成功"
-msgstr "Successfully deleted download record"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:30
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:31
 msgid "作品数据 / 文件保存根路径"
-msgstr "Root path for saving works data / files"
+msgstr "Root path for saving notes data / files"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:35
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:36
 msgid "程序根路径"
 msgstr "Program root path"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:64
-msgid "内置 Chrome User Agent"
-msgstr "Chrome User Agent"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:69
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:70
 msgid "小红书网页版 Cookie"
 msgstr "RedNote Web Cookie"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:83
-msgid "不使用代理"
-msgstr "No proxy"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:120
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:121
 msgid "记录作品详细数据"
-msgstr "Record works data"
+msgstr "Record notes data"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:125
-msgid "作品归档保存模式"
-msgstr "Works Archiving Mode"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:130
-msgid "视频作品下载开关"
-msgstr "Video download switch"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:135
-msgid "图文作品下载开关"
-msgstr "Image download switch"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:144
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:145
 msgid "动图文件下载开关"
 msgstr "LivePhoto download switch"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:154
-msgid "作者归档保存模式"
-msgstr "Author Archiving Mode"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:159
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:160
 msgid "更新文件修改时间"
 msgstr "Update File Modification Time"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:167
-msgid "图片下载格式"
-msgstr "Image download format"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:171
-msgid "程序语言"
-msgstr "Program language"
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:174
+msgid "下载文件使用代理"
+msgstr "Use proxy for downloading files"
 
 #: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:194
-msgid "保存配置"
-msgstr "Save configuration"
+msgid "作品信息格式"
+msgstr "Note information format"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:198
-msgid "放弃更改"
-msgstr "Discard changes"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:208
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:248
 msgid "小红书网页版 Cookie，无需登录，参数已设置"
-msgstr ""
-"RedNote web version cookie, no login required, parameters have been set"
+msgstr "RedNote web cookie, no login required, parameters have been set"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:209
+#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\setting.py:249
 msgid "小红书网页版 Cookie，无需登录，参数未设置"
-msgstr "RedNote web version cookie, no login required, parameters not set"
+msgstr "RedNote web cookie, no login required, parameters not set"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:26
-msgid "正在检查新版本，请稍等..."
-msgstr "Checking for new version, please wait..."
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:46
 #, python-brace-format
-msgid "检测到新版本：{0}.{1}"
-msgstr "Detected new version: {0} {1}"
+#~ msgid ""
+#~ "从指定的浏览器读取小红书网页版 Cookie，支持：{0}; 输入浏览器名称或序号"
+#~ msgstr ""
+#~ "Read RedNote web version cookies from the specified browser, supporting: "
+#~ "{0}; Enter browser name or serial number"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:54
-msgid "当前版本为开发版, 可更新至正式版"
-msgstr "Detected a new official version"
+#~ msgid "简体中文"
+#~ msgstr "Simplified Chinese"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:59
-msgid "当前已是最新开发版"
-msgstr "You are already using the latest development version"
+#~ msgid "English"
+#~ msgstr "English"
 
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:64
-msgid "当前已是最新正式版"
-msgstr "You are already using the latest official version"
-
-#: C:\Users\You\PycharmProjects\XHS-Downloader\source\TUI\update.py:71
-msgid "检测新版本失败"
-msgstr "Failed to check for a new version"
+#~ msgid "内置 Chrome User Agent"
+#~ msgstr "Chrome User Agent"

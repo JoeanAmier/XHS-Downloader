@@ -10,10 +10,16 @@ class Image:
     def get_image_link(cls, data: Namespace, format_: str) -> tuple[list, list]:
         images = data.safe_extract("imageList", [])
         live_link = cls.__get_live_link(images)
-        token_list = [
-            cls.__extract_image_token(Namespace.object_extract(i, "urlDefault"))
-            for i in images
-        ]
+        if not any(
+            token_list := [
+                cls.__extract_image_token(Namespace.object_extract(i, "urlDefault"))
+                for i in images
+            ]
+        ):
+            token_list = [
+                cls.__extract_image_token(Namespace.object_extract(i, "url"))
+                for i in images
+            ]
         match format_:
             case "png" | "webp" | "jpeg" | "heic" | "avif":
                 return [
@@ -49,12 +55,15 @@ class Image:
 
     @staticmethod
     def __get_live_link(items: list) -> list:
-        return [
-            (
-                Html.format_url(
-                    Namespace.object_extract(item, "stream.h264[0].masterUrl")
-                )
-                or None
-            )
-            for item in items
-        ]
+        result = []
+        for item in items:
+            url = None
+            stream = Namespace.object_extract(item, "stream", {})
+            for key in vars(stream):
+                url = Namespace.object_extract(
+                    stream, f"{key}[0].backupUrls[0]"
+                ) or Namespace.object_extract(stream, f"{key}[0].masterUrl")
+                if url := Html.format_url(url):
+                    break
+            result.append(url)
+        return result

@@ -3,6 +3,7 @@ from textual.app import App
 from ..application import XHS
 from ..module import (
     ROOT,
+    VOLUME,
     Settings,
 )
 from .about import About
@@ -16,8 +17,8 @@ __all__ = ["XHSDownloader"]
 
 
 class XHSDownloader(App):
-    CSS_PATH = ROOT.parent.joinpath("static/XHS-Downloader.tcss")
-    SETTINGS = Settings(ROOT)
+    CSS_PATH = ROOT.joinpath("static/XHS-Downloader.tcss")
+    SETTINGS = Settings(VOLUME)
 
     def __init__(self):
         super().__init__()
@@ -76,6 +77,7 @@ class XHSDownloader(App):
         await self.APP.close()
         self.__initialization()
         await self.__aenter__()
+        await self.APP.switch_script_server()
         self.uninstall_screen("index")
         self.uninstall_screen("setting")
         self.uninstall_screen("loading")

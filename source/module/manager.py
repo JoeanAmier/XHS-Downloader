@@ -1,22 +1,18 @@
+from http.cookies import SimpleCookie
+from os import utime
 from pathlib import Path
 from re import compile, sub
 from shutil import move, rmtree
-from os import utime
-from httpx import (
-    AsyncClient,
-    AsyncHTTPTransport,
-    HTTPStatusError,
-    RequestError,
-    TimeoutException,
-    get,
-)
+from typing import TYPE_CHECKING, get_args
+
+from curl_cffi.requests import AsyncSession, BrowserTypeLiteral, get
+from curl_cffi.requests.exceptions import RequestException, Timeout
 
 from source.expansion import remove_empty_directories
 
 from ..translation import _
-from .static import HEADERS, USERAGENT, WARNING
-from .tools import logging
-from typing import TYPE_CHECKING
+from .static import HEADERS, IMPERSONATE, WARNING
+from .tools import get_site_referer, logging
 
 if TYPE_CHECKING:
     from ..expansion import Cleaner
@@ -56,9 +52,10 @@ class Manager:
         folder: str,
         name_format: str,
         chunk: int,
-        user_agent: str,
+        impersonate: str,
         cookie: str,
-        proxy: str | dict,
+        proxy: str | None,
+        proxy_download: bool,
         timeout: int,
         retry: int,
         record_data: bool,
@@ -66,66 +63,61 @@ class Manager:
         image_download: bool,
         video_download: bool,
         live_download: bool,
+        video_preference: str,
         download_record: bool,
         folder_mode: bool,
         author_archive: bool,
         write_mtime: bool,
-        _print: bool,
+        script_server: bool,
+        note_format: str,
         cleaner: "Cleaner",
+        print_object,
     ):
+        self.print = print_object
         self.root = root
         self.cleaner = cleaner
         self.temp = root.joinpath("Temp")
         self.path = self.__check_path(path)
         self.folder = self.__check_folder(folder)
         self.compatible()
-        self.blank_headers = HEADERS | {
-            "user-agent": user_agent or USERAGENT,
-        }
-        self.headers = self.blank_headers | {
-            "cookie": cookie,
-        }
-        self.retry = retry
-        self.chunk = chunk
+        self.blank_headers = HEADERS.copy()
+        self.impersonate = self.__check_impersonate(impersonate)
+        self.retry = self.__check_integer(retry, 5, 0)
+        self.chunk = self.__check_integer(chunk, 2 * 1024 * 1024, 1024 * 1024)
         self.name_format = self.__check_name_format(name_format)
         self.record_data = self.check_bool(record_data, False)
         self.image_format = self.__check_image_format(image_format)
         self.folder_mode = self.check_bool(folder_mode, False)
         self.download_record = self.check_bool(download_record, True)
+        self.timeout = self.__check_integer(timeout, 10, 1)
         self.proxy_tip = None
+        self.proxy_download = self.check_bool(proxy_download, False)
         self.proxy = self.__check_proxy(proxy)
-        self.print_proxy_tip(
-            _print,
-        )
-        self.timeout = timeout
-        self.request_client = AsyncClient(
-            headers=self.headers
-            | {
-                "referer": "https://www.xiaohongshu.com/",
-            },
-            timeout=timeout,
-            verify=False,
-            follow_redirects=True,
-            mounts={
-                "http://": AsyncHTTPTransport(proxy=self.proxy),
-                "https://": AsyncHTTPTransport(proxy=self.proxy),
-            },
-        )
-        self.download_client = AsyncClient(
+        self.print_proxy_tip()
+        self.request_client = AsyncSession(
             headers=self.blank_headers,
-            timeout=timeout,
+            cookies=self.cookie_str_to_dict(cookie),
+            timeout=self.timeout,
             verify=False,
-            follow_redirects=True,
-            mounts={
-                "http://": AsyncHTTPTransport(proxy=self.proxy),
-                "https://": AsyncHTTPTransport(proxy=self.proxy),
-            },
+            allow_redirects=True,
+            proxy=self.proxy,
+            impersonate=self.impersonate,
+        )
+        self.download_client = AsyncSession(
+            timeout=self.timeout,
+            verify=False,
+            allow_redirects=True,
+            proxy=self.proxy if self.proxy_download else None,
+            impersonate=self.impersonate,
         )
         self.image_download = self.check_bool(image_download, True)
         self.video_download = self.check_bool(video_download, True)
+        self.video_preference = self.check_video_preference(video_preference)
         self.live_download = self.check_bool(live_download, True)
         self.author_archive = self.check_bool(author_archive, False)
         self.write_mtime = self.check_bool(write_mtime, False)
+        self.script_server = self.check_bool(script_server, False)
+        self.note_format = self.__check_note_format(note_format)
         self.create_folder()
 
     def __check_path(self, path: str) -> Path:
@@ -140,11 +132,11 @@ class Manager:
         return self.path.joinpath(folder)
 
     @staticmethod
-    def __check_root_again(root: Path) -> bool | Path:
+    def __check_root_again(root: Path) -> None | Path:
         if root.parent.is_dir():
             root.mkdir(exist_ok=True)
             return root
-        return False
+        return None
 
     @staticmethod
     def __check_image_format(image_format) -> str:
@@ -157,7 +149,7 @@ class Manager:
             "avif",
         }:
             return i
-        return "png"
+        return "jpeg"
 
     @staticmethod
     def is_exists(path: Path) -> bool:
@@ -199,9 +191,18 @@ class Manager:
     def check_bool(value: bool, default: bool) -> bool:
         return value if isinstance(value, bool) else default
 
+    @staticmethod
+    def __check_integer(value: int, default: int, minimum: int) -> int:
+        """将配置中的整数参数限制在下载器可接受的范围内。"""
+
+        try:
+            return max(minimum, value)
+        except (TypeError, ValueError):
+            return default
+
     async def close(self):
-        await self.request_client.aclose()
-        await self.download_client.aclose()
+        await self.request_client.close()
+        await self.download_client.close()
         # self.__clean()
         remove_empty_directories(self.root)
         remove_empty_directories(self.folder)
@@ -213,33 +214,40 @@ class Manager:
             format_,
         )
 
+    @staticmethod
+    def check_video_preference(preference: str) -> str:
+        if preference in {"resolution", "bitrate", "size"}:
+            return preference
+        return "resolution"
+
+    @staticmethod
+    def __check_note_format(note_format: str) -> str:
+        if note_format in {"txt", "md", "all"}:
+            return note_format
+        return ""
+
     def __check_proxy(
         self,
-        proxy: str,
+        proxy: str | None,
         url="https://www.xiaohongshu.com/explore",
     ) -> str | None:
         if proxy:
             try:
                 response = get(
                     url,
+                    timeout=self.timeout,
+                    impersonate=self.impersonate,
                     proxy=proxy,
-                    timeout=10,
-                    headers={
-                        "User-Agent": USERAGENT,
-                    },
                 )
                 response.raise_for_status()
                 self.proxy_tip = (_("代理 {0} 测试成功").format(proxy),)
                 return proxy
-            except TimeoutException:
+            except Timeout:
                 self.proxy_tip = (
                     _("代理 {0} 测试超时").format(proxy),
                     WARNING,
                 )
-            except (
-                RequestError,
-                HTTPStatusError,
-            ) as e:
+            except RequestException as e:
                 self.proxy_tip = (
                     _("代理 {0} 测试失败：{1}").format(
                         proxy,
@@ -247,14 +255,31 @@ class Manager:
                     ),
                     WARNING,
                 )
+        return None
+
+    def get_headers(
+        self,
+        url: str = "",
+    ) -> dict:
+        headers = self.blank_headers.copy()
+        headers["referer"] = get_site_referer(url)
+        return headers
+
+    def __check_impersonate(self, impersonate: str) -> str:
+        if impersonate in get_args(BrowserTypeLiteral):
+            return impersonate
+        logging(
+            self.print,
+            _("impersonate 参数错误，使用默认值: {0}").format(IMPERSONATE),
+            WARNING,
+        )
+        return IMPERSONATE
 
     def print_proxy_tip(
         self,
-        _print: bool = True,
-        log=None,
     ) -> None:
-        if _print and self.proxy_tip:
-            logging(log, *self.proxy_tip)
+        if self.proxy_tip:
+            logging(self.print, *self.proxy_tip)
 
     @classmethod
     def clean_cookie(cls, cookie_string: str) -> str:
@@ -282,8 +307,18 @@ class Manager:
         self.folder.mkdir(exist_ok=True)
         self.temp.mkdir(exist_ok=True)
 
-    def compatible(self,):
-        if self.path == self.root and (
-            old := self.path.parent.joinpath(self.folder.name)
-        ).exists() and not self.folder.exists():
+    def compatible(
+        self,
+    ):
+        if (
+            self.path == self.root
+            and (old := self.path.parent.joinpath(self.folder.name)).exists()
+            and not self.folder.exists()
+        ):
             move(old, self.folder)
+
+    @staticmethod
+    def cookie_str_to_dict(cookie_str: str) -> dict:
+        cookie = SimpleCookie()
+        cookie.load(cookie_str)
+        return {key: morsel.value for key, morsel in cookie.items()}

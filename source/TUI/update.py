@@ -7,6 +7,7 @@ from textual.widgets import Label, LoadingIndicator
 from ..application import XHS
 from ..module import (
     RELEASES,
+    compare_versions,
 )
 from ..translation import _
 
@@ -34,18 +35,18 @@ class Update(ModalScreen):
             url = await self.xhs.html.request_url(
                 RELEASES,
                 False,
-                None,
                 timeout=5,
             )
             version = url.split("/")[-1]
-            match self.compare_versions(
+            target_major, target_minor = version.removeprefix("v").split(".")[:2]
+            match compare_versions(
                 f"{XHS.VERSION_MAJOR}.{XHS.VERSION_MINOR}", version, XHS.VERSION_BETA
             ):
                 case 4:
                     args = (
                         _("检测到新版本：{0}.{1}").format(
-                            XHS.VERSION_MAJOR,
-                            XHS.VERSION_MINOR,
+                            target_major,
+                            target_minor,
                         ),
                         "warning",
                     )
@@ -75,19 +76,3 @@ class Update(ModalScreen):
 
     def on_mount(self) -> None:
         self.check_update()
-
-    @staticmethod
-    def compare_versions(
-        current_version: str, target_version: str, is_development: bool
-    ) -> int:
-        current_major, current_minor = map(int, current_version.split("."))
-        target_major, target_minor = map(int, target_version.split("."))
-
-        if target_major > current_major:
-            return 4
-        if target_major == current_major:
-            if target_minor > current_minor:
-                return 4
-            if target_minor == current_minor:
-                return 3 if is_development else 1
-        return 2

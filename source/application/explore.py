@@ -63,7 +63,9 @@ class Explore:
 
     @staticmethod
     def __extract_user(container: dict, data: Namespace):
-        container["作者昵称"] = data.safe_extract("user.nickname")
+        container["作者昵称"] = data.safe_extract("user.nickname") or data.safe_extract(
+            "user.nickName"
+        )
         container["作者ID"] = data.safe_extract("user.userId")
         container["作者链接"] = (
             f"https://www.xiaohongshu.com/user/profile/{container['作者ID']}"

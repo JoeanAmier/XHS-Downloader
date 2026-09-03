@@ -10,23 +10,23 @@
 <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/JoeanAmier/XHS-Downloader?style=flat-square&color=a29bfe">
 <img alt="GitHub release (with filter)" src="https://img.shields.io/github/v/release/JoeanAmier/XHS-Downloader?style=flat-square&color=48dbfb">
 <br>
-<img alt="Static Badge" src="https://img.shields.io/badge/Python-3.12-b8e994?style=flat-square&logo=python&labelColor=3dc1d3">
+<img alt="Static Badge" src="https://img.shields.io/badge/Python-≥3.12-b8e994?style=flat-square&logo=python&labelColor=3dc1d3">
 <img alt="Static Badge" src="https://img.shields.io/badge/UserScript-ffec3d?style=flat-square&logo=tampermonkey&logoColor=%2300485B">
 <img src="https://img.shields.io/badge/Sourcery-enabled-884898?style=flat-square&color=1890ff" alt="">
 <img alt="Static Badge" src="https://img.shields.io/badge/Docker-badc58?style=flat-square&logo=docker">
 <img alt="GitHub all releases" src="https://img.shields.io/github/downloads/JoeanAmier/XHS-Downloader/total?style=flat-square&color=ffdd59">
-</div>
 <br>
-<p>🔥 <b>小红书链接提取/作品采集工具</b>：提取账号发布、收藏、点赞、专辑作品链接；提取搜索结果作品链接、用户链接；采集小红书作品信息；提取小红书作品下载地址；下载小红书无水印作品文件！</p>
-<p>🔥 “小红书”、“XiaoHongShu”、“RedNote” 含义相同，本项目统称为 “小红书”</p>
+<p>🔥 <b>小红书（XiaoHongShu、RedNote）链接提取/作品采集工具！</b></p>
+</div>
+<hr>
 <h1>📑 项目功能</h1>
 <details>
 <summary>项目程序与用户脚本功能清单（点击展开）</summary>
 <ul><b>程序功能</b>
 <li>✅ 采集小红书作品信息</li>
 <li>✅ 提取小红书作品下载地址</li>
-<li>✅ 下载小红书无水印作品文件</li>
-<li>✅ 下载小红书 livePhoto 文件(含水印)</li>
+<li>✅ 下载小红书作品文件</li>
+<li>✅ 下载小红书 livePhoto 文件</li>
 <li>✅ 自动跳过已下载的作品文件</li>
 <li>✅ 作品文件完整性处理机制</li>
 <li>✅ 自定义图文作品文件下载格式</li>
@@ -35,7 +35,7 @@
 <li>✅ 后台监听剪贴板下载作品</li>
 <li>✅ 记录已下载作品 ID</li>
 <li>✅ 支持命令行下载作品文件</li>
-<li>✅ 从浏览器读取 Cookie</li> 
+<li>☑️ 从浏览器读取 Cookie</li> 
 <li>✅ 自定义文件名称格式</li> 
 <li>✅ 支持 API 调用功能</li>
 <li>✅ 支持 MCP 调用功能</li>
@@ -45,7 +45,7 @@
 <li>✅ 自动更新作者昵称</li>
 </ul>
 <ul><a href="#user-scripts"><b>脚本功能</b></a>
-<li>✅ 下载小红书无水印作品文件</li>
+<li>✅ 下载小红书作品文件</li>
 <li>✅ 提取推荐页面作品链接</li>
 <li>✅ 提取账号发布作品链接</li>
 <li>✅ 提取账号收藏作品链接</li>
@@ -56,7 +56,7 @@
 </ul>
 </details>
 <h1>📸 程序截图</h1>
-<p><a href="https://www.bilibili.com/video/BV1Fcb3zWEjt/">前往 bilibili 观看演示</a>；<a href="https://youtu.be/VIjDytHaopg">前往 YouTube 观看演示</a></p>
+<p><a href="https://www.bilibili.com/video/BV1Rv8z62Ebx/">前往 bilibili 观看演示</a>；<a href="https://youtu.be/1WBKuLlOeNw">前往 YouTube 观看演示</a></p>
 <img src="static/screenshot/程序运行截图CN1.png" alt="">
 <hr>
 <img src="static/screenshot/程序运行截图CN2.png" alt="">
@@ -74,17 +74,33 @@
 <h1>🪟 关于终端</h1>
 <p>⭐ 推荐使用 <a href="https://learn.microsoft.com/zh-cn/windows/terminal/install">Windows 终端</a> （Windows 11 默认终端）运行程序以便获得最佳显示效果！</p>
 <h1>🥣 使用方法</h1>
-<p>如果仅需下载无水印作品文件，建议选择 <b>程序运行</b> 或 <b>Docker 运行</b>；如果有其他需求，建议选择 <b>源码运行</b>！</p>
-<p><code>2.2</code> 版本开始，项目功能无异常的情况下，无需额外处理 Cookie！</p>
+<p>如果仅需下载作品文件，建议选择 <b>程序运行</b> 或 <b>Docker 运行</b>；如果有其他需求，建议选择 <b>源码运行</b>！</p>
+<p>⚠️ Cookie 配置为非强制项；如遇功能异常，建议配置或更新 Cookie 后再次尝试！</p>
+<p>⚠️ 未设置 Cookie 时，视频作品只能下载低分辨率文件；建议配置 Cookie 以获取更高画质（无需登录账号）！</p>
 <h2>🖱 程序运行</h2>
 <p>⭐ Mac OS、Windows 10 及以上用户可前往 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 或者 <a href="https://github.com/JoeanAmier/XHS-Downloader/actions">Actions</a> 下载程序压缩包，解压后打开程序文件夹，双击运行 <code>main</code> 即可使用。</p>
 <p>⭐ 本项目包含自动构建可执行文件的 GitHub Actions，使用者可以随时使用 GitHub Actions 将最新源码构建为可执行文件！</p>
 <p>⭐ 自动构建可执行文件教程请查阅本文档的 <code>构建可执行文件指南</code> 部分；如果需要更加详细的图文教程，请 <a href="https://mp.weixin.qq.com/s/TorfoZKkf4-x8IBNLImNuw">查阅文章</a>！</p>
-<p><strong>注意：Mac OS 平台可执行文件 <code>main</code> 可能需要从终端命令行启动；受设备限制，Mac OS 平台可执行文件尚未经过测试，无法保证可用性！</strong></p>
-<p>若通过此方式使用程序，文件默认下载路径为：<code>.\_internal\Volume\Download</code>；配置文件路径为：<code>.\_internal\Volume\settings.json</code></p>
+<p><strong>注意：由于 Mac OS 平台的可执行文件 <code>main</code> 未经过代码签名，首次运行时会受到系统安全限制。请先在终端执行 <code>xattr -cr 项目文件夹路径</code> 命令移除安全标记，执行一次后即可正常运行。</strong></p>
+<p>若通过此方式使用程序，文件默认下载路径为：<code>.\Volume\Download</code>；配置文件路径为：<code>.\Volume\settings.json</code></p>
 <h3>程序更新</h3>
-<p><strong>方案一：</strong>下载并解压文件，将旧版本的 <code>_internal\Volume</code> 文件夹复制到新版本的 <code>_internal</code> 文件夹。</p>
+<p><strong>方案一：</strong>下载并解压文件，将旧版本的 <code>Volume</code> 文件夹复制到新版本的程序根目录。</p>
 <p><strong>方案二：</strong>下载并解压文件（不要运行程序），复制全部文件，直接覆盖旧版本文件。</p>
+<h2>⌨️ 源码运行</h2>
+<ol>
+<li>安装不低于 <code>3.12</code> 版本的 <a href="https://www.python.org/">Python</a> 解释器</li>
+<li>下载最新的源码或 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
+<ol><b>使用 pip 安装项目依赖</b>
+<li>运行 <code>python -m venv venv</code> 命令创建虚拟环境（可选）</li>
+<li>运行 <code>.\venv\Scripts\activate.ps1</code> 或者 <code>venv\Scripts\activate</code> 命令激活虚拟环境（可选）</li>
+<li>运行 <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> 命令安装程序所需模块</li>
+<li>运行 <code>python .\main.py</code> 或者 <code>python main.py</code> 命令启动 XHS-Downloader</li>
+</ol>
+<ol><b>使用 uv 安装项目依赖（推荐）</b>
+<li>运行 <code>uv sync --no-dev</code> 命令同步环境依赖</li>
+<li>运行 <code>uv run main.py</code> 命令启动 XHS-Downloader</li>
+</ol>
+</ol>
 <h2>⌨️ Docker 运行</h2>
 <ol>
 <li>获取镜像</li>
@@ -108,22 +124,15 @@
 </li>
 </ol>
 <p>Docker 运行项目时不支持 <b>命令行调用模式</b>，无法使用 <b>读取剪贴板</b> 与 <b>监听剪贴板</b> 功能，可以正常粘贴内容，其他功能如有异常请反馈！</p>
-<h2>⌨️ 源码运行</h2>
-<ol>
-
-[//]: # (<li>安装版本号不低于 <code>3.12</code> 的 Python 解释器</li>)
-<li>安装版本号为 <code>3.12</code> 的 Python 解释器</li>
-<li>下载本项目最新的源码或 <a href="https://github.com/JoeanAmier/XHS-Downloader/releases/latest">Releases</a> 发布的源码至本地</li>
-<li>打开终端，切换至项目根路径</li>
-<li>运行 <code>pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt</code> 命令安装程序所需模块</li>
-<li>运行 <code>main.py</code> 即可使用</li>
-</ol>
 <h1>🛠 命令行模式</h1>
 <p>项目支持命令行运行模式，若想要下载图文作品的部分图片，可以使用此模式设置需要下载的图片序号！</p>
 <p><strong>注意：</strong>未设置 <code>--index</code> 参数时，支持传入多个作品链接，全部链接需要使用引号包围，链接之间使用空格分隔；已设置 <code>--index</code> 参数时，不支持传入多个作品链接，即使传入多个作品链接，程序仅处理首个作品链接！</p>
-<p>可以使用命令行 <b>从浏览器读取 Cookie 并写入配置文件！</b></p>
-<p>命令示例：<code>python .\main.py --browser_cookie Chrome --update_settings</code></p>
 <p><code>bool</code> 类型参数支持使用 <code>true</code>、<code>false</code>、<code>1</code>、<code>0</code>、<code>yes</code>、<code>no</code>、<code>on</code> 或 <code>off</code>（不区分大小写）来设置。</p>
+<h2>从浏览器读取 Cookie</h2>
+<p>该功能已失效，请参考 <a href="#cookie">获取 Cookie</a> 教程！</p>
+<p><del>可以使用命令行实现 <b>从浏览器读取 Cookie 并写入配置文件！</b></del></p>
+<p><del>命令示例：<code>python .\main.py --browser_cookie Chrome --update_settings</code></del></p>
+<p><del>兼容性提醒：此功能依赖的第三方模块已长期未更新，可能无法正常支持最新浏览器版本。若功能出现异常，请尝试手动获取 Cookie！</del></p>
 <hr>
 <img src="static/screenshot/命令行模式截图CN1.png" alt="">
 <hr>
@@ -179,10 +188,10 @@
 <td align="center">配置文件 proxy 参数</td>
 </tr>
 <tr>
-<td align="center">skip</td>
+<td align="center">check_record</td>
 <td align="center">bool</td>
-<td align="center">是否跳过存在下载记录的作品；设置为 <code>true</code> 将不会返回存在下载记录的作品数据；可选参数</td>
-<td align="center">false</td>
+<td align="center">是否跳过已有下载记录的作品；可选参数</td>
+<td align="center">true</td>
 </tr>
 </tbody>
 </table>
@@ -228,7 +237,8 @@ async def example_api():
 <h1>📜 其他说明</h1>
 <ul>
 <li>由于作品链接携带日期信息，使用先前日期获取的作品链接可能会被风控，建议下载作品文件时使用最新获取的作品链接</li>
-<li>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie</li>
+<li>如果需要程序使用代理请求数据，请在配置文件 <code>settings.json</code> 设置 <code>proxy</code> 参数</li>
+<li><del>Windows 系统需要以管理员身份运行程序才能读取 Chromium、Chrome、Edge 浏览器 Cookie</del></li>
 <li>如果开启保存作品数据至文件功能，作品数据默认储存至 <code>./Volume/Download/ExploreData.db</code> 文件</li>
 <li>程序下载记录数据储存至 <code>./Volume/ExploreID.db</code> 文件</li>
 <li>为了避免请求频率过高对平台服务器造成影响，本项目内置请求延时机制</li>
@@ -248,16 +258,26 @@ async def example_api():
 <hr>
 <img src="static/screenshot/用户脚本截图4.png" alt="">
 </details>
-<p>提示：使用 XHS-Downloader 用户脚本批量提取作品链接，搭配 XHS-Downloader 程序可以实现批量下载无水印作品文件！</p>
+<p>提示：使用 XHS-Downloader 用户脚本批量提取作品链接，搭配 XHS-Downloader 程序可以实现批量下载作品文件！</p>
+<p><b>修改用户脚本语言</b></p>
+<img src="static/screenshot/脚本切换语言.png" alt="切换语言">
+<h2>🌏 连接服务器</h2>
+<p>⭐ 本项目支持通过浏览器用户脚本与主程序联动，实现一键推送下载任务。</p>
+<ul><b>功能说明：</b>
+<li>在项目程序的配置文件中，需要将 <code>script_server</code> 参数设置为 <code>true</code></li>
+<li>保持项目程序在后台运行，它将作为服务器，接收用户脚本的指令（TUI、MCP 和 API 模式均支持）</li>
+<li>当您在浏览器中访问作品页面时，点击用户脚本菜单中的 <code>推送下载任务</code> 选项</li>
+<li>用户脚本会将下载任务发送给项目程序，由项目程序负责处理和下载文件</li>
+</ul>
 <h2>📜 脚本说明</h2>
 <ul>
-<li>下载小红书无水印作品文件时，脚本需要花费时间处理文件，请等待片刻，请勿多次点击下载按钮</li>
-<li>无水印图片文件为 PNG 格式；无水印视频文件较大，可能需要较长的时间处理，页面跳转可能会导致下载失败</li>
+<li>下载小红书作品文件时，脚本需要花费时间处理文件，请等待片刻，请勿多次点击下载按钮</li>
 <li>提取账号发布、收藏、点赞、专辑作品链接时，脚本可以自动滚动页面直至加载全部作品</li>
 <li>提取推荐作品链接、搜索作品、用户链接时，脚本可以自动滚动指定次数加载更多内容，默认滚动次数：50 次</li>
 <li>自动滚动页面功能默认关闭；用户可以自由开启，并修改滚动页面次数，修改后立即生效</li>
 <li>如果未开启自动滚动页面功能，用户需要手动滚动页面以便加载更多内容后再进行其他操作</li>
 <li>支持作品文件打包下载；该功能默认开启，多个文件的作品将会以压缩包格式下载</li>
+<li>向服务器推送下载任务时，文件格式、名称规则等设置以服务器配置文件中的设置为准</li>
 <li>使用全局代理工具可能会导致脚本下载文件失败，如有异常，请尝试关闭代理工具，必要时向作者反馈</li>
 <li>XHS-Downloader 用户脚本仅实现可见即可得的数据采集功能，无任何收费功能和破解功能</li>
 </ul>
@@ -273,12 +293,13 @@ async def example():
     work_path = "D:\\"  # 作品数据/文件保存根路径，默认值：项目根路径
     folder_name = "Download"  # 作品文件储存文件夹名称（自动创建），默认值：Download
     name_format = "作品标题 作品描述"
-    user_agent = ""  # User-Agent
-    cookie = ""  # 小红书网页版 Cookie，无需登录，可选参数，登录状态对数据采集有影响
+    impersonate = "chrome146"  # 浏览器模拟目标
+    cookie = ""  # 小红书网页版 Cookie
     proxy = None  # 网络代理
-    timeout = 5  # 请求数据超时限制，单位：秒，默认值：10
+    proxy_download = False  # 下载文件时，是否使用 proxy 参数的网络代理
+    timeout = 5  # 请求数据超时限制，单位：秒
     chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
-    max_retry = 2  # 请求数据失败时，重试的最大次数，单位：秒，默认值：5
+    max_retry = 2  # 请求数据失败时，重试的最大次数，单位：次
     record_data = False  # 是否保存作品数据至文件
     image_format = "WEBP"  # 图文作品文件下载格式，支持：AUTO、PNG、WEBP、JPEG、HEIC
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
@@ -289,16 +310,18 @@ async def example():
     language = "zh_CN"  # 设置程序提示语言
     author_archive = True  # 是否将每个作者的作品存至单独的文件夹
     write_mtime = True  # 是否将作品文件的 修改时间 修改为作品的发布时间
-    read_cookie = None  # 读取浏览器 Cookie，支持设置浏览器名称（字符串）或者浏览器序号（整数），设置为 None 代表不读取
+    note_format = ""  # 作品信息保存格式，支持：txt、md、all，为空则不保存
+    # read_cookie = None  # 读取浏览器 Cookie，支持设置浏览器名称（字符串）或者浏览器序号（整数），设置为 None 代表不读取
     # async with XHS() as xhs:
     #     pass  # 使用默认参数
     async with XHS(
         work_path=work_path,
         folder_name=folder_name,
         name_format=name_format,
-        user_agent=user_agent,
+        impersonate=impersonate,
         cookie=cookie,
         proxy=proxy,
+        proxy_download=proxy_download,
         timeout=timeout,
         chunk=chunk,
         max_retry=max_retry,
@@ -310,9 +333,10 @@ async def example():
         live_download=live_download,
         download_record=download_record,
         language=language,
-        read_cookie=read_cookie,
+        # read_cookie=read_cookie,
         author_archive=author_archive,
         write_mtime=write_mtime,
+        note_format=note_format,
     ) as xhs:  # 使用自定义参数
         download = True  # 是否下载作品文件，默认值：False
         # 返回作品详细信息，包括下载地址
@@ -336,8 +360,8 @@ async def example():
 <p>在 Linux 上，该模块使用 xclip 或 xsel 命令，这些命令应该随操作系统一起提供。否则，请运行 "sudo apt-get install xclip" 或 "sudo apt-get install xsel"（注意：xsel 似乎并不总是有效）</p>
 <p>在其他 Linux 系统上，你需要安装 qtpy 或 PyQT5 模块。</p>
 <h1>⚙️ 配置文件</h1>
-<p>项目根目录下的 <code>settings.json</code> 文件，首次运行自动生成，可以自定义部分运行参数。</p>
-<p>如果设置了无效的参数值，程序将会使用参数默认值！</p>
+<p>项目根目录下的 <code>./Volume/settings.json</code> 文件，首次运行自动生成，可以自定义程序运行参数；如果设置了无效的参数值，程序将会使用参数默认值！</p>
+<p>如果您在程序界面修改配置时无法正常交互，可以直接编辑配置文件；如果您的计算机没有合适的程序编辑 JSON 文件，建议使用 <a href="https://www.toolhelper.cn/JSON/JSONFormat">在线工具</a> 编辑配置文件内容，修改后需要重启软件才能生效。</p>
 <table>
 <thead>
 <tr>
@@ -373,10 +397,10 @@ async def example():
 <td align="center"><code>发布时间 作者昵称 作品标题</code></td>
 </tr>
 <tr>
-<td align="center">user_agent</td>
+<td align="center">impersonate</td>
 <td align="center">str</td>
-<td align="center">浏览器 User Agent</td>
-<td align="center">内置 Chrome User Agent</td>
+<td align="center">浏览器模拟目标；参考 <a href="https://curl-cffi.readthedocs.io/en/latest/impersonate/targets.html">curl_cffi 文档</a></td>
+<td align="center">chrome146</td>
 </tr>
 <tr>
 <td align="center">cookie</td>
@@ -389,6 +413,12 @@ async def example():
 <td align="center">str</td>
 <td align="center">设置程序代理</td>
 <td align="center">null</td>
+</tr>
+<tr>
+<td align="center">proxy_download</td>
+<td align="center">bool</td>
+<td align="center">下载文件时，是否使用 proxy 参数的网络代理</td>
+<td align="center">false</td>
 </tr>
 <tr>
 <td align="center">timeout</td>
@@ -411,14 +441,14 @@ async def example():
 <tr>
 <td align="center">record_data</td>
 <td align="center">bool</td>
-<td align="center">是否保存作品数据至文件，保存格式：<code>SQLite</code></td>
+<td align="center">是否保存作品数据至 <code>SQLite</code> 数据库（所有作品统一保存）</td>
 <td align="center">false</td>
 </tr>
 <tr>
 <td align="center">image_format</td>
 <td align="center">str</td>
 <td align="center">图文作品文件下载格式，支持：<code>AUTO</code>、<code>PNG</code>、<code>WEBP</code>、<code>JPEG</code>、<code>HEIC</code><br><strong>部分作品没有 <code>HEIC</code> 格式的文件，此时下载的文件可能为 <code>WEBP</code> 格式！</strong><br><strong>设置为 <code>AUTO</code> 时表示动态格式，实际格式取决于服务器响应数据！</strong></td>
-<td align="center">PNG</td>
+<td align="center">JPEG</td>
 </tr>
 <tr>
 <td align="center">image_download</td>
@@ -437,6 +467,12 @@ async def example():
 <td align="center">bool</td>
 <td align="center">图文动图文件下载开关</td>
 <td align="center">false</td>
+</tr>
+<tr>
+<td align="center">video_preference</td>
+<td align="center">str</td>
+<td align="center">视频作品文件下载偏好；含义：<code>resolution</code>：分辨率优先；<code>bitrate</code>：码率优先；<code>size</code>：文件大小优先</td>
+<td align="center">resolution</td>
 </tr>
 <tr>
 <td align="center">folder_mode</td>
@@ -468,6 +504,18 @@ async def example():
 <td align="center">设置程序语言，目前支持：<code>zh_CN</code>、<code>en_US</code></td>
 <td align="center">zh_CN</td>
 </tr>
+<tr>
+<td align="center">script_server</td>
+<td align="center">bool</td>
+<td align="center">是否开启用户脚本服务器，用于接收浏览器用户脚本的下载任务（TUI、MCP 和 API 模式生效）</td>
+<td align="center">false</td>
+</tr>
+<tr>
+<td align="center">note_format</td>
+<td align="center">str</td>
+<td align="center">作品信息保存格式（每个作品单独保存）；含义：<code>txt</code>：纯文本；<code>md</code>：Markdown；<code>all</code>：全部格式；为空则不保存</td>
+<td align="center">空字符串</td>
+</tr>
 </tbody>
 </table>
 <hr>
@@ -475,11 +523,7 @@ async def example():
 <p>如果 <code>author_archive</code> 参数设置为 <code>true</code>，程序会把每个作者的作品储存至单独的文件夹；当作者的昵称发生变化时，程序会自动更新已下载作品文件名称中的作者昵称部分！</p>
 <p>除此之外，你还可以通过设置 <code>mapping_data</code> 参数为某个作者设置别名；如果对某个作者设置了别名，程序会使用你设置的作者别名去替代作者昵称！</p>
 </div>
-<hr>
-<p><b>其他说明：<code>user_agent</code>参数获取示例；强烈建议根据实际浏览器信息进行设置！</b></p>
-<img src="static/screenshot/请求头示例图.png" alt="">
-<h1>🌐 Cookie</h1>
-<p><code>2.2</code> 版本开始，项目功能无异常的情况下，无需额外处理 Cookie！</p>
+<h1 id="cookie">🌐 Cookie</h1>
 <ol>
 <li>打开浏览器（可选无痕模式启动），访问 <code>https://www.xiaohongshu.com/explore</code></li>
 <li>登录小红书账号（可跳过）</li>
@@ -582,10 +626,13 @@ A:
 A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fork 仓库的方式执行打包流程
 
 </details>
-<h1>⭐ Star 趋势</h1>
-<p>
-<img alt="Star History Chart" src="https://api.star-history.com/svg?repos=JoeanAmier/XHS-Downloader&amp;type=Timeline"/>
-</p>
+
+# 💝 项目赞助
+
+## DartNode
+
+[![Powered by DartNode](static/other/DartNode_AD.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
+
 <h1>♥️ 支持项目</h1>
 <p>如果 <b>XHS-Downloader</b> 对您有帮助，请考虑为它点个 <b>Star</b> ⭐，感谢您的支持！</p>
 <table>
@@ -634,19 +681,10 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 <li><b>DouK-Downloader（抖音、TikTok）</b>：<a href="https://github.com/JoeanAmier/TikTokDownloader">https://github.com/JoeanAmier/TikTokDownloader</a></li>
 <li><b>KS-Downloader（快手、KuaiShou）</b>：<a href="https://github.com/JoeanAmier/KS-Downloader">https://github.com/JoeanAmier/KS-Downloader</a></li>
 </ul>
-
-# 💰 项目赞助
-
-## DartNode
-
-[![Powered by DartNode](https://dartnode.com/branding/DN-Open-Source-sm.png)](https://dartnode.com "Powered by DartNode - Free VPS for Open Source")
-
-***
-
-## ZMTO
-
-<a href="https://www.zmto.com/"><img src="https://console.zmto.com/templates/2019/dist/images/logo_dark.svg" alt="ZMTO"></a>
-<p><a href="https://www.zmto.com/">ZMTO</a>：一家专业的云基础设施提供商，以可靠的尖端技术与专业支持，提供高效的解决方案，并为符合条件的开源项目提供企业级VPS基础设施，支持开源生态系统的可持续发展与创新。</p>
+<h1>⭐ Star 趋势</h1>
+<p>
+<img alt="Star History Chart" src="https://api.star-history.com/chart?repos=JoeanAmier/XHS-Downloader&type=timeline&legend=bottom-right&sealed_token=ZDTLh76ddaIS6ETR6NSuijagJA79HsTOsW-cTmNd8i7MHejvjsI_D6UaNW2JU-H4gEbmrNOPDssMQpIRvGh8dfn6Gz-QmUnD3BhdMbpcet3YWyisu2sJOq4VGJzyVTf78-JfuKGfbJvH-NEUtu5qQDvypXM9O6kP8i1K27YE9ZoTpYnmKKlHfTMNoDXT" />
+</p>
 <h1>⚠️ 免责声明</h1>
 <ol>
 <li>使用者对本项目的使用由使用者自行决定，并自行承担风险。作者对使用者使用本项目所产生的任何损失、责任、或风险概不负责。</li>
@@ -671,12 +709,12 @@ A: 由于权限限制，您无法直接触发主仓库的 Actions。请通过 Fo
 
 # 💡 项目参考
 
-* https://github.com/encode/httpx/
+* https://github.com/lexiforest/curl_cffi
 * https://github.com/tiangolo/fastapi
 * https://github.com/textualize/textual/
+* https://github.com/marcelotduarte/cx_Freeze/
 * https://github.com/jlowin/fastmcp
 * https://github.com/omnilib/aiosqlite
-* https://github.com/thewh1teagle/rookie
 * https://github.com/carpedm20/emoji/
 * https://github.com/asweigart/pyperclip
 * https://github.com/lxml/lxml

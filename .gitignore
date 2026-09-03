@@ -6,3 +6,6 @@ __pycache__/
 /.run/
 /Volume/
 !/.github/
+/build/
+/dist/
+/output/
