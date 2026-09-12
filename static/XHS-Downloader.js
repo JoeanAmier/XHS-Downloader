@@ -597,6 +597,14 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             const key = note.video?.consumer?.originVideoKey;
             if (key) return [`https://sns-video-bd.xhscdn.com/${key}`];
             const allStreams = Object.values(note.video.media.stream).flat();
+            const avcStreams = allStreams.filter(stream =>
+                ["h264", "avc1", "x264", "EF4"].includes(stream.videoCodec) ||
+                (stream.streamType && stream.streamType < 300)
+            );
+            if (avcStreams.length) {
+                sortArray(avcStreams, "height");
+                return [avcStreams[0].backupUrls[0] || avcStreams[0].masterUrl];
+            }
             sortArray(allStreams, "height");
             return [allStreams[0].backupUrls[0] || allStreams[0].masterUrl];
         } catch (error) {
