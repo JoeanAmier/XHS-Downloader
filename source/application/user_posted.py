@@ -26,6 +26,7 @@ class UserPosted:
         self.cookies = self.get_cookie(cookies)
         self.print = manager.print
         self.retry = manager.retry
+        self.avg_delay = manager.avg_delay
         self.proxy = (self.client.proxies.get("all", None) if proxy is None else proxy,)
 
     def get_cookie(self, cookies: str | None = None) -> dict | str:
@@ -48,7 +49,7 @@ class UserPosted:
             headers=headers,
             proxy=self.proxy,
         )
-        await sleep_time()
+        await sleep_time(self.avg_delay)
         response.raise_for_status()
         return response.json()
 

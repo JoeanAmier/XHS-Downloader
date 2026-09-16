@@ -78,8 +78,11 @@ def get_wait_time(
     sigma: float = 0.6,
 ) -> float:
     mu = log(avg_delay) - (sigma**2 / 2)
-    return max(0.5, lognormvariate(mu, sigma))
+    delay = lognormvariate(mu, sigma)
+    min_delay = avg_delay * 0.2
+    max_delay = avg_delay * 5
+    return max(min_delay, min(max_delay, delay))
 
 
-async def sleep_time():
-    await sleep(get_wait_time())
+async def sleep_time(avg_delay: float | int = 6.0):
+    await sleep(get_wait_time(avg_delay))

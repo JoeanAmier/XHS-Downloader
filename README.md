@@ -309,6 +309,7 @@ async def example():
     timeout = 5  # 请求数据超时限制，单位：秒
     chunk = 1024 * 1024 * 10  # 下载文件时，每次从服务器获取的数据块大小，单位：字节
     max_retry = 2  # 请求数据失败时，重试的最大次数，单位：次
+    avg_delay = 6.0  # 请求数据的间隔时间均值，单位：秒
     record_data = False  # 是否保存作品数据至文件
     image_format = "WEBP"  # 图文作品文件下载格式，支持：AUTO、PNG、WEBP、JPEG、HEIC
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
@@ -335,6 +336,7 @@ async def example():
         timeout=timeout,
         chunk=chunk,
         max_retry=max_retry,
+        avg_delay=avg_delay,
         record_data=record_data,
         image_format=image_format,
         folder_mode=folder_mode,
@@ -442,6 +444,12 @@ async def example():
 <td align="center">int</td>
 <td align="center">请求数据超时限制，单位：秒</td>
 <td align="center">10</td>
+</tr>
+<tr>
+<td align="center">avg_delay</td>
+<td align="center">float</td>
+<td align="center">请求数据的间隔时间均值，单位：秒；最小值 0.1</td>
+<td align="center">6.0</td>
 </tr>
 <tr>
 <td align="center">chunk</td>

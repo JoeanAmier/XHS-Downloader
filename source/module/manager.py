@@ -58,6 +58,7 @@ class Manager:
         proxy_download: bool,
         timeout: int,
         retry: int,
+        avg_delay: float,
         record_data: bool,
         image_format: str,
         image_download: bool,
@@ -84,6 +85,7 @@ class Manager:
         self.blank_headers = HEADERS.copy()
         self.impersonate = self.__check_impersonate(impersonate)
         self.retry = self.__check_integer(retry, 5, 0)
+        self.avg_delay = self.__check_float(avg_delay, 6.0, 0.1)
         self.chunk = self.__check_integer(chunk, 2 * 1024 * 1024, 1024 * 1024)
         self.name_format = self.__check_name_format(name_format)
         self.record_data = self.check_bool(record_data, False)
@@ -199,6 +201,15 @@ class Manager:
 
         try:
             return max(minimum, value)
+        except (TypeError, ValueError):
+            return default
+
+    @staticmethod
+    def __check_float(value: float, default: float, minimum: float) -> float:
+        """将配置中的浮点数参数限制在下载器可接受的范围内。"""
+
+        try:
+            return max(minimum, float(value))
         except (TypeError, ValueError):
             return default
 

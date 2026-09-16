@@ -637,6 +637,7 @@ class GuiBackend:
                     "chunk": manager.chunk,
                     "timeout": manager.timeout,
                     "max_retry": manager.retry,
+                    "avg_delay": manager.avg_delay,
                     "image_format": manager.image_format,
                     "video_preference": manager.video_preference,
                     "proxy": manager.proxy,

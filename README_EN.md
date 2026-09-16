@@ -312,6 +312,7 @@ async def example():
     timeout = 5  # Request timeout limit, unit: seconds
     chunk = 1024 * 1024 * 10  # Data chunk size fetched from server per download, unit: bytes
     max_retry = 2  # Maximum retry count on request failure, unit: retries
+    avg_delay = 6.0  # Average delay between data requests, unit: seconds
     record_data = False  # Whether to save note data to file
     image_format = "WEBP"  # Image note download format, supports: AUTO, PNG, WEBP, JPEG, HEIC
     folder_mode = False  # Whether to store each note's files in a separate folder
@@ -338,6 +339,7 @@ async def example():
         timeout=timeout,
         chunk=chunk,
         max_retry=max_retry,
+        avg_delay=avg_delay,
         record_data=record_data,
         image_format=image_format,
         folder_mode=folder_mode,
@@ -445,6 +447,12 @@ async def example():
 <td align="center">int</td>
 <td align="center">Request data timeout limit, in seconds</td>
 <td align="center">10</td>
+</tr>
+<tr>
+<td align="center">avg_delay</td>
+<td align="center">float</td>
+<td align="center">Average delay between data requests, in seconds; minimum value 0.1</td>
+<td align="center">6.0</td>
 </tr>
 <tr>
 <td align="center">chunk</td>

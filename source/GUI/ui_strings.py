@@ -145,6 +145,10 @@ def get_ui_messages() -> dict[str, str]:
         "settings.second": _("秒"),
         "settings.retry": _("请求数据失败时，重试的最大次数"),
         "settings.times": _("次"),
+        "settings.avg_delay": _("请求数据的间隔时间均值"),
+        "settings.avg_delay_help": _(
+            "每次请求数据前的等待时间均值，用于避免请求过于频繁"
+        ),
         "settings.chunk": _("下载数据块大小"),
         "settings.byte": _("字节"),
         "settings.chunk_help": _("每次从下载响应中读取并写入临时文件的数据量"),

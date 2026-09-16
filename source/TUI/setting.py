@@ -115,6 +115,16 @@ class Setting(Screen):
                 type="integer",
                 id="max_retry",
             ),
+            Label(
+                _("请求数据的间隔时间均值，单位：秒"),
+                classes="params",
+            ),
+            Input(
+                str(self.data["avg_delay"]),
+                placeholder="6.0",
+                type="number",
+                id="avg_delay",
+            ),
             Label(),
             Container(
                 Checkbox(
@@ -270,6 +280,7 @@ class Setting(Screen):
                 "timeout": int(self.query_one("#timeout").value),
                 "chunk": int(self.query_one("#chunk").value),
                 "max_retry": int(self.query_one("#max_retry").value),
+                "avg_delay": float(self.query_one("#avg_delay").value),
                 "record_data": self.query_one("#record_data").value,
                 "image_format": self.query_one("#image_format").value.lower(),
                 "folder_mode": self.query_one("#folder_mode").value,

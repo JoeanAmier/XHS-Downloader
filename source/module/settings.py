@@ -20,6 +20,7 @@ class Settings:
         "proxy": None,  # 代理设置
         "proxy_download": False,  # 下载文件时使用网络代理
         "timeout": 10,  # 超时时间(秒)
+        "avg_delay": 6.0,  # 请求数据的间隔时间均值(秒)
         "chunk": 1024 * 1024 * 2,  # 下载块大小(字节)
         "max_retry": 5,  # 最大重试次数
         "record_data": False,  # 是否记录作品数据

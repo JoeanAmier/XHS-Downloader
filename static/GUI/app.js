@@ -1092,6 +1092,7 @@
         document.getElementById("settingsProxy").value = settings.proxy || "";
         document.getElementById("settingsTimeout").value = String(settings.timeout);
         document.getElementById("settingsMaxRetry").value = String(settings.max_retry);
+        document.getElementById("settingsAvgDelay").value = String(settings.avg_delay);
         document.getElementById("settingsChunkSize").value = String(settings.chunk);
         document.getElementById("settingsLanguage").value = settings.language;
         document.getElementById("settingsScriptServer").checked = Boolean(settings.script_server);
@@ -1144,6 +1145,7 @@
             proxy: document.getElementById("settingsProxy").value.trim() || null,
             timeout: Number(document.getElementById("settingsTimeout").value || 10),
             max_retry: Number(document.getElementById("settingsMaxRetry").value || 5),
+            avg_delay: Number(document.getElementById("settingsAvgDelay").value) || 6,
             chunk: chunkSize,
             language: document.getElementById("settingsLanguage").value,
             script_server: document.getElementById("settingsScriptServer").checked,
