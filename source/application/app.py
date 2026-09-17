@@ -251,9 +251,8 @@ class XHS:
         progress_callback: Callable[[dict], None] | None = None,
         task_id: str | None = None,
     ):
-        nickname = (
-            f"{container['作者ID']}_{self.CLEANER.filter_name(container['作者昵称'])}"
-        )
+        author_id = self.CLEANER.filter_name(container["作者ID"], default="unknown")
+        nickname = f"{author_id}_{self.CLEANER.filter_name(container['作者昵称'])}"
         filename = self.__naming_rules(container)
         path = self.downloader.generate_path(nickname, filename)
         if (u := container["下载地址"]) and download:
