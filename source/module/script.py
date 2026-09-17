@@ -1,6 +1,6 @@
-from asyncio import CancelledError, Queue, create_task
+from asyncio import CancelledError, Queue, QueueFull, create_task
 from contextlib import suppress
-from json import loads
+from json import JSONDecodeError, loads
 from typing import TYPE_CHECKING
 
 from websockets import ConnectionClosed, serve
@@ -19,24 +19,45 @@ class ScriptServer:
     def __init__(
         self,
         core: "XHS",
-        host="0.0.0.0",
+        host="127.0.0.1",
         port=5558,
     ):
         self.core = core
         self.host = host
         self.port = port
         self.server = None
-        self.queue = Queue()
+        self.queue = Queue(maxsize=100)
         self.worker = None
 
     async def handler(self, websocket):
         with suppress(ConnectionClosed):
             async for message in websocket:
-                self.queue.put_nowait(loads(message))
+                try:
+                    task = loads(message)
+                except (JSONDecodeError, TypeError):
+                    continue
+                if not (
+                    isinstance(task, dict)
+                    and set(task) == {"data", "index"}
+                    and isinstance(task["data"], dict)
+                    and (task["index"] is None or isinstance(task["index"], list))
+                ):
+                    continue
+                try:
+                    self.queue.put_nowait(task)
+                except QueueFull:
+                    await websocket.close(code=1008, reason="Task queue is full")
+                    return
 
     async def worker_loop(self):
         while True:
-            await self.core.process_script_task(**await self.queue.get())
+            task = await self.queue.get()
+            try:
+                await self.core.process_script_task(**task)
+            except Exception as exc:
+                self.core.logging(f"Script task failed: {exc}")
+            finally:
+                self.queue.task_done()
 
     async def start(self):
         """启动服务器"""
@@ -45,6 +66,7 @@ class ScriptServer:
             self.host,
             self.port,
             origins=self.ORIGINS,
+            max_size=1024 * 1024,
         )
         self.worker = create_task(self.worker_loop())
 
