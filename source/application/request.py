@@ -81,7 +81,6 @@ class Html:
             headers=headers,
             cookies=self.manager.cookie_str_to_dict(cookie),
             timeout=self.timeout,
-            verify=False,
             allow_redirects=True,
             proxy=self.proxy if proxy is None else proxy,
             impersonate=self.impersonate,

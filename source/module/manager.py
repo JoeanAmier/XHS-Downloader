@@ -99,14 +99,12 @@ class Manager:
             headers=self.blank_headers,
             cookies=self.cookie_str_to_dict(cookie),
             timeout=self.timeout,
-            verify=False,
             allow_redirects=True,
             proxy=self.proxy,
             impersonate=self.impersonate,
         )
         self.download_client = AsyncSession(
             timeout=self.timeout,
-            verify=False,
             allow_redirects=True,
             proxy=self.proxy if self.proxy_download else None,
             impersonate=self.impersonate,
