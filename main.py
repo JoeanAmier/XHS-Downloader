@@ -13,7 +13,7 @@ async def tui():
 
 
 async def api_server(
-    host="0.0.0.0",
+    host="127.0.0.1",
     port=5556,
     log_level="info",
 ):
@@ -27,7 +27,7 @@ async def api_server(
 
 async def mcp_server(
     transport="streamable-http",
-    host="0.0.0.0",
+    host="127.0.0.1",
     port=5556,
     log_level="INFO",
 ):
