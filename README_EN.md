@@ -42,6 +42,7 @@
 <li>✅ Customizable file name format</li>
 <li>✅ Support API call functionality</li>
 <li>✅ Support MCP call functionality</li>
+<li>✅ Support authentication for API, MCP, and userscripts</li>
 <li>✅ Support file breakpoint resume download</li>
 <li>✅ Intelligent recognition of notes file types</li>
 <li>✅ Supports author alias configuration</li>
@@ -131,6 +132,9 @@
 <p>The project supports command line mode, allowing you to download note files directly via command line parameters, and you can also set the image sequence number to download!</p>
 <p><strong>Note:</strong> When the <code>--index</code> parameter is not set, multiple notes links can be passed in. All links must be enclosed in quotation marks and separated by spaces. When the <code>--index</code> parameter is set, multiple notes links are not supported. Even if multiple links are passed in, the program will only process the first link!</p>
 <p>The <code>bool</code> type parameters support setting with <code>true</code>, <code>false</code>, <code>1</code>, <code>0</code>, <code>yes</code>, <code>no</code>, <code>on</code> or <code>off</code> (case insensitive).</p>
+<h2 id="auth-token">Generate Authentication Token</h2>
+<pre>python .\main.py token</pre>
+<p>With <code>uv</code>, you can run <code>uv run main.py token</code> to obtain the authentication token.</p>
 <h2>Read Browser Cookies</h2>
 <p>This feature is no longer available. Please refer to the <a href="#cookie">Obtain Cookie</a> tutorial!</p>
 <p><del>You can use the command line to <b>read cookies from browser and write them to the configuration file!</b></del></p>
@@ -143,11 +147,15 @@
 </details>
 <h1>🖥 Server Mode</h1>
 <p>Server modes include API mode and MCP mode!</p>
+<h2>Authentication Token</h2>
+<p>API and MCP modes print the authentication token to the terminal when they start.</p>
+<p>The token is valid indefinitely by default. Do not expose it publicly. The token is bound to the current project's <code>Volume/auth_secret.key</code> file. To rotate the token, delete this file; the program will create a new key the next time it starts or generates a token, and the old token will become invalid.</p>
 <h2>API Mode</h2>
 <details>
 <summary>API Mode description, suitable for developers who need to call the API to retrieve note data or download files (click to expand)</summary>
 <p><b>Start:</b> Run the command: <code>python .\main.py api</code></p>
 <p><b>Stop:</b> Press <code>Ctrl</code> + <code>C</code> to stop the server</p>
+<p>When calling a business API, the request must include <code>Authorization: Bearer &lt;token&gt;</code> in the request header. Requests without a token or with an invalid token return <code>403</code>. In the <code>/docs</code> page, click <code>Authorize</code> in the upper-right corner and enter the token to test the API.</p>
 <p>Open <code>http://127.0.0.1:5556/docs</code> or <code>http://127.0.0.1:5556/redoc</code>; you will see automatically generated interactive API documentation!</p>
 <p><b>Request endpoint:</b>
 <code>/xhs/detail</code></p>
@@ -219,7 +227,9 @@ async def example_api():
         ],
         "proxy": "http://127.0.0.1:10808",
     }
-    response = post(server, json=data, timeout=10)
+    token = "Authentication token printed when API mode starts"
+    headers = {"Authorization": f"Bearer {token}"}
+    response = post(server, json=data, headers=headers, timeout=10)
     print(response.json())
 </pre>
 </details>
@@ -228,11 +238,22 @@ async def example_api():
 <summary>MCP Mode description, suitable for developers who need to run MCP services to integrate with AI assistants and other tools (click to expand)</summary>
 <p><b>Start:</b> Run the command: <code>python .\main.py mcp</code></p>
 <p><b>Stop:</b> Press <code>Ctrl</code> + <code>C</code> to stop the server</p>
+<p>When calling the MCP HTTP endpoint, clients must include <code>Authorization: Bearer &lt;token&gt;</code> in the request header. Requests without a token or with an invalid token are rejected.</p>
 <h3>MCP Configuration Example</h3>
 
 [//]: # (<h4>STDIO</h4>)
 <h4>Streamable HTTP</h4>
-<p><b>MCP URL:</b><code>http://127.0.0.1:5556/mcp/</code></p>
+<p><b>MCP URL:</b><code>http://127.0.0.1:5556/mcp</code></p>
+<pre>{
+  "mcpServers": {
+    "XHS-Downloader": {
+      "url": "http://127.0.0.1:5556/mcp",
+      "headers": {
+        "Authorization": "Bearer &lt;authentication token&gt;"
+      }
+    }
+  }
+}</pre>
 <img src="static/screenshot/MCP配置示例.png" alt="MCP Configuration Example">
 <h3>MCP Invocation Example</h3>
 <h4><strong>Retrieve RedNote Notes Information</strong></h4>
@@ -276,6 +297,7 @@ async def example_api():
 <ul><b>Function Description:</b>
 <li>In the project program's configuration file, you need to set the <code>script_server</code> parameter to <code>true</code></li>
 <li>Keep the project program running in the background, where it will act as a server to receive commands from the userscript (TUI, MCP, and API modes are all supported)</li>
+<li>Enter the authentication token in the userscript settings when configuring it for the first time or after rotating the token; see the <a href="#auth-token">CLI section's instructions for generating an authentication token</a></li>
 <li>When you visit a post page in your browser, click the <code>Push Download Task</code> option in the userscript menu</li>
 <li>The userscript will send the download task to the project program, which will handle and download the files</li>
 </ul>

@@ -94,7 +94,9 @@ async def example_api():
         ],
         "proxy": "http://127.0.0.1:10808",
     }
-    response = post(server, json=data, timeout=10)
+    token = "API 模式启动时输出的鉴权令牌"
+    headers = {"Authorization": f"Bearer {token}"}
+    response = post(server, json=data, headers=headers, timeout=10)
     print(response.json())
 
 

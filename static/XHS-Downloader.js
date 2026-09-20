@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.4.3
+// @version        2.4.4
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -189,7 +189,8 @@ KS-Downloader（快手、KuaiShou）：https://github.com/JoeanAmier/KS-Download
             imageCheckboxTitle: '请选中需要下载的图片',
             scriptServerError: '脚本服务器连接出错，请检查网络连接或脚本服务器状态是否正常！',
             pushTaskError: '脚本服务器未连接，请检查网络连接或脚本服务器状态是否正常！',
-            pushTaskSuccess: "已向服务器发送下载请求",
+            scriptAuthTokenLabel: '鉴权令牌',
+            scriptAuthTokenDesc: '填写程序启动时输出的鉴权令牌',
             resetIconPositionMenuText: '重置图标位置',
             resetIconPositionTip: '图标位置已重置',
             settingsTitle: '用户脚本设置',
@@ -345,7 +346,8 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             imageCheckboxTitle: 'Please select images to download',
             scriptServerError: 'Server connection error. Please check your network or server status!',
             pushTaskError: 'Server not connected. Please check your network or server status!',
-            pushTaskSuccess: "Download request sent to server successfully",
+            scriptAuthTokenLabel: 'Authentication Token',
+            scriptAuthTokenDesc: 'Enter the token printed when the program starts',
             resetIconPositionMenuText: 'Reset icon position',
             resetIconPositionTip: 'Icon position reset',
             settingsTitle: 'Script Settings',
@@ -422,6 +424,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         imageDownloadFormat: GM_getValue("imageDownloadFormat", "jpeg"),
         scriptServerURL: GM_getValue("scriptServerURL", defaultsWebSocketURL),
         scriptServerSwitch: GM_getValue("scriptServerSwitch", false),
+        scriptAuthToken: GM_getValue("scriptAuthToken", ""),
         fileNameFormatKeys: storedFileNameFormatKeys,
         icon: {
             type: 'image', // 可选: image/svg/font
@@ -543,6 +546,11 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     const updateScriptServerURL = (value) => {
         config.scriptServerURL = value;
         GM_setValue("scriptServerURL", config.scriptServerURL);
+    }
+
+    const updateScriptAuthToken = (value) => {
+        config.scriptAuthToken = value;
+        GM_setValue("scriptAuthToken", config.scriptAuthToken);
     }
 
     const updateScriptServerSwitch = (value) => {
@@ -680,6 +688,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                     data.index = await showImageSelectionModal(items, name, server,);
                 }
             }
+            data.auth_token = config.scriptAuthToken;
             webSocket.send(JSON.stringify(data));
         } else {
             console.debug(`文件名称 ${name}`);
@@ -1313,10 +1322,22 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         background: #9e9e9e;
     }
     .settings-body {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+    .settings-columns {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 18px 20px;
+        gap: 20px;
+        width: 100%;
         align-items: start;
+    }
+    .settings-column {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        min-width: 0;
     }
     .modal-footer {
         padding: 1rem;
@@ -1361,7 +1382,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         min-width: 0;
     }
     .settings-group.wide {
-        grid-column: 1 / -1;
+        width: 100%;
     }
     .settings-group-title {
         color: #212121;
@@ -1442,12 +1463,20 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     }
     .text-input {
         width: 100%;
+        box-sizing: border-box;
         padding: 8px;
         border: 1px solid #ddd;
         border-radius: 4px;
         font-size: 0.9rem;
+        font-family: inherit;
         margin-top: 8px;
         transition: border-color 0.2s;
+    }
+    textarea.text-input {
+        min-height: 84px;
+        line-height: 1.45;
+        resize: vertical;
+        overflow-wrap: anywhere;
     }
     .text-input:focus {
         outline: none;
@@ -1565,7 +1594,11 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             width: 95vw;
         }
         .settings-body {
+            gap: 14px;
+        }
+        .settings-columns {
             grid-template-columns: 1fr;
+            gap: 14px;
         }
         .settings-group.wide .settings-group-content {
             grid-template-columns: 1fr;
@@ -1751,7 +1784,14 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     };
 
     // 创建文本输入项
-    const createTextInput = ({label, description, placeholder, value, disabled = false}) => {
+    const createTextInput = ({
+                                 label,
+                                 description,
+                                 placeholder,
+                                 value,
+                                 disabled = false,
+                                 multiline = false,
+                             }) => {
         const item = document.createElement('div');
         item.className = 'setting-item';
         item.style.opacity = disabled ? 0.6 : 1;
@@ -1766,8 +1806,14 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         desc.className = 'setting-description';
         desc.textContent = description;
 
-        const input = document.createElement('input');
-        input.type = 'text';
+        const input = document.createElement(multiline ? 'textarea' : 'input');
+        if (!multiline) {
+            input.type = 'text';
+        } else {
+            input.rows = 3;
+            input.wrap = 'soft';
+            input.spellcheck = false;
+        }
         input.className = 'text-input';
         input.placeholder = placeholder ?? "";
         input.value = value ?? "";
@@ -2038,6 +2084,14 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                                                         checked: GM_getValue("scriptServerSwitch", false),
                                                     });
 
+        const scriptAuthToken = createTextInput({
+                                                    label: t.scriptAuthTokenLabel,
+                                                    description: t.scriptAuthTokenDesc,
+                                                    placeholder: t.scriptAuthTokenLabel,
+                                                    value: GM_getValue("scriptAuthToken", ""),
+                                                    multiline: true,
+                                                });
+
         const imageDownloadFormat = createSelectItem({
                                                          label: t.imageDownloadFormatLabel,
                                                          description: t.imageDownloadFormatDesc,
@@ -2079,14 +2133,37 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         };
 
         // 组合内容
-        body.appendChild(createSettingsGroup(
+        const downloadSettings = createSettingsGroup(
             t.downloadSettingsGroup,
             [filePack, imageCheckboxSwitch, imageDownloadFormat, nameFormat],
             true
-        ));
-        body.appendChild(createSettingsGroup(t.extractSettingsGroup, [autoScroll, scrollCount, linkCheckboxSwitch]));
-        body.appendChild(createSettingsGroup(t.displaySettingsGroup, [keepMenuVisible]));
-        body.appendChild(createSettingsGroup(t.serverSettingsGroup, [scriptServerSwitch, scriptServerURL]));
+        );
+        const extractSettings = createSettingsGroup(
+            t.extractSettingsGroup,
+            [autoScroll, scrollCount, linkCheckboxSwitch],
+        );
+        const displaySettings = createSettingsGroup(
+            t.displaySettingsGroup,
+            [keepMenuVisible],
+        );
+        const serverSettings = createSettingsGroup(t.serverSettingsGroup, [
+            scriptServerSwitch,
+            scriptServerURL,
+            scriptAuthToken,
+        ]);
+        const settingsColumns = document.createElement('div');
+        settingsColumns.className = 'settings-columns';
+        const leftSettings = document.createElement('div');
+        leftSettings.className = 'settings-column';
+        leftSettings.appendChild(extractSettings);
+        leftSettings.appendChild(displaySettings);
+        const rightSettings = document.createElement('div');
+        rightSettings.className = 'settings-column';
+        rightSettings.appendChild(serverSettings);
+        settingsColumns.appendChild(leftSettings);
+        settingsColumns.appendChild(rightSettings);
+        body.appendChild(downloadSettings);
+        body.appendChild(settingsColumns);
 
         // 创建底部按钮
         const footer = document.createElement('div');
@@ -2116,6 +2193,9 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             updateImageCheckboxSwitch(imageCheckboxSwitch.querySelector('input').checked);
             updateMaxScrollCount(parseInt(scrollCount.querySelector('input').value) || 50)
             updateScriptServerURL(scriptServerURL.querySelector('.text-input').value.trim() || defaultsWebSocketURL);
+            updateScriptAuthToken(
+                scriptAuthToken.querySelector('.text-input').value.replace(/\s+/g, ''),
+            );
             updateScriptServerSwitch(scriptServerSwitch.querySelector('input').checked);
             updateImageDownloadFormat(imageDownloadFormat.querySelector('select').value.trim() || "jpeg");
             updateFileNameFormat(nameFormat.getFileNameFormatKeys());
@@ -3349,7 +3429,14 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         }
 
         onMessage(message) {
-
+            try {
+                const data = JSON.parse(message.data);
+                if (data.message) {
+                    showToast(data.message);
+                }
+            } catch (error) {
+                console.error('Invalid Script Server response:', error);
+            }
         }
 
         onClose(event) {
@@ -3395,7 +3482,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         send(data) {
             if (this.isConnected) {
                 this.ws.send(data);
-                showToast(t.pushTaskSuccess);
             } else {
                 showToast(t.pushTaskError,);
             }

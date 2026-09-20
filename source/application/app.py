@@ -16,9 +16,11 @@ from types import SimpleNamespace
 from typing import Annotated, Awaitable, Callable
 from urllib.parse import urlparse
 
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from fastmcp import FastMCP
+from fastmcp.server.auth import AccessToken, TokenVerifier
 from pydantic import Field
 from pyperclip import copy, paste
 from rich import print
@@ -55,6 +57,7 @@ from ..module import (
     ScriptServer,
     logging,
 )
+from ..module.auth import generate_auth_token, verify_auth_token
 from ..translation import _, switch_language
 from .download import Download
 from .explore import Explore
@@ -63,6 +66,17 @@ from .request import Html
 from .video import Video
 
 __all__ = ["XHS"]
+
+
+class _TokenVerifier(TokenVerifier):
+    async def verify_token(self, token: str) -> AccessToken | None:
+        if not verify_auth_token(token):
+            return None
+        return AccessToken(
+            token=token,
+            client_id="XHS-Downloader",
+            scopes=[],
+        )
 
 
 def new_statistics(total: int = 0) -> SimpleNamespace:
@@ -787,6 +801,7 @@ class XHS:
         port=5556,
         log_level="info",
     ):
+        print(_("鉴权令牌: {}").format(generate_auth_token()))
         api = FastAPI(
             debug=self.VERSION_BETA,
             title="XHS-Downloader",
@@ -806,6 +821,8 @@ class XHS:
         self,
         server: FastAPI,
     ):
+        bearer = HTTPBearer(auto_error=False)
+
         @server.get(
             "/",
             summary=_("跳转至项目 GitHub 仓库"),
@@ -833,7 +850,13 @@ class XHS:
             tags=["API"],
             response_model=ExtractData,
         )
-        async def handle(extract: ExtractParams):
+        async def handle(
+            extract: ExtractParams,
+            credentials: HTTPAuthorizationCredentials | None = Depends(bearer),
+        ):
+            token = credentials.credentials if credentials else None
+            if not verify_auth_token(token):
+                raise HTTPException(status_code=403)
             data = None
             url = await self.extract_links(
                 extract.url,
@@ -862,6 +885,7 @@ class XHS:
         port=5556,
         log_level="INFO",
     ):
+        print(_("鉴权令牌: {}").format(generate_auth_token()))
         mcp = FastMCP(
             "XHS-Downloader",
             instructions=dedent("""
@@ -891,6 +915,7 @@ class XHS:
                 - data：作品信息数据，不需要返回作品信息数据时固定为 None
                 """),
             version=__VERSION__,
+            auth=_TokenVerifier(),
         )
 
         @mcp.tool(

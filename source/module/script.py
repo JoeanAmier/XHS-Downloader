@@ -1,10 +1,13 @@
 from asyncio import CancelledError, Queue, create_task
 from contextlib import suppress
-from json import loads
+from json import dumps, loads
 from typing import TYPE_CHECKING
 
 from websockets import ConnectionClosed, serve
 from websockets.typing import Origin
+
+from ..translation import _
+from .auth import verify_auth_token
 
 if TYPE_CHECKING:
     from ..application import XHS
@@ -32,7 +35,37 @@ class ScriptServer:
     async def handler(self, websocket):
         with suppress(ConnectionClosed):
             async for message in websocket:
-                self.queue.put_nowait(loads(message))
+                try:
+                    data = loads(message)
+                except (TypeError, ValueError):
+                    await websocket.send(
+                        dumps({"status": "error", "message": _("非法数据")})
+                    )
+                    continue
+                if not isinstance(data, dict):
+                    await websocket.send(
+                        dumps({"status": "error", "message": _("非法数据")})
+                    )
+                    continue
+                if not verify_auth_token(data.pop("auth_token", None)):
+                    await websocket.send(
+                        dumps(
+                            {
+                                "status": "error",
+                                "message": _("鉴权令牌无效或已过期"),
+                            }
+                        )
+                    )
+                    continue
+                self.queue.put_nowait(data)
+                await websocket.send(
+                    dumps(
+                        {
+                            "status": "accepted",
+                            "message": _("下载任务已接收"),
+                        }
+                    )
+                )
 
     async def worker_loop(self):
         while True:

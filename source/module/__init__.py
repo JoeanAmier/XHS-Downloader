@@ -44,3 +44,4 @@ from .tools import (
 )
 from .script import ScriptServer
 from .note_info import NoteGenerator
+from .auth import generate_auth_token, verify_auth_token
