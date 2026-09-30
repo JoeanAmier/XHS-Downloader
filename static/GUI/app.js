@@ -365,6 +365,17 @@
         refreshQueue();
     });
 
+    document.getElementById("copyTaskLinks").addEventListener("click", () => {
+        void runNativeAction(async () => {
+            const copied = await nativeApi.copy_task_links(currentQueueFilter);
+            if (copied === 0) {
+                showToast(translateText("toast.no_links_to_copy"), "warning");
+                return;
+            }
+            showToast(formatTranslated("toast.links_copied", [copied]));
+        });
+    });
+
     let currentMonitorFilter = "all";
 
     function refreshMonitorQueue() {

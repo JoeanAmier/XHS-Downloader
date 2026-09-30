@@ -2,14 +2,13 @@
 
 from base64 import urlsafe_b64decode, urlsafe_b64encode
 from binascii import Error as Base64Error
-from json import dumps, loads
 from hashlib import sha256
 from hmac import compare_digest, new
+from json import dumps, loads
 from secrets import token_bytes
 from time import time
 
 from .static import VOLUME
-
 
 _TOKEN_LIFETIME: int | None = None
 _PROJECT_ID = "JoeanAmier/XHS-Downloader"

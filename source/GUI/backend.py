@@ -535,6 +535,26 @@ class GuiBackend:
 
         return await asyncio.to_thread(paste)
 
+    async def copy_task_links(self, state: str) -> int:
+        """将指定任务状态下的作品链接复制到系统剪贴板。"""
+
+        if state not in {
+            "all",
+            "processing",
+            "pending",
+            "success",
+            "failed",
+            "skipped",
+        }:
+            raise ValueError(f"Unsupported task filter: {state}")
+        links = [
+            task.url
+            for task in self.tasks.values()
+            if task.url and (state == "all" or task.state == state)
+        ]
+        await asyncio.to_thread(copy, "\n".join(links))
+        return len(links)
+
     async def get_history_page(self, query: str = "", page: int = 1) -> dict[str, Any]:
         """从数据库查询指定页的作品 ID；搜索在数据库端执行而非前端过滤。"""
 
@@ -790,6 +810,11 @@ class GuiApi:
         """读取剪贴板文本。"""
 
         return self._backend.call(self._backend.read_clipboard())
+
+    def copy_task_links(self, state: str) -> int:
+        """将指定任务状态下的作品链接复制到剪贴板。"""
+
+        return self._backend.call(self._backend.copy_task_links(state))
 
     def browse_directory(self, directory: str = "") -> str:
         """打开系统目录选择器并返回用户选中的路径。"""

@@ -283,6 +283,11 @@
             <section class="view" data-page="queue">
                 <div class="page-heading queue-heading">
                     <div class="heading-actions">
+                        <button class="secondary-button" id="copyTaskLinks" type="button">
+                            <svg>
+                                <use href="#clipboard"/>
+                            </svg>
+                            <span data-i18n="queue.copy_links"></span></button>
                         <button class="secondary-button" id="openDownloadFolder" type="button">
                             <svg>
                                 <use href="#external"/>
@@ -319,9 +324,7 @@
                             <h3 data-i18n="nav.queue"></h3>
                             <div class="segmented" id="queueFilters">
                                 <button class="active" type="button" data-filter="all" data-i18n="queue.all"></button>
-                                <!--
                                 <button type="button" data-filter="processing" data-i18n="queue.processing"></button>
-                                -->
                                 <button type="button" data-filter="pending" data-i18n="queue.pending"></button>
                                 <button type="button" data-filter="success" data-i18n="queue.success"></button>
                                 <button type="button" data-filter="failed" data-i18n="queue.failed"></button>
