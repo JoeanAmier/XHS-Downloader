@@ -1,14 +1,12 @@
-from re import compile
+from json import loads
 from typing import Union
 
 from lxml.etree import HTML
-from yaml import safe_load
 
 __all__ = ["Converter"]
 
 
 class Converter:
-    YAML_ILLEGAL = compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")
     INITIAL_STATE = "//script/text()"
     PC_KEYS_LINK = (
         "note",
@@ -34,9 +32,9 @@ class Converter:
 
     @classmethod
     def _convert_object(cls, text: str) -> dict:
-        cleaned = cls.YAML_ILLEGAL.sub("", text.lstrip("window.__INITIAL_STATE__="))
-        cleaned = cleaned.replace("new Map([])", "[]").replace("undefined", "null")
-        return safe_load(cleaned)
+        cleaned = text.removeprefix("window.__INITIAL_STATE__=")
+        cleaned = cleaned.replace("new Map([])", "[]").replace(":undefined", ":null")
+        return loads(cleaned, strict=False)
 
     @classmethod
     def _filter_object(cls, data: dict) -> dict:

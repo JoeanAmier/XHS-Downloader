@@ -799,7 +799,6 @@ repository to execute the build process
 * https://github.com/carpedm20/emoji/
 * https://github.com/asweigart/pyperclip
 * https://github.com/lxml/lxml
-* https://github.com/yaml/pyyaml
 * https://github.com/pallets/click/
 * https://github.com/encode/uvicorn
 * https://github.com/Tinche/aiofiles

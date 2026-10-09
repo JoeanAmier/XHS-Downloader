@@ -20,8 +20,6 @@ pyperclip==1.11.0
     # via xhs-downloader (pyproject.toml)
 pywebview==6.2.1
     # via xhs-downloader (pyproject.toml)
-pyyaml==6.0.3
-    # via xhs-downloader (pyproject.toml)
 textual==8.2.8
     # via xhs-downloader (pyproject.toml)
 uvicorn==0.52.4
