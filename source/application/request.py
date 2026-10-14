@@ -79,7 +79,7 @@ class Html:
         return get(
             url,
             headers=headers,
-            cookies=self.manager.cookie_str_to_dict(cookie),
+            cookies=self.manager.cookie_str_to_cookies(cookie),
             timeout=self.timeout,
             verify=False,
             allow_redirects=True,

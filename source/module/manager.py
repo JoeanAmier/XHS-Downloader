@@ -5,7 +5,7 @@ from re import compile, sub
 from shutil import move, rmtree
 from typing import TYPE_CHECKING, get_args
 
-from curl_cffi.requests import AsyncSession, BrowserTypeLiteral, get
+from curl_cffi.requests import AsyncSession, BrowserTypeLiteral, Cookies, get
 from curl_cffi.requests.exceptions import RequestException, Timeout
 
 from source.expansion import remove_empty_directories
@@ -21,6 +21,12 @@ __all__ = ["Manager"]
 
 
 class Manager:
+    COOKIE_DOMAINS = (
+        ".xhslink.com",
+        ".xhslink.cn",
+        ".xiaohongshu.com",
+        ".rednote.com",
+    )
     NAME = compile(r"[^\u4e00-\u9fffa-zA-Z0-9-_！？，。；：“”（）《》]")
     NAME_KEYS = (
         "收藏数量",
@@ -99,7 +105,7 @@ class Manager:
         self.print_proxy_tip()
         self.request_client = AsyncSession(
             headers=self.blank_headers,
-            cookies=self.cookie_str_to_dict(cookie),
+            cookies=self.cookie_str_to_cookies(cookie),
             timeout=self.timeout,
             verify=False,
             allow_redirects=True,
@@ -335,3 +341,18 @@ class Manager:
         cookie = SimpleCookie()
         cookie.load(cookie_str)
         return {key: morsel.value for key, morsel in cookie.items()}
+
+    @classmethod
+    def cookie_str_to_cookies(cls, cookie_str: str) -> Cookies:
+        values = cls.cookie_str_to_dict(cookie_str)
+        cookies = Cookies()
+        for domain in cls.COOKIE_DOMAINS:
+            for name, value in values.items():
+                cookies.set(
+                    name,
+                    value,
+                    domain=domain,
+                    path="/",
+                    secure=True,
+                )
+        return cookies
