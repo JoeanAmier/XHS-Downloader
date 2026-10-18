@@ -33,7 +33,11 @@ class Converter:
     @classmethod
     def _convert_object(cls, text: str) -> dict:
         cleaned = text.removeprefix("window.__INITIAL_STATE__=")
-        cleaned = cleaned.replace("new Map([])", "[]").replace(":undefined", ":null")
+        cleaned = (
+            cleaned.replace("new Map([])", "[]")
+            .replace("new Set([])", "[]")
+            .replace(":undefined", ":null")
+        )
         return loads(cleaned, strict=False)
 
     @classmethod
