@@ -15,7 +15,7 @@ COPY requirements.txt .
 
 # 在这个具备编译环境的阶段安装所有 Python 依赖
 # 安装到一个独立的目录 /install 中，以便后续复制
-RUN pip install --no-cache-dir --prefix="/install" -r requirements.txt
+RUN pip install --no-cache-dir --prefix="/install" -r requirements.txt "fastmcp>=4.1.0"
 
 # ---- 阶段 2: 最终镜像 (Final Image) ----
 # 使用轻量级 slim 镜像作为最终的运行环境

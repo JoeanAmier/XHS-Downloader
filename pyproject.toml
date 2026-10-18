@@ -15,13 +15,17 @@ dependencies = [
     "curl-cffi>=0.16.0",
     "emoji>=2.15.0",
     "fastapi>=0.141.1",
-    "fastmcp>=3.4.7",
     "lxml>=6.1.2",
     "pyperclip>=1.11.0",
     "pywebview>=6.2.1",
     "textual>=8.2.8",
     "uvicorn>=0.52.4",
     "websockets>=17.0.1",
+]
+
+[project.optional-dependencies]
+mcp = [
+    "fastmcp>=4.1.0",
 ]
 
 [project.urls]

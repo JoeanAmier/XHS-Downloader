@@ -233,6 +233,7 @@ async def example_api():
 <h2>MCP 模式</h2>
 <details>
 <summary>MCP 模式说明，适合需要启动 MCP 服务接入 AI 助手等工具的开发者（点击展开）</summary>
+<p>MCP 模式为可选功能，源码运行时需额外安装 <code>fastmcp</code> 库，参考命令：<code>pip install "fastmcp&gt;=4.1.0"</code> 或 <code>uv sync --no-dev --extra mcp</code></p>
 <p><b>启动：</b>运行命令：<code>python .\main.py mcp</code></p>
 <p><b>关闭：</b>按下 <code>Ctrl</code> + <code>C</code> 关闭服务器</p>
 <p>调用 MCP 的 HTTP 接口时，客户端必须在请求头中携带 <code>Authorization: Bearer &lt;令牌&gt;</code>；未携带或令牌无效时请求会被拒绝。</p>

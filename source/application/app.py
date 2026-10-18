@@ -19,8 +19,6 @@ from urllib.parse import urlparse
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from fastmcp import FastMCP
-from fastmcp.server.auth import AccessToken, TokenVerifier
 from pydantic import Field
 from pyperclip import copy, paste
 from rich import print
@@ -66,17 +64,6 @@ from .request import Html
 from .video import Video
 
 __all__ = ["XHS"]
-
-
-class _TokenVerifier(TokenVerifier):
-    async def verify_token(self, token: str) -> AccessToken | None:
-        if not verify_auth_token(token):
-            return None
-        return AccessToken(
-            token=token,
-            client_id="XHS-Downloader",
-            scopes=[],
-        )
 
 
 def new_statistics(total: int = 0) -> SimpleNamespace:
@@ -885,6 +872,27 @@ class XHS:
         port=5556,
         log_level="INFO",
     ):
+        try:
+            from fastmcp import FastMCP
+            from fastmcp.server.auth import AccessToken, TokenVerifier
+        except ImportError:
+            print(
+                _(
+                    '未安装 fastmcp 模块，请运行 pip install "fastmcp>=4.1.0" 或 uv sync --no-dev --extra mcp 后重新运行！'
+                )
+            )
+            return
+
+        class _TokenVerifier(TokenVerifier):
+            async def verify_token(self, token: str) -> AccessToken | None:
+                if not verify_auth_token(token):
+                    return None
+                return AccessToken(
+                    token=token,
+                    client_id="XHS-Downloader",
+                    scopes=[],
+                )
+
         print(_("鉴权令牌: {}").format(generate_auth_token()))
         mcp = FastMCP(
             "XHS-Downloader",

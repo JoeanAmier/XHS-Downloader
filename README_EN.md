@@ -236,6 +236,7 @@ async def example_api():
 <h2>MCP Mode</h2>
 <details>
 <summary>MCP Mode description, suitable for developers who need to run MCP services to integrate with AI assistants and other tools (click to expand)</summary>
+<p>MCP mode is optional; when running from source, install the extra <code>fastmcp</code> library. Reference command: <code>pip install "fastmcp&gt;=4.1.0"</code> or <code>uv sync --no-dev --extra mcp</code></p>
 <p><b>Start:</b> Run the command: <code>python .\main.py mcp</code></p>
 <p><b>Stop:</b> Press <code>Ctrl</code> + <code>C</code> to stop the server</p>
 <p>When calling the MCP HTTP endpoint, clients must include <code>Authorization: Bearer &lt;token&gt;</code> in the request header. Requests without a token or with an invalid token are rejected.</p>
