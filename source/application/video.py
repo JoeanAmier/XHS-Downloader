@@ -27,6 +27,22 @@ class Video:
             else []
         )
 
+    @staticmethod
+    def is_h264(item: Namespace) -> bool:
+        codec = str(getattr(item, "videoCodec", "")).lower()
+        desc = str(getattr(item, "streamDesc", "")).lower()
+        try:
+            stream_type = int(getattr(item, "streamType", 0))
+        except (TypeError, ValueError):
+            stream_type = 0
+        # 小红书登录页面返回的流使用 EF4/EF5 这类编码标识。
+        # EF4 对应 H.264/AVC，EF5 对应 H.265/HEVC；streamType 258/259 等小于 300 的也属于 AVC。
+        return (
+            codec in {"h264", "avc1", "x264", "ef4"}
+            or "x264" in desc
+            or 0 < stream_type < 300
+        )
+
     @classmethod
     def get_video_link(
         cls,
@@ -35,6 +51,9 @@ class Video:
     ) -> list:
         if not (items := cls.get_video_items(data)):
             return []
+        # Prefer H.264/AVC to avoid HEVC playback issues (audio only).
+        if compatible := [item for item in items if cls.is_h264(item)]:
+            items = compatible
         match preference:
             case "resolution":
                 items.sort(key=lambda x: x.height)
