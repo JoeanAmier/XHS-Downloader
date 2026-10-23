@@ -784,7 +784,7 @@ class XHS:
 
     async def run_api_server(
         self,
-        host="0.0.0.0",
+        host="127.0.0.1",
         port=5556,
         log_level="info",
     ):
@@ -830,7 +830,6 @@ class XHS:
                 - **download**: 是否下载作品文件；设置为 true 将会耗费更多时间；可选参数
                 - **index**: 下载指定序号的图片文件，仅对图文作品生效；download 参数设置为 false 时不生效；可选参数
                 - **cookie**: 请求数据时使用的 Cookie；可选参数
-                - **proxy**: 请求数据时使用的代理；可选参数
                 - **check_record**: 是否跳过已有下载记录的作品；可选参数
                 """)
             ),
@@ -847,7 +846,6 @@ class XHS:
             data = None
             url = await self.extract_links(
                 extract.url,
-                proxy=extract.proxy,
             )
             if not url:
                 msg = _("提取小红书作品链接失败")
@@ -858,7 +856,6 @@ class XHS:
                     extract.index,
                     check_record=extract.check_record,
                     cookie=extract.cookie,
-                    proxy=extract.proxy,
                 ):
                     msg = _("获取小红书作品数据成功")
                 else:
@@ -868,7 +865,7 @@ class XHS:
     async def run_mcp_server(
         self,
         transport="streamable-http",
-        host="0.0.0.0",
+        host="127.0.0.1",
         port=5556,
         log_level="INFO",
     ):
