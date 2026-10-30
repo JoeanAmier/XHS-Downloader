@@ -9,22 +9,24 @@ class Image:
     @classmethod
     def get_image_link(cls, data: Namespace, format_: str) -> tuple[list, list]:
         images = data.safe_extract("imageList", [])
-        live_link = cls.__get_live_link(images)
-        if not any(
-            token_list := [
-                cls.__extract_image_token(Namespace.object_extract(i, "urlDefault"))
-                for i in images
-            ]
+        live_link = cls._get_live_link(images)
+        for extractor in (
+            lambda i: Namespace.object_extract(i, "fileId"),
+            lambda i: cls._extract_image_token(
+                Namespace.object_extract(i, "urlDefault")
+            ),
+            lambda i: cls._extract_image_token(Namespace.object_extract(i, "urlPre")),
         ):
-            token_list = [
-                cls.__extract_image_token(Namespace.object_extract(i, "url"))
-                for i in images
-            ]
+            token_list = [extractor(i) for i in images]
+            if any(token_list):
+                break
+        else:
+            return [], []
         match format_:
             case "png" | "webp" | "jpeg" | "heic" | "avif":
                 return [
                     Html.format_url(
-                        cls.__generate_fixed_link(
+                        cls._generate_fixed_link(
                             i,
                             format_,
                         )
@@ -33,28 +35,28 @@ class Image:
                 ], live_link
             case "auto":
                 return [
-                    Html.format_url(cls.__generate_auto_link(i)) for i in token_list
+                    Html.format_url(cls._generate_auto_link(i)) for i in token_list
                 ], live_link
             case _:
                 raise ValueError
 
     @staticmethod
-    def __generate_auto_link(token: str) -> str:
+    def _generate_auto_link(token: str) -> str:
         return f"https://sns-img-bd.xhscdn.com/{token}"
 
     @staticmethod
-    def __generate_fixed_link(
+    def _generate_fixed_link(
         token: str,
         format_: str,
     ) -> str:
         return f"https://ci.xiaohongshu.com/{token}?imageView2/format/{format_}"
 
     @staticmethod
-    def __extract_image_token(url: str) -> str:
+    def _extract_image_token(url: str) -> str:
         return "/".join(url.split("/")[5:]).split("!")[0]
 
     @staticmethod
-    def __get_live_link(items: list) -> list:
+    def _get_live_link(items: list) -> list:
         result = []
         for item in items:
             url = None
