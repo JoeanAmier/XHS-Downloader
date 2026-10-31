@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.4.4
+// @version        2.4.5
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -14,6 +14,7 @@
 // @match          http*://www.xiaohongshu.com/user/profile/*
 // @match          http*://www.xiaohongshu.com/search_result*
 // @match          http*://www.xiaohongshu.com/board/*
+// @match          https://www.rednote.com/*
 // @match          http*://www.rednote.com/explore*
 // @match          http*://www.rednote.com/discovery/item/*
 // @match          http*://www.rednote.com/user/profile/*
@@ -685,7 +686,11 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                     abnormal(t.imageExtractError)
                     return;
                 } else if (urls.length > 1 && config.imageCheckboxSwitch) {
-                    data.index = await showImageSelectionModal(items, name, server,);
+                    const selectedImages = await showImageSelectionModal(items,);
+                    if (!selectedImages) {
+                        return;
+                    }
+                    data.index = selectedImages.map(item => item.index);
                 }
             }
             data.auth_token = config.scriptAuthToken;
@@ -701,7 +706,12 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                     console.error("解析图文作品数据失败", note)
                     abnormal(t.imageExtractError)
                 } else if (urls.length > 1 && config.imageCheckboxSwitch) {
-                    await showImageSelectionModal(items, name,);
+                    const selectedImages = await showImageSelectionModal(items,);
+                    if (!selectedImages) {
+                        return;
+                    }
+                    showToast(t.downloadTips);
+                    await downloadImage(selectedImages, name);
                 } else {
                     showToast(t.downloadTips);
                     await downloadImage(items, name);
@@ -2287,19 +2297,11 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     `;
     document.head.appendChild(style);
 
-    // 关闭弹窗函数
-    const closeImagesModal = () => {
-        const overlay = document.getElementById('imageSelectionOverlay');
-        if (overlay) {
-            overlay.style.animation = 'fadeOut 0.2s';
-            setTimeout(() => overlay.remove(), 200);
-        }
-    };
-
     /* ==================== 弹窗逻辑 ==================== */
-    const showImageSelectionModal = (imageUrls, name, server = false,) => {
+    const showImageSelectionModal = (imageUrls,) => {
         return new Promise((resolve,) => {
             if (document.getElementById('imageSelectionOverlay')) {
+                resolve(null);
                 return;
             }
 
@@ -2363,6 +2365,19 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
             body.appendChild(imageGrid);
 
+            let settled = false;
+            const close = (result = null) => {
+                if (settled) {
+                    return;
+                }
+                settled = true;
+                overlay.style.animation = 'fadeOut 0.2s';
+                setTimeout(() => {
+                    overlay.remove();
+                    resolve(result);
+                }, 200);
+            };
+
             // 创建底部按钮
             const footer = document.createElement('div');
             footer.className = 'modal-footer';
@@ -2396,8 +2411,8 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             document.body.appendChild(overlay);
 
             // 确认事件
-            confirmBtn.addEventListener('click', async () => {
-                const selectedImages = Array.from(document.querySelectorAll('.image-checkbox:checked'))
+            confirmBtn.addEventListener('click', () => {
+                const selectedImages = Array.from(imageGrid.querySelectorAll('.image-checkbox:checked'))
                                             .map((checkbox) => {
                                                 let item = checkbox.parentElement.querySelector('img');
                                                 return {
@@ -2408,18 +2423,12 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                     showToast(t.imageSelectionTip);
                     return;
                 }
-                closeImagesModal();
-                if (server) {
-                    resolve(selectedImages.map(item => item.index));
-                } else {
-                    showToast(t.downloadTips);
-                    await downloadImage(selectedImages, name)
-                }
+                close(selectedImages);
             });
 
             // 关闭事件
-            closeBtn.addEventListener('click', closeImagesModal);
-            overlay.addEventListener('click', (e) => e.target === overlay && closeImagesModal());
+            closeBtn.addEventListener('click', () => close());
+            overlay.addEventListener('click', (e) => e.target === overlay && close());
 
             const setAllChecked = (checked) => {
                 const items = imageGrid.querySelectorAll('.image-item');
