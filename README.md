@@ -274,7 +274,7 @@ async def example_api():
 </ul>
 <h1 id="user-scripts">🕹 用户脚本</h1>
 <p>如果您的浏览器安装了 <a href="https://www.tampermonkey.net/">Tampermonkey</a> 浏览器扩展程序，可以使用用户脚本体验项目功能！</p>
-<p>用户脚本链接（右键单击复制链接）：<a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/refs/heads/master/static/XHS-Downloader.js">master 分支</a>、<a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/refs/heads/develop/static/XHS-Downloader.js">develop 分支</a></p>
+<p>用户脚本链接（右键单击复制链接）：<a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/refs/heads/master/static/XHS-Downloader.js">master 分支</a>、<a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/refs/heads/develop/static/XHS-Downloader.js">develop 分支</a>、<a href="https://cdn.jsdelivr.net/gh/JoeanAmier/XHS-Downloader@master/static/XHS-Downloader.js">master 分支（jsDelivr）</a>、<a href="https://cdn.jsdelivr.net/gh/JoeanAmier/XHS-Downloader@develop/static/XHS-Downloader.js">develop 分支（jsDelivr）</a></p>
 <img src="static/screenshot/脚本安装教程.png" alt="">
 <hr>
 <details>

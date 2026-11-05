@@ -277,7 +277,7 @@ async def example_api():
 </ul>
 <h1 id="user-scripts">🕹 User Script</h1>
 <p>If your browser has the <a href="https://www.tampermonkey.net/">Tampermonkey</a> extension installed, you can use the userscript to try the project's features!</p>
-<p>Userscript links (right-click to copy the link): <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/refs/heads/master/static/XHS-Downloader.js">master branch</a>, <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/refs/heads/develop/static/XHS-Downloader.js">develop branch</a></p>
+<p>Userscript links (right-click to copy the link): <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/refs/heads/master/static/XHS-Downloader.js">master branch</a>, <a href="https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/refs/heads/develop/static/XHS-Downloader.js">develop branch</a>, <a href="https://cdn.jsdelivr.net/gh/JoeanAmier/XHS-Downloader@master/static/XHS-Downloader.js">master branch (jsDelivr)</a>, <a href="https://cdn.jsdelivr.net/gh/JoeanAmier/XHS-Downloader@develop/static/XHS-Downloader.js">develop branch (jsDelivr)</a></p>
 <img src="static/screenshot/脚本安装教程.png" alt="">
 <hr>
 <details>

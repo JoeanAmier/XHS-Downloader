@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.5.0
+// @version        2.5.1
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -28,8 +28,8 @@
 // @grant          GM_unregisterMenuCommand
 // @license        GNU General Public License v3.0
 // @run-at         document-end
-// @updateURL      https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js
-// @downloadURL    https://raw.githubusercontent.com/JoeanAmier/XHS-Downloader/master/static/XHS-Downloader.js
+// @updateURL      https://cdn.jsdelivr.net/gh/JoeanAmier/XHS-Downloader@master/static/XHS-Downloader.js
+// @downloadURL    https://cdn.jsdelivr.net/gh/JoeanAmier/XHS-Downloader@master/static/XHS-Downloader.js
 // @supportURL     https://github.com/JoeanAmier/XHS-Downloader/issues
 // @require        https://cdnjs.cloudflare.com/ajax/libs/jszip/3.9.1/jszip.min.js
 // ==/UserScript==
