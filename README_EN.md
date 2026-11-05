@@ -305,16 +305,11 @@ async def example_api():
 <h2>📜 Script Instructions</h2>
 <ul>
 <li>When downloading notes from RedNote, the script requires time to process the files. Please wait for a moment and do not click the download button multiple times.</li>
-<li>When extracting links for posts, collects, likes, and board from an account, the script can automatically scroll the page until all notes are loaded.</li>
-<li>When extracting recommended notes links, search notes, and user links, the script can automatically scroll a specified number of times to load more content. The default number of page scrolls is 50.</li>
-<li>The automatic scrolling page function is turned off by default; Users can freely open and modify the number of times the page is scrolled, and the modification will take effect immediately.</li>
-<li>If the automatic page scroll feature is not enabled, users need to manually scroll the page to load more content before performing other actions.</li>
 <li>Support packaging and downloading of work files; This feature is enabled by default, and notes from multiple files will be downloaded in compressed file format</li>
 <li>When pushing download tasks to the server, the file format, name rules, etc. settings will be based on the server configuration file settings</li>
 <li>Using global proxy tools may cause script download failures. If there are issues, please try disabling the proxy tool. If necessary, contact the author for feedback.</li>
 <li>XHS-Downloader userscript only implements the data collection functionality for visible content and does not include any paid or cracked features.</li>
 </ul>
-<p><strong>The automatic page scroll feature has been refactored and is turned off by default! Enabling this feature may be detected as automated behavior by RedNote, potentially resulting in account risk control or banning.</strong></p>
 <h1>💻 Secondary Development</h1>
 <details>
 <summary>Secondary development code example, suitable for developers who build on this project (click to expand)</summary>

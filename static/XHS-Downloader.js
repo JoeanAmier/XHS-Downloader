@@ -2,24 +2,23 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.4.5
+// @version        2.5.0
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
 // @description    提取小红书作品/用户链接，下载小红书图文/视频作品文件
 // @description:en Extract RedNote works/user links, Download images/videos files
 // @author         JoeanAmier
-// @match          http*://www.xiaohongshu.com/explore*
-// @match          http*://www.xiaohongshu.com/discovery/item/*
-// @match          http*://www.xiaohongshu.com/user/profile/*
-// @match          http*://www.xiaohongshu.com/search_result*
-// @match          http*://www.xiaohongshu.com/board/*
+// @match          https://www.xiaohongshu.com/explore*
+// @match          https://www.xiaohongshu.com/discovery/item/*
+// @match          https://www.xiaohongshu.com/user/profile/*
+// @match          https://www.xiaohongshu.com/search_result*
+// @match          https://www.xiaohongshu.com/board/*
 // @match          https://www.rednote.com/*
-// @match          http*://www.rednote.com/explore*
-// @match          http*://www.rednote.com/discovery/item/*
-// @match          http*://www.rednote.com/user/profile/*
-// @match          http*://www.rednote.com/search_result*
-// @match          http*://www.rednote.com/board/*
+// @match          https://www.rednote.com/discovery/item/*
+// @match          https://www.rednote.com/user/profile/*
+// @match          https://www.rednote.com/search_result*
+// @match          https://www.rednote.com/board/*
 // @icon64         data:image/png;base64,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
 // @grant          GM_getValue
 // @grant          GM_setValue
@@ -52,14 +51,10 @@
 
 注意事项：
 1. 下载小红书作品文件时，脚本需要花费时间处理文件，请等待片刻，请勿多次点击下载按钮
-2. 提取账号发布、收藏、点赞、专辑作品链接时，脚本可以自动滚动页面直至加载全部作品
-3. 提取推荐作品链接、搜索作品、用户链接时，脚本可以自动滚动指定次数加载更多内容，默认滚动次数：50 次
-4. 自动滚动页面功能默认关闭；用户可以自由开启，并修改滚动页面次数，修改后立即生效
-5. 如果未开启自动滚动页面功能，用户需要手动滚动页面以便加载更多内容后再进行其他操作
-6. 支持作品文件打包下载；该功能默认开启，多个文件的作品将会以压缩包格式下载
-7. 向服务器推送下载任务时，文件格式、名称规则等设置以服务器配置文件中的设置为准
-8. 使用全局代理工具可能会导致脚本下载文件失败，如有异常，请尝试关闭代理工具，必要时向作者反馈
-9. XHS-Downloader 用户脚本仅实现可见即可得的数据采集功能，无任何收费功能和破解功能
+2. 支持作品文件打包下载；该功能默认开启，多个文件的作品将会以压缩包格式下载
+3. 向服务器推送下载任务时，文件格式、名称规则等设置以服务器配置文件中的设置为准
+4. 使用全局代理工具可能会导致脚本下载文件失败，如有异常，请尝试关闭代理工具，必要时向作者反馈
+5. XHS-Downloader 用户脚本仅实现可见即可得的数据采集功能，无任何收费功能和破解功能
 
 项目开源地址：https://github.com/JoeanAmier/XHS-Downloader
 `,
@@ -113,12 +108,8 @@ KS-Downloader（快手、KuaiShou）：https://github.com/JoeanAmier/KS-Download
             tipsTitle: '脚本提示',
             confirmButton: '确认',
             closeButton: '关闭',
-            autoScrollLabel: '自动滚动页面',
-            autoScrollDesc: '启用后，页面将根据规则自动滚动以便加载更多内容',
             filePackLabel: '文件打包下载',
             filePackDesc: '启用后，多个文件的作品将会以压缩包格式下载',
-            scrollCountLabel: '自动滚动次数',
-            scrollCountDesc: '自动滚动页面的次数（仅在启用自动滚动页面时可用）',
             linkCheckboxSwitchLabel: '链接提取选择模式',
             linkCheckboxSwitchDesc: '关闭后，提取作品链接时无需确认直接提取全部链接',
             imageCheckboxSwitchLabel: '图片下载选择模式',
@@ -131,6 +122,19 @@ KS-Downloader（快手、KuaiShou）：https://github.com/JoeanAmier/KS-Download
             scriptServerSwitchDesc: '启用后，可以把作品下载任务推送至服务器',
             imageDownloadFormatLabel: '图片下载格式',
             imageDownloadFormatDesc: '图文作品文件下载格式',
+            videoPreferenceLabel: '视频下载偏好',
+            videoPreferenceDesc: '视频作品文件下载策略',
+            videoPreferenceOptions: {
+                manual: '手动选择',
+                resolution: '分辨率优先',
+                bitrate: '码率优先',
+                size: '文件大小优先',
+            },
+            videoQualityTitle: '选择视频下载质量',
+            videoQualityOriginal: '最高质量',
+            videoQualityBitrate: '码率',
+            videoQualityFps: '帧率',
+            videoQualitySize: '大小',
             fileNameFormatLabel: '作品文件名称格式',
             fileNameFormatDesc: '点击可选字段添加，拖拽已选字段调整顺序',
             fileNameSelectedLabel: '已选字段',
@@ -190,6 +194,7 @@ KS-Downloader（快手、KuaiShou）：https://github.com/JoeanAmier/KS-Download
             imageCheckboxTitle: '请选中需要下载的图片',
             scriptServerError: '脚本服务器连接出错，请检查网络连接或脚本服务器状态是否正常！',
             pushTaskError: '脚本服务器未连接，请检查网络连接或脚本服务器状态是否正常！',
+            scriptServerReconnect: '脚本服务器未连接，正在重连并推送任务...',
             scriptAuthTokenLabel: '鉴权令牌',
             scriptAuthTokenDesc: '填写程序启动时输出的鉴权令牌',
             resetIconPositionMenuText: '重置图标位置',
@@ -209,14 +214,10 @@ KS-Downloader（快手、KuaiShou）：https://github.com/JoeanAmier/KS-Download
 
 Notes:
 1. When downloading note files, the script needs time to process. Please wait a moment and do not click the download button repeatedly.
-2. When extracting links from Published, Collections, Liked, or Albums, the script can automatically scroll the page until all notes are loaded.
-3. When extracting Recommendation, Search Notes, or User links, the script can automatically scroll a specified number of times. Default: 50 times.
-4. Auto-scroll is disabled by default; users can enable it and modify the scroll count. Changes take effect immediately.
-5. If auto-scroll is disabled, users must manually scroll the page to load more content before performing extractions.
-6. Supports batch downloading (ZIP format); this feature is enabled by default. Notes with multiple files will be downloaded as a compressed package.
-7. When pushing tasks to a server, settings such as file format and naming rules are determined by the server's configuration file.
-8. Using global proxy tools may cause download failures. If issues occur, try disabling the proxy and provide feedback to the author if necessary.
-9. The XHS-Downloader userscript only provides "what you see is what you get" data collection; it contains no paid features or decryption/cracking functions.
+2. Supports batch downloading (ZIP format); this feature is enabled by default. Notes with multiple files will be downloaded as a compressed package.
+3. When pushing tasks to a server, settings such as file format and naming rules are determined by the server's configuration file.
+4. Using global proxy tools may cause download failures. If issues occur, try disabling the proxy and provide feedback to the author if necessary.
+5. The XHS-Downloader userscript only provides "what you see is what you get" data collection; it contains no paid features or decryption/cracking functions.
 
 Open Source: https://github.com/JoeanAmier/XHS-Downloader
 `,
@@ -270,12 +271,8 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             tipsTitle: 'Script Tips',
             confirmButton: 'Confirm',
             closeButton: 'Close',
-            autoScrollLabel: 'Auto-scroll Page',
-            autoScrollDesc: 'When enabled, the page will automatically scroll to load more content',
             filePackLabel: 'Package Files for Download',
             filePackDesc: 'When enabled, notes with multiple files will be downloaded as a ZIP archive',
-            scrollCountLabel: 'Auto-scroll Count',
-            scrollCountDesc: 'Number of times to scroll (only active when Auto-scroll is enabled)',
             linkCheckboxSwitchLabel: 'Link Extraction Selection Mode',
             linkCheckboxSwitchDesc: 'If disabled, all links will be extracted immediately without confirmation',
             imageCheckboxSwitchLabel: 'Image Download Selection Mode',
@@ -288,6 +285,19 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             scriptServerSwitchDesc: 'When enabled, download tasks can be pushed to the server',
             imageDownloadFormatLabel: 'Image Download Format',
             imageDownloadFormatDesc: 'Preferred file format for downloading images',
+            videoPreferenceLabel: 'Video download preferences',
+            videoPreferenceDesc: 'Video note file download strategy',
+            videoPreferenceOptions: {
+                manual: 'Manual select',
+                resolution: 'Resolution priority',
+                bitrate: 'Bitrate priority',
+                size: 'File size priority',
+            },
+            videoQualityTitle: 'Select Video Download Quality',
+            videoQualityOriginal: 'Highest quality',
+            videoQualityBitrate: 'Bitrate',
+            videoQualityFps: 'Frame rate',
+            videoQualitySize: 'Size',
             fileNameFormatLabel: 'Note File Name Format',
             fileNameFormatDesc: 'Click available fields to add them. Drag selected fields to reorder.',
             fileNameSelectedLabel: 'Selected Fields',
@@ -347,6 +357,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             imageCheckboxTitle: 'Please select images to download',
             scriptServerError: 'Server connection error. Please check your network or server status!',
             pushTaskError: 'Server not connected. Please check your network or server status!',
+            scriptServerReconnect: 'Server disconnected. Reconnecting and pushing the task...',
             scriptAuthTokenLabel: 'Authentication Token',
             scriptAuthTokenDesc: 'Enter the token printed when the program starts',
             resetIconPositionMenuText: 'Reset icon position',
@@ -390,6 +401,8 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     const reservedFileNamePattern = /^(con|prn|aux|nul|com[1-9]|lpt[1-9])(\..*)?$/i;
     const fileNameDescriptionMaxLength = 64;
     const fileNameMaxLength = 128;
+    const videoPreferenceValues = ["manual", "resolution", "bitrate", "size"];
+    const normalizeVideoPreference = value => videoPreferenceValues.includes(value) ? value : "resolution";
 
     // 解析文件名格式字段。
     const parseFileNameFormat = (value) => {
@@ -417,12 +430,11 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     let config = {
         disclaimer: GM_getValue("disclaimer", false),
         packageDownloadFiles: GM_getValue("packageDownloadFiles", true),
-        autoScrollSwitch: GM_getValue("autoScrollSwitch", false),
-        maxScrollCount: GM_getValue("maxScrollCount", 50),
         keepMenuVisible: GM_getValue("keepMenuVisible", false),
         linkCheckboxSwitch: GM_getValue("linkCheckboxSwitch", true),
         imageCheckboxSwitch: GM_getValue("imageCheckboxSwitch", true),
         imageDownloadFormat: GM_getValue("imageDownloadFormat", "jpeg"),
+        videoPreference: GM_getValue("videoPreference", "resolution"),
         scriptServerURL: GM_getValue("scriptServerURL", defaultsWebSocketURL),
         scriptServerSwitch: GM_getValue("scriptServerSwitch", false),
         scriptAuthToken: GM_getValue("scriptAuthToken", ""),
@@ -514,16 +526,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         GM_setValue("packageDownloadFiles", config.packageDownloadFiles);
     };
 
-    const updateAutoScrollSwitch = (value) => {
-        config.autoScrollSwitch = value;
-        GM_setValue("autoScrollSwitch", config.autoScrollSwitch);
-    };
-
-    const updateMaxScrollCount = (value) => {
-        config.maxScrollCount = parseInt(value) || 50;
-        GM_setValue("maxScrollCount", config.maxScrollCount);
-    };
-
     const updateKeepMenuVisible = (value) => {
         config.keepMenuVisible = value;
         GM_setValue("keepMenuVisible", config.keepMenuVisible);
@@ -555,19 +557,25 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     }
 
     const updateScriptServerSwitch = (value) => {
-        webSocket.disconnect();
-        if (value) {
-            webSocket.url = config.scriptServerURL;
-            webSocket.connect();
-        }
         config.scriptServerSwitch = value;
         GM_setValue("scriptServerSwitch", config.scriptServerSwitch);
+        webSocket.url = config.scriptServerURL;
+        if (value) {
+            webSocket.reconnect();
+        } else {
+            webSocket.disconnect();
+        }
     }
 
     const updateImageDownloadFormat = (value) => {
         config.imageDownloadFormat = value.toLowerCase();
         GM_setValue("imageDownloadFormat", config.imageDownloadFormat);
     }
+
+    const updateVideoPreference = (value) => {
+        config.videoPreference = normalizeVideoPreference(value);
+        GM_setValue("videoPreference", config.videoPreference);
+    };
 
     // 更新文件名格式配置。
     const updateFileNameFormat = (value) => {
@@ -601,13 +609,21 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         }
     }
 
+    const preferenceKey = {
+        resolution: "height",
+        bitrate: "videoBitrate",
+        size: "size",
+    };
+
     const generateVideoUrl = note => {
         try {
             const key = note.video?.consumer?.originVideoKey;
             if (key) return [`https://sns-video-bd.xhscdn.com/${key}`];
-            const allStreams = Object.values(note.video.media.stream).flat();
-            sortArray(allStreams, "height");
-            return [allStreams[0].backupUrls[0] || allStreams[0].masterUrl];
+            const allStreams = Object.values(note.video?.media?.stream || {}).flat().filter(Boolean);
+            if (allStreams.length === 0) return [];
+            sortArray(allStreams, preferenceKey[config.videoPreference] || "height");
+            const stream = allStreams[0];
+            return [stream.backupUrls?.[0] || stream.masterUrl].filter(Boolean);
         } catch (error) {
             console.error("Error deal video URL:", error);
             return [];
@@ -625,6 +641,38 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             return vB - vA;
         });
     }
+
+    const generateVideoStreams = note => {
+        const streams = [];
+        const originKey = note.video?.consumer?.originVideoKey;
+        if (originKey) {
+            streams.push({
+                             url: `https://sns-video-bd.xhscdn.com/${originKey}`,
+                             isOriginal: true,
+                         });
+        }
+
+        try {
+            const renditions = Object.values(note.video?.media?.stream || {})
+                                     .flat()
+                                     .filter(Boolean)
+                                     .map(stream => ({
+                                         url: stream.backupUrls?.[0] || stream.masterUrl,
+                                         width: stream.width,
+                                         height: stream.height,
+                                         bitrate: stream.videoBitrate,
+                                         fps: stream.fps,
+                                         size: stream.size,
+                                         qualityType: stream.qualityType,
+                                     }))
+                                     .filter(stream => stream.url);
+            renditions.sort((a, b) => (b.height ?? 0) - (a.height ?? 0));
+            streams.push(...renditions);
+        } catch (error) {
+            console.error("Error generating video streams:", error);
+        }
+        return streams;
+    };
 
     const generateImageUrl = note => {
         let images = note.imageList;
@@ -720,13 +768,28 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         }
     };
 
+    const selectVideoStream = async (note, server) => {
+        if (config.videoPreference !== "manual") {
+            return generateVideoUrl(note);
+        }
+
+        const streams = generateVideoStreams(note);
+        if (streams.length === 0) return [];
+        if (!server && streams.length > 1) {
+            const selected = await showVideoStreamSelectionModal(streams);
+            return selected ? [selected.url] : null;
+        }
+        return [streams[0].url];
+    };
+
     const exploreDeal = async (note, server = false,) => {
         try {
             let links;
             if (note.type === "normal") {
                 links = generateImageUrl(note);
             } else {
-                links = generateVideoUrl(note);
+                links = await selectVideoStream(note, server);
+                if (links === null) return;
             }
             if (links.length > 0) {
                 // console.debug("下载链接", links);
@@ -1078,73 +1141,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         }
     };
 
-    const window_scrollBy = (x, y,) => {
-        window.scrollBy(x, y,);
-    }
-
-    // 随机整数生成函数
-    const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-
-    // 判断是否需要暂停，模拟用户的停顿行为
-    const shouldPause = () => Math.random() < 0.2;  // 20%几率停顿
-
-    // 执行一次增量滚动
-    const scrollOnce = () => {
-        const scrollDistanceMin = 100;  // 最小滚动距离
-        const scrollDistanceMax = 300; // 最大滚动距离
-        const scrollDistance = getRandomInt(scrollDistanceMin, scrollDistanceMax);
-        window_scrollBy(0, scrollDistance);  // 增量滚动
-    };
-
-    // 检查是否已经滚动到底部
-    const isAtBottom = () => {
-        const docHeight = document.documentElement.scrollHeight;
-        const winHeight = window.innerHeight;
-        const scrollPos = window.scrollY;
-
-        return (docHeight - winHeight - scrollPos <= 10);  // 如果距离底部小于10px，认为滚动到底部
-    };
-
-    // 自动滚动主函数
-    const scrollScreen = (callback, endless = false, scrollCount = 0,) => {
-        const timeoutMin = 250;  // 最小滚动间隔
-        const timeoutMax = 500;  // 最大滚动间隔
-
-        const scrollInterval = setInterval(() => {
-            if (shouldPause()) {
-                // 停顿，模拟用户的休息
-                clearInterval(scrollInterval);
-                setTimeout(() => {
-                    scrollScreen(callback, endless, scrollCount,);  // 重新启动滚动
-                }, getRandomInt(timeoutMin, timeoutMax,));  // 随机停顿时间
-            } else if (endless) {
-                // 无限滚动至底部模式
-                if (!isAtBottom()) {
-                    scrollOnce();  // 执行一次滚动
-                } else {
-                    // 到达底部，停止滚动
-                    clearInterval(scrollInterval);
-                    callback();  // 调用回调函数
-                }
-            } else if (scrollCount < config.maxScrollCount && !isAtBottom()) {
-                scrollOnce();  // 执行一次滚动
-                scrollCount++;
-            } else {
-                // 如果到达底部或滚动次数已满，停止滚动
-                clearInterval(scrollInterval);
-                callback();  // 调用回调函数
-            }
-        }, getRandomInt(timeoutMin, timeoutMax));  // 随机滚动间隔
-    };
-
-    const scrollScreenEvent = (callback, endless = false) => {
-        if (config.autoScrollSwitch) {
-            scrollScreen(callback, endless,);
-        } else {
-            callback();
-        }
-    };
-
     const extractNotesInfo = order => {
         const notesRawValue = unsafeWindow.__INITIAL_STATE__.user.notes._rawValue[order];
         return notesRawValue.filter(item => item?.noteCard).map(
@@ -1193,16 +1189,16 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     }
 
     const generateNoteUrls = data => data.map(
-        ([id, token,]) => `https://www.xiaohongshu.com/discovery/item/${id}?source=webshare&xhsshare=pc_web&xsec_token=${token}&xsec_source=pc_share`)
-                                         .join(" ");
+        ([id, token,]) => `https://www.${currentSite}.com/discovery/item/${id}?source=webshare&xhsshare=pc_web&xsec_token=${token}&xsec_source=pc_share`)
+                                         .join("\n");
 
-    const generateUserUrls = data => data.map(id => `https://www.${currentSite}.com/user/profile/${id}`).join(" ");
+    const generateUserUrls = data => data.map(id => `https://www.${currentSite}.com/user/profile/${id}`).join("\n");
 
     const invalidDetection = data => data.every(([first]) => Boolean(first));
 
     const extractAllLinks = (callback, order) => {
-        scrollScreenEvent(() => {
-            let data;
+        let data;
+        try {
             if (order >= 0 && order <= 2) {
                 data = extractNotesInfo(order);
                 if (!invalidDetection(data)) {
@@ -1214,34 +1210,38 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             } else if (order === 4) {
                 data = extractSearchUsers();
             } else if (order === -1) {
-                data = extractFeedInfo()
+                data = extractFeedInfo();
             } else if (order === 5) {
-                data = extractBoardInfo()
+                data = extractBoardInfo();
             } else {
-                data = []
+                data = [];
             }
-            if (data.length === 0) {
-                callback("");
-                return;
-            }
-            let urlsString;
-            if (order === 4) {
-                urlsString = generateUserUrls(data);
-                callback(urlsString);
-            } else if (config.linkCheckboxSwitch) {
-                showListSelectionModal(data.map(([id, token, cover, author, title,]) => ({
-                    id: id, token: token, image: cover, author: author, title: title,
-                })),).then((selected) => {
-                    if (selected.length > 0) {
-                        urlsString = generateNoteUrls(selected.map(item => [item.id, item.token]));
-                        callback(urlsString);
-                    }
-                });
-            } else {
-                urlsString = generateNoteUrls(data.map(item => item.slice(0, 2)))
-                callback(urlsString);
-            }
-        }, [0, 1, 2, 5].includes(order))
+        } catch (error) {
+            console.error('Failed to read page data while extracting links:', error);
+            abnormal(t.extractError);
+            return;
+        }
+        if (data.length === 0) {
+            callback("");
+            return;
+        }
+        let urlsString;
+        if (order === 4) {
+            urlsString = generateUserUrls(data);
+            callback(urlsString);
+        } else if (config.linkCheckboxSwitch) {
+            showListSelectionModal(data.map(([id, token, cover, author, title,]) => ({
+                id: id, token: token, image: cover, author: author, title: title,
+            })),).then((selected) => {
+                if (selected && selected.length > 0) {
+                    urlsString = generateNoteUrls(selected.map(item => [item.id, item.token]));
+                    callback(urlsString);
+                }
+            });
+        } else {
+            urlsString = generateNoteUrls(data.map(item => item.slice(0, 2)))
+            callback(urlsString);
+        }
     };
 
     const extractAllLinksEvent = (order = 0) => {
@@ -1451,26 +1451,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     input:checked + .slider { background: #2196F3; }
     input:checked + .slider:before { transform: translateX(20px); }
 
-    .number-input {
-        display: flex;
-        align-items: center;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        overflow: hidden;
-        margin: 6px 0;
-    }
-    .number-input input {
-        width: 60px;
-        text-align: center;
-        border: none;
-    }
-    .number-button {
-        padding: 4px 8px;
-        background: #f0f0f0;
-        border: none;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
     .text-input {
         width: 100%;
         box-sizing: border-box;
@@ -1494,7 +1474,8 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         box-shadow: 0 0 4px rgba(33, 150, 243, 0.3);
     }
     .select-input {
-        width: 100px;
+        min-width: 130px;
+        width: auto;
         padding: 8px 12px;
         border: 1px solid #ddd;
         border-radius: 4px;
@@ -1729,6 +1710,136 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         });
     }
 
+    (() => {
+        if (document.getElementById('videoStreamStyle')) return;
+        const style = document.createElement('style');
+        style.id = 'videoStreamStyle';
+        style.textContent = `
+        .video-quality-body { max-height: 60vh; overflow-y: auto; }
+        .video-quality-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin: 8px 0;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+        }
+        .video-quality-item:hover { background: #fafafa; border-color: #e6e6e6; }
+        .video-quality-item.selected {
+            border-color: #2196f3;
+            box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.12) inset;
+        }
+        .video-quality-radio { margin-right: 12px; width: 18px; height: 18px; cursor: pointer; }
+        .video-quality-info { flex: 1; }
+        .video-quality-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+        .video-quality-sub { font-size: 13px; color: #666; }
+        `;
+        document.head.appendChild(style);
+    })();
+
+    const createStreamOption = (stream, index, onSelect) => {
+        const item = document.createElement('label');
+        item.className = 'video-quality-item';
+
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'xhsVideoStream';
+        radio.value = index;
+        radio.checked = index === 0;
+        radio.className = 'video-quality-radio';
+        radio.addEventListener('change', () => onSelect(item));
+
+        const titleParts = [];
+        if (stream.width && stream.height) titleParts.push(`${stream.width}×${stream.height}`);
+        if (stream.isOriginal) {
+            titleParts.push(t.videoQualityOriginal);
+        } else if (stream.qualityType) {
+            titleParts.push(stream.qualityType);
+        }
+        const subParts = [];
+        if (stream.bitrate) subParts.push(`${t.videoQualityBitrate}: ${(stream.bitrate / 1000).toFixed(0)}kbps`);
+        if (stream.fps) subParts.push(`${t.videoQualityFps}: ${stream.fps}fps`);
+        if (stream.size) subParts.push(`${t.videoQualitySize}: ${(stream.size / 1024 / 1024).toFixed(2)}MB`);
+
+        const info = document.createElement('div');
+        info.className = 'video-quality-info';
+        const title = document.createElement('div');
+        title.className = 'video-quality-title';
+        title.textContent = titleParts.join(' ') || t.videoQualityOriginal;
+        info.appendChild(title);
+        if (subParts.length) {
+            const details = document.createElement('div');
+            details.className = 'video-quality-sub';
+            details.textContent = subParts.join(' | ');
+            info.appendChild(details);
+        }
+        item.append(radio, info);
+        return item;
+    };
+
+    const showVideoStreamSelectionModal = (streams) => {
+        if (document.getElementById('videoStreamOverlay')) return Promise.resolve(null);
+        return new Promise(resolve => {
+            const overlay = document.createElement('div');
+            overlay.id = 'videoStreamOverlay';
+            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.32);backdrop-filter:blur(4px);display:flex;justify-content:center;align-items:center;z-index:10000;animation:fadeIn .3s';
+
+            const modal = document.createElement('div');
+            modal.className = 'text-generic-modal';
+            modal.style.maxWidth = '500px';
+            const header = document.createElement('div');
+            header.className = 'modal-header';
+            header.innerHTML = `<span>${t.videoQualityTitle}</span>`;
+            const body = document.createElement('div');
+            body.className = 'modal-body video-quality-body';
+            let selectedItem;
+            const selectItem = item => {
+                selectedItem?.classList.remove('selected');
+                selectedItem = item;
+                item.classList.add('selected');
+            };
+            streams.forEach((stream, index) => {
+                const item = createStreamOption(stream, index, selectItem);
+                if (index === 0) selectItem(item);
+                body.appendChild(item);
+            });
+
+            const footer = document.createElement('div');
+            footer.className = 'modal-footer';
+            const confirm = document.createElement('button');
+            confirm.className = 'primary-btn';
+            confirm.textContent = t.startDownloadButton;
+            const cancel = document.createElement('button');
+            cancel.className = 'secondary-btn';
+            cancel.textContent = t.closeDownloadButton;
+            footer.append(confirm, cancel);
+            modal.append(header, body, footer);
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+
+            let closed = false;
+            const close = result => {
+                if (closed) return;
+                closed = true;
+                overlay.style.animation = 'fadeOut .2s';
+                setTimeout(() => {
+                    overlay.remove();
+                    resolve(result);
+                }, 200);
+            };
+            confirm.addEventListener('click', () => {
+                const selected = modal.querySelector('input[name="xhsVideoStream"]:checked');
+                close(selected ? streams[Number(selected.value)] : null);
+            });
+            cancel.addEventListener('click', () => close(null));
+            overlay.addEventListener('click', event => {
+                if (event.target === overlay) close(null);
+            });
+        });
+    };
+
     // 创建开关项
     const createSwitchItem = ({label, description, checked, disabled = false}) => {
         const item = document.createElement('div');
@@ -1745,50 +1856,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             </label>
             <div class="setting-description">${description}</div>
         `;
-
-        return item;
-    };
-
-    // 创建数值输入项
-    const createNumberInput = ({label, description, value, min, max, disabled}) => {
-        const item = document.createElement('div');
-        item.className = 'setting-item';
-
-        const numberInput = document.createElement('div');
-        numberInput.className = 'number-input';
-        numberInput.style.opacity = disabled ? 0.6 : 1;
-        numberInput.innerHTML = `
-            <button class="number-button" data-action="decrement">−</button>
-            <input type="number" value="${value}" min="${min}" max="${max}" ${disabled ? 'disabled' : ''}>
-            <button class="number-button" data-action="increment">+</button>
-        `;
-
-        item.innerHTML = `
-            <label>
-                <span>${label}</span>
-                ${numberInput.outerHTML}
-            </label>
-            <div class="setting-description">${description}</div>
-        `;
-
-        // 绑定数值按钮事件
-        const container = item.querySelector('.number-input');
-        container.querySelectorAll('.number-button').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const input = container.querySelector('input');
-                if (input.disabled) {
-                    return;
-                }
-
-                let val = parseInt(input.value);
-                if (btn.dataset.action === 'increment') {
-                    val = Math.min(val + 1, max);
-                } else {
-                    val = Math.max(val - 1, min);
-                }
-                input.value = val;
-            });
-        });
 
         return item;
     };
@@ -1988,8 +2055,11 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         item.style.opacity = disabled ? 0.6 : 1;
 
         // 生成选项HTML
-        const optionsHtml = options.map(
-            option => `<option value="${option}" ${option === value ? 'selected' : ''}>${option}</option>`).join('');
+        const optionsHtml = options.map(option => {
+            const optionValue = typeof option === 'object' ? option.value : option;
+            const optionLabel = typeof option === 'object' ? option.label : option;
+            return `<option value="${optionValue}" ${optionValue === value ? 'selected' : ''}>${optionLabel}</option>`;
+        }).join('');
 
         item.innerHTML = `
             <label>
@@ -2038,29 +2108,12 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         const body = document.createElement('div');
         body.className = 'modal-body settings-body scrollable-modal-body';
 
-        // 自动滚动开关
-        const autoScroll = createSwitchItem({
-                                                label: t.autoScrollLabel,
-                                                description: t.autoScrollDesc,
-                                                checked: GM_getValue("autoScrollSwitch", false),
-                                            });
-
         // 文件打包开关
         const filePack = createSwitchItem({
                                               label: t.filePackLabel,
                                               description: t.filePackDesc,
                                               checked: GM_getValue("packageDownloadFiles", true),
                                           });
-
-        // 滚动次数设置
-        const scrollCount = createNumberInput({
-                                                  label: t.scrollCountLabel,
-                                                  description: t.scrollCountDesc,
-                                                  value: GM_getValue("maxScrollCount", 50),
-                                                  min: 10,
-                                                  max: 9999,
-                                                  disabled: !GM_getValue("autoScrollSwitch", false),
-                                              });
 
         const linkCheckboxSwitch = createSwitchItem({
                                                         label: t.linkCheckboxSwitchLabel,
@@ -2110,17 +2163,20 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                                                              .toUpperCase(),
                                                      });
 
+        const videoPreference = createSelectItem({
+                                                     label: t.videoPreferenceLabel,
+                                                     description: t.videoPreferenceDesc,
+                                                     options: Object.entries(t.videoPreferenceOptions)
+                                                                    .map(([value, label]) => ({value, label})),
+                                                     value: normalizeVideoPreference(config.videoPreference),
+                                                 });
+
         const nameFormat = createFileNameFormatEditor({
                                                           label: t.fileNameFormatLabel,
                                                           description: t.fileNameFormatDesc,
                                                           value: config.fileNameFormatKeys,
                                                       });
 
-        // 绑定自动滚动开关控制次数输入
-        autoScroll.querySelector('input').addEventListener('change', (e) => {
-            scrollCount.querySelector('input').disabled = !e.target.checked;
-            scrollCount.querySelector('.number-input').style.opacity = e.target.checked ? 1 : 0.6;
-        });
         scriptServerSwitch.querySelector('input').addEventListener('change', (e) => {
             scriptServerURL.querySelector('input').disabled = !e.target.checked;
             scriptServerURL.querySelector('.text-input').style.opacity = e.target.checked ? 1 : 0.6;
@@ -2145,12 +2201,12 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         // 组合内容
         const downloadSettings = createSettingsGroup(
             t.downloadSettingsGroup,
-            [filePack, imageCheckboxSwitch, imageDownloadFormat, nameFormat],
+            [filePack, imageCheckboxSwitch, imageDownloadFormat, videoPreference, nameFormat],
             true
         );
         const extractSettings = createSettingsGroup(
             t.extractSettingsGroup,
-            [autoScroll, scrollCount, linkCheckboxSwitch],
+            [linkCheckboxSwitch],
         );
         const displaySettings = createSettingsGroup(
             t.displaySettingsGroup,
@@ -2196,18 +2252,17 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
         // 保存事件
         saveBtn.addEventListener('click', () => {
-            updateAutoScrollSwitch(autoScroll.querySelector('input').checked);
             updatePackageDownloadFiles(filePack.querySelector('input').checked);
             updateKeepMenuVisible(keepMenuVisible.querySelector('input').checked);
             updateLinkCheckboxSwitch(linkCheckboxSwitch.querySelector('input').checked);
             updateImageCheckboxSwitch(imageCheckboxSwitch.querySelector('input').checked);
-            updateMaxScrollCount(parseInt(scrollCount.querySelector('input').value) || 50)
             updateScriptServerURL(scriptServerURL.querySelector('.text-input').value.trim() || defaultsWebSocketURL);
             updateScriptAuthToken(
                 scriptAuthToken.querySelector('.text-input').value.replace(/\s+/g, ''),
             );
             updateScriptServerSwitch(scriptServerSwitch.querySelector('input').checked);
             updateImageDownloadFormat(imageDownloadFormat.querySelector('select').value.trim() || "jpeg");
+            updateVideoPreference(videoPreference.querySelector('select').value);
             updateFileNameFormat(nameFormat.getFileNameFormatKeys());
             closeSettingsModal();
         });
@@ -2351,10 +2406,14 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                 item.appendChild(checkbox);
                 item.appendChild(label);
                 item.appendChild(img);
+                item.classList.toggle('selected', checkbox.checked);
+                checkbox.addEventListener('change', () => {
+                    item.classList.toggle('selected', checkbox.checked);
+                });
 
                 // 绑定点击事件
                 item.addEventListener('click', (e) => {
-                    if (e.target.tagName !== 'INPUT') {
+                    if (e.target !== checkbox && e.target !== label) {
                         checkbox.checked = !checkbox.checked;
                         item.classList.toggle('selected', checkbox.checked);
                     }
@@ -3043,7 +3102,9 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
     // 创建并显示一个自动消失的消息弹窗（Toast）
     function showToast(message, duration = 5000) {
+        document.querySelectorAll('.xhs-downloader-toast').forEach(toast => toast.remove());
         const toast = document.createElement('div');
+        toast.className = 'xhs-downloader-toast';
         toast.textContent = message;
 
         // 基础样式（可按需调整）
@@ -3411,7 +3472,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                     abnormal(t.scriptInternalError);
                 }
             }
-            requestAnimationFrame(observeUrl);
+            setTimeout(observeUrl, 50);
         };
         observeUrl();
     };
@@ -3432,9 +3493,21 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         constructor(url) {
             this.url = url;
             this.ws = null;
+            this.reconnectAfterClose = false;
+            this.pendingMessages = [];
         }
 
         onOpen() {
+            const socket = this.ws;
+            while (socket && socket === this.ws && socket.readyState === WebSocket.OPEN && this.pendingMessages.length) {
+                try {
+                    socket.send(this.pendingMessages.shift());
+                } catch (error) {
+                    this.pendingMessages = [];
+                    this.onError(error);
+                    break;
+                }
+            }
         }
 
         onMessage(message) {
@@ -3467,23 +3540,43 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             }
             try {
                 this.ws = new WebSocket(this.url);
-                this.ws.onopen = (event) => this.onOpen(event);
-                this.ws.onmessage = (event) => this.onMessage(event);
-                this.ws.onclose = (event) => {
-                    this.ws = null;
+                const socket = this.ws;
+                socket.onopen = (event) => this.onOpen(event);
+                socket.onmessage = (event) => this.onMessage(event);
+                socket.onclose = (event) => {
+                    if (this.ws === socket) this.ws = null;
                     this.onClose(event);
+                    if (this.reconnectAfterClose) {
+                        this.reconnectAfterClose = false;
+                        this.connect();
+                    } else if (this.pendingMessages.length) {
+                        this.pendingMessages = [];
+                        showToast(t.pushTaskError,);
+                    }
                 };
-                this.ws.onerror = (event) => {
-                    this.ws = null;
-                    this.onError(event);
-                };
+                socket.onerror = (event) => this.onError(event);
             } catch (error) {
                 this.onError(error);
+                this.pendingMessages = [];
             }
         }
 
+        reconnect() {
+            if (this.ws && this.ws.readyState !== WebSocket.CLOSED) {
+                this.reconnectAfterClose = true;
+                if (this.ws.readyState !== WebSocket.CLOSING) {
+                    this.ws.close();
+                }
+                return;
+            }
+            this.reconnectAfterClose = false;
+            this.connect();
+        }
+
         disconnect() {
-            if (this.isConnected) {
+            this.reconnectAfterClose = false;
+            this.pendingMessages = [];
+            if (this.ws && this.ws.readyState !== WebSocket.CLOSED && this.ws.readyState !== WebSocket.CLOSING) {
                 this.ws.close();
             }
         }
@@ -3491,6 +3584,10 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         send(data) {
             if (this.isConnected) {
                 this.ws.send(data);
+            } else if (config.scriptServerSwitch) {
+                this.pendingMessages.push(data);
+                this.reconnect();
+                showToast(t.scriptServerReconnect,);
             } else {
                 showToast(t.pushTaskError,);
             }
