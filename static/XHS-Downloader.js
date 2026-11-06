@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.5.3
+// @version        2.5.4
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -1270,139 +1270,147 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
     let style = document.createElement('style');
     style.textContent = `
-    /* 通用 Overlay（三个弹窗共用） */
-    #SettingsOverlay,
-    #imageSelectionOverlay,
-    #textGenericOverlay {
+    /* 通用弹窗遮罩 */
+    :where(.xhs-downloader-ui)#SettingsOverlay,
+    :where(.xhs-downloader-ui)#imageSelectionOverlay,
+    :where(.xhs-downloader-ui)#textGenericOverlay,
+    :where(.xhs-downloader-ui)#videoStreamOverlay,
+    :where(.xhs-downloader-ui)#listSelectionOverlay {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0,0,0,0.32);
+        background: rgba(0, 0, 0, 0.32);
         backdrop-filter: blur(4px);
         display: flex;
         justify-content: center;
         align-items: center;
         z-index: 10000;
-        animation: fadeIn 0.3s;
+        animation: xhs-downloader-fade-in 0.3s;
     }
 
-    /* Settings 容器，仅本块特有尺寸 */
-    .optimized-scroll-modal {
+    /* 通用弹窗容器 */
+    :where(.xhs-downloader-ui) .optimized-scroll-modal,
+    :where(.xhs-downloader-ui) .text-generic-modal,
+    :where(.xhs-downloader-ui) .image-selection-modal,
+    :where(.xhs-downloader-ui) .list-selection-modal {
         background: white;
         border-radius: 16px;
-        width: 860px;
-        max-width: 95vw;
-        max-height: 95vh;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
         overflow: hidden;
-        animation: scaleUp 0.3s;
+        animation: xhs-downloader-scale-up 0.3s;
         display: flex;
         flex-direction: column;
     }
 
-    /* 通用头部/内容/底部/按钮（三个弹窗共用） */
-    .modal-header {
+    /* 设置弹窗尺寸 */
+    :where(.xhs-downloader-ui) .optimized-scroll-modal {
+        width: 860px;
+        max-width: 95vw;
+        max-height: 95vh;
+    }
+
+    /* 通用头部/内容/底部/按钮 */
+    :where(.xhs-downloader-ui) .modal-header {
         padding: 1rem;
         border-bottom: 1px solid #eee;
         text-align: center;
     }
-    .modal-header span {
+    :where(.xhs-downloader-ui) .modal-header span {
         font-size: 1.25rem;
         font-weight: 500;
         color: #212121;
     }
-    .modal-body {
+    :where(.xhs-downloader-ui) .modal-body {
         flex: 1;
         padding: 1rem;
         overflow-y: auto;
     }
-    .scrollable-modal-body {
+    :where(.xhs-downloader-ui) .scrollable-modal-body {
         overflow-y: scroll;
         scrollbar-gutter: stable;
         scrollbar-width: thin;
         scrollbar-color: #bdbdbd #f5f5f5;
     }
-    .scrollable-modal-body::-webkit-scrollbar {
+    :where(.xhs-downloader-ui) .scrollable-modal-body::-webkit-scrollbar {
         width: 10px;
     }
-    .scrollable-modal-body::-webkit-scrollbar-track {
+    :where(.xhs-downloader-ui) .scrollable-modal-body::-webkit-scrollbar-track {
         background: #f5f5f5;
         border-radius: 8px;
     }
-    .scrollable-modal-body::-webkit-scrollbar-thumb {
+    :where(.xhs-downloader-ui) .scrollable-modal-body::-webkit-scrollbar-thumb {
         background: #bdbdbd;
         border: 2px solid #f5f5f5;
         border-radius: 8px;
     }
-    .scrollable-modal-body::-webkit-scrollbar-thumb:hover {
+    :where(.xhs-downloader-ui) .scrollable-modal-body::-webkit-scrollbar-thumb:hover {
         background: #9e9e9e;
     }
-    .settings-body {
+    :where(.xhs-downloader-ui) .settings-body,
+    :where(.xhs-downloader-ui) .settings-column {
         display: flex;
         flex-direction: column;
         gap: 18px;
     }
-    .settings-columns {
+    :where(.xhs-downloader-ui) .settings-columns {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 20px;
         width: 100%;
         align-items: start;
     }
-    .settings-column {
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
+    :where(.xhs-downloader-ui) .settings-column {
         min-width: 0;
     }
-    .modal-footer {
+    :where(.xhs-downloader-ui) .modal-footer {
         padding: 1rem;
         border-top: 1px solid #eee;
         display: flex;
         justify-content: flex-end;
         gap: 12px;
     }
-    .primary-btn {
-        background: #2196F3;
-        color: white;
+    :where(.xhs-downloader-ui) .primary-btn,
+    :where(.xhs-downloader-ui) .secondary-btn {
         padding: 8px 24px;
         border-radius: 24px;
         cursor: pointer;
-        transition: all 0.2s;
     }
-    .secondary-btn {
+    :where(.xhs-downloader-ui) .primary-btn {
+        background: #2196f3;
+        color: white;
+    }
+    :where(.xhs-downloader-ui) .secondary-btn {
         background: #f0f0f0;
         color: #666;
-        padding: 8px 24px;
-        border-radius: 24px;
-        cursor: pointer;
-        transition: all 0.2s;
     }
 
-    /* Settings 专用的设置项样式（保持不变） */
-    .setting-item {
-        margin: 0.5rem 0;
-        padding: 10px;
-        border-radius: 8px;
-        transition: background 0.2s;
-    }
-    .setting-item:hover { background: #f0f0f0; }
-    .settings-body .setting-item {
+    /* 设置项样式 */
+    :where(.xhs-downloader-ui) .setting-item {
         margin: 0;
         min-width: 0;
+        padding: 10px;
+        border-radius: 8px;
+        transition: background-color 0.2s;
     }
-    .settings-group {
+    :where(.xhs-downloader-ui) .setting-item.disabled {
+        opacity: 0.6;
+    }
+    :where(.xhs-downloader-ui) .setting-item:hover {
+        background: #f0f0f0;
+    }
+    :where(.xhs-downloader-ui) .settings-group,
+    :where(.xhs-downloader-ui) .settings-group-content {
         display: flex;
         flex-direction: column;
         gap: 10px;
         min-width: 0;
     }
-    .settings-group.wide {
+    :where(.xhs-downloader-ui) .settings-group.wide {
         width: 100%;
     }
-    .settings-group-title {
+    :where(.xhs-downloader-ui) .settings-group-title {
         color: #212121;
         font-size: 0.95rem;
         font-weight: 600;
@@ -1410,56 +1418,63 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         padding-bottom: 6px;
         border-bottom: 1px solid #eee;
     }
-    .settings-group-content {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        min-width: 0;
-    }
-    .settings-group.wide .settings-group-content {
+    :where(.xhs-downloader-ui) .settings-group.wide .settings-group-content {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 10px 12px;
     }
-    .setting-item label {
+    :where(.xhs-downloader-ui) .setting-item label {
         display: flex;
         justify-content: space-between;
         align-items: center;
         width: 100%;
     }
-    .setting-item label span {
+    :where(.xhs-downloader-ui) .setting-title {
         font-size: 1rem;
         font-weight: 500;
         color: #333;
     }
 
-    .toggle-switch {
+    :where(.xhs-downloader-ui) .toggle-switch {
         position: relative;
         width: 40px;
         height: 20px;
     }
-    .toggle-switch input { opacity: 0; width: 0; height: 0; }
-    .slider {
+    :where(.xhs-downloader-ui) .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    :where(.xhs-downloader-ui) .slider {
         position: absolute;
         cursor: pointer;
-        top: 0; left: 0; right: 0; bottom: 0;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
         background: #ccc;
-        transition: 0.4s;
+        transition: background-color 0.4s;
         border-radius: 34px;
     }
-    .slider:before {
+    :where(.xhs-downloader-ui) .slider::before {
         content: "";
         position: absolute;
-        height: 16px; width: 16px;
-        left: 2px; bottom: 2px;
+        height: 16px;
+        width: 16px;
+        left: 2px;
+        bottom: 2px;
         background: white;
         border-radius: 50%;
-        transition: 0.4s;
+        transition: transform 0.4s;
     }
-    input:checked + .slider { background: #2196F3; }
-    input:checked + .slider:before { transform: translateX(20px); }
+    :where(.xhs-downloader-ui) input:checked + .slider {
+        background: #2196f3;
+    }
+    :where(.xhs-downloader-ui) input:checked + .slider::before {
+        transform: translateX(20px);
+    }
 
-    .text-input {
+    :where(.xhs-downloader-ui) .text-input {
         width: 100%;
         box-sizing: border-box;
         padding: 8px;
@@ -1470,21 +1485,16 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         margin-top: 8px;
         transition: border-color 0.2s;
     }
-    textarea.text-input {
+    :where(.xhs-downloader-ui) textarea.text-input {
         min-height: 84px;
         line-height: 1.45;
         resize: vertical;
         overflow-wrap: anywhere;
     }
-    .text-input:focus {
-        outline: none;
-        border-color: #2196F3;
-        box-shadow: 0 0 4px rgba(33, 150, 243, 0.3);
-    }
-    .select-input {
+    :where(.xhs-downloader-ui) .select-input {
         min-width: 130px;
         width: auto;
-        padding: 8px 12px;
+        padding: 8px 32px 8px 12px;
         border: 1px solid #ddd;
         border-radius: 4px;
         font-size: 0.9rem;
@@ -1495,41 +1505,41 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M3 4.5L6 7.5L9 4.5H3Z'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 12px center;
-        padding-right: 32px;
     }
-    .select-input:focus {
+    :where(.xhs-downloader-ui) .text-input:focus,
+    :where(.xhs-downloader-ui) .select-input:focus {
         outline: none;
-        border-color: #2196F3;
+        border-color: #2196f3;
         box-shadow: 0 0 4px rgba(33, 150, 243, 0.3);
     }
-    .select-input:disabled {
+    :where(.xhs-downloader-ui) .select-input:disabled {
         background-color: #f5f5f5;
         color: #999;
         cursor: not-allowed;
     }
-    .setting-description {
+    :where(.xhs-downloader-ui) .setting-description {
         font-size: 0.875rem;
         color: #757575;
         margin-top: 4px;
         line-height: 1.4;
         text-align: left;
     }
-    .file-name-format-item {
+    :where(.xhs-downloader-ui) .file-name-format-item {
         grid-column: 1 / -1;
     }
-    .file-name-format-editor {
+    :where(.xhs-downloader-ui) .file-name-format-editor {
         display: flex;
         flex-direction: column;
         gap: 10px;
         margin-top: 10px;
     }
-    .file-name-format-group-title {
+    :where(.xhs-downloader-ui) .file-name-format-group-title {
         font-size: 0.85rem;
         font-weight: 500;
         color: #555;
         margin-bottom: 6px;
     }
-    .file-name-card-list {
+    :where(.xhs-downloader-ui) .file-name-card-list {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
@@ -1539,7 +1549,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         border-radius: 6px;
         background: #fff;
     }
-    .file-name-card {
+    :where(.xhs-downloader-ui) .file-name-card {
         display: inline-flex;
         align-items: center;
         gap: 6px;
@@ -1553,28 +1563,28 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         line-height: 1.2;
         cursor: pointer;
         user-select: none;
-        transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+        transition: background-color 0.15s, border-color 0.15s, opacity 0.15s;
     }
-    .file-name-card.available:not(.disabled):hover {
+    :where(.xhs-downloader-ui) .file-name-card.available:not(.disabled):hover {
         background: #f0f7ff;
         border-color: #90caf9;
     }
-    .file-name-card.selected {
+    :where(.xhs-downloader-ui) .file-name-card.selected {
         background: #eaf4ff;
         border-color: #90caf9;
         cursor: grab;
     }
-    .file-name-card.selected:active {
+    :where(.xhs-downloader-ui) .file-name-card.selected:active {
         cursor: grabbing;
     }
-    .file-name-card.dragging {
+    :where(.xhs-downloader-ui) .file-name-card.dragging {
         opacity: 0.5;
     }
-    .file-name-card.disabled {
+    :where(.xhs-downloader-ui) .file-name-card.disabled {
         opacity: 0.45;
         cursor: not-allowed;
     }
-    .file-name-card-remove {
+    :where(.xhs-downloader-ui) .file-name-card-remove {
         width: 16px;
         height: 16px;
         padding: 0;
@@ -1585,53 +1595,59 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         line-height: 14px;
         cursor: pointer;
     }
-    .file-name-card-remove:hover {
+    :where(.xhs-downloader-ui) .file-name-card-remove:hover {
         color: #d32f2f;
     }
     @media (max-width: 760px) {
-        .optimized-scroll-modal {
+        :where(.xhs-downloader-ui) .optimized-scroll-modal {
             width: 95vw;
         }
-        .settings-body {
+        :where(.xhs-downloader-ui) .settings-body {
             gap: 14px;
         }
-        .settings-columns {
+        :where(.xhs-downloader-ui) .settings-columns {
             grid-template-columns: 1fr;
             gap: 14px;
         }
-        .settings-group.wide .settings-group-content {
+        :where(.xhs-downloader-ui) .settings-group.wide .settings-group-content {
             grid-template-columns: 1fr;
         }
     }
 
     /* 通用动画：统一定义一次 */
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes scaleUp { from { transform: scale(0.98); } to { transform: scale(1); } }
-    @keyframes fadeOut { from { opacity: 1; } to { opacity: 0; } }
+    @keyframes xhs-downloader-fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes xhs-downloader-scale-up {
+        from {
+            transform: scale(0.98);
+        }
+        to {
+            transform: scale(1);
+        }
+    }
     `;
     document.head.appendChild(style);
 
-    // 覆盖修改：文本弹窗样式
+    // 文本弹窗样式
     (() => {
-        if (!document.getElementById('textModalStyle')) {
+        if (!document.getElementById('xhs-downloader-text-modal-style')) {
             const style = document.createElement('style');
-            style.id = 'textModalStyle';
+            style.id = 'xhs-downloader-text-modal-style';
             style.textContent = `
-            /* 仅文本弹窗容器特有的尺寸与外观 */
-            .text-generic-modal {
-                background: #fff;
-                border-radius: 16px;
+            /* 文本弹窗尺寸 */
+            :where(.xhs-downloader-ui) .text-generic-modal {
                 width: 80%;
                 max-width: 700px;
                 max-height: 80vh;
-                box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-                overflow: hidden;
-                animation: scaleUp 0.3s;
-                display: flex;
-                flex-direction: column;
             }
             /* 仅该弹窗使用的文本内容样式 */
-            .text-content {
+            :where(.xhs-downloader-ui) .text-content {
                 white-space: pre-wrap;
                 word-break: break-word;
                 color: #1e272e;
@@ -1643,6 +1659,17 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             document.head.appendChild(style);
         }
     })();
+
+    function closeModal(overlay, onClose = () => {}) {
+        const animation = overlay.animate(
+            [{opacity: getComputedStyle(overlay).opacity}, {opacity: 0}],
+            {duration: 200, easing: 'ease', fill: 'forwards'},
+        );
+        animation.onfinish = () => {
+            overlay.remove();
+            onClose();
+        };
+    }
 
     /**
      * 显示文本弹窗（手动调用）
@@ -1666,6 +1693,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         return new Promise((resolve) => {
             const overlay = document.createElement('div');
             overlay.id = 'textGenericOverlay';
+            overlay.className = 'xhs-downloader-ui';
 
             const modal = document.createElement('div');
             modal.className = 'text-generic-modal';
@@ -1705,11 +1733,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             document.body.appendChild(overlay);
 
             function close(result) {
-                overlay.style.animation = 'fadeOut 0.2s';
-                setTimeout(() => {
-                    overlay.remove();
-                    resolve(result);
-                }, 200);
+                closeModal(overlay, () => resolve(result));
             }
 
             overlay.addEventListener('click', (e) => {
@@ -1719,12 +1743,17 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     }
 
     (() => {
-        if (document.getElementById('videoStreamStyle')) return;
+        if (document.getElementById('xhs-downloader-video-stream-style')) return;
         const style = document.createElement('style');
-        style.id = 'videoStreamStyle';
+        style.id = 'xhs-downloader-video-stream-style';
         style.textContent = `
-        .video-quality-body { max-height: 60vh; overflow-y: auto; }
-        .video-quality-item {
+        :where(.xhs-downloader-ui) .text-generic-modal.video-stream-modal {
+            max-width: 500px;
+        }
+        :where(.xhs-downloader-ui) .video-quality-body {
+            max-height: 60vh;
+        }
+        :where(.xhs-downloader-ui) .video-quality-item {
             display: flex;
             align-items: center;
             padding: 12px;
@@ -1732,17 +1761,34 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             border: 2px solid #e0e0e0;
             border-radius: 8px;
             cursor: pointer;
-            transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+            transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
         }
-        .video-quality-item:hover { background: #fafafa; border-color: #e6e6e6; }
-        .video-quality-item.selected {
+        :where(.xhs-downloader-ui) .video-quality-item:hover {
+            background: #fafafa;
+            border-color: #e6e6e6;
+        }
+        :where(.xhs-downloader-ui) .video-quality-item.selected {
             border-color: #2196f3;
             box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.12) inset;
         }
-        .video-quality-radio { margin-right: 12px; width: 18px; height: 18px; cursor: pointer; }
-        .video-quality-info { flex: 1; }
-        .video-quality-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
-        .video-quality-sub { font-size: 13px; color: #666; }
+        :where(.xhs-downloader-ui) .video-quality-radio {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        :where(.xhs-downloader-ui) .video-quality-info {
+            flex: 1;
+        }
+        :where(.xhs-downloader-ui) .video-quality-title {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+        :where(.xhs-downloader-ui) .video-quality-sub {
+            font-size: 13px;
+            color: #666;
+        }
         `;
         document.head.appendChild(style);
     })();
@@ -1792,11 +1838,10 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         return new Promise(resolve => {
             const overlay = document.createElement('div');
             overlay.id = 'videoStreamOverlay';
-            overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.32);backdrop-filter:blur(4px);display:flex;justify-content:center;align-items:center;z-index:10000;animation:fadeIn .3s';
+            overlay.className = 'xhs-downloader-ui';
 
             const modal = document.createElement('div');
-            modal.className = 'text-generic-modal';
-            modal.style.maxWidth = '500px';
+            modal.className = 'text-generic-modal video-stream-modal';
             const header = document.createElement('div');
             header.className = 'modal-header';
             header.innerHTML = `<span>${t.videoQualityTitle}</span>`;
@@ -1831,11 +1876,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             const close = result => {
                 if (closed) return;
                 closed = true;
-                overlay.style.animation = 'fadeOut .2s';
-                setTimeout(() => {
-                    overlay.remove();
-                    resolve(result);
-                }, 200);
+                closeModal(overlay, () => resolve(result));
             };
             confirm.addEventListener('click', () => {
                 const selected = modal.querySelector('input[name="xhsVideoStream"]:checked');
@@ -1852,11 +1893,11 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     const createSwitchItem = ({label, description, checked, disabled = false}) => {
         const item = document.createElement('div');
         item.className = 'setting-item';
-        item.style.opacity = disabled ? 0.6 : 1;
+        item.classList.toggle('disabled', disabled);
 
         item.innerHTML = `
             <label>
-                <span>${label}</span>
+                <span class="setting-title">${label}</span>
                 <div class="toggle-switch">
                     <input type="checkbox" ${checked ? 'checked' : ''} ${disabled ? 'disabled' : ''}>
                     <span class="slider"></span>
@@ -1879,11 +1920,11 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                              }) => {
         const item = document.createElement('div');
         item.className = 'setting-item';
-        item.style.opacity = disabled ? 0.6 : 1;
+        item.classList.toggle('disabled', disabled);
 
         const title = document.createElement('div');
         const titleText = document.createElement('span');
-        titleText.style.cssText = 'font-size: 1rem; font-weight: 500; color: #333;';
+        titleText.className = 'setting-title';
         titleText.textContent = label;
         title.appendChild(titleText);
 
@@ -1916,7 +1957,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
         item.innerHTML = `
             <div>
-                <span style="font-size: 1rem; font-weight: 500; color: #333;">${label}</span>
+                <span class="setting-title">${label}</span>
             </div>
             <div class="setting-description">${description}</div>
             <div class="file-name-format-editor">
@@ -2060,7 +2101,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     const createSelectItem = ({label, description, options, value, disabled = false}) => {
         const item = document.createElement('div');
         item.className = 'setting-item';
-        item.style.opacity = disabled ? 0.6 : 1;
+        item.classList.toggle('disabled', disabled);
 
         // 生成选项HTML
         const optionsHtml = options.map(option => {
@@ -2071,7 +2112,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
         item.innerHTML = `
             <label>
-                <span>${label}</span>
+                <span class="setting-title">${label}</span>
                 <select class="select-input" ${disabled ? 'disabled' : ''}>
                     ${optionsHtml}
                 </select>
@@ -2086,8 +2127,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     const closeSettingsModal = () => {
         const overlay = document.getElementById('SettingsOverlay');
         if (overlay) {
-            overlay.style.animation = 'fadeOut 0.2s';
-            setTimeout(() => overlay.remove(), 200);
+            closeModal(overlay);
         }
     };
 
@@ -2100,6 +2140,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         // 创建覆盖层
         const overlay = document.createElement('div');
         overlay.id = 'SettingsOverlay';
+        overlay.className = 'xhs-downloader-ui';
 
         // 创建弹窗
         const modal = document.createElement('div');
@@ -2187,7 +2228,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
         scriptServerSwitch.querySelector('input').addEventListener('change', (e) => {
             scriptServerURL.querySelector('input').disabled = !e.target.checked;
-            scriptServerURL.querySelector('.text-input').style.opacity = e.target.checked ? 1 : 0.6;
+            scriptServerURL.classList.toggle('disabled', !e.target.checked);
         });
 
         const createSettingsGroup = (title, items, wide = false) => {
@@ -2284,38 +2325,31 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     style = document.createElement('style');
     style.textContent = `
     /* 图片选择弹窗：仅容器尺寸与自身网格等特有样式 */
-    .image-selection-modal {
-        background: white;
-        border-radius: 16px;
+    :where(.xhs-downloader-ui) .image-selection-modal {
         width: 80%;
         max-width: 900px;
         max-height: 90vh;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-        overflow: hidden;
-        animation: scaleUp 0.3s;
-        display: flex;
-        flex-direction: column;
     }
 
     /* 图片网格等仅此弹窗拥有的样式 */
-    .image-grid {
+    :where(.xhs-downloader-ui) .image-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
         gap: 12px;
     }
-    .image-item {
+    :where(.xhs-downloader-ui) .image-item {
         position: relative;
         border-radius: 8px;
         overflow: hidden;
         cursor: pointer;
-        transition: all 0.2s;
+        transition: border-color 0.2s;
         border: 2px solid transparent;
         aspect-ratio: 3 / 4;
         background:
             conic-gradient(#eee 25%, transparent 0 50%, #eee 0 75%, transparent 0)
             0 0/16px 16px #fafafa;
     }
-    .image-item img {
+    :where(.xhs-downloader-ui) .image-item img {
         width: 100%;
         height: 100%;
         object-fit: contain;
@@ -2323,22 +2357,22 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         border-radius: 6px;
         display: block;
     }
-    .image-item.selected { border-color: #2196F3; }
+    :where(.xhs-downloader-ui) .image-item.selected {
+        border-color: #2196f3;
+    }
 
-    .image-checkbox {
+    :where(.xhs-downloader-ui) .image-checkbox,
+    :where(.xhs-downloader-ui) .image-checkbox + label {
         position: absolute;
         top: 8px;
         right: 8px;
         width: 20px;
         height: 20px;
+    }
+    :where(.xhs-downloader-ui) .image-checkbox {
         opacity: 0;
     }
-    .image-checkbox + label {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        width: 20px;
-        height: 20px;
+    :where(.xhs-downloader-ui) .image-checkbox + label {
         background: white;
         border: 1px solid #ccc;
         border-radius: 50%;
@@ -2346,13 +2380,13 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: all 0.2s;
+        transition: background-color 0.2s, border-color 0.2s;
     }
-    .image-checkbox:checked + label {
-        background: #2196F3;
-        border-color: #2196F3;
+    :where(.xhs-downloader-ui) .image-checkbox:checked + label {
+        background: #2196f3;
+        border-color: #2196f3;
     }
-    .image-checkbox:checked + label::after {
+    :where(.xhs-downloader-ui) .image-checkbox:checked + label::after {
         content: "✓";
         color: white;
         font-size: 12px;
@@ -2371,6 +2405,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             // 创建覆盖层
             const overlay = document.createElement('div');
             overlay.id = 'imageSelectionOverlay';
+            overlay.className = 'xhs-downloader-ui';
 
             // 创建弹窗
             const modal = document.createElement('div');
@@ -2438,11 +2473,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                     return;
                 }
                 settled = true;
-                overlay.style.animation = 'fadeOut 0.2s';
-                setTimeout(() => {
-                    overlay.remove();
-                    resolve(result);
-                }, 200);
+                closeModal(overlay, () => resolve(result));
             };
 
             // 创建底部按钮
@@ -2514,33 +2545,26 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     };
 
     (() => {
-        if (!document.getElementById('listSelectionStyle')) {
+        if (!document.getElementById('xhs-downloader-list-selection-style')) {
             const style = document.createElement('style');
-            style.id = 'listSelectionStyle';
+            style.id = 'xhs-downloader-list-selection-style';
             style.textContent = `
             /* 列表弹窗容器，仅定义差异尺寸，其他沿用通用 modal 样式 */
-            .list-selection-modal {
-                background: #fff;
-                border-radius: 16px;
+            :where(.xhs-downloader-ui) .list-selection-modal {
                 width: 80%;
                 max-width: 800px;
                 max-height: 80vh;
-                box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-                overflow: hidden;
-                animation: scaleUp 0.3s;
-                display: flex;
-                flex-direction: column;
             }
 
             /* 列表容器 */
-            .list-container {
+            :where(.xhs-downloader-ui) .list-container {
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
             }
 
             /* 列表项 */
-            .list-item {
+            :where(.xhs-downloader-ui) .list-item {
                 display: grid;
                 grid-template-columns: 32px 0px 64px 1fr; /* 序号、复选框、缩略图、文本区 */
                 align-items: center;
@@ -2548,25 +2572,25 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                 padding: 8px;
                 border: 1px solid #eee;
                 border-radius: 10px;
-                transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+                transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
                 cursor: pointer;
             }
-            .list-item:hover {
+            :where(.xhs-downloader-ui) .list-item:hover {
                 background: #fafafa;
                 border-color: #e6e6e6;
             }
-            .list-item.selected {
-                border-color: #2196F3;
-                box-shadow: 0 0 0 4px rgba(33,150,243,0.12) inset;
+            :where(.xhs-downloader-ui) .list-item.selected {
+                border-color: #2196f3;
+                box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.12) inset;
             }
 
             /* 序号样式 */
-            .list-number {
+            :where(.xhs-downloader-ui) .list-number {
                 text-align: center;
             }
 
             /* 复选框样式（使用原生复选框以保证可访问性与简单性） */
-            .list-checkbox {
+            :where(.xhs-downloader-ui) .list-checkbox {
                 width: 18px;
                 height: 18px;
                 margin: 0 0 0 2px;
@@ -2574,7 +2598,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             }
 
             /* 缩略图 */
-            .list-thumb {
+            :where(.xhs-downloader-ui) .list-thumb {
                 width: 64px;
                 height: 64px;
                 object-fit: cover;
@@ -2585,19 +2609,19 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             }
 
             /* 文本区 */
-            .list-texts {
+            :where(.xhs-downloader-ui) .list-texts {
                 display: flex;
                 flex-direction: column;
                 min-width: 0; /* 允许文本正确换行截断 */
             }
-            .list-author {
+            :where(.xhs-downloader-ui) .list-author {
                 font-size: 0.95rem;
                 color: #212121;
                 font-weight: 500;
                 line-height: 1.4;
                 word-break: break-word;
             }
-            .list-title {
+            :where(.xhs-downloader-ui) .list-title {
                 margin-top: 4px;
                 font-size: 0.85rem;
                 color: #757575;
@@ -2633,11 +2657,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             // 覆盖层
             const overlay = document.createElement('div');
             overlay.id = 'listSelectionOverlay';
-            overlay.style.cssText = `
-            position: fixed; inset: 0; background: rgba(0,0,0,0.32);
-            backdrop-filter: blur(4px); display: flex; justify-content: center; align-items: center;
-            z-index: 10000; animation: fadeIn 0.3s;
-        `;
+            overlay.className = 'xhs-downloader-ui';
 
             // 弹窗
             const modal = document.createElement('div');
@@ -2759,11 +2779,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
             // 关闭
             const close = (result) => {
-                overlay.style.animation = 'fadeOut 0.2s';
-                setTimeout(() => {
-                    overlay.remove();
-                    resolve(result);
-                }, 200);
+                closeModal(overlay, () => resolve(result));
             };
 
             // 事件绑定
@@ -2840,65 +2856,36 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     // 创建主图标
     const createIcon = () => {
         const icon = document.createElement('div');
+        icon.className = 'xhs-downloader-ui xhs-downloader-icon';
         icon.style = `
-            position: fixed;
             top: ${config.position.top};
             right: ${config.position.right};
             width: ${config.icon[config.icon.type].size}px;
             height: ${config.icon[config.icon.type].size}px;
-            background: white;
             border-radius: ${config.icon.image.borderRadius || '8px'};
-            cursor: grab;
-            z-index: 9999;
-            box-shadow: 0 3px 5px rgba(0,0,0,0.12), 0 3px 5px rgba(0,0,0,0.24);
-            display: flex;
-            align-items: center;
-            justify-content: center;
             transition: transform ${config.animation.duration}s ${config.animation.easing}, box-shadow ${config.animation.duration}s ${config.animation.easing};
-            touch-action: none;
-            user-select: none;
-            -webkit-user-drag: none;
         `;
 
         icon.style.backgroundImage = `url(${config.icon.image.url})`;
-        icon.style.backgroundSize = 'cover';
 
         return icon;
     };
 
     // 创建菜单容器
     const menu = document.createElement('div');
+    menu.className = 'xhs-downloader-ui xhs-downloader-menu';
     menu.style = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 255px;
-        max-width: calc(100vw - 1rem);
-        background: white;
-        border-radius: 16px;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-        overflow: hidden;
-        display: none;
-        z-index: 9998;
-        transform-origin: top center;
-        transition: all ${config.animation.duration}s ${config.animation.easing};
-        opacity: 0;
-        transform: translateY(var(--menu-hidden-translate, 10px)) scaleY(0.95);
-        will-change: transform, opacity;
+        transition: top ${config.animation.duration}s ${config.animation.easing}, left ${config.animation.duration}s ${config.animation.easing}, transform-origin ${config.animation.duration}s ${config.animation.easing};
     `;
 
     // 创建菜单内容容器
     const menuContent = document.createElement('div');
-    menuContent.style = `
-        max-height: 400px;
-        overflow-y: auto;
-        overscroll-behavior: contain;
-    `;
+    menuContent.className = 'xhs-downloader-menu-content';
     menu.appendChild(menuContent);
 
     let icon;
     let hideTimeout;
-    let hideAnimationTimeout;
+    let menuAnimation = null;
     let isMenuVisible = false;
     let isDraggingIcon = false;
     let menuHiddenTranslate = '10px';
@@ -2941,7 +2928,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         const originX = clamp(iconCenterX - left, 16, menuWidth - 16);
 
         menuHiddenTranslate = openAbove ? '-10px' : '10px';
-        menu.style.setProperty('--menu-hidden-translate', menuHiddenTranslate);
+        menu.style.setProperty('--xhs-downloader-menu-hidden-translate', menuHiddenTranslate);
         menu.style.left = `${left}px`;
         menu.style.top = `${top}px`;
         menu.style.right = 'auto';
@@ -2988,99 +2975,129 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     // 初始化样式
     style = document.createElement('style');
     style.textContent = `
-        :root {
-            --primary: #2196F3;
-            --surface: #ffffff;
-            --on-surface: #212121;
-            --ripple-color: rgba(33, 150, 243, 0.15);
-            --border-radius: 12px;
+        .xhs-downloader-icon {
+            position: fixed;
+            background: white;
+            background-size: cover;
+            cursor: grab;
+            z-index: 9999;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.12), 0 3px 5px rgba(0, 0, 0, 0.24);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
-        .menu-item {
+        .xhs-downloader-menu {
+            --xhs-downloader-primary: #2196f3;
+            --xhs-downloader-on-surface: #212121;
+            --xhs-downloader-ripple-color: rgba(33, 150, 243, 0.15);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 255px;
+            max-width: calc(100vw - 1rem);
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            overflow: hidden;
+            display: none;
+            z-index: 9998;
+            transform-origin: top center;
+            opacity: 0;
+            transform: translateY(var(--xhs-downloader-menu-hidden-translate, 10px)) scaleY(0.95);
+            will-change: transform, opacity;
+        }
+
+        .xhs-downloader-menu-content {
+            max-height: 400px;
+            overflow-y: auto;
+            overscroll-behavior: contain;
+        }
+
+        .xhs-downloader-menu-divider {
+            height: 8px;
+            background: #f5f5f5;
+        }
+
+        .xhs-downloader-toast {
+            position: fixed;
+            left: 50%;
+            bottom: 10rem;
+            transform: translateX(-50%);
+            max-width: 80vw;
+            padding: 10px 16px;
+            background: rgba(128, 128, 128, 0.6);
+            color: #fff;
+            font-size: 16px;
+            line-height: 1.4;
+            border-radius: 8px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+            z-index: 99999;
+            opacity: 0;
+            transition: opacity 200ms ease;
+            pointer-events: none;
+            white-space: pre-wrap;
+            text-align: center;
+        }
+
+        :where(.xhs-downloader-ui) .menu-item {
             display: flex;
             padding: 1rem 1.5rem;
             cursor: pointer;
             position: relative;
-            transition: all 0.2s ease;
+            transition: background-color 0.2s ease;
             align-items: center;
         }
 
-        .menu-item:hover {
-            background: var(--ripple-color);
+        :where(.xhs-downloader-ui) .menu-item:hover {
+            background: var(--xhs-downloader-ripple-color);
         }
 
-        .menu-item:not(:last-child) {
+        :where(.xhs-downloader-ui) .menu-item:not(:last-child) {
             border-bottom: 1px solid #eee;
         }
 
-        .icon-container {
+        :where(.xhs-downloader-ui) .icon-container {
             margin-right: 1rem;
             display: flex;
             align-items: center;
         }
 
-        .material-icons {
+        :where(.xhs-downloader-ui) .material-icons {
             font-size: 24px;
-            color: var(--primary);
+            color: var(--xhs-downloader-primary);
         }
 
-        .content {
+        :where(.xhs-downloader-ui) .content {
             flex: 1;
         }
 
-        .menuTitle {
+        :where(.xhs-downloader-ui) .menu-title {
             font-size: 0.95rem;
-            color: var(--on-surface);
+            color: var(--xhs-downloader-on-surface);
             font-weight: 500;
             margin-bottom: 2px;
         }
 
-        .subtitle {
+        :where(.xhs-downloader-ui) .subtitle {
             font-size: 0.75rem;
             color: #757575;
             line-height: 1.4;
         }
 
-        .menu-enter {
-            animation: slideIn ${config.animation.duration}s ${config.animation.easing};
-        }
-
-        .menu-exit {
-            animation: slideOut ${config.animation.duration}s ${config.animation.easing};
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(var(--menu-hidden-translate, 10px)) scaleY(0.95);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scaleY(1);
-            }
-        }
-
-        @keyframes slideOut {
-            from {
-                opacity: 1;
-                transform: translateY(0) scaleY(1);
-            }
-            to {
-                opacity: 0;
-                transform: translateY(var(--menu-hidden-translate, 10px)) scaleY(0.95);
-            }
-        }
-
-        .ripple {
+        :where(.xhs-downloader-ui) .ripple {
             position: absolute;
             border-radius: 50%;
             transform: scale(0);
-            animation: ripple 0.6s linear;
-            background: var(--ripple-color);
+            animation: xhs-downloader-ripple 0.6s linear;
+            background: var(--xhs-downloader-ripple-color);
             pointer-events: none;
         }
 
-        @keyframes ripple {
+        @keyframes xhs-downloader-ripple {
             to {
                 transform: scale(2);
                 opacity: 0;
@@ -3088,21 +3105,21 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         }
 
         /* 滚动条样式 */
-        ::-webkit-scrollbar {
+        :where(.xhs-downloader-ui, .xhs-downloader-ui *)::-webkit-scrollbar {
             width: 8px;
         }
 
-        ::-webkit-scrollbar-track {
+        :where(.xhs-downloader-ui, .xhs-downloader-ui *)::-webkit-scrollbar-track {
             background: #f1f1f1;
             border-radius: 10px;
         }
 
-        ::-webkit-scrollbar-thumb {
+        :where(.xhs-downloader-ui, .xhs-downloader-ui *)::-webkit-scrollbar-thumb {
             background: #c1c1c1;
             border-radius: 10px;
         }
 
-        ::-webkit-scrollbar-thumb:hover {
+        :where(.xhs-downloader-ui, .xhs-downloader-ui *)::-webkit-scrollbar-thumb:hover {
             background: #a8a8a8;
         }
     `;
@@ -3114,28 +3131,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         const toast = document.createElement('div');
         toast.className = 'xhs-downloader-toast';
         toast.textContent = message;
-
-        // 基础样式（可按需调整）
-        Object.assign(toast.style, {
-            position: 'fixed',
-            left: '50%',
-            bottom: '10rem',
-            transform: 'translateX(-50%)',
-            maxWidth: '80vw',
-            padding: '10px 16px',
-            background: 'rgba(128, 128, 128, 0.6)',
-            color: '#fff',
-            fontSize: '16px',
-            lineHeight: '1.4',
-            borderRadius: '8px',
-            boxShadow: '0 6px 16px rgba(0,0,0,0.25)',
-            zIndex: '99999',
-            opacity: '0',
-            transition: 'opacity 200ms ease',
-            pointerEvents: 'none',
-            whiteSpace: 'pre-wrap',
-            textAlign: 'center',
-        });
 
         document.body.appendChild(toast);
 
@@ -3175,32 +3170,53 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         setTimeout(() => ripple.remove(), 600);
     };
 
+    const cancelMenuAnimation = () => {
+        if (menuAnimation) {
+            menuAnimation.onfinish = null;
+            menuAnimation.cancel();
+            menuAnimation = null;
+        }
+    };
+
+    const animateMenu = (visible) => {
+        const currentStyle = getComputedStyle(menu);
+        const start = {opacity: currentStyle.opacity, transform: currentStyle.transform};
+        const target = {
+            opacity: visible ? 1 : 0,
+            transform: visible ? 'translateY(0) scaleY(1)' : `translateY(${menuHiddenTranslate}) scaleY(0.95)`,
+        };
+        cancelMenuAnimation();
+        menu.style.opacity = target.opacity;
+        menu.style.transform = target.transform;
+        menuAnimation = menu.animate([start, target], {
+            duration: config.animation.duration * 1000,
+            easing: config.animation.easing,
+            fill: 'forwards',
+        });
+        if (!visible) {
+            menuAnimation.onfinish = () => {
+                menu.style.display = 'none';
+                isMenuVisible = false;
+            };
+        }
+    };
+
     // 隐藏菜单
     const hideMenu = (force = false) => {
         clearTimeout(hideTimeout);
-        clearTimeout(hideAnimationTimeout);
         if (config.keepMenuVisible && !force) {
             return;
         }
         const runHide = () => {
-            menu.classList.remove('menu-enter');
             if (force) {
-                menu.classList.remove('menu-exit');
+                cancelMenuAnimation();
                 menu.style.display = 'none';
                 menu.style.opacity = 0;
                 menu.style.transform = `translateY(${menuHiddenTranslate}) scaleY(0.95)`;
                 isMenuVisible = false;
                 return;
             }
-            menu.classList.add('menu-exit');
-            menu.style.opacity = 0;
-            menu.style.transform = `translateY(${menuHiddenTranslate}) scaleY(0.95)`;
-
-            hideAnimationTimeout = setTimeout(() => {
-                menu.style.display = 'none';
-                menu.classList.remove('menu-exit');
-                isMenuVisible = false;
-            }, config.animation.duration * 1000);
+            animateMenu(false);
         };
         if (force) {
             runHide();
@@ -3211,14 +3227,10 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
     const keepMenuOpen = () => {
         clearTimeout(hideTimeout);
-        clearTimeout(hideAnimationTimeout);
         if (!isMenuVisible) {
             return;
         }
-        menu.classList.remove('menu-exit');
-        menu.style.display = 'block';
-        menu.style.opacity = 1;
-        menu.style.transform = 'translateY(0) scaleY(1)';
+        animateMenu(true);
     };
 
     let currentUrl, currentSite = null;
@@ -3321,10 +3333,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         menuItems.forEach(item => {
             if (item.separator) {
                 const divider = document.createElement('div');
-                divider.style = `
-                    height: 8px;
-                    background: #f5f5f5;
-                `;
+                divider.className = 'xhs-downloader-menu-divider';
                 menuContent.appendChild(divider);
                 return;
             }
@@ -3336,7 +3345,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                     <span class="material-icons">${item.icon}</span>
                 </div>
                 <div class="content">
-                    <div class="menuTitle">${item.text}</div>
+                    <div class="menu-title">${item.text}</div>
                     <div class="subtitle">${item.description}</div>
                 </div>
             `;
@@ -3368,19 +3377,17 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             return;
         }
         clearTimeout(hideTimeout);
-        clearTimeout(hideAnimationTimeout);
         updateMenuContent();
         menu.style.display = 'block';
         menu.style.visibility = 'hidden';
-        menu.classList.remove('menu-enter', 'menu-exit');
-        menu.style.opacity = 0;
         positionMenu();
-        menu.style.transform = `translateY(${menuHiddenTranslate}) scaleY(0.95)`;
-        void menu.offsetHeight; // 触发重绘
+        if (!isMenuVisible) {
+            cancelMenuAnimation();
+            menu.style.opacity = 0;
+            menu.style.transform = `translateY(${menuHiddenTranslate}) scaleY(0.95)`;
+        }
         menu.style.visibility = 'visible';
-        menu.classList.add('menu-enter');
-        menu.style.opacity = 1;
-        menu.style.transform = 'translateY(0) scaleY(1)';
+        animateMenu(true);
         isMenuVisible = true;
     };
 
@@ -3495,7 +3502,6 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     // 添加到页面
     document.body.appendChild(icon);
     document.body.appendChild(menu);
-    document.head.appendChild(style);
     initializeIconPosition();
     syncFloatingControlsToViewport();
     setupUrlListener();
