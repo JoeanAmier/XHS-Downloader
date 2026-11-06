@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.5.1
+// @version        2.5.3
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -679,17 +679,25 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         const regex = detailUrlPattern[currentSite]["normal"];
         let urls = [];
         try {
-            images.forEach((item) => {
-                const url = item.urlDefault || item.url;
-                let match = url.match(regex);
-                if (match && match[1]) {
+            const extractors = [
+                item => item.fileId,
+                item => item.urlDefault?.match(regex)?.[1],
+                item => item.urlPre?.match(regex)?.[1],
+            ];
+            let tokens;
+            for (const extract of extractors) {
+                tokens = images.map(extract);
+                if (tokens.some(Boolean)) break;
+            }
+            tokens.forEach(token => {
+                if (token) {
                     urls.push(
-                        `https://ci.xiaohongshu.com/${match[1]}?imageView2/format/${GM_getValue(
+                        `https://ci.xiaohongshu.com/${token}?imageView2/format/${GM_getValue(
                             "imageDownloadFormat",
                             "jpeg"
                         )}`);
                 }
-            })
+            });
             return urls
         } catch (error) {
             console.error("Error generating image URLs:", error);
@@ -706,7 +714,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                 return []
             }
             for (const [index, item] of imageList.entries()) {
-                const url = item.urlDefault || item.url;
+                const url = item.urlDefault || item.urlPre;
                 if (url) {
                     items.push({
                                    webp: url, index: index + 1, url: urls[index],
@@ -3215,6 +3223,14 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
 
     let currentUrl, currentSite = null;
     const currentSitePattern = /www\.(xiaohongshu|rednote)\.com/;
+    const isRecommendPage = () => {
+        const url = new URL(currentUrl);
+        if (url.origin !== `https://www.${currentSite}.com`) {
+            return false;
+        }
+        return currentSite === 'xiaohongshu' ? url.pathname === '/explore' :
+               currentSite === 'rednote' && url.pathname === '/';
+    };
 
     // 动态生成菜单内容
     const updateMenuContent = () => {
@@ -3228,8 +3244,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             menuItems.push({
                                text: 'README', icon: ' 📄 ', action: readme, description: t.readmeMenuTitle
                            },);
-        } else if (currentUrl === `https://www.${currentSite}.com/explore` || currentUrl.includes(
-            `https://www.${currentSite}.com/explore?`)) {
+        } else if (isRecommendPage()) {
             menuItems.push({
                                text: t.extractRecommendLinksText,
                                icon: ' ⛓ ',
