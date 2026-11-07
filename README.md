@@ -70,8 +70,9 @@
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/作品ID?xsec_token=XXX</code></li>
 <li><code>https://www.xiaohongshu.com/discovery/item/作品ID?xsec_token=XXX</code></li>
-<li><code>https://www.xiaohongshu.com/user/profile/作者ID/作品ID?xsec_token=XXX</code></li>
+<li><code>https://www.rednote.com/discovery/item/作品ID?xsec_token=XXX</code></li>
 <li><code>https://xhslink.com/分享码</code></li>
+<li><code>https://xhslink.cn/分享码</code></li>
 <br/>
 <p><b>支持单次输入多个作品链接，链接之间使用空格分隔；程序会自动提取有效链接，无需额外处理！</b></p>
 </ul>
@@ -575,7 +576,7 @@ async def example():
 </details>
 <h1 id="cookie">🌐 Cookie</h1>
 <ol>
-<li>打开浏览器（可选无痕模式启动），访问 <code>https://www.xiaohongshu.com/explore</code></li>
+<li>打开浏览器（可选无痕模式启动），访问小红书页面</li>
 <li>登录小红书账号（可跳过）</li>
 <li>按下 <code>F12</code> 打开开发人员工具</li>
 <li>选择 <code>网络</code> 选项卡</li>

@@ -70,8 +70,9 @@
 <ul>
 <li><code>https://www.xiaohongshu.com/explore/NoteID?xsec_token=XXX</code></li>
 <li><code>https://www.xiaohongshu.com/discovery/item/NoteID?xsec_token=XXX</code></li>
-<li><code>https://www.xiaohongshu.com/user/profile/AuthorID/NoteID?xsec_token=XXX</code></li>
+<li><code>https://www.rednote.com/discovery/item/NoteID?xsec_token=XXX</code></li>
 <li><code>https://xhslink.com/ShareCode</code></li>
+<li><code>https://xhslink.cn/ShareCode</code></li>
 <br/>
 <p><b>Supports entering multiple notes links at once, separated by spaces; the program will automatically extract valid links without additional processing!</b></p>
 </ul>
@@ -324,7 +325,7 @@ async def example():
     folder_name = "Download"  # Folder name for storing note files (auto-created), default: Download
     name_format = "作品标题 作品描述"
     impersonate = "chrome146"  # Browser Impersonate Targets
-    cookie = ""  # Xiaohongshu web Cookie
+    cookie = ""  # RedNote web Cookie
     proxy = None  # Network proxy
     proxy_download = False  # Whether to use the network proxy from the proxy parameter when downloading files
     timeout = 5  # Request timeout limit, unit: seconds
@@ -597,7 +598,7 @@ async def example():
 </details>
 <h1 id="cookie">🌐 Cookie</h1>
 <ol>
-<li>Open the browser (optional: start in incognito mode) and visit <code>https://www.xiaohongshu.com/explore</code></li>
+<li>Open the browser (optional: start in incognito mode) and visit a RedNote page</li>
 <li>Log in to your RedNote account (can be skipped)</li>
 <li>Press <code>F12</code> to open the developer tools</li>
 <li>Select the <code>Network</code> tab</li>
