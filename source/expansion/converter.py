@@ -32,6 +32,8 @@ class Converter:
 
     @classmethod
     def _convert_object(cls, text: str) -> dict:
+        if not text:
+            return {}
         cleaned = text.removeprefix("window.__INITIAL_STATE__=")
         cleaned = (
             cleaned.replace("new Map([])", "[]")
