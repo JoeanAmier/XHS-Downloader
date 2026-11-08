@@ -87,9 +87,12 @@ class Cleaner:
 
         text = self.clear_spaces(text)
 
+        text = text.replace("/", "").replace("\\", "")
+        while ".." in text:
+            text = text.replace("..", ".")
         text = text.strip().strip(".").strip("_")
 
-        return text or default
+        return text or (self.filter_name(default, replace=replace) if default else "")
 
     @staticmethod
     def clear_spaces(string: str):

@@ -123,6 +123,8 @@ class Download:
         return tasks
 
     def generate_path(self, nickname: str, filename: str):
+        nickname = self.manager.cleaner.filter_name(nickname, default="unknown")
+        filename = self.manager.cleaner.filter_name(filename, default="untitled")
         if self.author_archive:
             folder = self.folder.joinpath(nickname)
             folder.mkdir(exist_ok=True)
