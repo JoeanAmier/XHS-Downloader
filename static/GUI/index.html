@@ -57,6 +57,12 @@
     <symbol id="play" viewBox="0 0 24 24">
         <path d="m6 3 14 9-14 9Z"/>
     </symbol>
+    <symbol id="pause" viewBox="0 0 24 24">
+        <path d="M8 4v16M16 4v16"/>
+    </symbol>
+    <symbol id="qr-code" viewBox="0 0 24 24">
+        <path d="M3 3h6v6H3zM15 3h6v6h-6zM3 15h6v6H3zM15 15h2v2h-2zM19 15h2v6h-6v-2M12 3v3M3 12h3M12 9v4h5M9 12h1M12 16v5"/>
+    </symbol>
     <symbol id="x" viewBox="0 0 24 24">
         <path d="M18 6 6 18M6 6l12 12"/>
     </symbol>
@@ -293,6 +299,15 @@
                                 <use href="#external"/>
                             </svg>
                             <span data-i18n="queue.open_folder"></span></button>
+                        <button class="secondary-button" id="pauseAllDownloads" type="button">
+                            <svg><use href="#pause"/></svg>
+                            <span data-i18n="queue.pause_all"></span></button>
+                        <button class="secondary-button" id="resumeAllDownloads" type="button" disabled>
+                            <svg><use href="#play"/></svg>
+                            <span data-i18n="queue.resume_all"></span></button>
+                        <button class="secondary-button" id="retryFailedTasks" type="button" disabled>
+                            <svg><use href="#refresh"/></svg>
+                            <span data-i18n="queue.retry_failed"></span></button>
                         <button class="secondary-button danger-subtle" id="clearFinished" type="button">
                             <svg>
                                 <use href="#trash"/>
@@ -325,6 +340,7 @@
                             <div class="segmented" id="queueFilters">
                                 <button class="active" type="button" data-filter="all" data-i18n="queue.all"></button>
                                 <button type="button" data-filter="processing" data-i18n="queue.processing"></button>
+                                <button type="button" data-filter="paused" data-i18n="queue.paused"></button>
                                 <button type="button" data-filter="pending" data-i18n="queue.pending"></button>
                                 <button type="button" data-filter="success" data-i18n="queue.success"></button>
                                 <button type="button" data-filter="failed" data-i18n="queue.failed"></button>
@@ -532,9 +548,22 @@
                         <section class="setting-group" id="network-settings">
                             <div class="group-heading"><h3 data-i18n="settings.network"></h3></div>
                             <div class="field-grid">
-                                <label class="field full"><span data-i18n="settings.cookie"></span><textarea
+                                <div class="field full">
+                                    <div class="cookie-field-heading">
+                                        <label for="settingsCookie" data-i18n="settings.cookie"></label>
+                                        <button class="secondary-button" id="cookieReadLogin" type="button" disabled>
+                                            <span data-i18n="settings.qr_read"></span>
+                                        </button>
+                                        <button class="secondary-button" id="cookieQrLogin" type="button">
+                                            <svg><use href="#qr-code"/></svg>
+                                            <span data-i18n="settings.qr_login"></span>
+                                        </button>
+                                    </div>
+                                    <textarea
                                         id="settingsCookie" rows="4" spellcheck="false"
-                                        autocomplete="off"></textarea></label>
+                                        autocomplete="off"></textarea>
+                                    <small id="cookieLoginStatus" role="status" hidden></small>
+                                </div>
                                 <label class="field full"><span data-i18n="settings.impersonate"></span><input
                                         id="settingsImpersonate"
                                                                                          type="text"></label>

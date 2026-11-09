@@ -5,6 +5,7 @@ from curl_cffi.requests.exceptions import RequestException
 
 from ..module import ERROR, logging, retry, sleep_time
 from ..translation import _
+from .risk import check_risk_response
 
 if TYPE_CHECKING:
     from ..module import Manager
@@ -53,10 +54,13 @@ class Html:
                     proxy=proxy,
                     **kwargs,
                 )
+            check_risk_response(response)
             await sleep_time(self.manager.avg_delay)
             response.raise_for_status()
             return response.text if content else str(response.url)
         except RequestException as error:
+            if error.response is not None:
+                check_risk_response(error.response)
             logging(
                 self.print,
                 _("网络异常，{0} 请求失败: {1}").format(url, repr(error)),

@@ -1,4 +1,4 @@
-from asyncio import Semaphore, gather
+from asyncio import CancelledError, Event, Semaphore, create_task, gather, shield
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable
 
@@ -18,6 +18,7 @@ from ..module import (
 )
 from ..module import retry as re_download
 from ..translation import _
+from .risk import check_risk_body, check_risk_response
 
 if TYPE_CHECKING:
     from curl_cffi.requests import AsyncSession
@@ -69,6 +70,36 @@ class Download:
         self.live_download = manager.live_download
         self.author_archive = manager.author_archive
         self.write_mtime = manager.write_mtime
+        self._resumed = Event()
+        self._resumed.set()
+        self._responses: dict[int, Any] = {}
+
+    @property
+    def paused(self) -> bool:
+        return not self._resumed.is_set()
+
+    @staticmethod
+    def _pause_response(response, paused: bool) -> None:
+        # 已完成的流可能已把 Curl 句柄归还连接池，不能再操作该句柄。
+        if response.astream_task and not response.astream_task.done():
+            response.curl.pause(1 if paused else 0)  # CURLPAUSE_RECV / CURLPAUSE_CONT
+
+    def pause(self) -> None:
+        """在下载器事件循环内暂停接收，保留连接和已下载的内容。"""
+
+        self._resumed.clear()
+        for response in self._responses.values():
+            self._pause_response(response, True)
+
+    def resume(self) -> None:
+        """恢复接收和文件处理，不重新创建下载任务。"""
+
+        for response in self._responses.values():
+            self._pause_response(response, False)
+        self._resumed.set()
+
+    async def wait_until_resumed(self) -> None:
+        await self._resumed.wait()
 
     async def run(
         self,
@@ -83,6 +114,7 @@ class Download:
         progress: Callable[[dict], None] | None = None,
         task_id: str | None = None,
     ) -> list[Any]:
+        await self.wait_until_resumed()
         if type_ == _("视频"):
             tasks = self.__ready_download_video(
                 urls,
@@ -108,7 +140,7 @@ class Download:
         else:
             raise ValueError
         tasks = [
-            self.__download(
+            create_task(self.__download(
                 url,
                 path,
                 name,
@@ -116,11 +148,16 @@ class Download:
                 mtime,
                 progress,
                 task_id,
-            )
+            ))
             for url, name, format_ in tasks
         ]
-        tasks = await gather(*tasks)
-        return tasks
+        try:
+            return await gather(*tasks)
+        except BaseException:
+            for task in tasks:
+                task.cancel()
+            await gather(*tasks, return_exceptions=True)
+            raise
 
     def generate_path(self, nickname: str, filename: str):
         if self.author_archive:
@@ -234,6 +271,7 @@ class Download:
         task_id: str | None,
     ):
         async with self.SEMAPHORE:
+            await self.wait_until_resumed()
             headers = self.headers.copy()
             temp = self.temp.joinpath(f"{name}.{format_}")
             completed = self.__update_headers_range(
@@ -259,32 +297,85 @@ class Download:
                     url,
                     headers=headers,
                 ) as response:
-                    # await sleep_time()
-                    if response.status_code == 416:
-                        raise CacheError(
-                            _("文件 {0} 缓存异常，重新下载").format(temp.name),
-                        )
-                    response.raise_for_status()
-                    # self.__create_progress(
-                    #     bar,
-                    #     int(
-                    #         response.headers.get(
-                    #             'content-length', 0)) or None,
-                    # )
-                    content_length = int(response.headers.get("content-length", 0) or 0)
-                    total = completed + content_length if content_length else None
-                    report("downloading", total)
-                    buffer = bytearray()
-                    async with open(temp, "ab") as f:
-                        async for chunk in response.aiter_content(self.chunk):
-                            buffer.extend(chunk)
-                            if len(buffer) >= self.WRITE_BUFFER_SIZE:
-                                await f.write(bytes(buffer))
+                    self._responses[id(response)] = response
+                    try:
+                        # 请求头返回前也可能收到暂停操作，注册后立即同步暂停状态。
+                        if self.paused:
+                            self._pause_response(response, True)
+                        await self.wait_until_resumed()
+                        check_risk_response(response, inspect_body=False)
+                        if response.status_code == 416:
+                            raise CacheError(
+                                _("文件 {0} 缓存异常，重新下载").format(temp.name),
+                            )
+                        response.raise_for_status()
+                        content_length = int(response.headers.get("content-length", 0) or 0)
+                        mode = "ab"
+                        if completed and response.status_code == 200:
+                            completed = 0
+                            mode = "wb"
+                        total = completed + content_length if content_length else None
+                        report("downloading", total)
+                        buffer = bytearray()
+
+                        async def chunks():
+                            content_type = response.headers.get("content-type", "").lower()
+                            # Verification pages and JSON errors can be returned with
+                            # HTTP 200, including responses without Content-Length.
+                            # Inspect at most 1 MiB and stream larger bodies normally.
+                            limit = 1024 * 1024
+                            if ("json" in content_type or "html" in content_type) and content_length <= limit:
+                                buffered = bytearray()
+                                inspecting = True
+                                async for chunk in response.aiter_content(self.chunk):
+                                    if not inspecting:
+                                        yield chunk
+                                        continue
+                                    buffered.extend(chunk)
+                                    if len(buffered) > limit:
+                                        yield bytes(buffered)
+                                        buffered.clear()
+                                        inspecting = False
+                                if inspecting:
+                                    payload = bytes(buffered)
+                                    check_risk_body(payload.decode("utf-8", errors="replace"))
+                                    if payload:
+                                        yield payload
+                            else:
+                                async for chunk in response.aiter_content(self.chunk):
+                                    yield chunk
+
+                        async with open(temp, mode) as f:
+                            async def flush_buffer():
+                                if not buffer:
+                                    return
+                                content = bytes(buffer)
                                 buffer.clear()
-                            completed += len(chunk)
-                            report("downloading", total)
-                        if buffer:
-                            await f.write(bytes(buffer))
+                                write = create_task(f.write(content))
+                                try:
+                                    await shield(write)
+                                except CancelledError:
+                                    await write
+                                    raise
+
+                            try:
+                                async for chunk in chunks():
+                                    await self.wait_until_resumed()
+                                    buffer.extend(chunk)
+                                    if len(buffer) >= self.WRITE_BUFFER_SIZE:
+                                        await flush_buffer()
+                                    completed += len(chunk)
+                                    report("downloading", total)
+                                await self.wait_until_resumed()
+                            finally:
+                                await flush_buffer()
+                    except CancelledError:
+                        # 关闭窗口时停止底层流，避免 aclose 等待一个仍被暂停的连接。
+                        if response.astream_task:
+                            response.astream_task.cancel()
+                        raise
+                    finally:
+                        self._responses.pop(id(response), None)
                 real = await self.__suffix_with_file(
                     temp,
                     path,
@@ -302,6 +393,8 @@ class Download:
                 logging(self.print, _("文件 {0} 下载成功").format(real.name))
                 return True
             except RequestException as error:
+                if error.response is not None:
+                    check_risk_response(error.response, inspect_body=False)
                 report("failed")
                 logging(
                     self.print,

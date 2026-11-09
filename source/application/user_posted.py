@@ -3,6 +3,7 @@ from typing import TYPE_CHECKING
 from xhshow import Xhshow
 
 from ..module import retry, sleep_time
+from .risk import check_risk_response
 
 if TYPE_CHECKING:
     from ..module import Manager
@@ -49,6 +50,7 @@ class UserPosted:
             headers=headers,
             proxy=self.proxy,
         )
+        check_risk_response(response)
         await sleep_time(self.avg_delay)
         response.raise_for_status()
         return response.json()
