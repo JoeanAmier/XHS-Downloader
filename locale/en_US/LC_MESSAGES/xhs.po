@@ -1406,3 +1406,7 @@ msgstr "Only failed tasks can be retried"
 #, python-brace-format
 msgid "已将 {0} 个失败任务重新加入队列"
 msgstr "Requeued {0} failed tasks"
+
+msgid "登录窗口已关闭，仍可点击“读取 Cookie”取回本次会话"
+msgstr ""
+"The login window is closed. Click Read Cookie to retrieve this session."

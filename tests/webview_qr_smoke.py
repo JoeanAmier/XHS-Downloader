@@ -26,12 +26,14 @@ class Handler(BaseHTTPRequestHandler):
         pass
 
     def do_GET(self):
-        manual = self.path.startswith("/manual")
+        manual = self.path.startswith(("/manual", "/closed"))
         script = (
             "Object.defineProperty(window,'__INITIAL_STATE__',{get(){throw Error('unreadable state')}});"
             if manual else
             "window.__INITIAL_STATE__={user:{userInfo:{_rawValue:{guest:false}}}};"
         )
+        if self.path.startswith("/broken-bridge"):
+            script += "window.pywebview.stringify=()=>null;"
         html = ("<!doctype html><body><div id='login-parent'><div class='login-container'><div class='container'>"
                 "<img width='180' height='180'></div></div></div><script>"
                 "setTimeout(()=>{document.getElementById('login-parent').style.opacity='0';"
@@ -90,12 +92,17 @@ def main():
                 until(lambda: window.events.loaded.is_set())
                 until(lambda: window.evaluate_js("document.getElementById('startupScreen').hidden"))
                 window.evaluate_js("document.querySelector('[data-view=settings]').click()")
-                for case in ("auto", "manual"):
+                for case in ("auto", "broken-bridge", "manual", "closed"):
                     login.LOGIN_URL = base + "/" + case
                     window.evaluate_js("document.getElementById('settingsCookie').value='';document.getElementById('cookieQrLogin').click()")
-                    if case == "manual":
+                    if case in {"manual", "closed"}:
+                        previous_errors = (Path(directory) / "diagnostic.log").read_text().count('page_detection_failed') if (Path(directory) / "diagnostic.log").exists() else 0
                         until(lambda: (Path(directory) / "diagnostic.log").exists()
-                              and 'page_detection_failed' in (Path(directory) / "diagnostic.log").read_text())
+                              and (Path(directory) / "diagnostic.log").read_text().count('page_detection_failed') > previous_errors)
+                        if case == "closed":
+                            api._qr_login._window.destroy()
+                            until(lambda: api._qr_login.state()["status"] == "cancelled")
+                            until(lambda: not window.evaluate_js("document.getElementById('cookieReadLogin').disabled"))
                         window.evaluate_js("document.getElementById('cookieReadLogin').click()")
                     until(lambda: window.evaluate_js("document.getElementById('settingsCookie').value.includes('web_session=stable-test-session')"))
                     until(lambda: 'cookie_filled_in_settings' in (Path(directory) / "diagnostic.log").read_text())
@@ -106,7 +113,8 @@ def main():
                     outcomes.append(case + ": PASS")
                 diagnostic = (Path(directory) / "diagnostic.log").read_text()
                 assert "stable-test-session" not in diagnostic
-                assert diagnostic.count('"event": "cookie_filled_in_settings"') == 2
+                assert diagnostic.count('"event": "cookie_filled_in_settings"') == 4
+                assert '"native_browser": true' in diagnostic
             except Exception as error:
                 outcomes.append("FAIL: " + str(error))
                 with suppress(Exception):
@@ -121,7 +129,7 @@ def main():
             backend.stop()
             server.shutdown()
     print(json.dumps(outcomes))
-    return 0 if outcomes == ["auto: PASS", "manual: PASS"] else 1
+    return 0 if outcomes == ["auto: PASS", "broken-bridge: PASS", "manual: PASS", "closed: PASS"] else 1
 
 
 if __name__ == "__main__":

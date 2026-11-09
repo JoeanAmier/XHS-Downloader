@@ -868,7 +868,7 @@
             if (result.status === "success") {
                 importLoginCookie(result);
             } else if (result.status === "cancelled") {
-                finishCookieLogin(translateText("settings.qr_cancelled"));
+                finishCookieLogin(translateText(result.can_capture ? "settings.qr_cached" : "settings.qr_cancelled"));
             } else if (result.status === "error") {
                 const message = result.message || translateText("toast.operation_failed");
                 finishCookieLogin(message);

@@ -151,6 +151,7 @@ def get_ui_messages() -> dict[str, str]:
         "settings.qr_waiting": _("等待扫码…"),
         "settings.qr_success": _("已读取 Cookie，点击“保存配置”后生效"),
         "settings.qr_cancelled": _("已取消扫码登录"),
+        "settings.qr_cached": _("登录窗口已关闭，仍可点击“读取 Cookie”取回本次会话"),
         "settings.proxy": _("网络代理"),
         "settings.proxy_placeholder": _("不使用代理"),
         "settings.proxy_download": _("下载文件时使用网络代理"),

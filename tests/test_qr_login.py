@@ -138,6 +138,17 @@ class QrLoginTests(unittest.TestCase):
         self.until(lambda: self.controller.state()["status"] == "success")
         self.assertGreaterEqual(len(calls), 2)
 
+    def test_native_read_does_not_wait_for_the_page_js_bridge_loaded_event(self):
+        self.window.events.loaded.clear()
+        with patch("source.GUI.login.uses_native_webview", return_value=True), patch(
+            "source.GUI.login.read_login_url", return_value=self.window.url
+        ), patch("source.GUI.login.read_login_cookies", return_value=[jar("web_session=native", httponly=True)]), patch(
+            "source.GUI.login.read_login_state", return_value={"authenticated": True}
+        ):
+            self.controller.start()
+            self.until(lambda: self.controller.state()["status"] == "success")
+        self.assertIn("web_session=native", self.controller.state()["cookie"])
+
     def test_duplicate_click_reuses_window_and_closed_window_can_retry(self):
         self.controller.start()
         self.controller.start()
@@ -191,6 +202,29 @@ class QrLoginTests(unittest.TestCase):
         self.window.cookies = [jar("web_session=confirmed")]
         self.assertEqual(self.controller.capture()["status"], "error")
         self.assertNotIn("cookie", self.controller.state())
+
+    def test_explicit_capture_after_window_close_uses_last_observed_session(self):
+        delivered = []
+        self.controller._on_success = delivered.append
+        self.window.cookies = [jar("web_session=last-session", httponly=True)]
+        self.controller.start()
+        self.until(lambda: self.controller.state()["can_capture"] and self.window.cookie_reads > 1)
+        self.window.destroy()
+        self.assertEqual(self.controller.state()["status"], "cancelled")
+        self.assertNotIn("cookie", self.controller.state())
+        self.assertTrue(self.controller.state()["can_capture"])
+        self.assertEqual(self.controller.capture()["status"], "success")
+        self.assertIn("web_session=last-session", delivered[0])
+
+    def test_restart_cannot_import_previous_windows_cached_cookie(self):
+        self.controller.start()
+        self.until(lambda: self.window.cookie_reads > 1)
+        self.window.destroy()
+        replacement = LoginWindow()
+        replacement.events.loaded.clear()
+        self.factory.return_value = replacement
+        self.controller.start()
+        self.assertFalse(self.controller._last_cookies)
 
     def test_unchanged_session_is_read_when_page_confirms_login(self):
         self.controller.start()

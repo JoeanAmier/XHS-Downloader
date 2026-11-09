@@ -14,6 +14,7 @@ import webview
 
 from ..module import ROOT, VOLUME
 from ..translation import _
+from .login_browser import read_login_cookies, read_login_state, read_login_url, uses_native_webview
 
 LOGIN_URL = "https://www.xiaohongshu.com/explore"
 LOGIN_SCRIPT_PATH = ROOT / "static/GUI/qr_login.js"
@@ -58,6 +59,7 @@ class QrLogin:
         self._on_success = on_success
         self._diagnostic_path = diagnostic_path
         self._diagnostic_lock = Lock()
+        self._last_cookies = {}
 
     def _diagnose(self, event: str, **fields) -> None:
         # Only callers' fixed flags/counts are logged, never page contents,
@@ -87,6 +89,7 @@ class QrLogin:
             self._window = window
             self._stop = stop
             self._result = {"status": "waiting"}
+            self._last_cookies = {}
             self._diagnose("started")
 
             def on_closed():
@@ -109,7 +112,7 @@ class QrLogin:
 
     def state(self) -> dict[str, Any]:
         with self._lock:
-            return {**self._result, "can_capture": self._window is not None}
+            return {**self._result, "can_capture": self._window is not None or bool(self._last_cookies.get("web_session"))}
 
     def confirm_import(self) -> None:
         self._diagnose("cookie_filled_in_settings")
@@ -123,14 +126,27 @@ class QrLogin:
         with self._lock:
             window = self._window
             result = dict(self._result)
+            cached = dict(self._last_cookies)
         if result["status"] == "success":
             return self.state()
         if window is None:
+            if cached.get("web_session") and cached["web_session"].value:
+                # Closing a private login window must not discard the last
+                # observed cookie jar. Export it only after an explicit click.
+                with self._lock:
+                    if self._window is not None:
+                        return {**self._result, "can_capture": True}
+                    self._result = {"status": "success", "cookie": self._cookie_header(cached)}
+                    result = dict(self._result)
+                self._diagnose("manual_read_cached", cookie_count=len(cached), has_session=True)
+                self._notify_success(result)
+                return self.state()
             return {"status": "error", "message": _("请先打开扫码登录窗口")}
         try:
-            if not is_login_origin(window.get_current_url() or ""):
+            url = read_login_url(window)
+            if not is_login_origin(url):
                 return {"status": "error", "message": _("请在小红书登录页面读取 Cookie")}
-            cookies = collect_login_cookies(window.get_cookies() or [])
+            cookies = collect_login_cookies(read_login_cookies(window, url))
             self._diagnose("manual_read", cookie_count=len(cookies),
                            has_session=bool(cookies.get("web_session")))
             if not cookies.get("web_session") or not cookies["web_session"].value:
@@ -151,6 +167,7 @@ class QrLogin:
             self._window = None
             self._stop.set()
             self._result = {"status": "cancelled"}
+            self._last_cookies = {}
         if window is not None:
             with suppress(Exception):
                 window.destroy()
@@ -159,17 +176,22 @@ class QrLogin:
         with self._lock:
             if self._window is not window or self._stop.is_set():
                 return
+            if self._result["status"] == "success":
+                return
             self._result = result
         self._diagnose("completed", status=result["status"])
+        self._notify_success(result)
+        # Destroy outside the lock: closed handlers may run synchronously.
+        with suppress(Exception):
+            window.destroy()
+
+    def _notify_success(self, result: dict[str, Any]) -> None:
         if result["status"] == "success" and self._on_success:
             try:
                 self._on_success(result["cookie"])
                 self._diagnose("settings_notified")
             except Exception as error:
                 self._diagnose("settings_notification_failed", error_type=type(error).__name__)
-        # Destroy outside the lock: closed handlers may run synchronously.
-        with suppress(Exception):
-            window.destroy()
 
     def _poll(self, window, stop: Event) -> None:
         deadline = monotonic() + self._timeout
@@ -187,10 +209,10 @@ class QrLogin:
                             self._result = {"status": "error", "message": _("未能自动确认登录；若已进入首页，请点击“读取 Cookie”")}
                     self._diagnose("auto_detection_timeout")
                     return
-                if not window.events.loaded.is_set():
+                if not window.events.loaded.is_set() and not uses_native_webview(window):
                     continue
                 try:
-                    url = window.get_current_url() or ""
+                    url = read_login_url(window)
                     if not is_login_origin(url):
                         continue
                     parts = urlsplit(url)
@@ -203,16 +225,17 @@ class QrLogin:
                         return
                     # Read native cookies first. Page JS failing after a login
                     # navigation must not prevent access to the cookie store.
-                    cookies = collect_login_cookies(window.get_cookies() or [])
+                    cookies = collect_login_cookies(read_login_cookies(window, url))
+                    with self._lock:
+                        if self._window is window and not stop.is_set():
+                            self._last_cookies = dict(cookies)
                 except Exception as error:
                     # Navigation after scanning can briefly replace the JS context.
                     self._diagnose("native_read_failed", error_type=type(error).__name__)
                     continue
                 page = {}
                 try:
-                    value = window.evaluate_js(script)
-                    if isinstance(value, dict):
-                        page = value
+                    page = read_login_state(window, script)
                 except Exception as error:
                     self._diagnose("page_detection_failed", error_type=type(error).__name__)
                 session = cookies.get("web_session")
@@ -222,7 +245,8 @@ class QrLogin:
                 if diagnostic != last_diagnostic:
                     self._diagnose("observed", cookie_count=diagnostic[0], has_session=diagnostic[1],
                                    login_visible=diagnostic[2], qr_visible=diagnostic[3],
-                                   authenticated=diagnostic[4], state_shape=diagnostic[5])
+                                   authenticated=diagnostic[4], state_shape=diagnostic[5],
+                                   native_browser=uses_native_webview(window))
                     last_diagnostic = diagnostic
                 authenticated = page.get("authenticated", False)
                 if session_value and (
