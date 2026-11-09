@@ -332,6 +332,7 @@
             return result;
         }, {
                                         processing: 0,
+                                        paused: 0,
                                         pending: 0,
                                         success: 0,
                                         failed: 0,
@@ -348,7 +349,7 @@
         document.getElementById("successMetric").innerHTML = `${success} <small>${translateText("unit.item")}</small>`;
         document.getElementById("failedMetric").innerHTML = `${failed} <small>${translateText("unit.item")}</small>`;
         document.getElementById("skippedMetric").innerHTML = `${skipped} <small>${translateText("unit.item")}</small>`;
-        document.getElementById("queueBadge").textContent = String(processing + pending);
+        document.getElementById("queueBadge").textContent = String(processing + pending + counts.paused);
         queueEmpty.querySelector("strong").textContent = translateText(
             currentQueueFilter === "all" ? "task.queue_empty" : "queue.current_filter_empty",
         );
@@ -827,9 +828,103 @@
     let settingsLoaded = false;
     let lastLogKey = null;
     let stateRefreshTimer = null;
+    let cookieLoginTimer = null;
+    let cookieLoginBusy = false;
+    let cookieLoginImported = false;
+
+    function importLoginCookie(result) {
+        if (cookieLoginImported || typeof result.cookie !== "string" || !result.cookie) return;
+        cookieLoginImported = true;
+        const input = document.getElementById("settingsCookie");
+        input.value = result.cookie;
+        input.dispatchEvent(new Event("input", {bubbles: true}));
+        document.getElementById("cookieReadLogin").disabled = true;
+        finishCookieLogin(translateText("settings.qr_success"));
+        showToast(translateText("settings.qr_success"));
+        void nativeApi?.confirm_qr_cookie_import().catch(() => {});
+    }
+
+    window.addEventListener("xhs-cookie-login", (event) => {
+        if (event.detail?.status === "success") importLoginCookie(event.detail);
+    });
+
+    function finishCookieLogin(message) {
+        window.clearInterval(cookieLoginTimer);
+        cookieLoginTimer = null;
+        const button = document.getElementById("cookieQrLogin");
+        button.disabled = false;
+        button.querySelector("span").textContent = translateText("settings.qr_login");
+        const status = document.getElementById("cookieLoginStatus");
+        status.textContent = message || "";
+        status.hidden = !message;
+    }
+
+    async function pollCookieLogin() {
+        if (cookieLoginBusy) return;
+        cookieLoginBusy = true;
+        try {
+            const result = await nativeApi.get_qr_login_state();
+            document.getElementById("cookieReadLogin").disabled = cookieLoginImported || !result.can_capture;
+            if (result.status === "success") {
+                importLoginCookie(result);
+            } else if (result.status === "cancelled") {
+                finishCookieLogin(translateText("settings.qr_cancelled"));
+            } else if (result.status === "error") {
+                const message = result.message || translateText("toast.operation_failed");
+                finishCookieLogin(message);
+                showToast(message, "warning");
+            }
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+            finishCookieLogin(message);
+            showToast(message, "warning");
+        } finally {
+            cookieLoginBusy = false;
+        }
+    }
+
+    async function startCookieLogin() {
+        cookieLoginImported = false;
+        const button = document.getElementById("cookieQrLogin");
+        button.disabled = true;
+        button.querySelector("span").textContent = translateText("settings.qr_waiting");
+        const status = document.getElementById("cookieLoginStatus");
+        status.hidden = false;
+        status.textContent = translateText("settings.qr_read_help");
+        try {
+            await nativeApi.start_qr_login();
+            if (cookieLoginImported) return;
+            document.getElementById("cookieReadLogin").disabled = false;
+            cookieLoginTimer = window.setInterval(() => void pollCookieLogin(), 1000);
+            await pollCookieLogin();
+        } catch (error) {
+            const message = error instanceof Error ? error.message : String(error);
+            finishCookieLogin(message);
+            showToast(message, "warning");
+        }
+    }
+
+    async function readLoginCookie() {
+        const button = document.getElementById("cookieReadLogin");
+        button.disabled = true;
+        try {
+            const result = await nativeApi.capture_qr_login_cookie();
+            if (result.status === "success") importLoginCookie(result);
+            else {
+                const message = result.message || translateText("toast.operation_failed");
+                const status = document.getElementById("cookieLoginStatus");
+                status.textContent = message;
+                status.hidden = false;
+                showToast(message, "warning");
+            }
+        } finally {
+            if (!cookieLoginImported) button.disabled = false;
+        }
+    }
 
     const statusLabels = {
         processing: "queue.processing",
+        paused: "queue.paused",
         pending: "queue.pending",
         success: "queue.success",
         failed: "queue.failed",
@@ -975,6 +1070,12 @@
         size.textContent = file.total_bytes ? `${completed}/${total}` : completed;
         progress.textContent = file.total_bytes ? `${Math.round(percent)}%` : "";
         meta.append(size, progress);
+        if (file.state === "paused") {
+            const state = document.createElement("span");
+            state.className = "status-text waiting";
+            state.textContent = translateText("queue.paused");
+            meta.append(state);
+        }
         head.append(name, meta);
         const line = document.createElement("div");
         line.className = `progress-line file ${file.state === "completed" ? "completed" : ""}`;
@@ -1201,6 +1302,8 @@
     function applyNativeState(state) {
         // 应用一次完整状态快照；仅在 revision 变化时重新查询下载记录数据库。
         renderNativeTaskLists(state.tasks, state.files);
+        document.getElementById("pauseAllDownloads").disabled = Boolean(state.downloads_paused);
+        document.getElementById("resumeAllDownloads").disabled = !state.downloads_paused;
         const enabled = Boolean(state.history_enabled);
         const revision = Number(state.history_revision);
         const shouldRefreshHistory = enabled && (lastHistoryRevision !== revision || !historyEnabled);
@@ -1321,6 +1424,14 @@
                 const selected = await nativeApi.browse_directory(input.value);
                 if (selected) input.value = selected;
             });
+        } else if (id === "cookieQrLogin") {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            void startCookieLogin();
+        } else if (id === "cookieReadLogin") {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            void runNativeAction(readLoginCookie);
         } else if (id === "confirmDeleteHistory") {
             event.preventDefault();
             event.stopImmediatePropagation();
@@ -1337,6 +1448,16 @@
             event.stopImmediatePropagation();
             void runNativeAction(async () => {
                 await nativeApi.clear_finished();
+            });
+        } else if (id === "pauseAllDownloads" || id === "resumeAllDownloads") {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            button.disabled = true;
+            void runNativeAction(async () => {
+                const changed = id === "pauseAllDownloads"
+                    ? await nativeApi.pause_all()
+                    : await nativeApi.resume_all();
+                if (!changed) throw new Error(translateText("toast.operation_failed"));
             });
         } else if (id === "openDownloadFolder") {
             event.preventDefault();

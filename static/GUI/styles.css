@@ -914,6 +914,7 @@ input:checked + .checkmark {
 
 .queue-panel .queue-toolbar {
     flex: none;
+    height: auto;
 }
 
 .queue-panel .queue-toolbar h3 {
@@ -959,6 +960,8 @@ input:checked + .checkmark {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
     margin-bottom: 10px;
 }
 
@@ -1609,6 +1612,24 @@ input:checked + .checkmark {
     font-size: 13px;
     font-weight: 600;
     line-height: 20px;
+}
+
+.cookie-field-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.cookie-field-heading label {
+    margin-right: auto;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.cookie-field-heading .secondary-button {
+    min-height: 30px;
+    height: 30px;
 }
 
 .field input,

@@ -405,6 +405,25 @@ class XHS:
                 statistics,
             )
 
+    @classmethod
+    def find_task_links(cls, content: str) -> list[str]:
+        patterns = (
+            cls.SHORT,
+            cls.SHARE_XHS,
+            cls.SHARE_RN,
+            cls.LINK_XHS,
+            cls.LINK_RN,
+            cls.USER_XHS,
+            cls.USER_RN,
+        )
+        links = []
+        for item in content.split():
+            for pattern in patterns:
+                if match := pattern.search(item):
+                    links.append(match.group())
+                    break
+        return links
+
     async def extract_links(
         self,
         url: str,

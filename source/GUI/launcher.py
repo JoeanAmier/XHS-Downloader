@@ -60,6 +60,7 @@ def launch() -> None:
             icon=str(icon_path),
         )
     finally:
+        api._close_qr_login()
         backend.stop()
 
 

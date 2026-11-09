@@ -1308,3 +1308,85 @@ msgstr "RedNote web cookie, no login required, parameters not set"
 
 #~ msgid "内置 Chrome User Agent"
 #~ msgstr "Chrome User Agent"
+
+#: source/GUI/ui_strings.py
+msgid "全部暂停"
+msgstr "Pause all"
+
+#: source/GUI/backend.py
+#, python-brace-format
+msgid "等待 {0:.2f} 秒后处理下一篇笔记"
+msgstr "Waiting {0:.2f} seconds before the next note"
+
+#: source/GUI/ui_strings.py
+msgid "扫码登录"
+msgstr "Scan to log in"
+
+#: source/GUI/ui_strings.py
+msgid "等待扫码…"
+msgstr "Waiting for scan…"
+
+#: source/GUI/ui_strings.py
+msgid "已读取 Cookie，点击“保存配置”后生效"
+msgstr "Cookie imported. Click Save settings to apply."
+
+#: source/GUI/ui_strings.py
+msgid "已取消扫码登录"
+msgstr "QR login cancelled"
+
+#: source/GUI/login.py
+msgid "小红书扫码登录"
+msgstr "Xiaohongshu QR login"
+
+#: source/GUI/login.py
+msgid "登录超时，请重新扫码登录"
+msgstr "Login timed out. Please scan again."
+
+#: source/GUI/login.py
+msgid "小红书登录页面加载失败，请重试"
+msgstr "Could not load the Xiaohongshu login page. Please retry."
+
+#: source/GUI/login.py
+msgid "读取登录状态失败，请关闭登录窗口后重试"
+msgstr "Could not read login status. Close the login window and retry."
+
+#: source/GUI/ui_strings.py
+msgid "全部开始"
+msgstr "Start all"
+
+#: source/GUI/ui_strings.py
+msgid "已暂停"
+msgstr "Paused"
+
+#: source/GUI/backend.py
+msgid "已暂停全部下载"
+msgstr "All downloads paused"
+
+#: source/GUI/backend.py
+msgid "已恢复全部下载"
+msgstr "All downloads resumed"
+
+msgid "读取 Cookie"
+msgstr "Read Cookie"
+
+msgid "若已进入小红书首页但未回填，请点击“读取 Cookie”"
+msgstr ""
+"If you have reached the Xiaohongshu home page, click Read Cookie to fill it "
+"in."
+
+msgid "请先打开扫码登录窗口"
+msgstr "Open the QR login window first."
+
+msgid "请在小红书登录页面读取 Cookie"
+msgstr "Read cookies from the Xiaohongshu login page."
+
+msgid "尚未读取到会话 Cookie，请完成登录后再试"
+msgstr "No session cookie found. Complete login and try again."
+
+msgid "读取 Cookie 失败，请保持登录窗口打开后重试"
+msgstr "Could not read cookies. Keep the login window open and try again."
+
+msgid "未能自动确认登录；若已进入首页，请点击“读取 Cookie”"
+msgstr ""
+"Could not confirm login automatically. If you have reached the home page, "
+"click Read Cookie."

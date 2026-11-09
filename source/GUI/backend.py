@@ -7,7 +7,9 @@ from collections import deque
 from contextlib import suppress
 from dataclasses import dataclass
 from datetime import datetime
+from json import dumps
 from pathlib import Path
+from random import randint
 from re import search
 from subprocess import DEVNULL, Popen
 from threading import Event, Thread
@@ -20,6 +22,7 @@ import webview
 from pyperclip import copy, paste
 
 from ..application import XHS
+from ..application.risk import RiskControlError
 from ..module import (
     LICENCE,
     RELEASES,
@@ -37,6 +40,7 @@ from .ui_strings import (
     get_ui_translations,
     normalize_name_format_field,
 )
+from .login import QrLogin
 
 # 下载记录固定按每页 100 条返回，前端仅负责渲染当前页。
 HISTORY_PAGE_SIZE = 100
@@ -178,6 +182,9 @@ class GuiBackend:
         self.xhs: XHS | None = None
         self.task_queue: asyncio.Queue[str] | None = None
         self.worker: asyncio.Task | None = None
+        self.downloads_resumed = asyncio.Event()
+        self.downloads_resumed.set()
+        self._has_processed_note = False
         self.monitor_task: asyncio.Task | None = None
         self.tasks: dict[str, TaskState] = {}
         self.files: dict[str, dict[str, Any]] = {}
@@ -248,6 +255,8 @@ class GuiBackend:
         """按当前配置创建 XHS 实例，并把核心日志导向 GUI。"""
 
         self.xhs = XHS(**self.settings, _print=False)
+        if not self.downloads_resumed.is_set():
+            self.xhs.downloader.pause()
         self.xhs.print.func = GuiLogSink(self)
         self.xhs.script_task_handler = self.create_script_task
         await self.xhs.__aenter__()
@@ -324,7 +333,7 @@ class GuiBackend:
 
         if not self.xhs or not self.task_queue:
             return []
-        links = await self.xhs.extract_links(content)
+        links = self.xhs.find_task_links(content)
         if index:
             links = links[:1]
         ids = []
@@ -379,10 +388,24 @@ class GuiBackend:
             task_id = await self.task_queue.get()
             try:
                 task = self.tasks.get(task_id)
-                if task and task.state != "cancelled":
+                while task and task.state == "pending":
+                    await self.downloads_resumed.wait()
+                    if task.state != "pending":
+                        break
+                    if self._has_processed_note:
+                        await self._wait_between_notes()
+                        await self.downloads_resumed.wait()
+                    if task.state != "pending":
+                        break
                     await self._process_task(task)
+                    self._has_processed_note = True
             finally:
                 self.task_queue.task_done()
+
+    async def _wait_between_notes(self) -> None:
+        delay = randint(100, 500) / 100
+        self.add_log(_("等待 {0:.2f} 秒后处理下一篇笔记").format(delay), "info")
+        await asyncio.sleep(delay)
 
     async def _process_task(self, task: TaskState) -> None:
         """执行单个作品的跳过判断、提取和下载，并更新最终状态。"""
@@ -427,6 +450,10 @@ class GuiBackend:
             task.state = "cancelled"
             self.cancel_task_files(task.task_id)
             raise
+        except RiskControlError:
+            task.state = "pending"
+            await self.pause_all()
+            self.add_log("当前账号风控中。请休息一下", "warning")
         except Exception as error:
             task.state = "failed"
             self.add_log(str(error), "error")
@@ -467,6 +494,29 @@ class GuiBackend:
         if not task or task.state != "pending":
             return False
         task.state = "cancelled"
+        self.cancel_task_files(task_id)
+        return True
+
+    async def pause_all(self) -> bool:
+        """暂停当前文件传输与队列调度，新加入的任务也等待恢复。"""
+
+        if not self.xhs:
+            return False
+        if self.downloads_resumed.is_set():
+            self.xhs.downloader.pause()
+            self.downloads_resumed.clear()
+            self.add_log(_("已暂停全部下载"), "info")
+        return True
+
+    async def resume_all(self) -> bool:
+        """继续当前下载并恢复后续排队任务。"""
+
+        if not self.xhs:
+            return False
+        if not self.downloads_resumed.is_set():
+            self.xhs.downloader.resume()
+            self.downloads_resumed.set()
+            self.add_log(_("已恢复全部下载"), "info")
         return True
 
     async def clear_finished(self) -> int:
@@ -766,11 +816,21 @@ class GuiBackend:
         """生成前端轮询所需的完整只读状态快照。"""
 
         tasks = [task.as_dict() for task in self.tasks.values()]
+        files = [dict(item) for item in self.files.values()]
+        downloads_paused = not self.downloads_resumed.is_set()
+        if downloads_paused:
+            for task in tasks:
+                if task["state"] == "processing":
+                    task["state"] = "paused"
+            for item in files:
+                if item["state"] == "downloading":
+                    item["state"] = "paused"
         history_enabled = self.xhs.manager.download_record if self.xhs else False
         return {
             "disclaimer_accepted": self.settings["disclaimer_accepted"],
             "tasks": tasks,
-            "files": list(self.files.values()),
+            "files": files,
+            "downloads_paused": downloads_paused,
             "history_enabled": history_enabled,
             "history_revision": self.history_revision,
             "logs": list(self.logs),
@@ -795,11 +855,44 @@ class GuiApi:
         # 避免创建 JavaScript 桥接时遍历到后端内部控制对象。
         self._backend = backend
         self._window: Any | None = None
+        self._qr_login = QrLogin(on_success=self._notify_qr_cookie)
+
+    def _notify_qr_cookie(self, cookie: str) -> None:
+        if self._window:
+            payload = dumps({"status": "success", "cookie": cookie}, ensure_ascii=True)
+            self._window.evaluate_js(
+                "window.dispatchEvent(new CustomEvent('xhs-cookie-login', {detail: "
+                + payload + "}));"
+            )
 
     def _bind_window(self, window: Any) -> None:
         """保存窗口对象，供目录选择对话框使用。"""
 
         self._window = window
+        window.events.closed += self._close_qr_login
+
+    def _close_qr_login(self) -> None:
+        self._qr_login.close()
+
+    def start_qr_login(self) -> dict[str, Any]:
+        """打开小红书二维码登录窗口。"""
+
+        if not self._window:
+            raise RuntimeError("GUI 窗口尚未就绪")
+        return self._qr_login.start()
+
+    def get_qr_login_state(self) -> dict[str, Any]:
+        """返回扫码状态，成功时包含供设置表单使用的 Cookie。"""
+
+        return self._qr_login.state()
+
+    def capture_qr_login_cookie(self) -> dict[str, Any]:
+        """读取用户确认已登录的窗口中的 Cookie。"""
+        return self._qr_login.capture()
+
+    def confirm_qr_cookie_import(self) -> bool:
+        self._qr_login.confirm_import()
+        return True
 
     def get_state(self) -> dict[str, Any]:
         """获取一次前端状态快照。"""
@@ -846,6 +939,16 @@ class GuiApi:
         """取消一个仍处于 pending 状态的任务。"""
 
         return self._backend.call(self._backend.cancel_task(task_id))
+
+    def pause_all(self) -> bool:
+        """暂停全部下载。"""
+
+        return self._backend.call(self._backend.pause_all())
+
+    def resume_all(self) -> bool:
+        """恢复全部下载。"""
+
+        return self._backend.call(self._backend.resume_all())
 
     def clear_finished(self) -> int:
         """清理已完成、失败、跳过或取消的任务。"""
