@@ -1390,3 +1390,19 @@ msgid "未能自动确认登录；若已进入首页，请点击“读取 Cookie
 msgstr ""
 "Could not confirm login automatically. If you have reached the home page, "
 "click Read Cookie."
+
+msgid "清理成功、跳过和取消的任务，保留失败任务"
+msgstr "Clear successful, skipped and cancelled tasks; keep failed tasks"
+
+msgid "重试"
+msgstr "Retry"
+
+msgid "重试失败任务"
+msgstr "Retry failed tasks"
+
+msgid "只能重试失败任务"
+msgstr "Only failed tasks can be retried"
+
+#, python-brace-format
+msgid "已将 {0} 个失败任务重新加入队列"
+msgstr "Requeued {0} failed tasks"

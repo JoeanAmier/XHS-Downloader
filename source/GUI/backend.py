@@ -484,7 +484,7 @@ class GuiBackend:
         """任务被取消或终止时，把仍在下载的文件标记为 cancelled。"""
 
         for item in self.files.values():
-            if item.get("task_id") == task_id and item.get("state") == "downloading":
+            if item.get("task_id") == task_id and item.get("state") in {"downloading", "pending"}:
                 item["state"] = "cancelled"
 
     async def cancel_task(self, task_id: str) -> bool:
@@ -496,6 +496,32 @@ class GuiBackend:
         task.state = "cancelled"
         self.cancel_task_files(task_id)
         return True
+
+    def _queue_failed_task(self, task_id: str) -> bool:
+        """将失败任务重新入队；保留原参数、已完成文件和磁盘缓存。"""
+
+        task = self.tasks.get(task_id)
+        if self.task_queue is None or not task or task.state != "failed":
+            return False
+        # Reset synchronously before enqueueing so repeated clicks cannot add
+        # the same task more than once. Paused queues remain paused.
+        task.state = "pending"
+        for item in self.files.values():
+            if item.get("task_id") == task_id and item.get("state") != "completed":
+                item["state"] = "pending"
+        self.task_queue.put_nowait(task_id)
+        return True
+
+    async def retry_task(self, task_id: str) -> bool:
+        return self._queue_failed_task(task_id)
+
+    async def retry_failed(self) -> int:
+        """将当前所有失败任务重新入队，返回本次入队的数量。"""
+
+        count = sum(self._queue_failed_task(task_id) for task_id in self.tasks)
+        if count:
+            self.add_log(_("已将 {0} 个失败任务重新加入队列").format(count), "info")
+        return count
 
     async def pause_all(self) -> bool:
         """暂停当前文件传输与队列调度，新加入的任务也等待恢复。"""
@@ -520,9 +546,9 @@ class GuiBackend:
         return True
 
     async def clear_finished(self) -> int:
-        """移除已结束任务及其文件快照，并返回移除数量。"""
+        """移除成功、跳过和取消的任务，保留失败任务供重试。"""
 
-        finished = {"success", "failed", "skipped", "cancelled"}
+        finished = {"success", "skipped", "cancelled"}
         removed = [
             task_id for task_id, task in self.tasks.items() if task.state in finished
         ]
@@ -940,6 +966,14 @@ class GuiApi:
 
         return self._backend.call(self._backend.cancel_task(task_id))
 
+    def retry_task(self, task_id: str) -> bool:
+        """重试一个失败任务。"""
+        return self._backend.call(self._backend.retry_task(task_id))
+
+    def retry_failed(self) -> int:
+        """重试当前所有失败任务。"""
+        return self._backend.call(self._backend.retry_failed())
+
     def pause_all(self) -> bool:
         """暂停全部下载。"""
 
@@ -951,7 +985,7 @@ class GuiApi:
         return self._backend.call(self._backend.resume_all())
 
     def clear_finished(self) -> int:
-        """清理已完成、失败、跳过或取消的任务。"""
+        """清理成功、跳过或取消的任务，保留失败任务。"""
 
         return self._backend.call(self._backend.clear_finished())
 

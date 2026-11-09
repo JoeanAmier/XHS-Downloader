@@ -33,6 +33,11 @@ class DownloadPauseTests(unittest.IsolatedAsyncioTestCase):
         class Handler(BaseHTTPRequestHandler):
             def do_GET(self):
                 requests.append(self.path)
+                if self.path == "/fail-exhausted" and requests.count(self.path) <= 2:
+                    self.send_response(503)
+                    self.send_header("Content-Length", "0")
+                    self.end_headers()
+                    return
                 if self.path in {"/risk-once", "/paired-risk"} and requests.count(self.path) == 1:
                     if self.path == "/paired-risk":
                         slow_started.wait(2)
@@ -231,6 +236,23 @@ class DownloadPauseTests(unittest.IsolatedAsyncioTestCase):
         self.downloader.resume()
         self.assertEqual(await asyncio.wait_for(job, 5), [True])
         self.assertEqual((self.output / "headers.mp4").read_bytes(), CONTENT)
+
+    async def test_retry_after_failure_and_cleanup_completes_same_note(self):
+        self.start(self.backend._worker_loop())
+        task_id = (await self.backend.create_tasks(self.url + "/fail-exhausted"))[0]["task_id"]
+        await asyncio.wait_for(self.backend.task_queue.join(), 5)
+        self.assertEqual(self.backend.tasks[task_id].state, "failed")
+        self.assertEqual(len(self.requests), 2)
+        self.assertEqual(await self.backend.clear_finished(), 0)
+        self.assertIn(task_id, self.backend.tasks)
+        self.assertTrue(await self.backend.retry_task(task_id))
+        self.assertFalse(await self.backend.retry_task(task_id))
+        await asyncio.wait_for(self.backend.task_queue.join(), 5)
+        self.assertEqual(self.backend.tasks[task_id].state, "success")
+        self.assertEqual(self.requests, ["/fail-exhausted"] * 3)
+        self.assertEqual((self.output / f"{task_id}.mp4").read_bytes(), CONTENT)
+        self.assertEqual(await self.backend.clear_finished(), 1)
+        self.assertNotIn(task_id, self.backend.tasks)
 
     async def test_cancelling_a_paused_transfer_does_not_hang(self):
         job = self.start(self.download("cancel"))

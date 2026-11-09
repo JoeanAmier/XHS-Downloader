@@ -969,15 +969,22 @@
         stateLine.append(state);
         detail.append(link, stateLine);
         item.append(symbol, detail);
-        if (task.state === "pending") {
+        if (task.state === "pending" || task.state === "failed") {
             const actions = document.createElement("div");
             actions.className = "queue-actions";
-            const cancel = document.createElement("button");
-            cancel.className = "icon-button danger-icon";
-            cancel.type = "button";
-            cancel.dataset.action = "cancel";
-            cancel.innerHTML = icon("x");
-            actions.append(cancel);
+            const action = document.createElement("button");
+            action.type = "button";
+            if (task.state === "failed") {
+                action.className = "secondary-button";
+                action.dataset.action = "retry";
+                action.innerHTML = icon("refresh");
+                action.append(document.createTextNode(translateText("queue.retry")));
+            } else {
+                action.className = "icon-button danger-icon";
+                action.dataset.action = "cancel";
+                action.innerHTML = icon("x");
+            }
+            actions.append(action);
             item.append(actions);
         }
     }
@@ -1304,6 +1311,8 @@
         renderNativeTaskLists(state.tasks, state.files);
         document.getElementById("pauseAllDownloads").disabled = Boolean(state.downloads_paused);
         document.getElementById("resumeAllDownloads").disabled = !state.downloads_paused;
+        document.getElementById("retryFailedTasks").disabled = !state.tasks.some((task) => task.state === "failed");
+        document.getElementById("clearFinished").title = translateText("queue.clear_finished_help");
         const enabled = Boolean(state.history_enabled);
         const revision = Number(state.history_revision);
         const shouldRefreshHistory = enabled && (lastHistoryRevision !== revision || !historyEnabled);
@@ -1394,16 +1403,22 @@
         const button = event.target.closest("button");
         if (!button) return;
         const id = button.id;
-        const taskButton = button.closest("[data-action='cancel']");
+        const taskButton = button.closest("[data-action='cancel'], [data-action='retry']");
         if (taskButton) {
             const taskId = taskButton.closest(".queue-item")?.dataset.taskId;
             if (!taskId) return;
             event.preventDefault();
             event.stopImmediatePropagation();
+            button.disabled = true;
             void runNativeAction(async () => {
-                const cancelled = await nativeApi.cancel_task(taskId);
-                if (!cancelled) showToast(
-                    translateText("toast.cannot_cancel"), "warning");
+                try {
+                    const retry = taskButton.dataset.action === "retry";
+                    const changed = retry ? await nativeApi.retry_task(taskId) : await nativeApi.cancel_task(taskId);
+                    if (!changed) showToast(
+                        translateText(retry ? "toast.cannot_retry" : "toast.cannot_cancel"), "warning");
+                } finally {
+                    button.disabled = false;
+                }
             });
             return;
         }
@@ -1442,6 +1457,14 @@
                 recordModal.close();
                 renderNativeHistoryPage(result);
                 showToast(formatTranslated("history.deleted_selected", [ids.length]));
+            });
+        } else if (id === "retryFailedTasks") {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+            button.disabled = true;
+            void runNativeAction(async () => {
+                const count = await nativeApi.retry_failed();
+                showToast(formatTranslated("toast.retry_queued", [count]));
             });
         } else if (id === "clearFinished") {
             event.preventDefault();
