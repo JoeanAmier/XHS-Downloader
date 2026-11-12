@@ -668,7 +668,7 @@ class GuiBackend:
                     "download_record": manager.download_record,
                     "image_download": manager.image_download,
                     "video_download": manager.video_download,
-                    "video_cover_download": manager.video_cover_download,
+                    "cover_download": manager.cover_download,
                     "live_download": manager.live_download,
                     "author_archive": manager.author_archive,
                     "write_mtime": manager.write_mtime,

@@ -334,7 +334,7 @@ async def example():
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
     image_download = True  # 图文、图集作品文件下载开关
     video_download = True  # 视频作品文件下载开关
-    video_cover_download = False  # 视频作品封面文件下载开关
+    cover_download = False  # 作品封面下载开关
     live_download = False  # 图文动图文件下载开关
     download_record = True  # 是否记录下载成功的作品 ID
     language = "zh_CN"  # 设置程序提示语言
@@ -361,7 +361,7 @@ async def example():
         folder_mode=folder_mode,
         image_download=image_download,
         video_download=video_download,
-        video_cover_download=video_cover_download,
+        cover_download=cover_download,
         live_download=live_download,
         download_record=download_record,
         language=language,
@@ -507,9 +507,9 @@ async def example():
 <td align="center">true</td>
 </tr>
 <tr>
-<td align="center">video_cover_download</td>
+<td align="center">cover_download</td>
 <td align="center">bool</td>
-<td align="center">视频作品封面下载开关；封面格式与图文作品文件格式一致</td>
+<td align="center">作品封面下载开关，适用于视频和图集；封面格式与图文作品文件格式一致</td>
 <td align="center">false</td>
 </tr>
 <tr>

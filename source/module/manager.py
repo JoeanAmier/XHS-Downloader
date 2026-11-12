@@ -69,7 +69,7 @@ class Manager:
         image_format: str,
         image_download: bool,
         video_download: bool,
-        video_cover_download: bool,
+        cover_download: bool,
         live_download: bool,
         video_preference: str,
         download_record: bool,
@@ -121,7 +121,7 @@ class Manager:
         )
         self.image_download = self.check_bool(image_download, True)
         self.video_download = self.check_bool(video_download, True)
-        self.video_cover_download = self.check_bool(video_cover_download, False)
+        self.cover_download = self.check_bool(cover_download, False)
         self.video_preference = self.check_video_preference(video_preference)
         self.live_download = self.check_bool(live_download, True)
         self.author_archive = self.check_bool(author_archive, False)

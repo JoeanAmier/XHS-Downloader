@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.5.5
+// @version        2.5.6
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -714,6 +714,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         try {
             let items = []
             let {imageList} = note;
+            const indexOffset = note.type === "video" ? 0 : 1;
             if (urls.length !== imageList.length) {
                 console.error("图片数量不一致！")
                 return []
@@ -722,7 +723,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
                 const url = item.urlDefault || item.urlPre;
                 if (url) {
                     items.push({
-                                   webp: url, index: index + 1, url: urls[index],
+                                   webp: url, index: index + indexOffset, url: urls[index],
                                })
                 } else {
                     console.error("提取图片预览链接失败", item)
@@ -908,16 +909,14 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         return false; // 如果所有尝试都失败，返回失败
     };
 
+    const imageFileName = (name, index) =>
+        `${name}${index ? `_${index}` : ""}.${GM_getValue("imageDownloadFormat", "jpeg")}`;
+
     const downloadFiles = async (items, name,) => {
         const downloadResults = []; // 用于存储下载结果
 
         const downloadPromises = items.map(async (item) => {
-            let fileName;
-            if (item.index) {
-                fileName = `${name}_${item.index}.${GM_getValue("imageDownloadFormat", "jpeg")}`; // 根据索引生成文件名
-            } else {
-                fileName = `${name}.${GM_getValue("imageDownloadFormat", "jpeg")}`;
-            }
+            const fileName = imageFileName(name, item.index);
             const result = await downloadFile(item.url, fileName, false); // 调用单个文件下载方法
             if (result) {
                 downloadResults.push({name: fileName, file: result});
@@ -1140,7 +1139,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             for (let item of items) {
                 result.push(await downloadFile(
                     item.url,
-                    `${name}_${item.index}.${GM_getValue("imageDownloadFormat", "jpeg")}`
+                    imageFileName(name, item.index)
                 ));
             }
             success = result.every(item => item === true);

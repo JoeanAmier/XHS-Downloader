@@ -1089,7 +1089,7 @@
         document.getElementById("settingsImageDownload").checked = Boolean(settings.image_download);
         document.getElementById("settingsVideoDownload").checked = Boolean(settings.video_download);
         document.getElementById("settingsLiveDownload").checked = Boolean(settings.live_download);
-        document.getElementById("settingsVideoCoverDownload").checked = Boolean(settings.video_cover_download);
+        document.getElementById("settingsCoverDownload").checked = Boolean(settings.cover_download);
         document.getElementById("settingsImageFormat").value = settings.image_format.toLowerCase();
         document.getElementById("settingsVideoPreference").value = settings.video_preference;
         document.getElementById("settingsNoteFormat").value = settings.note_format;
@@ -1142,7 +1142,7 @@
             image_download: document.getElementById("settingsImageDownload").checked,
             video_download: document.getElementById("settingsVideoDownload").checked,
             live_download: document.getElementById("settingsLiveDownload").checked,
-            video_cover_download: document.getElementById("settingsVideoCoverDownload").checked,
+            cover_download: document.getElementById("settingsCoverDownload").checked,
             image_format: document.getElementById("settingsImageFormat").value,
             video_preference: document.getElementById("settingsVideoPreference").value,
             note_format: document.getElementById("settingsNoteFormat").value,

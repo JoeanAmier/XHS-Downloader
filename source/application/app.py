@@ -148,7 +148,7 @@ class XHS:
         image_format="JPEG",
         image_download=True,
         video_download=True,
-        video_cover_download=False,
+        cover_download=False,
         live_download=False,
         video_preference="resolution",
         folder_mode=False,
@@ -183,7 +183,7 @@ class XHS:
             image_format,
             image_download,
             video_download,
-            video_cover_download,
+            cover_download,
             live_download,
             video_preference,
             download_record,
@@ -220,10 +220,13 @@ class XHS:
         )
 
     def __extract_image(self, container: dict, data: Namespace):
-        container["下载地址"], container["动图地址"] = self.image.get_image_link(
-            data, self.manager.image_format
-        )
-        container["封面地址"] = None
+        links, lives = self.image.get_image_link(data, self.manager.image_format)
+        if container["作品类型"] == _("图集"):
+            container["封面地址"] = links[0] if links else None
+            links, lives = links[1:], lives[1:]
+        else:
+            container["封面地址"] = None
+        container["下载地址"], container["动图地址"] = links, lives
 
     def __extract_video(
         self,

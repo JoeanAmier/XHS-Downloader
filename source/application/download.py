@@ -65,7 +65,7 @@ class Download:
         )
         self.image_download = manager.image_download
         self.video_download = manager.video_download
-        self.video_cover_download = manager.video_cover_download
+        self.cover_download = manager.cover_download
         self.live_download = manager.live_download
         self.author_archive = manager.author_archive
         self.write_mtime = manager.write_mtime
@@ -105,6 +105,8 @@ class Download:
                 path,
                 filename,
             )
+            if type_ == _("图集"):
+                tasks += self.__ready_download_cover(cover, path, filename, index)
         else:
             raise ValueError
         tasks = [
@@ -153,8 +155,9 @@ class Download:
         url: str | None,
         path: Path,
         name: str,
+        index: list | tuple | None = None,
     ) -> list:
-        if not self.video_cover_download or not url:
+        if not (self.cover_download if index is None else 0 in index) or not url:
             return []
         if not any(
             self.__check_exists_path(

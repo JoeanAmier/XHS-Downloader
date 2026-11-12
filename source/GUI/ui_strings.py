@@ -105,9 +105,9 @@ def get_ui_messages() -> dict[str, str]:
         "settings.image_download_help": _("关闭后，跳过下载图文和图集作品文件"),
         "settings.video_download": _("视频作品下载开关"),
         "settings.video_download_help": _("关闭后，跳过下载视频作品文件"),
-        "settings.video_cover_download": _("视频封面下载开关"),
-        "settings.video_cover_download_help": _(
-            "开启后，下载视频作品的封面图片，图片格式与图文作品下载格式一致"
+        "settings.cover_download": _("作品封面下载开关"),
+        "settings.cover_download_help": _(
+            "开启后，下载视频和图集作品的封面图片，图片格式与图文作品下载格式一致"
         ),
         "settings.live_download": _("动态图片下载开关"),
         "settings.live_download_help": _(

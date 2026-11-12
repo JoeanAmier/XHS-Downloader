@@ -337,7 +337,7 @@ async def example():
     folder_mode = False  # Whether to store each note's files in a separate folder
     image_download = True  # Image/album note download switch
     video_download = True  # Video note download switch
-    video_cover_download = False  # Video note cover download switch
+    cover_download = False  # Note cover download switch
     live_download = False  # Image GIF file download switch
     download_record = True  # Whether to record successfully downloaded note IDs
     language = "zh_CN"  # Set program prompt language
@@ -364,7 +364,7 @@ async def example():
         folder_mode=folder_mode,
         image_download=image_download,
         video_download=video_download,
-        video_cover_download=video_cover_download,
+        cover_download=cover_download,
         live_download=live_download,
         download_record=download_record,
         language=language,
@@ -510,9 +510,9 @@ async def example():
 <td align="center">true</td>
 </tr>
 <tr>
-<td align="center">video_cover_download</td>
+<td align="center">cover_download</td>
 <td align="center">bool</td>
-<td align="center">Switch for downloading video notes cover files; the cover format is the same as the image_format params</td>
+<td align="center">Note cover download switch for video and album notes; the cover format is the same as the image_format parameter</td>
 <td align="center">false</td>
 </tr>
 <tr>
