@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.5.4
+// @version        2.5.5
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -615,6 +615,11 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         size: "size",
     };
 
+    const isImageNote = note => note.type === "normal" || (
+        note.type === "video" &&
+        note.imageList.length > 1
+    );
+
     const generateVideoUrl = note => {
         try {
             const key = note.video?.consumer?.originVideoKey;
@@ -735,7 +740,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
         const name = extractName(note);
         if (server) {
             let data = {data: note, index: null,};
-            if (note.type === "normal") {
+            if (isImageNote(note)) {
                 let items = extractImageWebpUrls(note, urls);
                 if (items.length === 0) {
                     console.error("解析图文作品数据失败", note)
@@ -753,7 +758,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             webSocket.send(JSON.stringify(data));
         } else {
             console.debug(`文件名称 ${name}`);
-            if (note.type === "video") {
+            if (!isImageNote(note)) {
                 showToast(t.downloadTips);
                 await downloadVideo(urls[0], name);
             } else {
@@ -793,7 +798,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
     const exploreDeal = async (note, server = false,) => {
         try {
             let links;
-            if (note.type === "normal") {
+            if (isImageNote(note)) {
                 links = generateImageUrl(note);
             } else {
                 links = await selectVideoStream(note, server);
