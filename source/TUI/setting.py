@@ -3,12 +3,30 @@ from textual.app import ComposeResult
 from textual.binding import Binding
 from textual.containers import Container, ScrollableContainer
 from textual.screen import Screen
-from textual.widgets import Button, Checkbox, Footer, Header, Input, Label, Select
+from textual.widgets import (
+    Button,
+    Checkbox,
+    Footer,
+    Header,
+    Input,
+    Label,
+    RadioButton,
+    RadioSet,
+    Select,
+)
 
 from ..module import IMPERSONATE
 from ..translation import _
 
 __all__ = ["Setting"]
+
+
+class _SegmentedRadioButton(RadioButton):
+    """仅显示标签，保留 RadioSet 的互斥选择和键盘导航。"""
+
+    BUTTON_LEFT = ""
+    BUTTON_INNER = ""
+    BUTTON_RIGHT = ""
 
 
 class Setting(Screen):
@@ -25,6 +43,21 @@ class Setting(Screen):
         self.data = data
 
     def compose(self) -> ComposeResult:
+        album_download_mode = RadioSet(
+            _SegmentedRadioButton(
+                _("图片"),
+                value=self.data["album_download_mode"] == "images",
+                name="images",
+            ),
+            _SegmentedRadioButton(
+                _("视频"),
+                value=self.data["album_download_mode"] == "video",
+                name="video",
+            ),
+            id="album_download_mode",
+            tooltip=_("以图片或视频形式下载图集作品文件"),
+        )
+        album_download_mode.border_title = _("图集作品下载形式")
         yield Header()
         yield ScrollableContainer(
             Label(
@@ -190,6 +223,7 @@ class Setting(Screen):
                     id="proxy_download",
                     value=self.data["proxy_download"],
                 ),
+                album_download_mode,
                 classes="horizontal-layout",
             ),
             Container(
@@ -268,6 +302,7 @@ class Setting(Screen):
 
     @on(Button.Pressed, "#save")
     def save_settings(self):
+        album_mode = self.query_one("#album_download_mode", RadioSet).pressed_button
         self.dismiss(
             {
                 "mapping_data": self.data.get("mapping_data", {}),
@@ -295,6 +330,7 @@ class Setting(Screen):
                 "script_server": self.query_one("#script_server").value,
                 "proxy_download": self.query_one("#proxy_download").value,
                 "video_preference": self.query_one("#video_preference").value,
+                "album_download_mode": album_mode.name,
                 "note_format": self.query_one("#note_format").value,
             }
         )

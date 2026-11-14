@@ -80,6 +80,7 @@ class Manager:
         note_format: str,
         cleaner: "Cleaner",
         print_object,
+        album_download_mode: str = "images",
     ):
         self.print = print_object
         self.root = root
@@ -121,6 +122,7 @@ class Manager:
         )
         self.image_download = self.check_bool(image_download, True)
         self.video_download = self.check_bool(video_download, True)
+        self.album_download_mode = self.check_album_download_mode(album_download_mode)
         self.cover_download = self.check_bool(cover_download, False)
         self.video_preference = self.check_video_preference(video_preference)
         self.live_download = self.check_bool(live_download, True)
@@ -200,6 +202,10 @@ class Manager:
     @staticmethod
     def check_bool(value: bool, default: bool) -> bool:
         return value if isinstance(value, bool) else default
+
+    @staticmethod
+    def check_album_download_mode(value: str) -> str:
+        return value if value in ("images", "video") else "images"
 
     @staticmethod
     def __check_integer(value: int, default: int, minimum: int) -> int:

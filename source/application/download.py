@@ -65,10 +65,16 @@ class Download:
         )
         self.image_download = manager.image_download
         self.video_download = manager.video_download
+        self.album_download_mode = manager.album_download_mode
         self.cover_download = manager.cover_download
         self.live_download = manager.live_download
         self.author_archive = manager.author_archive
         self.write_mtime = manager.write_mtime
+
+    def get_download_type(self, type_: str) -> str:
+        if type_ == _("图集"):
+            return _("视频") if self.album_download_mode == "video" else _("图文")
+        return type_
 
     async def run(
         self,
@@ -83,21 +89,10 @@ class Download:
         progress: Callable[[dict], None] | None = None,
         task_id: str | None = None,
     ) -> list[Any]:
-        if type_ == _("视频"):
-            tasks = self.__ready_download_video(
-                urls,
-                path,
-                filename,
-            )
-            tasks += self.__ready_download_cover(
-                cover,
-                path,
-                filename,
-            )
-        elif type_ in {
-            _("图文"),
-            _("图集"),
-        }:
+        download_type = self.get_download_type(type_)
+        if download_type == _("视频"):
+            tasks = self.__ready_download_video(urls, path, filename)
+        elif download_type == _("图文"):
             tasks = self.__ready_download_image(
                 urls,
                 lives,
@@ -105,10 +100,9 @@ class Download:
                 path,
                 filename,
             )
-            if type_ == _("图集"):
-                tasks += self.__ready_download_cover(cover, path, filename, index)
         else:
             raise ValueError
+        tasks += self.__ready_download_cover(cover, path, filename, index)
         tasks = [
             self.__download(
                 url,

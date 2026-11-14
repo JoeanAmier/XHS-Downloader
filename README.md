@@ -334,6 +334,7 @@ async def example():
     folder_mode = False  # 是否将每个作品的文件储存至单独的文件夹
     image_download = True  # 图文、图集作品文件下载开关
     video_download = True  # 视频作品文件下载开关
+    album_download_mode = "images"  # 图集作品下载形式：images（图片）或 video（视频）
     cover_download = False  # 作品封面下载开关
     live_download = False  # 图文动图文件下载开关
     download_record = True  # 是否记录下载成功的作品 ID
@@ -361,6 +362,7 @@ async def example():
         folder_mode=folder_mode,
         image_download=image_download,
         video_download=video_download,
+        album_download_mode=album_download_mode,
         cover_download=cover_download,
         live_download=live_download,
         download_record=download_record,
@@ -505,6 +507,12 @@ async def example():
 <td align="center">bool</td>
 <td align="center">视频作品文件下载开关</td>
 <td align="center">true</td>
+</tr>
+<tr>
+<td align="center">album_download_mode</td>
+<td align="center">str</td>
+<td align="center">图集作品下载形式：<code>images</code> 按图片下载，<code>video</code> 按视频下载</td>
+<td align="center">images</td>
 </tr>
 <tr>
 <td align="center">cover_download</td>

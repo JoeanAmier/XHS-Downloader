@@ -1790,10 +1790,23 @@ input:checked + .checkmark {
     border-bottom: 0;
 }
 
-.setting-row > div {
+.setting-row > div:first-child {
     display: flex;
     min-width: 0;
     flex-direction: column;
+}
+
+.settings-mode-choice {
+    display: grid;
+    flex: 0 1 160px;
+    min-width: 132px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.settings-mode-choice button {
+    min-width: 0;
+    padding: 0 8px;
+    white-space: nowrap;
 }
 
 .setting-row strong {
@@ -2601,6 +2614,17 @@ dialog.modal::backdrop {
 }
 
 @media (max-width: 520px) {
+    .album-mode-setting-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .album-mode-setting-row > .settings-mode-choice {
+        flex: 0 0 auto;
+        width: 160px;
+    }
+
     .about-actions {
         flex-wrap: wrap;
         gap: 8px;

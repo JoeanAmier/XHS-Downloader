@@ -161,6 +161,7 @@ class XHS:
         note_format: str = "",
         script_host="0.0.0.0",
         script_port=5558,
+        album_download_mode="images",
         **kwargs,
     ):
         switch_language(language)
@@ -194,6 +195,7 @@ class XHS:
             note_format,
             self.CLEANER,
             self.print,
+            album_download_mode=album_download_mode,
         )
         self.mapping_data = mapping_data or {}
         self.map_recorder = MapRecorder(
@@ -488,12 +490,10 @@ class XHS:
         progress_callback: Callable[[dict], None] | None = None,
         task_id: str | None = None,
     ):
-        if data["作品类型"] == _("视频"):
+        download_type = self.downloader.get_download_type(data["作品类型"])
+        if download_type == _("视频"):
             self.__extract_video(data, namespace)
-        elif data["作品类型"] in {
-            _("图文"),
-            _("图集"),
-        }:
+        elif download_type == _("图文"):
             self.__extract_image(data, namespace)
         else:
             self.logging(_("未知的作品类型：{0}").format(id_), WARNING)

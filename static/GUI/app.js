@@ -1080,6 +1080,19 @@
         });
     }
 
+    function setAlbumDownloadMode(mode) {
+        document.querySelectorAll("#settingsAlbumDownloadMode [data-mode]").forEach((button) => {
+            const selected = button.dataset.mode === mode;
+            button.classList.toggle("active", selected);
+            button.setAttribute("aria-pressed", String(selected));
+        });
+    }
+
+    document.getElementById("settingsAlbumDownloadMode").addEventListener("click", (event) => {
+        const button = event.target.closest("[data-mode]");
+        if (button) setAlbumDownloadMode(button.dataset.mode);
+    });
+
     function applyNativeSettings(settings) {
         // 首次接收后端配置时填充表单；用户编辑后不再被轮询覆盖。
         if (settingsLoaded) return;
@@ -1088,6 +1101,7 @@
         applyNameFormat(settings.name_format);
         document.getElementById("settingsImageDownload").checked = Boolean(settings.image_download);
         document.getElementById("settingsVideoDownload").checked = Boolean(settings.video_download);
+        setAlbumDownloadMode(settings.album_download_mode);
         document.getElementById("settingsLiveDownload").checked = Boolean(settings.live_download);
         document.getElementById("settingsCoverDownload").checked = Boolean(settings.cover_download);
         document.getElementById("settingsImageFormat").value = settings.image_format.toLowerCase();
@@ -1141,6 +1155,9 @@
             name_format: nameFormat,
             image_download: document.getElementById("settingsImageDownload").checked,
             video_download: document.getElementById("settingsVideoDownload").checked,
+            album_download_mode: document.querySelector(
+                "#settingsAlbumDownloadMode button[aria-pressed='true']"
+            ).dataset.mode,
             live_download: document.getElementById("settingsLiveDownload").checked,
             cover_download: document.getElementById("settingsCoverDownload").checked,
             image_format: document.getElementById("settingsImageFormat").value,

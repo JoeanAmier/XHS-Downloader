@@ -337,6 +337,7 @@ async def example():
     folder_mode = False  # Whether to store each note's files in a separate folder
     image_download = True  # Image/album note download switch
     video_download = True  # Video note download switch
+    album_download_mode = "images"  # Album note download format: images or video
     cover_download = False  # Note cover download switch
     live_download = False  # Image GIF file download switch
     download_record = True  # Whether to record successfully downloaded note IDs
@@ -364,6 +365,7 @@ async def example():
         folder_mode=folder_mode,
         image_download=image_download,
         video_download=video_download,
+        album_download_mode=album_download_mode,
         cover_download=cover_download,
         live_download=live_download,
         download_record=download_record,
@@ -508,6 +510,12 @@ async def example():
 <td align="center">bool</td>
 <td align="center">Switch for downloading video notes files</td>
 <td align="center">true</td>
+</tr>
+<tr>
+<td align="center">album_download_mode</td>
+<td align="center">str</td>
+<td align="center">Album note download format: <code>images</code> or <code>video</code></td>
+<td align="center">images</td>
 </tr>
 <tr>
 <td align="center">cover_download</td>

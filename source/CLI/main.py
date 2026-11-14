@@ -171,6 +171,12 @@ class CLI:
             ("--live_download", "-ld", "bool", _("动态图片下载开关")),
             ("--cover_download", "-cd", "bool", _("作品封面下载开关")),
             (
+                "--album_download_mode",
+                "-adm",
+                "choice",
+                _("以图片或视频形式下载图集作品文件，支持：images、video"),
+            ),
+            (
                 "--video_preference",
                 "-vp",
                 "choice",
@@ -318,6 +324,11 @@ class CLI:
     "--cover_download",
     "-cd",
     type=bool,
+)
+@option(
+    "--album_download_mode",
+    "-adm",
+    type=Choice(["images", "video"]),
 )
 @option(
     "--video_preference",

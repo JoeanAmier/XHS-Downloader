@@ -11,7 +11,43 @@ Button {
     height: auto;
 }
 .horizontal-layout > * {
-    width: 25vw;
+    width: 1fr;
+}
+#album_download_mode {
+    layout: horizontal;
+    height: 3;
+    border: round $border-blurred;
+    border-title-align: center;
+    border-title-color: $primary;
+    background: $surface;
+    padding: 0;
+}
+#album_download_mode:focus {
+    border: round $primary;
+}
+#album_download_mode > RadioButton {
+    width: 1fr;
+    height: 1;
+    margin: 0 1;
+    border: none;
+    padding: 0;
+    background: transparent;
+    content-align: center middle;
+}
+#album_download_mode > RadioButton > .toggle--label {
+    background: transparent;
+    color: $text-muted;
+    text-style: none;
+}
+#album_download_mode > RadioButton.-on {
+    background: $primary 25%;
+}
+#album_download_mode > RadioButton.-on > .toggle--label {
+    color: $text;
+    text-style: bold;
+}
+#album_download_mode:focus > RadioButton.-selected > .toggle--label {
+    text-style: underline;
 }
 Button#deal, Button#paste, Button#save, Button#enter {
     color: $success;
