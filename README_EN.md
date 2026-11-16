@@ -295,6 +295,8 @@ async def example_api():
 <p><b>Modify user script language</b></p>
 <img src="static/screenshot/脚本切换语言.png" alt="切换语言">
 <h2>🌐 Connect to Server</h2>
+<details>
+<summary>Server connection instructions, suitable for users who need to push download tasks from the userscript to the main program (click to expand)</summary>
 <p>⭐ This project supports interaction with the main program through a browser userscript, enabling one-click push of download tasks.</p>
 <ul><b>Function Description:</b>
 <li>In the project program's configuration file, you need to set the <code>script_server</code> parameter to <code>true</code></li>
@@ -303,6 +305,20 @@ async def example_api():
 <li>When you visit a post page in your browser, click the <code>Push Download Task</code> option in the userscript menu</li>
 <li>The userscript will send the download task to the project program, which will handle and download the files</li>
 </ul>
+<h3 id="chrome-device-access-permission">Chrome device access permission</h3>
+<p>The steps below use Chrome as an example. Permission names and settings may differ in other browsers.</p>
+<p>When the userscript connects to the program, Chrome may request permission to access other apps and services on this device. Select <b>Allow</b> when prompted.</p>
+<img src="static/screenshot/浏览器权限提示.png" alt="Chrome prompt asking to access other apps and services on this device">
+<hr>
+<p>The browser remembers permission choices, and the userscript cannot force the prompt to reappear. If no prompt appears or access was previously blocked, update the permission as follows:</p>
+<ol>
+<li>Open the RedNote page, click the site icon to the left of the address bar, then click <b>Site settings</b>.<br>
+<img src="static/screenshot/网站权限设置.png" alt="Site settings entry in the Chrome address bar menu"></li>
+<li>Find <b>Apps on device</b> and set it to <b>Allow</b>.<br>
+<img src="static/screenshot/浏览器网站设置.png" alt="Apps on device permission in Chrome Site settings"></li>
+<li>Return to the RedNote page and reload it.</li>
+</ol>
+</details>
 <h2>📜 Script Instructions</h2>
 <ul>
 <li>When downloading notes from RedNote, the script requires time to process the files. Please wait for a moment and do not click the download button multiple times.</li>

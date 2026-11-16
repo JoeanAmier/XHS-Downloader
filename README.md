@@ -292,6 +292,8 @@ async def example_api():
 <p><b>修改用户脚本语言</b></p>
 <img src="static/screenshot/脚本切换语言.png" alt="切换语言">
 <h2>🌏 连接服务器</h2>
+<details>
+<summary>连接服务器说明，适合需要通过用户脚本向主程序推送下载任务的用户（点击展开）</summary>
 <p>⭐ 本项目支持通过浏览器用户脚本与主程序联动，实现一键推送下载任务。</p>
 <ul><b>功能说明：</b>
 <li>在项目程序的配置文件中，需要将 <code>script_server</code> 参数设置为 <code>true</code></li>
@@ -300,6 +302,20 @@ async def example_api():
 <li>当您在浏览器中访问作品页面时，点击用户脚本菜单中的 <code>推送下载任务</code> 选项</li>
 <li>用户脚本会将下载任务发送给项目程序，由项目程序负责处理和下载文件</li>
 </ul>
+<h3 id="chrome-device-access-permission">Chrome 设备访问权限</h3>
+<p>以下以 Chrome 为例，其他浏览器的权限名称和设置入口可能不同。</p>
+<p>用户脚本连接项目程序时，Chrome 可能会请求授予访问“此设备上的其他应用和服务”的权限。出现提示时，请选择“允许”。</p>
+<img src="static/screenshot/浏览器权限提示.png" alt="Chrome 询问是否允许小红书访问此设备上的其他应用和服务">
+<hr>
+<p>浏览器会记住权限选择，用户脚本无法强制再次显示提示。若未出现提示或此前已选择“禁止”，请按以下步骤修改：</p>
+<ol>
+<li>打开小红书页面，点击地址栏左侧的网站图标，再点击“网站设置”。<br>
+<img src="static/screenshot/网站权限设置.png" alt="Chrome 地址栏网站菜单中的网站设置入口"></li>
+<li>找到“设备上的应用”，将它改为“允许”。<br>
+<img src="static/screenshot/浏览器网站设置.png" alt="Chrome 网站设置中的设备上的应用权限"></li>
+<li>回到小红书页面并刷新。</li>
+</ol>
+</details>
 <h2>📜 脚本说明</h2>
 <ul>
 <li>下载小红书作品文件时，脚本需要花费时间处理文件，请等待片刻，请勿多次点击下载按钮</li>

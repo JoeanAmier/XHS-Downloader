@@ -2,7 +2,7 @@
 // @name           XHS-Downloader
 // @namespace      xhs_downloader
 // @homepage       https://github.com/JoeanAmier/XHS-Downloader
-// @version        2.5.7
+// @version        2.5.8
 // @tag            小红书
 // @tag            RedNote
 // @tag            XiaoHongShu
@@ -122,7 +122,7 @@ KS-Downloader（快手、KuaiShou）：https://github.com/JoeanAmier/KS-Download
             scriptServerURLLabel: 'WebSocket 服务器地址',
             scriptServerURLDesc: '用户脚本连接的 WebSocket 服务器',
             scriptServerSwitchLabel: '连接服务器',
-            scriptServerSwitchDesc: '启用后，可以把作品下载任务推送至服务器',
+            scriptServerSwitchDesc: '启用后，可以把作品下载任务推送至服务器。如浏览器询问设备访问权限，请选择“允许”。',
             imageDownloadFormatLabel: '图片下载格式',
             imageDownloadFormatDesc: '图文作品文件下载格式',
             videoPreferenceLabel: '视频下载偏好',
@@ -195,7 +195,7 @@ KS-Downloader（快手、KuaiShou）：https://github.com/JoeanAmier/KS-Download
             aboutXHSText: '关于 XHS-Downloader',
             aboutXHSDescription: '查看 XHS-Downloader 更多信息',
             imageCheckboxTitle: '请选中需要下载的图片',
-            scriptServerError: '脚本服务器连接出错，请检查网络连接或脚本服务器状态是否正常！',
+            scriptServerError: '脚本服务器连接失败，请检查网络连接、服务器地址、服务器状态或浏览器的网站设置。',
             pushTaskError: '脚本服务器未连接，请检查网络连接或脚本服务器状态是否正常！',
             scriptServerReconnect: '脚本服务器未连接，正在重连并推送任务...',
             scriptAuthTokenLabel: '鉴权令牌',
@@ -288,7 +288,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             scriptServerURLLabel: 'WebSocket Server URL',
             scriptServerURLDesc: 'The WebSocket server address the script connects to',
             scriptServerSwitchLabel: 'Connect to Server',
-            scriptServerSwitchDesc: 'When enabled, download tasks can be pushed to the server',
+            scriptServerSwitchDesc: 'When enabled, download tasks can be pushed to the server. If the "Access other apps and services on this device" permission prompt appears, select "Allow".',
             imageDownloadFormatLabel: 'Image Download Format',
             imageDownloadFormatDesc: 'Preferred file format for downloading images',
             videoPreferenceLabel: 'Video download preferences',
@@ -361,7 +361,7 @@ Discord Community: https://discord.com/invite/ZYtmgKud9Y
             aboutXHSText: 'About XHS-Downloader',
             aboutXHSDescription: '',
             imageCheckboxTitle: 'Please select images to download',
-            scriptServerError: 'Server connection error. Please check your network or server status!',
+            scriptServerError: 'Script server connection failed. Check your network, server address, server status, or browser site settings.',
             pushTaskError: 'Server not connected. Please check your network or server status!',
             scriptServerReconnect: 'Server disconnected. Reconnecting and pushing the task...',
             scriptAuthTokenLabel: 'Authentication Token',
