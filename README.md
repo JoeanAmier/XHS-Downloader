@@ -71,6 +71,8 @@
 <li><code>https://www.xiaohongshu.com/explore/作品ID?xsec_token=XXX</code></li>
 <li><code>https://www.xiaohongshu.com/discovery/item/作品ID?xsec_token=XXX</code></li>
 <li><code>https://www.rednote.com/discovery/item/作品ID?xsec_token=XXX</code></li>
+<li><code>https://www.xiaohongshu.com/user/profile/作者ID/作品ID?xsec_token=XXX</code></li>
+<li><code>https://www.rednote.com/user/profile/作者ID/作品ID?xsec_token=XXX</code></li>
 <li><code>https://xhslink.com/分享码</code></li>
 <li><code>https://xhslink.cn/分享码</code></li>
 <br/>

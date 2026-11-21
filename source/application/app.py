@@ -115,13 +115,16 @@ class XHS:
     VERSION_MINOR = VERSION_MINOR
     VERSION_BETA = VERSION_BETA
     LINK_XHS = compile(r"(?:https?://)?www\.xiaohongshu\.com/explore/\S+")
+    USER = compile(
+        r"(?:https?://)?www\.(?:xiaohongshu|rednote)\.com/user/profile/[a-z0-9]+/\S+"
+    )
     SHARE = compile(
         r"(?:https?://)?www\.(?:xiaohongshu|rednote)\.com/discovery/item/\S+"
     )
     SHORT = compile(
         r"(?:https?://)?xhslink\.(?:com|cn)/[^\s\"<>\\^`{|}，。；！？、【】《》]+"
     )
-    ID = compile(r"(?:explore|item)/(\S+)?\?")
+    ID = compile(r"(?:explore|item|user/profile/[a-z0-9]+)/(\S+)?\?")
     __INSTANCE = None
     CLEANER = Cleaner()
 
@@ -421,6 +424,8 @@ class XHS:
             if u := self.SHARE.search(i):
                 urls.append(u.group())
             elif u := self.LINK_XHS.search(i):
+                urls.append(u.group())
+            elif u := self.USER.search(i):
                 urls.append(u.group())
         return urls
 
