@@ -307,6 +307,7 @@ async def example_api():
 <li>When you visit a post page in your browser, click the <code>Push Download Task</code> option in the userscript menu</li>
 <li>The userscript will send the download task to the project program, which will handle and download the files</li>
 </ul>
+<p>⭐ For a complete illustrated guide to pushing download tasks from the userscript to the program, see <a href="static/UserScript-Linked-Download-Tutorial.md">User Script and Program Linked Download Tutorial (Chinese)</a> or <a href="https://mp.weixin.qq.com/s/XOnT1P4AWxZn9rBHsRQFdA">WeChat article</a>!</p>
 <h3 id="chrome-device-access-permission">Chrome device access permission</h3>
 <p>The steps below use Chrome as an example. Permission names and settings may differ in other browsers.</p>
 <p>When the userscript connects to the program, Chrome may request permission to access other apps and services on this device. Select <b>Allow</b> when prompted.</p>

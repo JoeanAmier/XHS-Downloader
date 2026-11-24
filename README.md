@@ -304,6 +304,7 @@ async def example_api():
 <li>当您在浏览器中访问作品页面时，点击用户脚本菜单中的 <code>推送下载任务</code> 选项</li>
 <li>用户脚本会将下载任务发送给项目程序，由项目程序负责处理和下载文件</li>
 </ul>
+<p>⭐ 用户脚本与程序联动下载的完整图文教程，请查阅 <a href="static/UserScript-Linked-Download-Tutorial.md">用户脚本与程序联动下载教程</a> 或 <a href="https://mp.weixin.qq.com/s/XOnT1P4AWxZn9rBHsRQFdA">微信文章</a>！</p>
 <h3 id="chrome-device-access-permission">Chrome 设备访问权限</h3>
 <p>以下以 Chrome 为例，其他浏览器的权限名称和设置入口可能不同。</p>
 <p>用户脚本连接项目程序时，Chrome 可能会请求授予访问“此设备上的其他应用和服务”的权限。出现提示时，请选择“允许”。</p>
